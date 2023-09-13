@@ -1,4 +1,4 @@
-# 프로젝트 소개
+# 와피 - WAP Official App 
 
 ---
 
