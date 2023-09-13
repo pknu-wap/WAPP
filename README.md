@@ -40,4 +40,8 @@ WAP Github ➡️ https://github.com/pknu-wap
     <td align="center">안드로이드</td>
     <td align="center">안드로이드</td>
   </tr>
+  <tr>
+    <td align="center"><code>로그인</code>, <code>출석체크</code>, <code>마이페이지</code></td>
+    <td align="center"><code>공지사항</code>, <code>달력</code>, <code>설문조사</code></td>
+  </tr>
 </table>
