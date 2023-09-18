@@ -21,9 +21,8 @@ jobs:
             [
                 { 
                   "title": "${{ github.event.issue.title }}",
-                  "description": "${{ github.event.issue.html_url }}"
-                },
-                {
+                  "color": 10478271,
+                  "description": "${{ github.event.issue.html_url }}",
                   "fields": [
                     {
                       "name": "Issue Number",
