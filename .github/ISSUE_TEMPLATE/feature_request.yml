@@ -22,7 +22,7 @@ body:
       description: 작업사항을 나누어 작성해주세요! 
       value: |
         - [ ] todo1
-   - type: textarea
+  - type: textarea
     id: etc
     attributes:
       label: 기타사항
