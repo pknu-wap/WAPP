@@ -12,11 +12,29 @@ jobs:
       - name: Send Issue
         uses: Ilshidur/action-discord@0.3.2
         with:
-          args: "새로운 이슈가 생성되었습니다."
+          args: "🥳왔어요 왔어~ 새로운 이슈가 왔어요~🥳"
         env:
-          message: '{ "embeds": [{"title": "Hello!","description": "Hi! :grinning:"}] }'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_USERNAME: ${{ github.event.issue.user.login }}
+          DISCORD_USERNAME: WAPP_BOT
           DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
-          DISCORD_EMBEDS: ${{ toJson(message) }}
-          
+          DISCORD_EMBEDS: |
+            [
+                { 
+                  "title": "${{ github.event.issue.title }}",
+                  "description": "${{ github.event.issue.html_url }}"
+                },
+                {
+                  "fields": [
+                    {
+                      "name": "Issue Number",
+                      "value": "#${{ github.event.issue.number }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "Author",
+                      "value": "${{ github.event.issue.user.login }}",
+                      "inline": true
+                    }
+                  ]
+                }
+              ]
