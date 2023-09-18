@@ -1,6 +1,7 @@
 name: Feature Report
 description: Request new Feature
 title: "[FEATURE]: "
+assignees: ""
 labels: ["기능"]
 body:
   - type: markdown
@@ -22,5 +23,3 @@ body:
       description: 작업사항을 나누어 작성해주세요! 
       value: |
         - [] todo1
-    validations:
-      required: false
