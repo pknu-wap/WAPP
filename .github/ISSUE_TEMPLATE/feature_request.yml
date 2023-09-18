@@ -8,7 +8,7 @@ body:
       value: |
         이번 이슈도 파이팅 화이팅 🔥
   - type: textarea
-    id: newFeature
+    id: new-feature
     attributes:
       label: 작업 사항 
       description: 어떤 기능을 추가할건가요? 
@@ -16,9 +16,15 @@ body:
     validations:
       required: true
   - type: textarea
-    id: featureTodo
+    id: todo
     attributes:
       label: Todo
       description: 작업사항을 나누어 작성해주세요! 
       value: |
-        - [] todo1
+        - [ ] todo1
+   - type: textarea
+    id: etc
+    attributes:
+      label: 기타사항
+      description: 추가로 기록이 필요한 경우 작성해주세요!
+      placeholder: Splash API - Android Ver 12 이상부터 가능하다.
