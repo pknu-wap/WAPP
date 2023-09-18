@@ -1,7 +1,6 @@
 name: Feature Report
 description: Request new Feature
 title: "[FEATURE]: "
-assignees: ""
 labels: ["기능"]
 body:
   - type: markdown
