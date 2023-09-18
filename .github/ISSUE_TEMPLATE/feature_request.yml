@@ -1,7 +1,7 @@
 name: Feature Report
 description: Request new Feature
 title: "[FEATURE]: "
-labels: ["기능"]
+labels: ["🌱기능🌱"]
 body:
   - type: markdown
     attributes:
