@@ -21,6 +21,7 @@ body:
     attributes:
       label: Todo
       description: 작업사항을 나누어 작성해주세요! 
-      value: - [] todo1
+      value: |
+        - [] todo1
     validations:
       required: false
