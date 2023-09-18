@@ -1,26 +1,24 @@
----
-name: Feature Template
-about: 기능 추가 템플릿
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
-name: 'Issue: FEATURE'
-about: Feature 작업 사항 입력
-title: ''
-labels: ''
-assignees: ''
-
----
-
-## 📑 작업 사항 
-작업할 내용 설명 
-
-## To-do
-- [ ] todo
-- [ ] todo
-
-# #✔️ 기타사항
+name: Feature Report
+description: Request new Feature
+title: "[FEATURE]: "
+labels: ["기능"]
+assignees:
+body:
+  - type: markdown
+    attributes:
+      value: |
+        이번 이슈도 파이팅 화이팅 🔥
+  - type: textarea
+    id: newFeature
+    attributes:
+      label: 작업 사항 
+      description: 어떤 기능을 추가할건가요? 
+      placeholder: Splash API를 활용한 스플래쉬 화면 구현 
+    validations:
+      required: true
+  - type: textarea
+    id: featureTodo
+    attributes:
+      label: Todo
+      description: 작업사항을 나누어 작성해주세요! 
+      value: - [] todo1
