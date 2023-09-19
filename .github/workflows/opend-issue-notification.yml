@@ -12,7 +12,7 @@ jobs:
       - name: Send Issue
         uses: Ilshidur/action-discord@0.3.2
         with:
-          args: "🥳왔어요 왔어~ 새로운 이슈가 왔어요~🥳"
+          args: "왔어요 왔어~ 새로운 이슈가 왔어요~🥳"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: WAPP_BOT
@@ -32,16 +32,6 @@ jobs:
                     {
                       "name": "Author",
                       "value": "${{ github.event.issue.user.login }}",
-                      "inline": true
-                    },
-                    {
-                      "name": "PR Number",
-                      "value": "#${{ github.event.pull_request.number }}",
-                      "inline": true
-                    },
-                    {
-                      "name": "Author",
-                      "value": "${{ github.event.pull_request.user.login }}",
                       "inline": true
                     }
                   ]
