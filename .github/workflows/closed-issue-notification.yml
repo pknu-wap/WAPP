@@ -1,0 +1,39 @@
+name: Closed Issue Notification
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  create-issue:
+    name: Discord notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Issue
+        uses: Ilshidur/action-discord@0.3.2
+        with:
+          args: "이슈가 닫혔습니다! 👏👏"
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: WAPP_BOT
+          DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
+          DISCORD_EMBEDS: |
+            [
+                { 
+                  "title": "${{ github.event.issue.title }}",
+                  "color": 10478271,
+                  "description": "${{ github.event.issue.html_url }}",
+                  "fields": [
+                    {
+                      "name": "Issue Number",
+                      "value": "#${{ github.event.issue.number }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "Author",
+                      "value": "${{ github.event.issue.user.login }}",
+                      "inline": true
+                    }
+                  ]
+                }
+              ]
