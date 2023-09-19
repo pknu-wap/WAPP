@@ -2,7 +2,7 @@ name: Closed Issue Notification
 on:
   issues:
     types:
-      - opened
+      - closed
 
 jobs:
   create-issue:
