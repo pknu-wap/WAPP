@@ -33,6 +33,16 @@ jobs:
                       "name": "Author",
                       "value": "${{ github.event.issue.user.login }}",
                       "inline": true
+                    },
+                    {
+                      "name": "PR Number",
+                      "value": "#${{ github.event.pull_request.number }}",
+                      "inline": true
+                    },
+                    {
+                      "name": "Author",
+                      "value": "${{ github.event.pull_request.user.login }}",
+                      "inline": true
                     }
                   ]
                 }
