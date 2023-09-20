@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Send Issue
         uses: Ilshidur/action-discord@0.3.2
-        with:
-          args: "왔어요 왔어~ 새로운 이슈가 왔어요~🥳"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: WAPP_BOT
@@ -20,7 +18,7 @@ jobs:
           DISCORD_EMBEDS: |
             [
                 { 
-                  "title": "${{ github.event.issue.title }}",
+                  "title": "왔어요 왔어~ 새로운 이슈가 왔어요~🥳\n${{ github.event.issue.title }}",
                   "color": 10478271,
                   "description": "${{ github.event.issue.html_url }}",
                   "fields": [
