@@ -1,5 +1,6 @@
 plugins {
     id("com.wap.wapp.application")
+    alias(libs.plugins.ktlint)
 }
 
 android {
