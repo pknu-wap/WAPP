@@ -1,0 +1,78 @@
+name: Closed PR Notification
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+    types:
+      - closed
+
+jobs:
+  create-issue:
+    name: PR closed notification to slack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send closed PR notification
+        if: github.event.pull_request.merged != true
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: WAPP_BOT
+          DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
+          DISCORD_EMBEDS: |
+            [
+              { 
+                "author": {
+                  "name": "${{ github.event.pull_request.user.login }}",
+                  "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "${{ github.event.pull_request.user.avatar_url }}"
+                },
+                "title": "PR이 닫혔습니다!\n#${{ github.event.pull_request.number }} : ${{ github.event.pull_request.title }}",
+                "color": 13458524,
+                "description": "${{ github.event.pull_request.html_url }}",
+                "fields": [
+                  {
+                    "name": "Base Branch",
+                    "value": "${{ github.base_ref }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Compare Branch",
+                    "value": "${{ github.head_ref }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
+      - name: Send merged PR notification
+        if: github.event.pull_request.merged == true
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: WAPP_BOT
+          DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
+          DISCORD_EMBEDS: |
+            [
+              { 
+                "author": {
+                  "name": "${{ github.event.pull_request.user.login }}",
+                  "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "${{ github.event.pull_request.user.avatar_url }}"
+                },
+                "title": "PR이 머지되었습니다! 👏\n#${{ github.event.pull_request.number }} : ${{ github.event.pull_request.title }}",
+                "color": 10478271,
+                "description": "${{ github.event.pull_request.html_url }}",
+                "fields": [
+                  {
+                    "name": "Base Branch",
+                    "value": "${{ github.base_ref }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Compare Branch",
+                    "value": "${{ github.head_ref }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
