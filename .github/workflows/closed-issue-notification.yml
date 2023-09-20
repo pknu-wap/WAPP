@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Send Issue
         uses: Ilshidur/action-discord@0.3.2
-        with:
-          args: "이슈가 닫혔습니다! 👏👏"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: WAPP_BOT
@@ -20,7 +18,7 @@ jobs:
           DISCORD_EMBEDS: |
             [
                 { 
-                  "title": "${{ github.event.issue.title }}",
+                  "title": "이슈가 닫혔습니다! 👏👏\n${{ github.event.issue.title }}",
                   "color": 13458524,
                   "description": "${{ github.event.issue.html_url }}",
                   "fields": [
