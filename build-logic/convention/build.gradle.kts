@@ -23,5 +23,9 @@ gradlePlugin {
             id = "com.wap.wapp.library"
             implementationClass = "com.wap.wapp.plugin.AndroidLibraryPlugin"
         }
+        create("androidFirebase") {
+            id = "com.wap.wapp.firebase"
+            implementationClass = "com.wap.wapp.plugin.AndroidApplicationFirebasePlugin"
+        }
     }
 }

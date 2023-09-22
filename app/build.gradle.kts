@@ -1,5 +1,6 @@
 plugins {
     id("com.wap.wapp.application")
+    id("com.wap.wapp.firebase")
     alias(libs.plugins.ktlint)
 }
 
