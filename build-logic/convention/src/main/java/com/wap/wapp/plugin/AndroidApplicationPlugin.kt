@@ -1,5 +1,6 @@
 package com.wap.wapp.plugin
 
+import com.wap.wapp.plugin.configure.configureBinding
 import com.wap.wapp.plugin.configure.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,6 +13,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             configureKotlinAndroid()
+            configureBinding()
         }
     }
 }
