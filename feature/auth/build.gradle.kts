@@ -1,5 +1,5 @@
 plugins {
-    id("com.wap.wapp.library")
+    id("com.wap.wapp.feature")
 }
 
 android {

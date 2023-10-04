@@ -27,5 +27,13 @@ gradlePlugin {
             id = "com.wap.wapp.firebase"
             implementationClass = "com.wap.wapp.plugin.AndroidApplicationFirebasePlugin"
         }
+        create("androidFeatureConvention") {
+            id = "com.wap.wapp.feature"
+            implementationClass = "com.wap.wapp.plugin.AndroidFeatureConventionPlugin"
+        }
+        create("androidCompose") {
+            id = "com.wap.wapp.compose"
+            implementationClass = "com.wap.wapp.plugin.AndroidComposePlugin"
+        }
     }
 }
