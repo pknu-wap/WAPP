@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wap.designsystem"
+    namespace = "com.wap.wapp.core.designsystem"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

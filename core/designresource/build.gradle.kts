@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wap.designresource"
+    namespace = "com.wap.wapp.core.designresource"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
