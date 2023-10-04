@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ 설명은 팀 페이지 노션 디자인 컨벤션 참조
+  -->
+<resources>
+    <color name="background_black">#131313</color>
+
+    <color name="black_1">#252424</color>
+    <color name="black_2">#424242</color>
+    <color name="black_3">#828282</color>
+
+    <color name="yellow">#FBCF34</color>
+
+    <color name="white">#FFFFFF</color>
+</resources>
