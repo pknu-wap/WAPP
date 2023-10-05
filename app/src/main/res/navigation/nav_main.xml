@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_nav">
+    android:id="@+id/main_nav"
+    app:startDestination="@id/splashFragment">
 
     <include app:graph="@navigation/nav_manage" />
     <include app:graph="@navigation/nav_notice" />
     <include app:graph="@navigation/nav_profile" />
     <include app:graph="@navigation/nav_survey" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.wap.wapp.feature.splash.SplashFragment"
+        android:label="SplashFragment" />
 </navigation>
