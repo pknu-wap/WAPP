@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthProvider
-import com.wap.wapp.core.network.model.auth.SignUpRequest
 import com.wap.wapp.core.network.utils.await
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
