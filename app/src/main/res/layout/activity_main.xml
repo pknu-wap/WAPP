@@ -25,10 +25,11 @@
             android:id="@+id/bnv_main_bottomNaviView"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/main_menu" />
+            app:menu="@menu/menu_main" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
