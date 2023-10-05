@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.WAPP" parent="Base.Theme.WAPP" />
+
+    <style name="Style.BottomNavigationView.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
 </resources>
