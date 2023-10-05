@@ -27,7 +27,8 @@ class AuthDataSourceImpl @Inject constructor(
                 activityContext, provider.build()
             ).await()
 
-            checkNotNull(result.user).uid
+            val user = checkNotNull(result.user)
+            user.uid
         }
     }
 
