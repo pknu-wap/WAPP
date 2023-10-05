@@ -1,5 +1,6 @@
 plugins {
     id("com.wap.wapp.library")
+    id("com.wap.wapp.hilt")
 }
 
 android {
@@ -22,6 +23,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
