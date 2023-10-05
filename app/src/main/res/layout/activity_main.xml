@@ -19,7 +19,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/bnv_main_bottomNaviView"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/main_nav" />
+            app:navGraph="@navigation/nav_main" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bnv_main_bottomNaviView"

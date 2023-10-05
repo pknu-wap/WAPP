@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notice_nav"
+    app:startDestination="@id/noticeFragment">
+
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.wap.wapp.feature.notice.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
+
+    <deepLink app:uri="wapp://feature/nav_notice"/>
+</navigation>
