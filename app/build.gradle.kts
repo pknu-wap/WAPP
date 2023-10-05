@@ -3,6 +3,7 @@ plugins {
     id("com.wap.wapp.firebase")
     id("com.wap.wapp.compose")
     id("com.wap.wapp.hilt")
+    alias(libs.plugins.ktlint)
 }
 
 android {
