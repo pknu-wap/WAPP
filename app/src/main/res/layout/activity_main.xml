@@ -25,7 +25,7 @@
             android:id="@+id/bnv_main_bottomNaviView"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/gray"
+            android:background="@color/gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:itemTextColor="@drawable/selector_text_color"

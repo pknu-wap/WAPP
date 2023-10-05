@@ -23,5 +23,7 @@ class MainActivity : AppCompatActivity() {
     private fun initNav() = binding.apply {
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_main_fragmentContainverView) as NavHostFragment
             navController = navHostFragment.navController
+
+            bnvMainBottomNaviView.itemIconTintList = null
         }
 }
