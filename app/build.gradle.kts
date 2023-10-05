@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":feature:survey"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:manage"))
+    implementation(project(":feature:splash"))
     implementation(project(":core:designresource"))
 
     implementation(libs.bundles.androidx)
