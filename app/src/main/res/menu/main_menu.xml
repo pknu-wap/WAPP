@@ -3,20 +3,20 @@
     <item
         android:id="@id/notice_nav"
         android:title="@string/notice"
-        android:icon="@drawable/menu_selector_notice_color" />
+        android:icon="@drawable/ic_notice_select" />
 
     <item
         android:id="@id/survet_nav"
         android:title="@string/survey"
-        android:icon="@drawable/menu_selector_survey_color" />
+        android:icon="@drawable/ic_survey_select" />
 
     <item
         android:id="@id/profile_nav"
         android:title="@string/profile"
-        android:icon="@drawable/menu_selector_profile_color" />
+        android:icon="@drawable/ic_profile_select" />
 
     <item
         android:id="@id/manage_nav"
         android:title="@string/manage"
-        android:icon="@drawable/menu_selector_manage_color" />
+        android:icon="@drawable/ic_manage_select" />
 </menu>
