@@ -32,7 +32,7 @@ class AuthDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun signUp(signUpRequest: SignUpRequest): Result<Unit> {
+    override suspend fun signUp(): Result<Unit> {
         TODO("Not yet implemented")
     }
 
