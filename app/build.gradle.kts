@@ -26,10 +26,14 @@ android {
 
 dependencies {
     implementation(project(":feature:auth"))
+    implementation(project(":feature:notice"))
+    implementation(project(":feature:survey"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:manage"))
     implementation(project(":core:designresource"))
+
     implementation(libs.bundles.androidx)
     implementation(libs.material)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
