@@ -1,5 +1,6 @@
 plugins {
     id("com.wap.wapp.library")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
