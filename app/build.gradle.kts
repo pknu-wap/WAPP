@@ -46,6 +46,7 @@ tasks.register<Copy>("installGitHook") {
 }
 
 tasks.register<Delete>("deletePreviousGitHook") {
+
     val prePush = "${rootProject.rootDir}/.git/hooks/pre-commit"
     if (file(prePush).exists()) {
         delete(prePush)
