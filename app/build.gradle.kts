@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation(project(":feature:auth"))
+    implementation(project(":core:designresource"))
     implementation(libs.bundles.androidx)
     implementation(libs.material)
 
