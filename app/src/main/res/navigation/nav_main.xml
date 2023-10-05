@@ -8,6 +8,7 @@
     <include app:graph="@navigation/nav_notice" />
     <include app:graph="@navigation/nav_profile" />
     <include app:graph="@navigation/nav_survey" />
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.wap.wapp.feature.splash.SplashFragment"
