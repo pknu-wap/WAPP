@@ -3,4 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav">
 
+    <include app:graph="@navigation/nav_manage" />
+    <include app:graph="@navigation/nav_notice" />
+    <include app:graph="@navigation/nav_profile" />
+    <include app:graph="@navigation/nav_survey" />
 </navigation>
