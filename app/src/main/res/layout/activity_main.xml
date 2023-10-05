@@ -31,7 +31,6 @@
             app:itemTextColor="@drawable/selector_text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:labelVisibilityMode="labeled"
-            app:itemRippleColor="@color/gray_2"
             app:itemActiveIndicatorStyle="@style/Style.BottomNavigationView.Custom.Indicator"
             app:menu="@menu/menu_main" />
 
