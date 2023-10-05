@@ -6,7 +6,6 @@ android {
     namespace = "com.wap.wapp.core.model"
 
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
