@@ -1,5 +1,5 @@
 plugins {
-    id("com.wap.wapp.library")
+    id("com.wap.wapp.feature")
     alias(libs.plugins.kotlin.android)
 }
 
@@ -23,6 +23,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.bundles.androidx)
+    implementation(libs.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
