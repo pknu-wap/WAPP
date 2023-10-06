@@ -1,12 +1,10 @@
 package com.wap.wapp
 
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.color.utilities.MaterialDynamicColors.background
-import com.google.android.material.elevation.SurfaceColors
+
 import com.wap.wapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +23,5 @@ class MainActivity : AppCompatActivity() {
     private fun initNav() = binding.apply {
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_main_fragmentContainverView) as NavHostFragment
             navController = navHostFragment.navController
-
-            bnvMainBottomNaviView.itemIconTintList = null
         }
 }
