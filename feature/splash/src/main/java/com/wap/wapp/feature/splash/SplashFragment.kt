@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.android.mediproject.core.ui.base.BaseFragment
 import com.wap.wapp.core.base.util.repeatOnStarted
@@ -26,6 +27,9 @@ class SplashFragment :
     }
 
     fun handleEvent(event: SplashViewModel.SplashEvent) = when (event) {
-        is SplashViewModel.SplashEvent.TimerDone -> findNavController().navigate("wapp://feature/nav_notice".toUri())
+        is SplashViewModel.SplashEvent.TimerDone -> findNavController().navigate(
+            "wapp://feature/nav_notice".toUri(),
+            NavOptions.Builder().setPopUpTo("wapp://feature/nav_notice", false).build()
+        )
     }
 }
