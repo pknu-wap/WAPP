@@ -18,11 +18,11 @@ class SplashViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             delay(2000)
-            event(SplashEvent.TimerDone())
+            event(SplashEvent.TimerDone)
         }
     }
 
     sealed class SplashEvent {
-        data class TimerDone(val unit: Unit? = null) : SplashEvent()
+        object TimerDone : SplashEvent()
     }
 }
