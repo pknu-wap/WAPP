@@ -27,12 +27,9 @@ class SplashFragment :
     }
 
     fun handleEvent(event: SplashViewModel.SplashEvent) = when (event) {
-        is SplashViewModel.SplashEvent.TimerDone -> {
-            log("SplashFragment : TimerDone!!")
-            findNavController().navigate(
-                "wapp://feature/nav_notice".toUri(),
-                NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build()
-            )
-        }
+        is SplashViewModel.SplashEvent.TimerDone -> findNavController().navigate(
+            "wapp://feature/nav_notice".toUri(),
+            NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build()
+        )
     }
 }
