@@ -27,9 +27,15 @@ android {
 
 dependencies {
     implementation(project(":feature:auth"))
+    implementation(project(":feature:notice"))
+    implementation(project(":feature:survey"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:manage"))
+    implementation(project(":feature:splash"))
+    implementation(project(":core:designresource"))
+
     implementation(libs.bundles.androidx)
     implementation(libs.material)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
@@ -47,6 +53,7 @@ tasks.register<Copy>("installGitHook") {
 }
 
 tasks.register<Delete>("deletePreviousGitHook") {
+
     val prePush = "${rootProject.rootDir}/.git/hooks/pre-commit"
     if (file(prePush).exists()) {
         delete(prePush)
