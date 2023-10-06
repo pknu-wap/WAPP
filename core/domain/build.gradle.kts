@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wap.wapp.core.data"
+    namespace = "com.wap.wapp.core.domain"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:data"))
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
