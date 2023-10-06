@@ -5,7 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.WAPP" parent="Base.Theme.WAPP" />
+    <style name="Theme.WAPP" parent="Base.Theme.WAPP">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="Style.BottomNavigationView.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@android:color/transparent</item>
