@@ -35,5 +35,9 @@ gradlePlugin {
             id = "com.wap.wapp.compose"
             implementationClass = "com.wap.wapp.plugin.AndroidComposePlugin"
         }
+        create("androidHilt") {
+            id = "com.wap.wapp.hilt"
+            implementationClass = "com.wap.wapp.plugin.AndroidHiltPlugin"
+        }
     }
 }

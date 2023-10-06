@@ -10,6 +10,7 @@ class AndroidFeatureConventionPlugin: Plugin<Project>{
             with(pluginManager){
                 apply("com.wap.wapp.library")
                 apply("com.wap.wapp.compose")
+                apply("com.wap.wapp.hilt")
             }
             configureBinding()
         }
