@@ -1,5 +1,6 @@
 plugins {
     id("com.wap.wapp.feature")
+    id("com.wap.wapp.hilt")
 }
 
 android {
@@ -24,6 +25,7 @@ android {
 dependencies {
     implementation(project(":core:designresource"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:base"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)
