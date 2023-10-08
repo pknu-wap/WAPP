@@ -57,5 +57,5 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 4. Pull Request가 작성되면 작성자 이외의 다른 팀원이 Code Review를 한다.
 5. Code Review가 완료되면 Pull Request 작성자가 develop Branch로 merge 한다.
 6. merge된 작업이 있을 경우, 다른 브랜치에서 작업을 진행 중이던 개발자는 본인의 브랜치로 merge된 작업을 Pull 받아온다.
-7. 종료된 Issue와 Pull Request의 Label과 Project를 관리한다.`
+7. 종료된 Issue와 Pull Request의 Label과 Project를 관리한다.
 ```
