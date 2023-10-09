@@ -7,6 +7,5 @@ echo "Running git pre-commit hook"
 STATUS=$?
 
 # 문제없이 끝났다면 exit 0, 아니면 1
-# -ne: Not equals
 [ $STATUS -ne 0 ] && exit 1
 exit 0
