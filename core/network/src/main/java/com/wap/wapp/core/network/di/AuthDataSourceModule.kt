@@ -14,6 +14,6 @@ abstract class AuthDataSourceModule {
     @Binds
     @ActivityScoped
     abstract fun providesAuthDataSource(
-        authDataSourceImpl: AuthDataSourceImpl
+        authDataSourceImpl: AuthDataSourceImpl,
     ): AuthDataSource
 }
