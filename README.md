@@ -39,7 +39,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
     <td align="center">안드로이드</td>
   </tr>
   <tr>
-    <td align="center"><code>로그인</code>, <code>출석체크</code>, <code>마이페이지</code></td>
+    <td align="center"><code>로그인</code>, <code>운영진페이지</code>, <code>마이페이지</code></td>
     <td align="center"><code>공지사항</code>, <code>달력</code>, <code>설문조사</code></td>
   </tr>
 </table>
