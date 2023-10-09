@@ -43,9 +43,11 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
     <td align="center"><code>공지사항</code>, <code>달력</code>, <code>설문조사</code></td>
   </tr>
 </table>
+<br>
 
 ## 💻 Code Convention
 [WAPP 안드로이드 코드 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%A6%92%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%A6%92)
+<br>
 
 ## ⛓️ Git Convention & Git Flow 전략
 [WAPP 깃 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%90%B1%EA%B9%83-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%90%B1)
@@ -58,9 +60,12 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 6. merge된 작업이 있을 경우, 다른 브랜치에서 작업을 진행 중이던 개발자는 본인의 브랜치로 merge된 작업을 Pull 받아온다.
 7. 종료된 Issue와 Pull Request의 Label과 Project를 관리한다.
 ```
+<br>
 
 ## 🚀 Trouble Shooting 
 ```
 프로젝트 중 발생한 이슈에 대해 트러블 슈팅을 기록하는 공간입니다.
 ```
 [WAPP 트러블 슈팅](https://discovered-trust-803.notion.site/WAPP-238f82deeac44721a3321665573c9f76?pvs=4)
+<br>
+
