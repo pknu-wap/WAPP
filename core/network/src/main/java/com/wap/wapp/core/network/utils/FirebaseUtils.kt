@@ -1,9 +1,9 @@
 package com.wap.wapp.core.network.utils
 
 import com.google.android.gms.tasks.Task
+import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resumeWithException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 suspend fun <T> Task<T>.await(): T {
