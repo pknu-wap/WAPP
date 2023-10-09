@@ -4,5 +4,5 @@ data class UserProfileResponse(
     val userId: String,
     val userName: String,
     val studentId: String,
-    val registeredAt: String
+    val registeredAt: String,
 )

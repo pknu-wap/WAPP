@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @ActivityContext private val context: Context
+    @ActivityContext private val context: Context,
 ) : AuthDataSource {
     override suspend fun hasPendingResult(): Boolean {
         return firebaseAuth.pendingAuthResult != null
@@ -25,7 +25,7 @@ class AuthDataSourceImpl @Inject constructor(
 
             val result = firebaseAuth.startActivityForSignInWithProvider(
                 activityContext,
-                provider.build()
+                provider.build(),
             ).await()
 
             val user = checkNotNull(result.user)

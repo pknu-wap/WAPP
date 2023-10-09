@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 @ActivityScoped
 class SignInUseCase @Inject constructor(
-    private val repository: AuthRepository
-){
+    private val repository: AuthRepository,
+) {
     suspend operator fun invoke(email: String): Result<String> =
         repository.signIn(email)
 }

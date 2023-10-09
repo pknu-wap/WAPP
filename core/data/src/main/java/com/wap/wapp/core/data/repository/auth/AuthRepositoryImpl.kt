@@ -4,8 +4,8 @@ import com.wap.wapp.core.network.source.auth.AuthDataSource
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val authDataSource: AuthDataSource
-): AuthRepository {
+    private val authDataSource: AuthDataSource,
+) : AuthRepository {
     override suspend fun hasPendingResult(): Boolean {
         return authDataSource.hasPendingResult()
     }
