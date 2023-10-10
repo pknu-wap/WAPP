@@ -32,7 +32,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 <br>
 
 ## 🍎 Contributors 🍌
-
+[팀원 소개](https://www.notion.so/78595ac1f63c4b388c769319fa992db9)
 <table>
   <tr>
     <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="100px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
