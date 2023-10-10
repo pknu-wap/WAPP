@@ -14,6 +14,6 @@ abstract class AuthRepositoryModule {
     @Binds
     @ActivityScoped
     abstract fun providesAuthRepository(
-        authRepositoryImpl: AuthRepositoryImpl
+        authRepositoryImpl: AuthRepositoryImpl,
     ): AuthRepository
 }

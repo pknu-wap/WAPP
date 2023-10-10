@@ -33,7 +33,7 @@ class SplashFragment :
     private fun navigateToNotice() {
         findNavController().navigate(
             "wapp://feature/nav_notice".toUri(),
-            NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build()
+            NavOptions.Builder().setPopUpTo(R.id.splashFragment, true).build(),
         )
     }
 }

@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-abstract class BaseFragment<T : ViewDataBinding, V : ViewModel>(private val inflate: Inflate<T>) : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding, V : ViewModel>(
+    private val inflate: Inflate<T>,
+) : Fragment() {
 
     private var _binding: T? = null
     val binding get() = _binding!!
@@ -19,7 +21,9 @@ abstract class BaseFragment<T : ViewDataBinding, V : ViewModel>(private val infl
     protected abstract val fragmentViewModel: V
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
