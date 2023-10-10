@@ -1,6 +1,7 @@
 package com.wap.wapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,5 +27,23 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         bnvMainBottomNaviView.itemIconTintList = null
+
+        setBottomNavigationVisiblity()
+    }
+
+    private fun setBottomNavigationVisiblity() {
+        val hideBottomNavigationFragments =
+            resources.getIntArray(R.array.hide_bottomNavigation_fragmnets)
+
+        val bottomNavigationView = binding.bnvMainBottomNaviView
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            if (destination.id in hideBottomNavigationFragments) {
+                bottomNavigationView.visibility = View.INVISIBLE
+            }
+
+            bottomNavigationView.visibility = View.VISIBLE
+        }
     }
 }
