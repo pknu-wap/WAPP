@@ -5,9 +5,7 @@ interface AuthDataSource {
 
     suspend fun signIn(email: String): Result<String>
 
-    suspend fun signUp(): Result<Unit>
-
     suspend fun signOut(): Result<Unit>
 
-    suspend fun resign(): Result<Unit>
+    suspend fun deleteUser(): Result<Unit>
 }

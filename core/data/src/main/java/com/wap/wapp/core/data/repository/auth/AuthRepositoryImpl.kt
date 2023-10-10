@@ -13,4 +13,12 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun signIn(email: String): Result<String> {
         return authDataSource.signIn(email)
     }
+
+    override suspend fun signOut(): Result<Unit> {
+        return authDataSource.signOut()
+    }
+
+    override suspend fun deleteUser(): Result<Unit> {
+        return authDataSource.deleteUser()
+    }
 }
