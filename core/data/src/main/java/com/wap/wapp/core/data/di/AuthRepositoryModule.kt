@@ -1,4 +1,4 @@
-package com.wap.wapp.core.data.repository.di
+package com.wap.wapp.core.data.di
 
 import com.wap.wapp.core.data.repository.auth.AuthRepository
 import com.wap.wapp.core.data.repository.auth.AuthRepositoryImpl
