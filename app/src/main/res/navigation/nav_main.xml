@@ -2,15 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/nav_splash">
 
     <include app:graph="@navigation/nav_manage" />
     <include app:graph="@navigation/nav_notice" />
     <include app:graph="@navigation/nav_profile" />
     <include app:graph="@navigation/nav_survey" />
-
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.wap.wapp.feature.splash.SplashFragment"
-        android:label="SplashFragment" />
+    <include app:graph="@navigation/nav_splash" />
 </navigation>
