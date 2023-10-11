@@ -39,23 +39,23 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
 }
-
-tasks.getByPath(":app:preBuild").dependsOn("makeFileExecutable")
-
-tasks.register<Exec>("makeFileExecutable") {
-    commandLine("chmod", "+x", "${rootProject.rootDir}/.git/hooks/pre-commit")
-    dependsOn("installGitHook")
-}
+/**
+tasks.getByPath(":app:preBuild").dependsOn("installGitHook")
 
 tasks.register<Copy>("installGitHook") {
     dependsOn("deletePreviousGitHook")
     from("${rootProject.rootDir}/script/pre-commit")
     into("${rootProject.rootDir}/.git/hooks")
+    eachFile {
+        fileMode = 777
+    }
 }
 
 tasks.register<Delete>("deletePreviousGitHook") {
+
     val prePush = "${rootProject.rootDir}/.git/hooks/pre-commit"
     if (file(prePush).exists()) {
         delete(prePush)
     }
 }
+ **/
