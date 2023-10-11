@@ -80,4 +80,3 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 수요일 오전 12시까지 못 끝낸 이슈 하나당 스택 하나로 간주하며, 스택 세 개가 모였을 때 밥 한 끼를 사야 한다.
 ```
 [스프린트 기록](https://www.notion.so/79134caa75394435a221a15c53226726?v=c3640a0dae5f4bac8ecf51d61aae4acf)
-[남은 이슈 바로가기](https://github.com/pknu-wap/WAPP/issues)
