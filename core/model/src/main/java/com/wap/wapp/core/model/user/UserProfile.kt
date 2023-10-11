@@ -1,6 +1,6 @@
-package com.wap.wapp.core.network.model.auth
+package com.wap.wapp.core.model.user
 
-data class SignUpRequest(
+data class UserProfile(
     val userId: String,
     val userName: String,
     val studentId: String,

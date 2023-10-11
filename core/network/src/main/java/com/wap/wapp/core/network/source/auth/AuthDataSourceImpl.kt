@@ -33,15 +33,18 @@ class AuthDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun signUp(): Result<Unit> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun signOut(): Result<Unit> {
-        TODO("Not yet implemented")
+        return runCatching {
+            firebaseAuth.signOut()
+        }
     }
 
-    override suspend fun resign(): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun deleteUser(): Result<Unit> {
+        return runCatching {
+            val user = checkNotNull(firebaseAuth.currentUser)
+
+            user.delete()
+                .await()
+        }
     }
 }
