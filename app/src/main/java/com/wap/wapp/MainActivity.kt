@@ -39,14 +39,15 @@ class MainActivity : AppCompatActivity() {
         val typedArray = resources.obtainTypedArray(R.array.hide_bottomNavigation_fragments)
 
         for (index in 0..typedArray.length()) {
-            hideBottomNavigationFragments.add(typedArray.getResourceId(index, 0))
+            hideBottomNavigationFragments.add(typedArray.getResourceId(index, 0,))
         }
 
         typedArray.recycle()
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            binding.bnvMainBottomNaviView.isVisible = !(destination.id in hideBottomNavigationFragments)
+            binding.bnvMainBottomNaviView.isVisible =
+                (destination.id !in hideBottomNavigationFragments)
         }
     }
 }
