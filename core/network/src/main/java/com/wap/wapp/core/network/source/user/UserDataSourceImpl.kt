@@ -12,16 +12,16 @@ class UserDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : UserDataSource {
     override suspend fun postUserProfile(
-        userProfile: UserProfileRequest,
+        userProfileRequest: UserProfileRequest,
     ): Result<Unit> {
         return runCatching {
-            val userId = userProfile.userId
+            val userId = userProfileRequest.userId
             val setOption = SetOptions.merge()
 
             firebaseFirestore.collection(USER_COLLECTION)
                 .document(userId)
                 .set(
-                    userProfile,
+                    userProfileRequest,
                     setOption,
                 )
                 .await()
