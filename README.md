@@ -72,7 +72,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 ```
 [WAPP 트러블 슈팅](https://discovered-trust-803.notion.site/WAPP-238f82deeac44721a3321665573c9f76?pvs=4)
 
-<br><br>
+<br>
 
 ## 🏃‍♂️ Sprint 
 ```
