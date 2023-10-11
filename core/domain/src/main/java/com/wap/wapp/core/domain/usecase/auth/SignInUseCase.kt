@@ -21,7 +21,7 @@ class SignInUseCase @Inject constructor(
             userRepository.getUserProfile(userId)
                 .fold(
                     onFailure = { exception ->
-                        //
+                        // 사용자를 조회할 수 없는 예외인 경우
                         val userNotFoundException = IllegalStateException()
                         if (exception == userNotFoundException) {
                             SIGN_UP
