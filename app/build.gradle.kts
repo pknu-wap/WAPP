@@ -40,7 +40,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso)
 }
 
-tasks.getByPath(":app:preBuild").dependsOn("makeFileExecutable")
+/*tasks.getByPath(":app:preBuild").dependsOn("makeFileExecutable")
 
 tasks.register<Exec>("makeFileExecutable") {
     commandLine("chmod", "+x", "${rootProject.rootDir}/.git/hooks/pre-commit")
@@ -58,4 +58,4 @@ tasks.register<Delete>("deletePreviousGitHook") {
     if (file(prePush).exists()) {
         delete(prePush)
     }
-}
+}*/
