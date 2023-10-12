@@ -85,7 +85,7 @@ fun SignInScreen() {
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = "Github로 로그인 하기",
+                        text = "Github 로그인",
                         style = WappTheme.typography.contentMedium,
                     )
                 }
