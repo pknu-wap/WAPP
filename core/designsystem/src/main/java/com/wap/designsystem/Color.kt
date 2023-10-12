@@ -12,7 +12,7 @@ val BackgroundBlack = Color(0xFF131313)
 val Black3 = Color(0xFF828282)
 val Black2 = Color(0xFF424242)
 val Black1 = Color(0xFF252424)
-val Gray2 = Color(0xFF252424)
+val Gray2 = Color(0xFFF4F4F4)
 val Gray1 = Color(0xFFA2A2A2)
 val Yellow = Color(0xFFFBCF34)
 
