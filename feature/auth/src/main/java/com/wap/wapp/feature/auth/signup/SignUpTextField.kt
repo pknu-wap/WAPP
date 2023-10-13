@@ -20,6 +20,7 @@ import com.wap.designsystem.WappTheme
 
 @Composable
 fun SignUpTextField(
+    iconDescription: String,
     fieldName: String,
     fieldHint: String,
     fieldSupportingText: String,
@@ -32,7 +33,7 @@ fun SignUpTextField(
         ) {
             Icon(
                 painter = painterResource(id = fieldIcon),
-                contentDescription = "name Icon",
+                contentDescription = iconDescription,
                 tint = WappTheme.colors.white,
                 modifier = Modifier.size(20.dp),
             )

@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -23,17 +21,11 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.feature.auth.R.drawable.ic_card
+import com.wap.wapp.feature.auth.R.drawable.ic_door
+import com.wap.wapp.feature.auth.R.string
 
 @Composable
 fun SignUpScreen() {
@@ -59,13 +54,13 @@ fun SignUpScreen() {
                 ) {
                     Image(
                         painterResource(id = R.drawable.ic_back_btn),
-                        contentDescription = "Back Button",
+                        contentDescription = stringResource(id = string.back_button_description),
                         modifier = Modifier
                             .padding(vertical = 16.dp)
                             .size(20.dp),
                     )
                     Text(
-                        text = "회원가입",
+                        text = stringResource(id = string.sign_up),
                         style = WappTheme.typography.titleBold,
                         color = WappTheme.colors.white,
                         fontSize = 20.sp,
@@ -79,12 +74,12 @@ fun SignUpScreen() {
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Text(
-                    text = "처음 가입하시네요!",
+                    text = stringResource(id = string.sign_up_title),
                     style = WappTheme.typography.titleBold,
                     color = WappTheme.colors.white,
                 )
                 Text(
-                    text = "회원님의 정보를 입력해주세요.",
+                    text = stringResource(id = string.sign_up_content),
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.gray1,
                 )
@@ -95,17 +90,23 @@ fun SignUpScreen() {
                     verticalArrangement = Arrangement.spacedBy(32.dp),
                 ) {
                     SignUpTextField(
-                        fieldName = "이름",
-                        fieldHint = "이름을 입력해주세요.",
-                        fieldSupportingText = "회원 확인을 위해, 실명을 입력해주세요.",
+                        iconDescription = stringResource(id = string.sign_up_name_description),
+                        fieldName = stringResource(id = string.sign_up_name_title),
+                        fieldHint = stringResource(id = string.sign_up_name_hint),
+                        fieldSupportingText = stringResource(id = string.sign_up_name_caption),
                         fieldIcon = R.drawable.ic_profile,
                     )
 
                     SignUpTextField(
-                        fieldName = "학번",
-                        fieldHint = "학번을 입력해주세요.",
-                        fieldSupportingText = "동명이인을 구별하기 위해, 필요해요!",
-                        fieldIcon = R.drawable.ic_card,
+                        iconDescription = stringResource(
+                            id = string.sign_up_student_id_description,
+                        ),
+                        fieldName = stringResource(id = string.sign_up_student_id_title),
+                        fieldHint = stringResource(id = string.sign_up_student_id_hint),
+                        fieldSupportingText = stringResource(
+                            id = string.sign_up_student_id_caption,
+                        ),
+                        fieldIcon = ic_card,
                     )
 
                     var dummyText = ""
@@ -114,14 +115,16 @@ fun SignUpScreen() {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_door),
-                                contentDescription = "name Icon",
+                                painter = painterResource(id = ic_door),
+                                contentDescription = stringResource(
+                                    id = string.sign_up_registered_at_description,
+                                ),
                                 tint = WappTheme.colors.white,
                                 modifier = Modifier.size(20.dp),
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "입부시기",
+                                text = stringResource(id = string.sign_up_registered_at_title),
                                 color = WappTheme.colors.white,
                                 style = WappTheme.typography.contentBold,
                             )
@@ -143,7 +146,9 @@ fun SignUpScreen() {
                                 ),
                                 placeholder = {
                                     Text(
-                                        text = "입부년도 입력",
+                                        text = stringResource(
+                                            id = string.sign_up_registered_at_hint,
+                                        ),
                                         color = WappTheme.colors.gray1,
                                     )
                                 },
@@ -159,7 +164,7 @@ fun SignUpScreen() {
 
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "회원님의 기수 정보를 알려드릴게요!",
+                            text = stringResource(id = string.sign_up_registered_at_caption),
                             color = WappTheme.colors.yellow,
                             style = WappTheme.typography.captionRegular,
                         )
@@ -174,47 +179,13 @@ fun SignUpScreen() {
                         shape = RoundedCornerShape(10.dp),
                     ) {
                         Text(
-                            text = "완료",
+                            text = stringResource(id = string.done),
                             style = WappTheme.typography.contentMedium,
                             color = WappTheme.colors.white,
                         )
                     }
                 }
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SignUpChipGroup() {
-    val itemsList = listOf("1학기", "2학기")
-
-    var selectedItem by remember {
-        mutableStateOf(itemsList[0]) // initially, first item is selected
-    }
-
-    LazyRow(modifier = Modifier.fillMaxWidth()) {
-        items(itemsList) { item ->
-            FilterChip(
-                modifier = Modifier.padding(horizontal = 6.dp),
-                selected = (item == selectedItem),
-                onClick = {
-                    selectedItem = item
-                },
-                label = {
-                    Text(
-                        text = item,
-                        color = WappTheme.colors.white,
-                        style = WappTheme.typography.contentRegular,
-                        textAlign = TextAlign.Center,
-                    )
-                },
-                colors = FilterChipDefaults.filterChipColors(
-                    containerColor = WappTheme.colors.black3,
-                    selectedContainerColor = WappTheme.colors.yellow,
-                ),
-            )
         }
     }
 }

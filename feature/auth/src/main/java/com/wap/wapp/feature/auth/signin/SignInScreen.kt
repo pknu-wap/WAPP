@@ -21,11 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.feature.auth.R.string
 
 @Composable
 fun SignInScreen(
@@ -43,10 +45,10 @@ fun SignInScreen(
             ) {
                 Spacer(modifier = Modifier.height(32.dp))
                 Image(
+                    painter = painterResource(id = R.drawable.img_white_cat),
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .size(width = 230.dp, height = 230.dp),
-                    painter = painterResource(id = R.drawable.ic_white_cat),
                     contentDescription = "WAPP ICON",
                 )
 
@@ -56,14 +58,14 @@ fun SignInScreen(
                     Column {
                         Spacer(modifier = Modifier.height(40.dp))
                         Text(
-                            text = "WAPP",
+                            text = stringResource(id = string.application_name),
                             style = WappTheme.typography.titleBold,
                             fontSize = 48.sp,
                             color = WappTheme.colors.white,
                         )
                     }
                     Text(
-                        text = "WAPP",
+                        text = stringResource(id = string.application_name),
                         fontSize = 48.sp,
                         style = WappTheme.typography.titleBold,
                         color = WappTheme.colors.yellow,
@@ -83,13 +85,15 @@ fun SignInScreen(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_github),
-                            contentDescription = "Github SignIn Icon",
+                            contentDescription = stringResource(
+                                id = string.sign_in_github_description,
+                            ),
                             modifier = Modifier.size(40.dp),
                             tint = WappTheme.colors.black,
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = "Github 로그인",
+                            text = stringResource(id = string.sign_in_github_content),
                             style = WappTheme.typography.contentMedium,
                         )
                     }
@@ -112,12 +116,14 @@ fun SignInScreen(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_balloon),
-                            contentDescription = "Balloon Icon",
+                            contentDescription = stringResource(
+                                id = string.sign_in_non_member_description,
+                            ),
                             modifier = Modifier.size(40.dp),
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = "비회원으로 둘러보기",
+                            text = stringResource(id = string.sign_in_non_member_content),
                             style = WappTheme.typography.contentMedium,
                             color = WappTheme.colors.white,
                         )
@@ -131,8 +137,8 @@ fun SignInScreen(
 @Preview
 @Composable
 fun previewSignInScreen() {
-    /*SignInScreen(
-        navigateToSignUp = { }
+    SignInScreen(
+        navigateToSignUp = { },
         navigateToNotice = { },
-    )*/
+    )
 }

@@ -22,11 +22,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.feature.auth.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +48,7 @@ fun signInBottomSheet() {
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "로그인",
+                    text = stringResource(id = R.string.sign_in),
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                 )
@@ -54,7 +56,7 @@ fun signInBottomSheet() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "이메일",
+                    text = stringResource(id = R.string.sign_in_email),
                     color = WappTheme.colors.white,
                     style = WappTheme.typography.labelRegular,
                 )
@@ -64,7 +66,9 @@ fun signInBottomSheet() {
                     value = filledText,
                     onValueChange = { filledText = it },
                     placeholder = {
-                        Text(text = "Github Email")
+                        Text(
+                            text = stringResource(id = R.string.sign_in_email_hint),
+                        )
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
@@ -83,7 +87,7 @@ fun signInBottomSheet() {
                     shape = RoundedCornerShape(10.dp),
                 ) {
                     Text(
-                        text = "완료",
+                        text = stringResource(id = R.string.done),
                         style = WappTheme.typography.contentMedium,
                     )
                 }
@@ -97,7 +101,7 @@ fun signInBottomSheet() {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = "이메일을 까먹었으셨나요?",
+                    text = stringResource(id = R.string.sign_in_find_email),
                     style = WappTheme.typography.captionMedium,
                     color = WappTheme.colors.yellow,
                 )
