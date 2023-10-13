@@ -32,7 +32,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 <br>
 
 ## 🍎 Contributors 🍌
-
+[팀원 소개](https://www.notion.so/78595ac1f63c4b388c769319fa992db9)
 <table>
   <tr>
     <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="100px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
@@ -71,5 +71,12 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 프로젝트 중 발생한 이슈에 대해 트러블 슈팅을 기록하는 공간입니다.
 ```
 [WAPP 트러블 슈팅](https://discovered-trust-803.notion.site/WAPP-238f82deeac44721a3321665573c9f76?pvs=4)
+
 <br>
 
+## 🏃‍♂️ Sprint 
+```
+매주 수요일, 스프린트에 할당할 이슈를 지라와 깃헙에 등록한다. 스프린트 단위는 일주일이며, 개발 일정을 따른다.
+수요일 오전 12시까지 못 끝낸 이슈 하나당 스택 하나로 간주하며, 스택 세 개가 모였을 때 밥 한 끼를 사야 한다.
+```
+[스프린트 기록](https://www.notion.so/79134caa75394435a221a15c53226726?v=c3640a0dae5f4bac8ecf51d61aae4acf)

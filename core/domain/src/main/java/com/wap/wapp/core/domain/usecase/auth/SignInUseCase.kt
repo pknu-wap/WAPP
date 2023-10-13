@@ -19,15 +19,20 @@ class SignInUseCase @Inject constructor(
                 .getOrThrow()
 
             userRepository.getUserProfile(userId)
-                .onFailure { exception ->
-                    // 만약 사용자를 찾을 수 없는 경우, 회원가입
-                    val userNotFoundException = IllegalStateException()
-                    if (exception == userNotFoundException) {
-                        return Result.success(SIGN_UP)
-                    }
-                }
-            // 사용자를 찾은 경우, 로그인
-            SIGN_IN
+                .fold(
+                    onFailure = { exception ->
+                        // 사용자를 조회할 수 없는 예외인 경우
+                        val userNotFoundException = IllegalStateException()
+                        if (exception == userNotFoundException) {
+                            SIGN_UP
+                        }
+                        // 이외의 예외라면,
+                        throw (exception)
+                    },
+                    onSuccess = {
+                        SIGN_IN
+                    },
+                )
         }
     }
 }
