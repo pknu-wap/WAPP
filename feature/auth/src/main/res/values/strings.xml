@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="application_name">WAPP</string>
+    <string name="application_icon_description">WAPP Icon</string>
+    <string name="back_button_description">Back Icon</string>
+    <string name="sign_in">로그인</string>
+    <string name="sign_in_email">이메일</string>
+    <string name="sign_in_email_hint">Github Email</string>
+    <string name="sign_in_find_email">이메일을 까먹으셨나요?</string>
+    <string name="sign_in_github_content">Github 로그인</string>
+    <string name="sign_in_github_description">Github SignIn Icon</string>
+    <string name="sign_in_non_member_content">비회원으로 둘러보기</string>
+    <string name="sign_in_non_member_description">Balloon Icon</string>
+    <string name="sign_up">회원가입</string>
+    <string name="sign_up_title">처음 가입하시네요!</string>
+    <string name="sign_up_content">회원님의 정보를 입력해주세요.</string>
+    <string name="sign_up_name_title">이름</string>
+    <string name="sign_up_name_hint">이름을 입력해주세요.</string>
+    <string name="sign_up_name_caption">회원 확인을 위해, 실명을 입력해주세요.</string>
+    <string name="sign_up_name_description">Profile Icon</string>
+    <string name="sign_up_student_id_title">학번</string>
+    <string name="sign_up_student_id_hint">학번을 입력해주세요.</string>
+    <string name="sign_up_student_id_caption">동명이인을 구별하기 위해, 필요해요!</string>
+    <string name="sign_up_student_id_description">Card Icon</string>
+    <string name="sign_up_registered_at_title">입부시기</string>
+    <string name="sign_up_registered_at_hint">입부년도 입력</string>
+    <string name="sign_up_registered_at_caption">회원님의 기수 정보를 알려드릴게요!</string>
+    <string name="sign_up_registered_at_description">Door Icon</string>
+    <string name="done">완료</string>
+</resources>
