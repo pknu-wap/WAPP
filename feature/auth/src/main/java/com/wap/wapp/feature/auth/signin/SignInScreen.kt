@@ -1,6 +1,7 @@
 package com.wap.wapp.feature.auth.signin
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +28,10 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    navigateToSignUp: () -> Unit,
+    navigateToNotice: () -> Unit,
+) {
     WappTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -35,6 +39,7 @@ fun SignInScreen() {
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(32.dp),
             ) {
                 Spacer(modifier = Modifier.height(32.dp))
                 Image(
@@ -65,56 +70,58 @@ fun SignInScreen() {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Column {
+                    ElevatedButton(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        onClick = {
+                            navigateToSignUp()
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_github),
+                            contentDescription = "Github SignIn Icon",
+                            modifier = Modifier.size(40.dp),
+                            tint = WappTheme.colors.black,
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(
+                            text = "Github 로그인",
+                            style = WappTheme.typography.contentMedium,
+                        )
+                    }
 
-                ElevatedButton(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onClick = {
-                        // TODO
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_github),
-                        contentDescription = "Github SignIn Icon",
-                        modifier = Modifier.size(40.dp),
-                        tint = WappTheme.colors.black,
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = "Github 로그인",
-                        style = WappTheme.typography.contentMedium,
-                    )
-                }
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                ElevatedButton(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onClick = {},
-                    colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = WappTheme.colors.yellow,
-                        contentColor = WappTheme.colors.white,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_balloon),
-                        contentDescription = "Github SignIn Icon",
-                        modifier = Modifier.size(40.dp),
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = "비회원으로 둘러보기",
-                        style = WappTheme.typography.contentMedium,
-                        color = WappTheme.colors.white,
-                    )
+                    ElevatedButton(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        onClick = {
+                            navigateToNotice()
+                        },
+                        colors = ButtonDefaults.elevatedButtonColors(
+                            containerColor = WappTheme.colors.yellow,
+                            contentColor = WappTheme.colors.white,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_balloon),
+                            contentDescription = "Balloon Icon",
+                            modifier = Modifier.size(40.dp),
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(
+                            text = "비회원으로 둘러보기",
+                            style = WappTheme.typography.contentMedium,
+                            color = WappTheme.colors.white,
+                        )
+                    }
                 }
             }
         }
@@ -124,5 +131,8 @@ fun SignInScreen() {
 @Preview
 @Composable
 fun previewSignInScreen() {
-    SignInScreen()
+    /*SignInScreen(
+        navigateToSignUp = { }
+        navigateToNotice = { },
+    )*/
 }
