@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -87,50 +88,86 @@ fun WappTypography(): WappTypography {
         titleBold = TextStyle(
             fontSize = 22.sp,
             fontFamily = NotoSansBold,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         titleMedium = TextStyle(
             fontSize = 22.sp,
             fontFamily = NotoSansMedium,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         titleRegular = TextStyle(
             fontSize = 22.sp,
             fontFamily = NotoSansRegular,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         contentBold = TextStyle(
             fontSize = 16.sp,
             fontFamily = NotoSansBold,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         contentMedium = TextStyle(
             fontSize = 16.sp,
             fontFamily = NotoSansMedium,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         contentRegular = TextStyle(
             fontSize = 16.sp,
             fontFamily = NotoSansRegular,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         labelBold = TextStyle(
             fontSize = 14.sp,
             fontFamily = NotoSansBold,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         labelMedium = TextStyle(
             fontSize = 14.sp,
             fontFamily = NotoSansMedium,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         labelRegular = TextStyle(
             fontSize = 14.sp,
             fontFamily = NotoSansRegular,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         captionBold = TextStyle(
             fontSize = 12.sp,
             fontFamily = NotoSansBold,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         captionMedium = TextStyle(
             fontSize = 12.sp,
             fontFamily = NotoSansMedium,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
         captionRegular = TextStyle(
             fontSize = 12.sp,
             fontFamily = NotoSansRegular,
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false,
+            ),
         ),
     )
 }
