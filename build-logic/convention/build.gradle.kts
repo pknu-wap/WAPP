@@ -42,5 +42,9 @@ gradlePlugin {
             id = "com.wap.wapp.hilt"
             implementationClass = "com.wap.wapp.plugin.AndroidHiltPlugin"
         }
+        create("androidNavigation") {
+            id = "com.wap.wapp.navigation"
+            implementationClass = "com.wap.wapp.plugin.AndroidNavigationPlugin"
+        }
     }
 }

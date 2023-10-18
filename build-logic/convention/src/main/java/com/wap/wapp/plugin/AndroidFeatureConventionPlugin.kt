@@ -11,6 +11,7 @@ class AndroidFeatureConventionPlugin: Plugin<Project>{
                 apply("com.wap.wapp.library")
                 apply("com.wap.wapp.compose")
                 apply("com.wap.wapp.hilt")
+                apply("com.wap.wapp.navigation")
             }
             configureBinding()
         }
