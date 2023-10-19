@@ -13,7 +13,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 abstract class AuthRepositoryModule {
     @Binds
     @ActivityScoped
-    abstract fun providesAuthRepository(
+    abstract fun bindsAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl,
     ): AuthRepository
 }
