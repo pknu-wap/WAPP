@@ -1,8 +1,6 @@
 package com.wap.wapp
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -39,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val typedArray = resources.obtainTypedArray(R.array.hide_bottomNavigation_fragments)
 
         for (index in 0..typedArray.length()) {
-            hideBottomNavigationFragments.add(typedArray.getResourceId(index, 0,))
+            hideBottomNavigationFragments.add(typedArray.getResourceId(index, 0))
         }
 
         typedArray.recycle()
