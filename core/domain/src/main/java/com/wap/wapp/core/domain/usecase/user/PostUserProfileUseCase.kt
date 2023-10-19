@@ -9,16 +9,19 @@ class PostUserProfileUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke(
-        userId: String,
         userName: String,
         studentId: String,
         registeredAt: String,
     ): Result<Unit> {
-        return userRepository.postUserProfile(
-            userId = userId,
-            userName = userName,
-            studentId = studentId,
-            registeredAt = registeredAt,
-        )
+        return runCatching {
+            val userId = userRepository.getUserId().getOrThrow()
+
+            userRepository.postUserProfile(
+                userId = userId,
+                userName = userName,
+                studentId = studentId,
+                registeredAt = registeredAt,
+            )
+        }
     }
 }
