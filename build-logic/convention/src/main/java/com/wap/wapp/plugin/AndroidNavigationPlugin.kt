@@ -18,6 +18,7 @@ class AndroidNavigationPlugin: Plugin<Project> {
             dependencies{
                 "implementation"(libs.findLibrary("androidx-navigation-fragment-ktx").get())
                 "implementation"(libs.findLibrary("androidx-navigation-ui-ktx").get())
+                "implementation"(libs.findLibrary("androidx-navigation-compose").get())
             }
         }
     }
