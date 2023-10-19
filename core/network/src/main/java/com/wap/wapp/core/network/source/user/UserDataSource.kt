@@ -7,4 +7,6 @@ interface UserDataSource {
     suspend fun postUserProfile(userProfileRequest: UserProfileRequest): Result<Unit>
 
     suspend fun getUserProfile(userId: String): Result<UserProfileResponse>
+
+    suspend fun getUserId(): Result<String>
 }

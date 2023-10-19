@@ -14,6 +14,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUserId(): Result<String> {
+        return userDataSource.getUserId()
+    }
+
     override suspend fun postUserProfile(
         userId: String,
         userName: String,

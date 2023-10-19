@@ -1,5 +1,6 @@
 package com.wap.wapp.core.network.source.user
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.wap.wapp.core.network.constant.USER_COLLECTION
@@ -10,6 +11,7 @@ import javax.inject.Inject
 
 class UserDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
+    private val firebaseAuth: FirebaseAuth,
 ) : UserDataSource {
     override suspend fun postUserProfile(
         userProfileRequest: UserProfileRequest,
@@ -25,6 +27,12 @@ class UserDataSourceImpl @Inject constructor(
                     setOption,
                 )
                 .await()
+        }
+    }
+
+    override suspend fun getUserId(): Result<String> {
+        return runCatching {
+            checkNotNull(firebaseAuth.uid)
         }
     }
 
