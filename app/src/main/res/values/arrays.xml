@@ -2,5 +2,7 @@
 <resources>
     <array name="hide_bottomNavigation_fragments">
         <item>@id/splashFragment</item>
+        <item>@id/signInFragment</item>
+        <item>@id/signUpFragment</item>
     </array>
 </resources>

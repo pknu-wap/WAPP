@@ -4,6 +4,7 @@
     android:id="@+id/main_nav"
     app:startDestination="@id/nav_splash">
 
+    <include app:graph="@navigation/nav_auth" />
     <include app:graph="@navigation/nav_manage" />
     <include app:graph="@navigation/nav_notice" />
     <include app:graph="@navigation/nav_profile" />
