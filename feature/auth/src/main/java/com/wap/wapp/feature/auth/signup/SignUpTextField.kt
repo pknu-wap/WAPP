@@ -3,10 +3,10 @@ package com.wap.wapp.feature.auth.signup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -21,34 +21,36 @@ import com.wap.designsystem.WappTheme
 @Composable
 fun SignUpTextField(
     iconDescription: String,
-    fieldName: String,
-    fieldHint: String,
-    fieldSupportingText: String,
-    fieldIcon: Int,
+    title: String,
+    text: String,
+    onValueChanged: (String) -> Unit,
+    hint: String,
+    supportingText: String,
+    icon: Int,
+    keyboardOptions: KeyboardOptions,
+    modifier: Modifier,
 ) {
-    var dummyText = ""
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = painterResource(id = fieldIcon),
+                painter = painterResource(id = icon),
                 contentDescription = iconDescription,
                 tint = WappTheme.colors.white,
                 modifier = Modifier.size(20.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = fieldName,
+                text = title,
                 color = WappTheme.colors.white,
                 style = WappTheme.typography.contentBold,
             )
         }
         TextField(
-            value = dummyText,
-            onValueChange = { dummyText = it },
-            modifier = Modifier
-                .fillMaxWidth(),
+            value = text,
+            onValueChange = onValueChanged,
+            modifier = modifier,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = WappTheme.colors.white,
                 backgroundColor = WappTheme.colors.backgroundBlack,
@@ -56,15 +58,13 @@ fun SignUpTextField(
                 unfocusedIndicatorColor = WappTheme.colors.white,
             ),
             placeholder = {
-                Text(
-                    text = fieldHint,
-                    color = WappTheme.colors.gray1,
-                )
+                Text(text = hint, color = WappTheme.colors.gray1)
             },
+            keyboardOptions = keyboardOptions,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = fieldSupportingText,
+            text = supportingText,
             color = WappTheme.colors.yellow,
             style = WappTheme.typography.captionRegular,
         )
