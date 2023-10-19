@@ -9,10 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,21 +16,17 @@ import com.wap.designsystem.WappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpChipGroup() {
+fun SignUpChip(
+    selectedItem: String,
+    onSelected: (String) -> Unit,
+) {
     val itemsList = listOf("1학기", "2학기")
-
-    var selectedItem by remember {
-        mutableStateOf(itemsList[0]) // initially, first item is selected
-    }
-
     LazyRow(modifier = Modifier.fillMaxWidth()) {
         items(itemsList) { item ->
             FilterChip(
                 modifier = Modifier.padding(horizontal = 6.dp),
                 selected = (item == selectedItem),
-                onClick = {
-                    selectedItem = item
-                },
+                onClick = { onSelected(item) },
                 label = {
                     Text(
                         text = item,
