@@ -13,11 +13,13 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -25,95 +27,116 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.domain.model.AuthState
+import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun signInBottomSheet() {
+fun SignInBottomSheet(
+    signInUseCase: SignInUseCase,
+    onDismiss: () -> Unit,
+    navigateToNotice: () -> Unit,
+    navigateToSignUp: () -> Unit,
+) {
     val sheetState = rememberModalBottomSheetState()
-    var isSheetOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
+    val coroutineScope = rememberCoroutineScope()
+    var email by rememberSaveable { mutableStateOf("") }
 
-    if (isSheetOpen) {
-        ModalBottomSheet(
-            sheetState = sheetState,
-            onDismissRequest = { isSheetOpen = false },
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = { onDismiss() },
+        containerColor = WappTheme.colors.backgroundBlack,
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = stringResource(id = R.string.sign_in),
+                style = WappTheme.typography.contentBold,
+                color = WappTheme.colors.white,
+                fontSize = 18.sp,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(id = R.string.sign_in_email),
+                color = WappTheme.colors.white,
+                style = WappTheme.typography.labelRegular,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = email,
+                onValueChange = { email = it },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.sign_in_email_hint),
+                    )
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                ),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = WappTheme.colors.white,
+                    focusedBorderColor = WappTheme.colors.yellow,
+                ),
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        signInUseCase(email = email)
+                            .onSuccess {
+                                when (it) {
+                                    AuthState.SIGN_IN -> { navigateToNotice() }
+                                    AuthState.SIGN_UP -> { navigateToSignUp() }
+                                }
+                            }
+                            .onFailure { throwable ->
+                                // onShowErrorSnackBar(throwable)
+                            }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                enabled = email.isNotBlank(),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = WappTheme.colors.white,
+                    containerColor = WappTheme.colors.yellow,
+                    disabledContentColor = WappTheme.colors.white,
+                    disabledContainerColor = WappTheme.colors.gray1,
+                ),
+                shape = RoundedCornerShape(10.dp),
             ) {
                 Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = stringResource(id = R.string.sign_in),
+                    text = stringResource(id = R.string.done),
                     style = WappTheme.typography.contentMedium,
-                    color = WappTheme.colors.white,
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(id = R.string.sign_in_email),
-                    color = WappTheme.colors.white,
-                    style = WappTheme.typography.labelRegular,
-                )
-                var filledText = ""
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = filledText,
-                    onValueChange = { filledText = it },
-                    placeholder = {
-                        Text(
-                            text = stringResource(id = R.string.sign_in_email_hint),
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                    ),
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = WappTheme.colors.white,
-                        containerColor = WappTheme.colors.gray1,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.done),
-                        style = WappTheme.typography.contentMedium,
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Divider(
-                    color = WappTheme.colors.white,
-                    thickness = 1.dp,
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.sign_in_find_email),
-                    style = WappTheme.typography.captionMedium,
-                    color = WappTheme.colors.yellow,
                 )
             }
-        }
-    }
-}
+            Spacer(modifier = Modifier.height(16.dp))
 
-@Preview
-@Composable
-fun previewSignUpScreen() {
-    WappTheme {
-        signInBottomSheet()
+            Divider(
+                color = WappTheme.colors.white,
+                thickness = 1.dp,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(id = R.string.sign_in_find_email),
+                style = WappTheme.typography.captionMedium,
+                color = WappTheme.colors.yellow,
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+        }
     }
 }
