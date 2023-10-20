@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 
 @Composable
-fun SignUpTextField(
+internal fun SignUpTextField(
     iconDescription: String,
     title: String,
     text: String,

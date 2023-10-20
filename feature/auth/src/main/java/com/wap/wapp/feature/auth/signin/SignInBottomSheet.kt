@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignInBottomSheet(
+internal fun SignInBottomSheet(
     signInUseCase: SignInUseCase,
     onDismiss: () -> Unit,
     navigateToNotice: () -> Unit,

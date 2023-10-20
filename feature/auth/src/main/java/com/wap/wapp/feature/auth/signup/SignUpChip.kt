@@ -16,7 +16,7 @@ import com.wap.designsystem.WappTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpChip(
+internal fun SignUpChip(
     selectedItem: String,
     onSelected: (String) -> Unit,
 ) {

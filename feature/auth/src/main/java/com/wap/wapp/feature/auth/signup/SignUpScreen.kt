@@ -40,7 +40,7 @@ import com.wap.wapp.feature.auth.signup.SignUpViewModel.SignUpEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun SignUpScreen(
+internal fun SignUpScreen(
     navigateToNotice: () -> Unit,
     navigateToSignIn: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),

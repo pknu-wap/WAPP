@@ -29,7 +29,7 @@ import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.string
 
 @Composable
-fun SignInScreen(
+internal fun SignInScreen(
     openSignInSheet: () -> Unit,
     navigateToNotice: () -> Unit,
 ) {
