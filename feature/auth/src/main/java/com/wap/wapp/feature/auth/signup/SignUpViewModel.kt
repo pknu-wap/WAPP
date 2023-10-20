@@ -28,7 +28,7 @@ class SignUpViewModel @Inject constructor(
     private val _signUpYear: MutableStateFlow<String> = MutableStateFlow("")
     val signUpYear: StateFlow<String> get() = _signUpYear
 
-    private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow("1학기")
+    private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
     val signUpSemester: StateFlow<String> get() = _signUpSemester
 
     fun postUserProfile() {
@@ -59,6 +59,10 @@ class SignUpViewModel @Inject constructor(
 
     fun setSemester(semester: String) {
         _signUpSemester.value = semester
+    }
+
+    companion object {
+        const val FIRST_SEMESTER = "1학기"
     }
 
     sealed class SignUpEvent {
