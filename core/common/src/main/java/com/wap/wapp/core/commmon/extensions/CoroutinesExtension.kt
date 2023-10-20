@@ -1,4 +1,4 @@
-package com.wap.wapp.core.base.util
+package com.wap.wapp.core.commmon.extensions
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
