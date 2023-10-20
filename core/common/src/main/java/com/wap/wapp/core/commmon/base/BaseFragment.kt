@@ -1,4 +1,4 @@
-package com.android.mediproject.core.ui.base
+package com.wap.wapp.core.commmon.base
 
 import android.os.Bundle
 import android.util.Log
