@@ -26,5 +26,7 @@
     <string name="sign_up_registered_at_hint">입부년도 입력</string>
     <string name="sign_up_registered_at_caption">회원님의 기수 정보를 알려드릴게요!</string>
     <string name="sign_up_registered_at_description">Door Icon</string>
+    <string name="first_semester">1학기</string>
+    <string name="second_semester">2학기</string>
     <string name="done">완료</string>
 </resources>
