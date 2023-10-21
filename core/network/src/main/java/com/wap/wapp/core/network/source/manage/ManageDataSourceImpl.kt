@@ -1,6 +1,8 @@
 package com.wap.wapp.core.network.source.manage
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.wap.wapp.core.network.constant.CODES_COLLECTION
 import com.wap.wapp.core.network.constant.MANAGER_COLLECTION
 import com.wap.wapp.core.network.utils.await
 import javax.inject.Inject
@@ -10,10 +12,35 @@ class ManageDataSourceImpl @Inject constructor(
 ) : ManageDataSource {
     override suspend fun getManager(userId: String): Result<Unit> {
         return runCatching {
-            firebaseFirestore.collection(MANAGER_COLLECTION)
-                .document(userId)
+            val result = firebaseFirestore.collection(MANAGER_COLLECTION)
+                .whereEqualTo("userId", userId)
                 .get()
                 .await()
+
+            check(result.isEmpty.not())
+        }
+    }
+
+    override suspend fun postManager(userId: String): Result<Unit> {
+        return runCatching {
+            val userIdMap = mapOf("userId" to userId)
+            val setOption = SetOptions.merge()
+
+            firebaseFirestore.collection(MANAGER_COLLECTION)
+                .document(userId)
+                .set(userIdMap, setOption)
+                .await()
+        }
+    }
+
+    override suspend fun postManagerCode(code: String): Result<Unit> {
+        return runCatching {
+            val result = firebaseFirestore.collection(CODES_COLLECTION)
+                .whereEqualTo("manager", code)
+                .get()
+                .await()
+
+            check(result.isEmpty.not())
         }
     }
 }
