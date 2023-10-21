@@ -1,24 +1,20 @@
 package com.wap.wapp.core.network.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.wap.wapp.core.network.source.user.UserDataSource
+import com.wap.wapp.core.network.source.user.UserDataSourceImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Provides
-    @Singleton
-    fun providesFirebaseAuth(): FirebaseAuth = Firebase.auth
+abstract class NetworkModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun providesFirestore(): FirebaseFirestore = Firebase.firestore
+    abstract fun bindsUserDataSource(
+        userDataSourceImpl: UserDataSourceImpl,
+    ): UserDataSource
 }

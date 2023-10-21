@@ -13,7 +13,7 @@ import javax.inject.Singleton
 abstract class DataModule {
     @Binds
     @Singleton
-    abstract fun providesUserRepository(
+    abstract fun bindsUserRepository(
         userRepositoryImpl: UserRepositoryImpl,
     ): UserRepository
 }

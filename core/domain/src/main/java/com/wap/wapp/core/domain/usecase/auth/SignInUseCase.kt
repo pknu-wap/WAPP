@@ -6,6 +6,7 @@ import com.wap.wapp.core.domain.model.AuthState
 import com.wap.wapp.core.domain.model.AuthState.SIGN_IN
 import com.wap.wapp.core.domain.model.AuthState.SIGN_UP
 import dagger.hilt.android.scopes.ActivityScoped
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @ActivityScoped
@@ -21,12 +22,11 @@ class SignInUseCase @Inject constructor(
             userRepository.getUserProfile(userId)
                 .fold(
                     onFailure = { exception ->
-                        // 사용자를 조회할 수 없는 예외인 경우
-                        val userNotFoundException = IllegalStateException()
-                        if (exception == userNotFoundException) {
-                            SIGN_UP
+                        // 등록되지 않은 사용자인 경우
+                        if (exception is IllegalStateException) {
+                            return@fold SIGN_UP
                         }
-                        // 이외의 예외라면,
+                        // 그 외의 예외인 경우
                         throw (exception)
                     },
                     onSuccess = {

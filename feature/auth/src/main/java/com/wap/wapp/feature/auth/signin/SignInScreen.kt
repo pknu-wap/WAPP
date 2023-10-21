@@ -22,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
@@ -30,115 +29,114 @@ import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.string
 
 @Composable
-fun SignInScreen(
-    navigateToSignUp: () -> Unit,
+internal fun SignInScreen(
+    openSignInSheet: () -> Unit,
     navigateToNotice: () -> Unit,
 ) {
-    WappTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = WappTheme.colors.backgroundBlack,
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = WappTheme.colors.backgroundBlack,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(32.dp),
-            ) {
-                Spacer(modifier = Modifier.height(32.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.img_white_cat),
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .size(width = 230.dp, height = 230.dp),
-                    contentDescription = "WAPP ICON",
-                )
+            Spacer(modifier = Modifier.height(32.dp))
+            Image(
+                painter = painterResource(id = R.drawable.img_white_cat),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(width = 230.dp, height = 230.dp),
+                contentDescription = "WAPP ICON",
+            )
 
-                Row(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                ) {
-                    Column {
-                        Spacer(modifier = Modifier.height(40.dp))
-                        Text(
-                            text = stringResource(id = string.application_name),
-                            style = WappTheme.typography.titleBold,
-                            fontSize = 48.sp,
-                            color = WappTheme.colors.white,
-                        )
-                    }
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            ) {
+                Column {
+                    Spacer(modifier = Modifier.height(40.dp))
                     Text(
                         text = stringResource(id = string.application_name),
-                        fontSize = 48.sp,
                         style = WappTheme.typography.titleBold,
-                        color = WappTheme.colors.yellow,
+                        fontSize = 48.sp,
+                        color = WappTheme.colors.white,
+                    )
+                }
+                Text(
+                    text = stringResource(id = string.application_name),
+                    fontSize = 48.sp,
+                    style = WappTheme.typography.titleBold,
+                    color = WappTheme.colors.yellow,
+                )
+            }
+
+            Column {
+                ElevatedButton(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    onClick = {
+                        openSignInSheet()
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_github),
+                        contentDescription = stringResource(
+                            id = string.sign_in_github_description,
+                        ),
+                        modifier = Modifier.size(40.dp),
+                        tint = WappTheme.colors.black,
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = stringResource(id = string.sign_in_github_content),
+                        style = WappTheme.typography.contentMedium,
                     )
                 }
 
-                Column {
-                    ElevatedButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        onClick = {
-                            navigateToSignUp()
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_github),
-                            contentDescription = stringResource(
-                                id = string.sign_in_github_description,
-                            ),
-                            modifier = Modifier.size(40.dp),
-                            tint = WappTheme.colors.black,
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            text = stringResource(id = string.sign_in_github_content),
-                            style = WappTheme.typography.contentMedium,
-                        )
-                    }
+                Spacer(modifier = Modifier.height(12.dp))
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    ElevatedButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        onClick = {
-                            navigateToNotice()
-                        },
-                        colors = ButtonDefaults.elevatedButtonColors(
-                            containerColor = WappTheme.colors.yellow,
-                            contentColor = WappTheme.colors.white,
+                ElevatedButton(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    onClick = {
+                        navigateToNotice()
+                    },
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = WappTheme.colors.yellow,
+                        contentColor = WappTheme.colors.white,
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_balloon),
+                        contentDescription = stringResource(
+                            id = string.sign_in_non_member_description,
                         ),
-                        shape = RoundedCornerShape(10.dp),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_balloon),
-                            contentDescription = stringResource(
-                                id = string.sign_in_non_member_description,
-                            ),
-                            modifier = Modifier.size(40.dp),
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(
-                            text = stringResource(id = string.sign_in_non_member_content),
-                            style = WappTheme.typography.contentMedium,
-                            color = WappTheme.colors.white,
-                        )
-                    }
+                        modifier = Modifier.size(40.dp),
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = stringResource(id = string.sign_in_non_member_content),
+                        style = WappTheme.typography.contentMedium,
+                        color = WappTheme.colors.white,
+                    )
                 }
             }
         }
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun previewSignInScreen() {
     SignInScreen(
+
         navigateToSignUp = { },
         navigateToNotice = { },
     )
-}
+}*/

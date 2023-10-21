@@ -13,7 +13,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 abstract class AuthDataSourceModule {
     @Binds
     @ActivityScoped
-    abstract fun providesAuthDataSource(
+    abstract fun bindsAuthDataSource(
         authDataSourceImpl: AuthDataSourceImpl,
     ): AuthDataSource
 }

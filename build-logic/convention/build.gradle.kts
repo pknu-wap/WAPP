@@ -2,10 +2,6 @@ plugins{
     `kotlin-dsl`
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -41,6 +37,10 @@ gradlePlugin {
         create("androidHilt") {
             id = "com.wap.wapp.hilt"
             implementationClass = "com.wap.wapp.plugin.AndroidHiltPlugin"
+        }
+        create("androidNavigation") {
+            id = "com.wap.wapp.navigation"
+            implementationClass = "com.wap.wapp.plugin.AndroidNavigationPlugin"
         }
     }
 }
