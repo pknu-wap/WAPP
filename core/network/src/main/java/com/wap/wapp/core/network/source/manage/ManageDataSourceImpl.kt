@@ -33,14 +33,14 @@ class ManageDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun postManagerCode(code: String): Result<Unit> {
+    override suspend fun getManagerCode(code: String): Result<Boolean> {
         return runCatching {
             val result = firebaseFirestore.collection(CODES_COLLECTION)
                 .whereEqualTo("manager", code)
                 .get()
                 .await()
 
-            check(result.isEmpty.not())
+            result.isEmpty.not()
         }
     }
 }
