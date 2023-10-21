@@ -37,7 +37,7 @@ class SignInFragment : Fragment() {
 
         composeView.setContent {
             WappTheme {
-                SignInBottomSheet(
+                SignInScreen(
                     signInUseCase = signInUseCase,
                     navigateToSignUp = { navigateToSignUp() },
                     navigateToNotice = { navigateToNotice() },

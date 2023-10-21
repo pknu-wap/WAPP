@@ -1,135 +1,162 @@
 package com.wap.wapp.feature.auth.signin
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.designresource.R
-import com.wap.wapp.feature.auth.R.string
+import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.domain.model.AuthState
+import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
+import com.wap.wapp.feature.auth.R
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SignInScreen(
-    openSignInSheet: () -> Unit,
+    signInUseCase: SignInUseCase,
     navigateToNotice: () -> Unit,
+    navigateToSignUp: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+    val coroutineScope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val snackBarHostState = remember { SnackbarHostState() }
+    var email by rememberSaveable { mutableStateOf("") }
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackBarHostState) },
+        sheetContainerColor = WappTheme.colors.backgroundBlack,
+        containerColor = WappTheme.colors.backgroundBlack,
+        sheetPeekHeight = 0.dp,
+        modifier = Modifier.fillMaxSize(),
+        sheetContent = {
+            Column(
+                modifier = Modifier.padding(16.dp),
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = stringResource(id = R.string.sign_in),
+                    style = WappTheme.typography.contentBold,
+                    color = WappTheme.colors.white,
+                    fontSize = 18.sp,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.sign_in_email),
+                    color = WappTheme.colors.white,
+                    style = WappTheme.typography.labelRegular,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = email,
+                    onValueChange = { email = it },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.sign_in_email_hint),
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                    ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = WappTheme.colors.white,
+                        focusedBorderColor = WappTheme.colors.yellow,
+                    ),
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            signInUseCase(email = email)
+                                .onSuccess {
+                                    when (it) {
+                                        AuthState.SIGN_IN -> { navigateToNotice() }
+                                        AuthState.SIGN_UP -> { navigateToSignUp() }
+                                    }
+                                }
+                                .onFailure { throwable ->
+                                    snackBarHostState.showSnackbar(
+                                        throwable.toSupportingText(),
+                                    )
+                                }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    enabled = email.isNotBlank(),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = WappTheme.colors.white,
+                        containerColor = WappTheme.colors.yellow,
+                        disabledContentColor = WappTheme.colors.white,
+                        disabledContainerColor = WappTheme.colors.gray1,
+                    ),
+                    shape = RoundedCornerShape(10.dp),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.done),
+                        style = WappTheme.typography.contentMedium,
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Divider(
+                    color = WappTheme.colors.white,
+                    thickness = 1.dp,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(id = R.string.sign_in_find_email),
+                    style = WappTheme.typography.captionMedium,
+                    color = WappTheme.colors.yellow,
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+        },
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Image(
-            painter = painterResource(id = R.drawable.img_white_cat),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .size(width = 230.dp, height = 230.dp),
-            contentDescription = "WAPP ICON",
+        SignInContent(
+            openSignInSheet = {
+                coroutineScope.launch {
+                    scaffoldState.bottomSheetState.expand()
+                }
+            },
+            navigateToNotice = { navigateToNotice() },
         )
-
-        Row(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        ) {
-            Column {
-                Spacer(modifier = Modifier.height(40.dp))
-                Text(
-                    text = stringResource(id = string.application_name),
-                    style = WappTheme.typography.titleBold,
-                    fontSize = 48.sp,
-                    color = WappTheme.colors.white,
-                )
-            }
-            Text(
-                text = stringResource(id = string.application_name),
-                fontSize = 48.sp,
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.yellow,
-            )
-        }
-
-        Column {
-            ElevatedButton(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = {
-                    openSignInSheet()
-                },
-                shape = RoundedCornerShape(10.dp),
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_github),
-                    contentDescription = stringResource(
-                        id = string.sign_in_github_description,
-                    ),
-                    modifier = Modifier.size(40.dp),
-                    tint = WappTheme.colors.black,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = stringResource(id = string.sign_in_github_content),
-                    style = WappTheme.typography.contentMedium,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            ElevatedButton(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = {
-                    navigateToNotice()
-                },
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = WappTheme.colors.yellow,
-                    contentColor = WappTheme.colors.white,
-                ),
-                shape = RoundedCornerShape(10.dp),
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_balloon),
-                    contentDescription = stringResource(
-                        id = string.sign_in_non_member_description,
-                    ),
-                    modifier = Modifier.size(40.dp),
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = stringResource(id = string.sign_in_non_member_content),
-                    style = WappTheme.typography.contentMedium,
-                    color = WappTheme.colors.white,
-                )
-            }
-        }
     }
 }
-
-/*@Preview
-@Composable
-fun previewSignInScreen() {
-    SignInScreen(
-
-        navigateToSignUp = { },
-        navigateToNotice = { },
-    )
-}*/
