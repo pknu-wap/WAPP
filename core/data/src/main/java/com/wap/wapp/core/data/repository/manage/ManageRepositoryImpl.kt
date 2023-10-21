@@ -14,7 +14,7 @@ class ManageRepositoryImpl @Inject constructor(
         return manageDataSource.postManager(userId)
     }
 
-    override suspend fun postManagerCode(code: String): Result<Unit> {
-        return manageDataSource.postManagerCode(code)
+    override suspend fun getManagerCode(code: String): Result<Boolean> {
+        return manageDataSource.getManagerCode(code)
     }
 }
