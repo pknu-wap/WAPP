@@ -15,13 +15,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.drawable.ic_card
 import com.wap.wapp.feature.auth.R.drawable.ic_door
@@ -45,6 +49,8 @@ internal fun SignUpScreen(
     navigateToSignIn: () -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
+
     LaunchedEffect(true) {
         viewModel.signUpEventFlow.collectLatest {
             when (it) {
@@ -52,16 +58,19 @@ internal fun SignUpScreen(
                     navigateToNotice()
                 }
                 is SignUpEvent.Failure -> {
-                    // onShowErrorSnackBar(it.throwable)
+                    snackBarHostState.showSnackbar(
+                        message = it.throwable.toSupportingText(),
+                    )
                 }
             }
         }
     }
 
-    Surface(
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
-        color = WappTheme.colors.backgroundBlack,
-    ) {
+        containerColor = WappTheme.colors.backgroundBlack,
+        snackbarHost = { SnackbarHost(snackBarHostState) },
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

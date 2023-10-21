@@ -4,10 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -40,22 +36,12 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         composeView.setContent {
-            var isSheetOpen by rememberSaveable { mutableStateOf(false) }
-
             WappTheme {
                 SignInScreen(
+                    signInUseCase = signInUseCase,
+                    navigateToSignUp = { navigateToSignUp() },
                     navigateToNotice = { navigateToNotice() },
-                    openSignInSheet = { isSheetOpen = true },
                 )
-
-                if (isSheetOpen) {
-                    SignInBottomSheet(
-                        signInUseCase = signInUseCase,
-                        onDismiss = { isSheetOpen = false },
-                        navigateToSignUp = { navigateToSignUp() },
-                        navigateToNotice = { navigateToNotice() },
-                    )
-                }
             }
         }
     }

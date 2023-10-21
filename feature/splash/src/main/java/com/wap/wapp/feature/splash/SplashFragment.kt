@@ -6,8 +6,8 @@ import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.android.mediproject.core.ui.base.BaseFragment
-import com.wap.wapp.core.base.util.repeatOnStarted
+import com.wap.wapp.core.commmon.base.BaseFragment
+import com.wap.wapp.core.commmon.extensions.repeatOnStarted
 import com.wap.wapp.feature.splash.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 

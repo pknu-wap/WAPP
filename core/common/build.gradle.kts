@@ -23,6 +23,9 @@ android {
 
 dependencies {
     implementation(libs.bundles.androidx)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
     implementation(libs.material)
 
     testImplementation(libs.junit)
