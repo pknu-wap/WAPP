@@ -22,15 +22,12 @@ class SignInUseCase @Inject constructor(
             userRepository.getUserProfile(userId)
                 .fold(
                     onFailure = { exception ->
-                        when (exception) {
-                            // 사용자를 조회할 수 없는 예외인 경우
-                            is IllegalStateException -> {
-                                SIGN_UP
-                            }
-                            else -> {
-                                throw (exception)
-                            }
+                        // 등록되지 않은 사용자인 경우
+                        if (exception is IllegalStateException) {
+                            return@fold SIGN_UP
                         }
+                        // 그 외의 예외인 경우
+                        throw (exception)
                     },
                     onSuccess = {
                         SIGN_IN
