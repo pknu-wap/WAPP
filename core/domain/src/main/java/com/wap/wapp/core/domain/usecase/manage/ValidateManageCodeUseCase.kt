@@ -7,13 +7,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ValidateManagerCodeUseCase @Inject constructor(
+class ValidateManageCodeUseCase @Inject constructor(
     private val manageRepository: ManageRepository,
     private val userRepository: UserRepository,
 ) {
     suspend operator fun invoke(code: String): Result<CodeValidation> {
         return runCatching {
-            manageRepository.getManagerCode(code)
+            manageRepository.getManageCode(code)
                 .onSuccess { isValid ->
                     if (isValid.not()) { // 코드가 틀렸을 경우
                         return@runCatching CodeValidation.INVALID

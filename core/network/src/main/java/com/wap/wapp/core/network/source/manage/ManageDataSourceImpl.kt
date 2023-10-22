@@ -33,7 +33,7 @@ class ManageDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getManagerCode(code: String): Result<Boolean> {
+    override suspend fun getManageCode(code: String): Result<Boolean> {
         return runCatching {
             val result = firebaseFirestore.collection(CODES_COLLECTION)
                 .whereEqualTo("manager", code)

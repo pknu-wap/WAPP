@@ -5,5 +5,5 @@ interface ManageRepository {
 
     suspend fun postManager(userId: String): Result<Unit>
 
-    suspend fun getManagerCode(code: String): Result<Boolean>
+    suspend fun getManageCode(code: String): Result<Boolean>
 }
