@@ -2,14 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_manage"
+    android:id="@+id/nav_management"
     app:startDestination="@id/manageFragment">
 
     <fragment
         android:id="@+id/manageFragment"
         android:name="com.wap.wapp.feature.manage.ManageFragment"
-        android:label="fragment_manage"
-        tools:layout="@layout/fragment_manage" />
+        android:label="fragment_manage" />
 
-    <deepLink app:uri="wapp://feature/nav_manage"/>
+    <deepLink app:uri="wapp://feature/nav_management"/>
 </navigation>
