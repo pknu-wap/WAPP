@@ -123,7 +123,7 @@ internal fun SignInScreen(
                         contentColor = WappTheme.colors.white,
                         containerColor = WappTheme.colors.yellow,
                         disabledContentColor = WappTheme.colors.white,
-                        disabledContainerColor = WappTheme.colors.gray1,
+                        disabledContainerColor = WappTheme.colors.grayA2,
                     ),
                     shape = RoundedCornerShape(10.dp),
                 ) {
