@@ -6,15 +6,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CheckManagerStatusUseCase @Inject constructor(
+class HasManagerStateUseCase @Inject constructor(
     private val manageRepository: ManageRepository,
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(): Result<Unit> {
+    suspend operator fun invoke(): Result<Boolean> {
         return runCatching {
             val userId = userRepository.getUserId().getOrThrow()
 
-            manageRepository.getManager(userId)
+            manageRepository.getManager(userId).fold(
+                onSuccess = { hasManagerState -> hasManagerState },
+                onFailure = { throw(it) },
+            )
         }
     }
 }
