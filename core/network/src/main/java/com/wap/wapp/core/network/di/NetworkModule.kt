@@ -1,7 +1,7 @@
 package com.wap.wapp.core.network.di
 
-import com.wap.wapp.core.network.source.manage.ManageDataSource
-import com.wap.wapp.core.network.source.manage.ManageDataSourceImpl
+import com.wap.wapp.core.network.source.management.ManagementDataSource
+import com.wap.wapp.core.network.source.management.ManagementDataSourceImpl
 import com.wap.wapp.core.network.source.user.UserDataSource
 import com.wap.wapp.core.network.source.user.UserDataSourceImpl
 import dagger.Binds
@@ -22,7 +22,7 @@ abstract class NetworkModule {
 
     @Binds
     @Singleton
-    abstract fun bindsManageDataSource(
-        manageDataSourceImpl: ManageDataSourceImpl,
-    ): ManageDataSource
+    abstract fun bindsManagementDataSource(
+        managementDataSourceImpl: ManagementDataSourceImpl,
+    ): ManagementDataSource
 }
