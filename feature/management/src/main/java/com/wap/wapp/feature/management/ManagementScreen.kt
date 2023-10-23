@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ManageScreen(
+internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
@@ -67,7 +67,7 @@ internal fun ManageScreen(
 
 @Preview
 @Composable
-fun previewManageScreen() {
+fun previewManagementScreen() {
     WappTheme {
         // ManageScreen()
     }

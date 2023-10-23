@@ -20,8 +20,8 @@ class ManagementCodeViewModel @Inject constructor(
     val managementCodeUiState: StateFlow<ManagementCodeUiState>
         get() = _managementCodeUiState
 
-    private val _manageCode: MutableStateFlow<String> = MutableStateFlow("")
-    val manageCode: StateFlow<String> get() = _manageCode
+    private val _managementCode: MutableStateFlow<String> = MutableStateFlow("")
+    val managementCode: StateFlow<String> get() = _managementCode
 
     private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isError: StateFlow<Boolean> get() = _isError
@@ -30,9 +30,9 @@ class ManagementCodeViewModel @Inject constructor(
         MutableStateFlow(R.string.management_dialog_hint)
     val errorSupportingText: StateFlow<Int> get() = _errorSupportingText
 
-    fun validateManageCode() {
+    fun validateManagementCode() {
         viewModelScope.launch {
-            validateManagementCodeUseCase(_manageCode.value)
+            validateManagementCodeUseCase(_managementCode.value)
                 .onSuccess {
                     when (it) {
                         CodeValidation.VALID -> {
@@ -51,7 +51,7 @@ class ManagementCodeViewModel @Inject constructor(
     }
 
     fun setManagementCode(code: String) {
-        _manageCode.value = code
+        _managementCode.value = code
     }
 
     sealed class ManagementCodeUiState {

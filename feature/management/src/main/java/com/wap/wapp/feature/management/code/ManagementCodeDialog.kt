@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageCodeDialog(
+fun ManagementCodeDialog(
     viewModel: ManagementCodeViewModel = hiltViewModel(),
     onDismissRequest: () -> Unit,
     showToast: (Throwable) -> Unit,
@@ -73,7 +73,7 @@ fun ManageCodeDialog(
             }
 
             WappTextField(
-                value = viewModel.manageCode.collectAsState().value,
+                value = viewModel.managementCode.collectAsState().value,
                 onValueChanged = { code -> viewModel.setManagementCode(code = code) },
                 label = R.string.code,
                 isError = viewModel.isError.collectAsState().value,
@@ -83,8 +83,8 @@ fun ManageCodeDialog(
             )
 
             WappButton(
-                onClick = { viewModel.validateManageCode() },
-                isEnabled = viewModel.manageCode
+                onClick = { viewModel.validateManagementCode() },
+                isEnabled = viewModel.managementCode
                     .collectAsState()
                     .value
                     .isNotBlank(),

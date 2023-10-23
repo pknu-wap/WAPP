@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.showToast
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.feature.management.code.ManageCodeDialog
+import com.wap.wapp.feature.management.code.ManagementCodeDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,12 +37,12 @@ class ManagementFragment : Fragment() {
             var isShowDialog by rememberSaveable { mutableStateOf(false) }
 
             WappTheme {
-                ManageScreen(
+                ManagementScreen(
                     showManageCodeDialog = { isShowDialog = true },
                 )
 
                 if (isShowDialog) {
-                    ManageCodeDialog(
+                    ManagementCodeDialog(
                         onDismissRequest = { isShowDialog = false },
                         showToast = { throwable ->
                             requireContext().showToast(
