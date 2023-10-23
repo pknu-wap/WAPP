@@ -61,8 +61,8 @@ internal fun ManageScreen(
                 ),
             )
         },
-    ) { padding ->
-    }
+        content = { },
+    )
 }
 
 @Preview
