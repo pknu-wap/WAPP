@@ -45,7 +45,7 @@ class ManageFragment : Fragment() {
                     ManageCodeDialog(
                         onDismissRequest = { isShowDialog = false },
                         showToast = { throwable ->
-                            requireContext().showToast(
+                            requireActivity().showToast(
                                 throwable.toSupportingText(),
                             )
                         },
