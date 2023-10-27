@@ -45,7 +45,7 @@ class ManagementFragment : Fragment() {
                     ManagementCodeValidationDialog(
                         onDismissRequest = { isShowDialog = false },
                         showToast = { throwable ->
-                            requireContext().showToast(
+                            requireActivity().showToast(
                                 throwable.toSupportingText(),
                             )
                         },
