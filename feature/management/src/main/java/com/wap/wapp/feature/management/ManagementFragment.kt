@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.showToast
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.feature.management.code.ManagementCodeDialog
+import com.wap.wapp.feature.management.dialog.ManagementCodeValidationDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class ManagementFragment : Fragment() {
                 )
 
                 if (isShowDialog) {
-                    ManagementCodeDialog(
+                    ManagementCodeValidationDialog(
                         onDismissRequest = { isShowDialog = false },
                         showToast = { throwable ->
                             requireContext().showToast(

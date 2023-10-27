@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.code
+package com.wap.wapp.feature.management.dialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class ManagementCodeViewModel @Inject constructor(
+class ManagementCodeValidationViewModel @Inject constructor(
     private val validateManagementCodeUseCase: ValidateManagementCodeUseCase,
 ) : ViewModel() {
     private val _managementCodeUiState: MutableStateFlow<ManagementCodeUiState> =
