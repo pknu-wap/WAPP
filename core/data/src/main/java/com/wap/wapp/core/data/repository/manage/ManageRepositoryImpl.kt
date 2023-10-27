@@ -7,8 +7,6 @@ class ManageRepositoryImpl @Inject constructor(
     private val manageDataSource: ManageDataSource,
 ) : ManageRepository {
     override suspend fun getManager(userId: String): Result<Boolean> {
-        return manageDataSource.getManager(userId)
-    }
 
     override suspend fun postManager(userId: String): Result<Unit> {
         return manageDataSource.postManager(userId)
@@ -16,5 +14,4 @@ class ManageRepositoryImpl @Inject constructor(
 
     override suspend fun getManageCode(code: String): Result<Boolean> {
         return manageDataSource.getManageCode(code)
-    }
 }
