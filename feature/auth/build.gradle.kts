@@ -1,6 +1,5 @@
 plugins {
     id("com.wap.wapp.feature")
-    id("com.wap.wapp.compose")
     id("com.wap.wapp.hilt")
 }
 

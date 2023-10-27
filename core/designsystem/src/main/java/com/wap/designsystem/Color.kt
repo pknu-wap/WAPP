@@ -9,11 +9,11 @@ import androidx.compose.ui.graphics.Color
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
 val BackgroundBlack = Color(0xFF131313)
-val Black3 = Color(0xFF828282)
-val Black2 = Color(0xFF424242)
-val Black1 = Color(0xFF252424)
-val Gray2 = Color(0xFFF4F4F4)
-val Gray1 = Color(0xFFA2A2A2)
+val Black82 = Color(0xFF828282) // 3
+val Black42 = Color(0xFF424242) // 2
+val Black25 = Color(0xFF252424) // 1
+val GrayF4 = Color(0xFFF4F4F4) // 2
+val GrayA2 = Color(0xFFA2A2A2) // 1
 val Yellow = Color(0xFFFBCF34)
 
 @Stable
@@ -21,11 +21,11 @@ class WappColor(
     white: Color = White,
     black: Color = Black,
     backgroundBlack: Color = BackgroundBlack,
-    black1: Color = Black1,
-    black2: Color = Black2,
-    black3: Color = Black3,
-    gray1: Color = Gray1,
-    gray2: Color = Gray2,
+    black25: Color = Black25,
+    black42: Color = Black42,
+    black82: Color = Black82,
+    grayA2: Color = GrayA2,
+    grayF4: Color = GrayF4,
     yellow: Color = Yellow,
 ) {
     var white by mutableStateOf(white)
@@ -34,15 +34,15 @@ class WappColor(
         private set
     var backgroundBlack by mutableStateOf(backgroundBlack)
         private set
-    var black1 by mutableStateOf(black1)
+    var black25 by mutableStateOf(Black25)
         private set
-    var black2 by mutableStateOf(black2)
+    var black42 by mutableStateOf(Black42)
         private set
-    var black3 by mutableStateOf(black3)
+    var black82 by mutableStateOf(Black82)
         private set
-    var gray1 by mutableStateOf(gray1)
+    var grayA2 by mutableStateOf(GrayA2)
         private set
-    var gray2 by mutableStateOf(gray2)
+    var grayF4 by mutableStateOf(GrayF4)
         private set
     var yellow by mutableStateOf(yellow)
         private set

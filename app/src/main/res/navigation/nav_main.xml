@@ -5,7 +5,7 @@
     app:startDestination="@id/nav_splash">
 
     <include app:graph="@navigation/nav_auth" />
-    <include app:graph="@navigation/nav_manage" />
+    <include app:graph="@navigation/nav_management" />
     <include app:graph="@navigation/nav_notice" />
     <include app:graph="@navigation/nav_profile" />
     <include app:graph="@navigation/nav_survey" />

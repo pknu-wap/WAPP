@@ -10,14 +10,14 @@ import javax.inject.Inject
 class ManageDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : ManageDataSource {
-    override suspend fun getManager(userId: String): Result<Unit> {
+    override suspend fun getManager(userId: String): Result<Boolean> {
         return runCatching {
             val result = firebaseFirestore.collection(MANAGER_COLLECTION)
                 .whereEqualTo("userId", userId)
                 .get()
                 .await()
 
-            check(result.isEmpty.not())
+            result.isEmpty.not()
         }
     }
 
@@ -33,10 +33,10 @@ class ManageDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getManagerCode(code: String): Result<Boolean> {
+    override suspend fun getManageCode(code: String): Result<Boolean> {
         return runCatching {
             val result = firebaseFirestore.collection(CODES_COLLECTION)
-                .whereEqualTo("manager", code)
+                .whereEqualTo("management", code)
                 .get()
                 .await()
 
