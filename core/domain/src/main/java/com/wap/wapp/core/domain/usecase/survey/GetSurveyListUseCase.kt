@@ -7,7 +7,6 @@ import javax.inject.Inject
 class GetSurveyListUseCase @Inject constructor(
     private val surveyRepository: SurveyRepository,
 ) {
-    suspend operator fun invoke(): Result<List<Survey>> {
-        return surveyRepository.getSurveyList()
-    }
+    suspend operator fun invoke(): Result<List<Survey>> =
+        surveyRepository.getSurveyList()
 }
