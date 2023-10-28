@@ -3,6 +3,8 @@ package com.wap.wapp.feature.management
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.usecase.management.HasManagerStateUseCase
+import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
+import com.wap.wapp.core.model.survey.Survey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,6 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class ManagementViewModel @Inject constructor(
     private val hasManagerStateUseCase: HasManagerStateUseCase,
+    private val getSurveyListUseCase: GetSurveyListUseCase,
 ) : ViewModel() {
 
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -21,6 +24,9 @@ class ManagementViewModel @Inject constructor(
 
     private val _managerState: MutableStateFlow<ManagerState> = MutableStateFlow(ManagerState.Init)
     val managerState: StateFlow<ManagerState> get() = _managerState
+
+    private val _surveyList: MutableStateFlow<List<Survey>> = MutableStateFlow(emptyList())
+    val surveyList: StateFlow<List<Survey>> get() = _surveyList
 
     init {
         hasManagerState()
@@ -35,6 +41,18 @@ class ManagementViewModel @Inject constructor(
                     } else {
                         _managerState.emit(ManagerState.NonManager)
                     }
+                }
+                .onFailure { exception ->
+                    _errorFlow.emit(exception)
+                }
+        }
+    }
+
+    fun getSurveyList() {
+        viewModelScope.launch {
+            getSurveyListUseCase()
+                .onSuccess { surveyList ->
+                    _surveyList.emit(surveyList)
                 }
                 .onFailure { exception ->
                     _errorFlow.emit(exception)
