@@ -1,7 +1,7 @@
 package com.wap.wapp.core.data.di
 
-import com.wap.wapp.core.data.repository.manage.ManageRepository
-import com.wap.wapp.core.data.repository.manage.ManageRepositoryImpl
+import com.wap.wapp.core.data.repository.management.ManagementRepository
+import com.wap.wapp.core.data.repository.management.ManagementRepositoryImpl
 import com.wap.wapp.core.data.repository.user.UserRepository
 import com.wap.wapp.core.data.repository.user.UserRepositoryImpl
 import dagger.Binds
@@ -21,7 +21,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindsManageRepository(
-        manageRepositoryImpl: ManageRepositoryImpl,
-    ): ManageRepository
+    abstract fun bindsManagementRepository(
+        managementRepositoryImpl: ManagementRepositoryImpl,
+    ): ManagementRepository
 }
