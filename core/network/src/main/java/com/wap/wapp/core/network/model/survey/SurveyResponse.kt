@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class SurveyResponse(
+    val surveyId: String,
     val noticeId: String,
     val userId: String,
     val title: String,
@@ -14,16 +15,29 @@ data class SurveyResponse(
     val rating: RatingResponse,
     val surveyedAt: String,
 ) {
-    fun toDomain(): Survey = Survey(
-        noticeId = noticeId,
-        userId = userId,
-        title = title,
-        content = content,
-        review = review,
-        feedBack = feedBack,
-        rating = rating.toDomain(),
+    constructor() : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        RatingResponse.GOOD,
+        "",
+    )
+
+    fun toDomain(noticeName: String, userName: String): Survey = Survey(
+        surveyId = this.surveyId,
+        noticeName = noticeName,
+        userName = userName,
+        title = this.title,
+        content = this.content,
+        review = this.review,
+        feedBack = this.feedBack,
+        rating = this.rating.toDomain(),
         surveyedAt = LocalDateTime.parse(
-            surveyedAt,
+            this.surveyedAt,
             DateTimeFormatter.ISO_LOCAL_DATE_TIME,
         ),
     )
