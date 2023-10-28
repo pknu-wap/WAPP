@@ -5,4 +5,5 @@
     <string name="code">code</string>
     <string name="management_dialog_hint">Hint : WAPP</string>
     <string name="management_incorrect_code">잘못된 코드입니다.</string>
+    <string name="add_survey">설문 추가</string>
 </resources>
