@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
@@ -47,7 +48,7 @@ internal fun ManagementSurveyContent(
             modifier = Modifier.padding(16.dp),
         ) {
             Text(
-                text = "설문",
+                text = stringResource(string.survey),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
@@ -128,7 +129,7 @@ private fun ManagementSurveyItem(
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_forward),
-                contentDescription = "확인하기 버튼",
+                contentDescription = stringResource(string.detail_icon_description),
                 tint = WappTheme.colors.yellow,
                 modifier = Modifier
                     .clickable { onCardClicked(item.surveyId) }
