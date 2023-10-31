@@ -11,10 +11,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.toSupportingText
@@ -28,6 +31,7 @@ internal fun ManagementScreen(
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
+    val surveyList = viewModel.surveyList.collectAsState().value
 
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
@@ -36,7 +40,9 @@ internal fun ManagementScreen(
                     showManageCodeDialog()
                 }
                 ManagerState.Init -> { }
-                ManagerState.Manager -> { }
+                ManagerState.Manager -> {
+                    viewModel.getSurveyList()
+                }
             }
         }
 
@@ -66,10 +72,25 @@ internal fun ManagementScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
+            modifier = Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
-            Text("avoid to ktlint")
+            ManagementSurveyContent(
+                surveyList = surveyList,
+                onCardClicked = { },
+                onAddSurveyButtonClicked = { },
+            )
         }
+    }
+}
+
+@Composable
+internal fun ManagementCardColor(currentIndex: Int): Color {
+    return if (currentIndex % 2 == 0) {
+        WappTheme.colors.black82
+    } else {
+        WappTheme.colors.black42
     }
 }
 
