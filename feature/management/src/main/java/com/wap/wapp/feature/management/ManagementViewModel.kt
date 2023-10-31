@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -20,13 +22,13 @@ class ManagementViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
-    val errorFlow: SharedFlow<Throwable> get() = _errorFlow
+    val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
 
     private val _managerState: MutableStateFlow<ManagerState> = MutableStateFlow(ManagerState.Init)
-    val managerState: StateFlow<ManagerState> get() = _managerState
+    val managerState: StateFlow<ManagerState> = _managerState.asStateFlow()
 
     private val _surveyList: MutableStateFlow<List<Survey>> = MutableStateFlow(emptyList())
-    val surveyList: StateFlow<List<Survey>> get() = _surveyList
+    val surveyList: StateFlow<List<Survey>> = _surveyList.asStateFlow()
 
     init {
         hasManagerState()
