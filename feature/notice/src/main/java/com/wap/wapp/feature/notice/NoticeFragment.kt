@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +30,9 @@ class NoticeFragment : Fragment() {
 
         composeView.setContent {
             WappTheme {
-                NoticeScreen()
+                NoticeScreen(
+                    viewModel = hiltViewModel(),
+                )
             }
         }
     }
