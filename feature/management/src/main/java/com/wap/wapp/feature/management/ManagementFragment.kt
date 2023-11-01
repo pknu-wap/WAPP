@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.showToast
 import com.wap.wapp.core.commmon.extensions.toSupportingText
@@ -39,6 +40,7 @@ class ManagementFragment : Fragment() {
             WappTheme {
                 ManagementScreen(
                     showManageCodeDialog = { isShowDialog = true },
+                    onAddSurveyButtonClicked = { navigateToSurveyRegistration() },
                 )
 
                 if (isShowDialog) {
@@ -53,5 +55,11 @@ class ManagementFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun navigateToSurveyRegistration() {
+        findNavController().navigate(
+            ManagementFragmentDirections.actionManageFragmentToSurveyRegistrationFragment(),
+        )
     }
 }
