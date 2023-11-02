@@ -1,4 +1,4 @@
-# 와피 - WAP Official App
+<img width="1046" alt="image" src="https://github.com/pknu-wap/WAPP/assets/77484719/ad9ef13f-5ba1-4398-9ad0-35eb0c2f3ac5"># 와피 - WAP Official App
 
 ```
 WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
@@ -95,4 +95,4 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 ## 🏗️ 모듈 의존성 그래프
 
-![WAPP 모듈 의존성 drawio (1)](https://github.com/pknu-wap/WAPP/assets/116813010/acd77289-097f-4484-a257-8c7ac57190c0)
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/acd77289-097f-4484-a257-8c7ac57190c0" width="500"/>
