@@ -50,7 +50,9 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 <br>
 
 ## 💻 Code Convention
+
 [WAPP 안드로이드 코드 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%A6%92%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%A6%92)
+
 <br>
 
 ## ⛓️ Git Convention & Git Flow 전략
@@ -80,3 +82,17 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 목요일 오후 11시 30분까지 못 끝낸 이슈 하나당 스택 하나로 간주하며, 스택 세 개가 모였을 때 밥 한 끼를 사야 한다.
 ```
 [스프린트 기록](https://www.notion.so/79134caa75394435a221a15c53226726?v=c3640a0dae5f4bac8ecf51d61aae4acf)
+
+<br>
+
+## 🎨 UI/UX
+
+![피그마](https://github.com/pknu-wap/WAPP/assets/116813010/e37ebd0e-4016-42f5-947b-dd373e68a431)
+
+[UI/UX 보러가기](https://www.figma.com/file/ldfJcNruLXpb7e41P7LK3O/WAPP?type=design&node-id=0%3A1&mode=design&t=Q2vI9pGnu1OcsFWP-1)
+
+<br>
+
+## 🏗️ 모듈 의존성 그래프
+
+![WAPP 모듈 의존성 drawio (1)](https://github.com/pknu-wap/WAPP/assets/116813010/acd77289-097f-4484-a257-8c7ac57190c0)
