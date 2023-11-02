@@ -1,5 +1,3 @@
-<img width="1046" alt="image" src="https://github.com/pknu-wap/WAPP/assets/77484719/ad9ef13f-5ba1-4398-9ad0-35eb0c2f3ac5"># 와피 - WAP Official App
-
 ```
 WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 ```
