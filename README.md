@@ -40,13 +40,17 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 ## 🚩 Android Tech Stack
 <p align="center">
-    <img src="https://github.com/pknu-wap/WAPP/assets/77484719/89385e59-21f0-4ab7-b56a-a361b9299c79" width="500">
+    <img src="https://github.com/pknu-wap/WAPP/assets/77484719/89385e59-21f0-4ab7-b56a-a361b9299c79" width="500"><br>
 </p>
+ <h4>
+     <p align="center">
+        <a href="https://github.com/pknu-wap/WAPP/blob/develop/gradle/libs.versions.toml">Version Catalog</a>
+     </p>
+</h4>
 
 <br>
 
 ## 🍎 Contributors 🍌
-[팀원 소개](https://www.notion.so/78595ac1f63c4b388c769319fa992db9)
 <table>
   <tr>
     <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="100px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
@@ -61,6 +65,9 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
     <td align="center"><code>공지사항</code>, <code>달력</code>, <code>설문조사</code></td>
   </tr>
 </table>
+<h4>
+    <a href="https://www.notion.so/78595ac1f63c4b388c769319fa992db9">팀원 소개 보러가기</a>
+</h4>
 <br>
 
 ## 💻 Code Convention
