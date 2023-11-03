@@ -40,7 +40,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 ## 🚩 Android Tech Stack
 <p align="center">
-    <img src="https://github.com/pknu-wap/WAPP/assets/77484719/89385e59-21f0-4ab7-b56a-a361b9299c79" width="500"><br>
+    <img src="https://github.com/pknu-wap/WAPP/assets/77484719/b7f89175-6b79-4530-8b64-c509b7650e7d" width="500"><br>
 </p>
  <h4>
      <p align="center">
