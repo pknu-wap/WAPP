@@ -8,7 +8,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 	    <img src="./image/icon.png"/ width="40%">
 </p>
 
-### 🌱 Feature Introduce
+## 🌱 Feature Introduce
 
 #### 공지사항
 
