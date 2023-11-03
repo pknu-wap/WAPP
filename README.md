@@ -8,7 +8,7 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 	    <img src="./image/icon.png"/ width="40%">
 </p>
 
-### 기능 소개
+### Feature Introduce
 
 #### 공지사항
 
@@ -28,6 +28,20 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 #### 운영진
 - 회원들의 설문을 확인할 수 있어요.
 - 새로 공지사항을 등록할 수 있어요.
+
+<br>
+
+## 🏗️ Module Dependency Graph 
+<p align="center">
+    <img src="https://github.com/pknu-wap/WAPP/assets/116813010/acd77289-097f-4484-a257-8c7ac57190c0" width="500"/>
+</p>
+
+<br>
+
+## 🚩 Android Tech Stack
+<p align="center">
+    <img src="https://github.com/pknu-wap/WAPP/assets/77484719/89385e59-21f0-4ab7-b56a-a361b9299c79" width="500">
+</p>
 
 <br>
 
@@ -92,7 +106,3 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 [UI/UX 보러가기](https://www.figma.com/file/ldfJcNruLXpb7e41P7LK3O/WAPP?type=design&node-id=0%3A1&mode=design&t=Q2vI9pGnu1OcsFWP-1)
 
 <br>
-
-## 🏗️ 모듈 의존성 그래프
-
-<img src="https://github.com/pknu-wap/WAPP/assets/116813010/acd77289-097f-4484-a257-8c7ac57190c0" width="500"/>
