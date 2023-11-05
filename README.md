@@ -53,8 +53,8 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 ## 🍎 Contributors 🍌
 <table>
   <tr>
-    <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="100px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/tgyuuAn"><img src="https://avatars.githubusercontent.com/u/116813010?v=4" width="100px;" alt=""/><br /><sub><b>Tgyuu An</b></sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=tgyuuAn" title="Code">💻</a></td>
+    <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="256px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/tgyuuAn"><img src="https://avatars.githubusercontent.com/u/116813010?v=4" width="256px;" alt=""/><br /><sub><b>Tgyuu An</b></sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=tgyuuAn" title="Code">💻</a></td>
   </tr>
     <tr>
     <td align="center">안드로이드</td>
