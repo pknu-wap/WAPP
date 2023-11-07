@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation(project(":core:designresource"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)
