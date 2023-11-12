@@ -34,7 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -49,91 +49,127 @@ import kotlinx.coroutines.launch
 internal fun NoticeScreen(
     viewModel: NoticeViewModel = hiltViewModel(),
 ) {
-    val localDensity = LocalDensity.current
-    var calendarHeight: Dp by remember { mutableStateOf(0.dp) }
-    var topBarHeight: Dp by remember { mutableStateOf(0.dp) }
+    var expandHeight: Dp by remember { mutableStateOf(0.dp) }
+    var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
+
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
             skipPartiallyExpanded = false,
+            initialValue = SheetValue.PartiallyExpanded,
+            skipHiddenState = true,
         ),
     )
-
     val coroutineScope = rememberCoroutineScope()
 
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        sheetContainerColor = WappTheme.colors.black1,
-        sheetPeekHeight = topBarHeight + calendarHeight,
-        sheetContent = {
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier.height(500.dp),
-            ) {
-                Text(
-                    text = "10.25 수요일",
-                    style = WappTheme.typography.titleBold,
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
-                )
-
-                NoticeList(
-                    listOf(
-                        Notice(
-                            time = "19:00",
-                            title = "동아리 MT",
-                            duration = "19:00 ~ 21:00",
-                        ),
-                        Notice(
-                            time = "19:00",
-                            title = "동아리 MT2",
-                            duration = "19:00 ~ 21:00",
-                        ),
-                        Notice(
-                            time = "19:00",
-                            title = "동아리 MT3",
-                            duration = "19:00 ~ 21:00",
-                        ),
-                    ),
-                )
-            }
-        },
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WappTheme.colors.black1),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(WappTheme.colors.black1),
+        BottomSheetScaffold(
+            scaffoldState = scaffoldState,
+            sheetContainerColor = WappTheme.colors.black1,
+            sheetPeekHeight = defaultHeight,
+            sheetContent = {
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.height(expandHeight),
+                ) {
+                    Text(
+                        text = "10.25 수요일",
+                        style = WappTheme.typography.titleBold,
+                        color = WappTheme.colors.white,
+                        modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
+                    )
+
+                    NoticeList(
+                        listOf(
+                            Notice(
+                                time = "19:00",
+                                title = "동아리 MT",
+                                duration = "19:00 ~ 21:00",
+                            ),
+                            Notice(
+                                time = "19:00",
+                                title = "동아리 MT2",
+                                duration = "19:00 ~ 21:00",
+                            ),
+                            Notice(
+                                time = "19:00",
+                                title = "동아리 MT3",
+                                duration = "19:00 ~ 21:00",
+                            ),
+                            Notice(
+                                time = "19:00",
+                                title = "동아리 MT4",
+                                duration = "19:00 ~ 21:00",
+                            ),
+                            Notice(
+                                time = "19:00",
+                                title = "동아리 MT5",
+                                duration = "19:00 ~ 21:00",
+                            ),
+                        ),
+                    )
+                }
+            },
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
                 modifier = Modifier
-                    .padding(vertical = 10.dp),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_threelines),
-                    contentDescription = "공지사항 목록만을 보여줍니다.",
-                    modifier = Modifier
-                        .clickable {
-                            scaffoldState.bottomSheetState.let { sheetState ->
-                                handleSheetState(coroutineScope, sheetState)
-                            }
+                    .fillMaxWidth()
+                    .background(WappTheme.colors.black1)
+                    .layout { measurable, constriants ->
+                        val placeable = measurable.measure(constriants)
+
+                        defaultHeight = (constriants.maxHeight - placeable.height).toDp()
+
+                        layout(placeable.width, placeable.height) {
+                            placeable.placeRelative(0, 0)
                         }
-                        .padding(start = 16.dp),
-                )
-                Text(
-                    text = "2023. 10",
-                    style = WappTheme.typography.titleBold,
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.padding(start = 10.dp),
+                    },
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .fillMaxWidth()
+                        .layout { measurable, constriants ->
+                            val placeable = measurable.measure(constriants)
+
+                            expandHeight = (constriants.maxHeight - placeable.height).toDp() - 50.dp
+                            layout(placeable.width, placeable.height) {
+                                placeable.placeRelative(0, 0)
+                            }
+                        },
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_threelines),
+                        contentDescription = "공지사항 목록만을 보여줍니다.",
+                        modifier = Modifier
+                            .clickable {
+                                scaffoldState.bottomSheetState.let { sheetState ->
+                                    handleSheetState(coroutineScope, sheetState)
+                                }
+                            }
+                            .padding(start = 16.dp),
+                    )
+                    Text(
+                        text = "2023. 10",
+                        style = WappTheme.typography.titleBold,
+                        color = WappTheme.colors.white,
+                        modifier = Modifier.padding(start = 10.dp),
+                    )
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_calendar),
+                    contentDescription = "공지사항을 띄워주는 달력입니다.",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
                 )
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_calendar),
-                contentDescription = "공지사항을 띄워주는 달력입니다.",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .fillMaxWidth(),
-            )
         }
     }
 }
@@ -141,6 +177,7 @@ internal fun NoticeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun handleSheetState(coroutineScope: CoroutineScope, sheetState: SheetState) {
     coroutineScope.launch {
+        Log.d("test", sheetState.currentValue.toString())
         when (sheetState.currentValue) {
             SheetValue.Expanded -> sheetState.partialExpand()
             SheetValue.PartiallyExpanded -> sheetState.expand()
@@ -160,8 +197,6 @@ fun NoticeList(notices: List<Notice>) {
             items = notices,
             key = { index, notice -> notice.title },
         ) { index, notice ->
-            Log.d("test", "$index, $notice 얍얍얍")
-
             NoticeItem(notice = notice)
         }
     }
