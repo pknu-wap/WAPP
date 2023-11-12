@@ -53,8 +53,8 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 ## 🍎 Contributors 🍌
 <table>
   <tr>
-    <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="256px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/tgyuuAn"><img src="https://avatars.githubusercontent.com/u/116813010?v=4" width="256px;" alt=""/><br /><sub><b>Tgyuu An</b></sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=tgyuuAn" title="Code">💻</a></td>
+    <td align="center"><a href="http://github.com/jeongjaino"><img src="https://avatars.githubusercontent.com/u/77484719?v=4" width="128px;" alt=""/><br /><sub><b>JinHo Jeong</sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=jeongjaino" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/tgyuuAn"><img src="https://avatars.githubusercontent.com/u/116813010?v=4" width="128px;" alt=""/><br /><sub><b>Tgyuu An</b></sub></a><br /><a href="https://github.com/pknu-wap/WAPP/commits/main?author=tgyuuAn" title="Code">💻</a></td>
   </tr>
     <tr>
     <td align="center">안드로이드</td>
@@ -68,25 +68,6 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 <h4>
     <a href="https://www.notion.so/78595ac1f63c4b388c769319fa992db9">팀원 소개 보러가기</a>
 </h4>
-<br>
-
-## 💻 Code Convention
-
-[WAPP 안드로이드 코드 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%A6%92%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%A6%92)
-
-<br>
-
-## ⛓️ Git Convention & Git Flow 전략
-[WAPP 깃 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%90%B1%EA%B9%83-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%90%B1)
-``` kotlin
-1. Issue를 생성한다.
-2. feature Branch를 생성한다.
-3. Add - Commit - Push - Pull Request 의 과정을 거친다.
-4. Pull Request가 작성되면 작성자 이외의 다른 팀원이 Code Review를 한다.
-5. Code Review가 완료되면 Pull Request 작성자가 develop Branch로 merge 한다.
-6. merge된 작업이 있을 경우, 다른 브랜치에서 작업을 진행 중이던 개발자는 본인의 브랜치로 merge된 작업을 Pull 받아온다.
-7. 종료된 Issue와 Pull Request의 Label과 Project를 관리한다.
-```
 <br>
 
 ## 🚀 Trouble Shooting 
@@ -112,4 +93,23 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 [UI/UX 보러가기](https://www.figma.com/file/ldfJcNruLXpb7e41P7LK3O/WAPP?type=design&node-id=0%3A1&mode=design&t=Q2vI9pGnu1OcsFWP-1)
 
+<br>
+
+## 💻 Code Convention
+
+[WAPP 안드로이드 코드 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%A6%92%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%A6%92)
+
+<br>
+
+## ⛓️ Git Convention & Git Flow 전략
+[WAPP 깃 컨벤션](https://github.com/pknu-wap/WAPP/wiki/%F0%9F%90%B1%EA%B9%83-%EC%BB%A8%EB%B2%A4%EC%85%98%F0%9F%90%B1)
+``` kotlin
+1. Issue를 생성한다.
+2. feature Branch를 생성한다.
+3. Add - Commit - Push - Pull Request 의 과정을 거친다.
+4. Pull Request가 작성되면 작성자 이외의 다른 팀원이 Code Review를 한다.
+5. Code Review가 완료되면 Pull Request 작성자가 develop Branch로 merge 한다.
+6. merge된 작업이 있을 경우, 다른 브랜치에서 작업을 진행 중이던 개발자는 본인의 브랜치로 merge된 작업을 Pull 받아온다.
+7. 종료된 Issue와 Pull Request의 Label과 Project를 관리한다.
+```
 <br>
