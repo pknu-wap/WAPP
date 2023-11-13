@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.notice
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -149,7 +148,6 @@ internal fun NoticeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun handleSheetState(coroutineScope: CoroutineScope, sheetState: SheetState) {
     coroutineScope.launch {
-        Log.d("test", sheetState.currentValue.toString())
         when (sheetState.currentValue) {
             SheetValue.Expanded -> sheetState.partialExpand()
             SheetValue.PartiallyExpanded -> sheetState.expand()

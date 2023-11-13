@@ -189,12 +189,3 @@ internal fun SignUpScreen(
         }
     }
 }
-
-/*@Preview
-@Composable
-fun previewSignUpScreen() {
-    SignUpScreen(
-        "",
-        navigateToNotice = { }
-    )
-}*/
