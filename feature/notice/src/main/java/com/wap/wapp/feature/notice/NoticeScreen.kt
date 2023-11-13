@@ -82,35 +82,7 @@ internal fun NoticeScreen(
                         modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
                     )
 
-                    NoticeList(
-                        listOf(
-                            Notice(
-                                time = "19:00",
-                                title = "동아리 MT",
-                                duration = "19:00 ~ 21:00",
-                            ),
-                            Notice(
-                                time = "19:00",
-                                title = "동아리 MT2",
-                                duration = "19:00 ~ 21:00",
-                            ),
-                            Notice(
-                                time = "19:00",
-                                title = "동아리 MT3",
-                                duration = "19:00 ~ 21:00",
-                            ),
-                            Notice(
-                                time = "19:00",
-                                title = "동아리 MT4",
-                                duration = "19:00 ~ 21:00",
-                            ),
-                            Notice(
-                                time = "19:00",
-                                title = "동아리 MT5",
-                                duration = "19:00 ~ 21:00",
-                            ),
-                        ),
-                    )
+                    NoticeList(getDummyNotices())
                 }
             },
         ) {
@@ -249,3 +221,32 @@ fun NoticeItem(notice: Notice) {
         )
     }
 }
+
+// forTest
+private fun getDummyNotices(): List<Notice> = listOf(
+    Notice(
+        time = "19:00",
+        title = "동아리 MT",
+        duration = "19:00 ~ 21:00",
+    ),
+    Notice(
+        time = "19:00",
+        title = "동아리 MT2",
+        duration = "19:00 ~ 21:00",
+    ),
+    Notice(
+        time = "19:00",
+        title = "동아리 MT3",
+        duration = "19:00 ~ 21:00",
+    ),
+    Notice(
+        time = "19:00",
+        title = "동아리 MT4",
+        duration = "19:00 ~ 21:00",
+    ),
+    Notice(
+        time = "19:00",
+        title = "동아리 MT5",
+        duration = "19:00 ~ 21:00",
+    ),
+)
