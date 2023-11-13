@@ -16,7 +16,7 @@
         android:icon="@drawable/selector_profile" />
 
     <item
-        android:id="@+id/nav_manage"
-        android:title="@string/manage"
-        android:icon="@drawable/selector_manage" />
+        android:id="@+id/nav_management"
+        android:title="@string/management"
+        android:icon="@drawable/selector_management" />
 </menu>

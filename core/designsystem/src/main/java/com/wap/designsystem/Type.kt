@@ -86,21 +86,21 @@ class WappTypography internal constructor(
 fun WappTypography(): WappTypography {
     return WappTypography(
         titleBold = TextStyle(
-            fontSize = 22.sp,
+            fontSize = 18.sp,
             fontFamily = NotoSansBold,
             platformStyle = PlatformTextStyle(
                 includeFontPadding = false,
             ),
         ),
         titleMedium = TextStyle(
-            fontSize = 22.sp,
+            fontSize = 18.sp,
             fontFamily = NotoSansMedium,
             platformStyle = PlatformTextStyle(
                 includeFontPadding = false,
             ),
         ),
         titleRegular = TextStyle(
-            fontSize = 22.sp,
+            fontSize = 18.sp,
             fontFamily = NotoSansRegular,
             platformStyle = PlatformTextStyle(
                 includeFontPadding = false,

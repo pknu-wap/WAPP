@@ -1,0 +1,11 @@
+<resources>
+    <string name="management">관리</string>
+    <string name="management_dialog_title">운영진 코드를 입력하세요</string>
+    <string name="management_dialog_content">운영진만 해당 내용을 확인할 수 있어요</string>
+    <string name="code">code</string>
+    <string name="management_dialog_hint">Hint : WAPP</string>
+    <string name="management_incorrect_code">잘못된 코드입니다.</string>
+    <string name="add_survey">설문 추가</string>
+    <string name="detail_icon_description">자세히보기 버튼</string>
+    <string name="survey">설문</string>
+</resources>

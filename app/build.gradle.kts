@@ -30,7 +30,7 @@ dependencies {
     implementation(project(":feature:notice"))
     implementation(project(":feature:survey"))
     implementation(project(":feature:profile"))
-    implementation(project(":feature:manage"))
+    implementation(project(":feature:management"))
     implementation(project(":feature:splash"))
     implementation(project(":core:designresource"))
 

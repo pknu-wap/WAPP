@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back_button">뒤로가기 버튼</string>
+    <string name="close_button">닫기 버튼</string>
+    <string name="notice">공지사항</string>
+    <string name="done">완료</string>
+</resources>

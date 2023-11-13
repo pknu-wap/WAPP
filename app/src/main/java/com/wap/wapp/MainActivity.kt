@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.wap.wapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         bnvMainBottomNaviView.itemIconTintList = null
+        bnvMainBottomNaviView.setupWithNavController(navController)
 
         setBottomNavigationVisiblity()
     }

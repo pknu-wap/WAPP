@@ -3,5 +3,5 @@
     <string name="notice">공지사항</string>
     <string name="survey">설문</string>
     <string name="profile">프로필</string>
-    <string name="manage">관리</string>
+    <string name="management">관리</string>
 </resources>
