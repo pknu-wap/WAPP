@@ -109,7 +109,7 @@ internal fun SignUpScreen(
             Text(
                 text = stringResource(id = string.sign_up_content),
                 style = WappTheme.typography.contentMedium,
-                color = WappTheme.colors.gray1,
+                color = WappTheme.colors.grayA2,
             )
 
             Spacer(modifier = Modifier.height(32.dp))

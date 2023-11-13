@@ -58,7 +58,7 @@ internal fun SignUpTextField(
                 unfocusedIndicatorColor = WappTheme.colors.white,
             ),
             placeholder = {
-                Text(text = hint, color = WappTheme.colors.gray1)
+                Text(text = hint, color = WappTheme.colors.grayA2)
             },
             keyboardOptions = keyboardOptions,
         )

@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.notice
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,11 +64,11 @@ internal fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WappTheme.colors.black1),
+            .background(WappTheme.colors.black25),
     ) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
-            sheetContainerColor = WappTheme.colors.black1,
+            sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
             sheetContent = {
                 Column(
@@ -88,7 +89,7 @@ internal fun NoticeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(WappTheme.colors.black1)
+                    .background(WappTheme.colors.black25)
                     .layout { measurable, constriants ->
                         val placeable = measurable.measure(constriants)
 
@@ -148,6 +149,8 @@ internal fun NoticeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun handleSheetState(coroutineScope: CoroutineScope, sheetState: SheetState) {
     coroutineScope.launch {
+        Log.d("test", sheetState.currentValue.toString())
+
         when (sheetState.currentValue) {
             SheetValue.Expanded -> sheetState.partialExpand()
             SheetValue.PartiallyExpanded -> sheetState.expand()
@@ -177,7 +180,7 @@ fun NoticeItem(notice: Notice) {
     Column {
         Row(
             modifier = Modifier
-                .background(WappTheme.colors.black1)
+                .background(WappTheme.colors.black25)
                 .fillMaxWidth()
                 .padding(top = 5.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -194,7 +197,6 @@ fun NoticeItem(notice: Notice) {
                     .clip(RoundedCornerShape(10.dp))
                     .background(WappTheme.colors.yellow),
             )
-
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier.padding(start = 12.dp),
@@ -208,12 +210,12 @@ fun NoticeItem(notice: Notice) {
                 Text(
                     text = notice.duration,
                     style = WappTheme.typography.captionRegular,
-                    color = WappTheme.colors.gray3,
+                    color = WappTheme.colors.grayBD,
                 )
             }
         }
         Divider(
-            color = WappTheme.colors.gray4,
+            color = WappTheme.colors.gray82,
             thickness = (0.5).dp,
             modifier = Modifier.padding(top = 15.dp),
         )
