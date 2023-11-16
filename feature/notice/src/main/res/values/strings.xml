@@ -1,4 +1,4 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="calendarToggleImageContextDescription">공지사항 목록만을 보여주거나, 캘린더를 다시 보여줍니다.</string>
+    <string name="calendarContextDescription">공지사항을 보여주는 달력입니다.</string>
 </resources>

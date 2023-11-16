@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.notice
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,9 +49,9 @@ import kotlinx.coroutines.launch
 internal fun NoticeScreen(
     viewModel: NoticeViewModel = hiltViewModel(),
 ) {
-    var expandHeight: Dp by remember { mutableStateOf(0.dp) }
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
-
+    var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
+    val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
             skipPartiallyExpanded = false,
@@ -59,7 +59,6 @@ internal fun NoticeScreen(
             skipHiddenState = true,
         ),
     )
-    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -70,31 +69,16 @@ internal fun NoticeScreen(
             scaffoldState = scaffoldState,
             sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
-            sheetContent = {
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier.height(expandHeight),
-                ) {
-                    Text(
-                        text = "10.25 수요일",
-                        style = WappTheme.typography.titleBold,
-                        color = WappTheme.colors.white,
-                        modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
-                    )
-
-                    NoticeList(getDummyNotices())
-                }
-            },
+            sheetContent = { BottomSheetContent(expandableHeight) },
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
-                    .layout { measurable, constriants ->
-                        val placeable = measurable.measure(constriants)
+                    .layout { measurable, constraints ->
+                        val placeable = measurable.measure(constraints)
 
-                        defaultHeight = (constriants.maxHeight - placeable.height).toDp()
-
+                        defaultHeight = (constraints.maxHeight - placeable.height).toDp()
                         layout(placeable.width, placeable.height) {
                             placeable.placeRelative(0, 0)
                         }
@@ -103,25 +87,24 @@ internal fun NoticeScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
-                        .fillMaxWidth()
-                        .layout { measurable, constriants ->
-                            val placeable = measurable.measure(constriants)
-
-                            expandHeight = (constriants.maxHeight - placeable.height).toDp() - 50.dp
+                        .layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            expandableHeight =
+                                constraints.maxHeight.toDp() - (placeable.height.toDp() * 2)
                             layout(placeable.width, placeable.height) {
                                 placeable.placeRelative(0, 0)
                             }
-                        },
+                        }
+                        .padding(vertical = 10.dp)
+                        .fillMaxWidth(),
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_threelines),
-                        contentDescription = "공지사항 목록만을 보여줍니다.",
+                        contentDescription =
+                        stringResource(R.string.calendarToggleImageContextDescription),
                         modifier = Modifier
                             .clickable {
-                                scaffoldState.bottomSheetState.let { sheetState ->
-                                    handleSheetState(coroutineScope, sheetState)
-                                }
+                                handleSheetState(coroutineScope, scaffoldState.bottomSheetState)
                             }
                             .padding(start = 16.dp),
                     )
@@ -135,7 +118,7 @@ internal fun NoticeScreen(
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_calendar),
-                    contentDescription = "공지사항을 띄워주는 달력입니다.",
+                    contentDescription = stringResource(id = R.string.calendarContextDescription),
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
                         .padding(top = 10.dp)
@@ -146,21 +129,24 @@ internal fun NoticeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-private fun handleSheetState(coroutineScope: CoroutineScope, sheetState: SheetState) {
-    coroutineScope.launch {
-        Log.d("test", sheetState.currentValue.toString())
-
-        when (sheetState.currentValue) {
-            SheetValue.Expanded -> sheetState.partialExpand()
-            SheetValue.PartiallyExpanded -> sheetState.expand()
-            SheetValue.Hidden -> sheetState.expand()
-        }
+@Composable
+private fun BottomSheetContent(expandableHeight: Dp) {
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.height(expandableHeight),
+    ) {
+        Text(
+            text = "10.25 수요일",
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
+        )
+        NoticeList(getDummyNotices())
     }
 }
 
 @Composable
-fun NoticeList(notices: List<Notice>) {
+private fun NoticeList(notices: List<Notice>) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -168,15 +154,15 @@ fun NoticeList(notices: List<Notice>) {
     ) {
         itemsIndexed(
             items = notices,
-            key = { index, notice -> notice.title },
-        ) { index, notice ->
+            key = { _, notice -> notice.title },
+        ) { _, notice ->
             NoticeItem(notice = notice)
         }
     }
 }
 
 @Composable
-fun NoticeItem(notice: Notice) {
+private fun NoticeItem(notice: Notice) {
     Column {
         Row(
             modifier = Modifier
@@ -219,6 +205,20 @@ fun NoticeItem(notice: Notice) {
             thickness = (0.5).dp,
             modifier = Modifier.padding(top = 15.dp),
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+private fun handleSheetState(
+    coroutineScope: CoroutineScope,
+    sheetState: SheetState,
+) {
+    coroutineScope.launch {
+        when (sheetState.currentValue) {
+            SheetValue.Expanded -> sheetState.partialExpand()
+            SheetValue.PartiallyExpanded -> sheetState.expand()
+            SheetValue.Hidden -> sheetState.expand()
+        }
     }
 }
 
