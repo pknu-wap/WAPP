@@ -1,5 +1,7 @@
 package com.wap.wapp.core.data.di
 
+import com.wap.wapp.core.data.repository.event.EventRepository
+import com.wap.wapp.core.data.repository.event.EventRepositoryImpl
 import com.wap.wapp.core.data.repository.management.ManagementRepository
 import com.wap.wapp.core.data.repository.management.ManagementRepositoryImpl
 import com.wap.wapp.core.data.repository.survey.SurveyRepository
@@ -32,4 +34,10 @@ abstract class DataModule {
     abstract fun bindsSurveyRepository(
         surveyRepositoryImpl: SurveyRepositoryImpl,
     ): SurveyRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsEventRepository(
+        eventRepositoryImpl: EventRepositoryImpl,
+    ): EventRepository
 }
