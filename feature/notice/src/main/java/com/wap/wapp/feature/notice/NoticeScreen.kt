@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.domain.model.Notice
+import com.wap.wapp.core.model.event.Notice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -146,7 +146,7 @@ private fun BottomSheetContent(expandableHeight: Dp) {
 }
 
 @Composable
-private fun NoticeList(notices: List<Notice>) {
+private fun NoticeList(notices: List<com.wap.wapp.core.model.event.Notice>) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -162,7 +162,7 @@ private fun NoticeList(notices: List<Notice>) {
 }
 
 @Composable
-private fun NoticeItem(notice: Notice) {
+private fun NoticeItem(notice: com.wap.wapp.core.model.event.Notice) {
     Column {
         Row(
             modifier = Modifier
@@ -223,28 +223,28 @@ private fun handleSheetState(
 }
 
 // forTest
-private fun getDummyNotices(): List<Notice> = listOf(
-    Notice(
+private fun getDummyNotices(): List<com.wap.wapp.core.model.event.Notice> = listOf(
+    com.wap.wapp.core.model.event.Notice(
         time = "19:00",
         title = "동아리 MT",
         duration = "19:00 ~ 21:00",
     ),
-    Notice(
+    com.wap.wapp.core.model.event.Notice(
         time = "19:00",
         title = "동아리 MT2",
         duration = "19:00 ~ 21:00",
     ),
-    Notice(
+    com.wap.wapp.core.model.event.Notice(
         time = "19:00",
         title = "동아리 MT3",
         duration = "19:00 ~ 21:00",
     ),
-    Notice(
+    com.wap.wapp.core.model.event.Notice(
         time = "19:00",
         title = "동아리 MT4",
         duration = "19:00 ~ 21:00",
     ),
-    Notice(
+    com.wap.wapp.core.model.event.Notice(
         time = "19:00",
         title = "동아리 MT5",
         duration = "19:00 ~ 21:00",
