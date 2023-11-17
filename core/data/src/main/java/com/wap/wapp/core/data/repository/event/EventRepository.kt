@@ -1,3 +1,7 @@
 package com.wap.wapp.core.data.repository.event
 
-interface EventRepository
+import com.wap.wapp.core.model.event.Event
+
+interface EventRepository {
+    suspend fun getNowMonthEvents(): Result<List<Event>>
+}
