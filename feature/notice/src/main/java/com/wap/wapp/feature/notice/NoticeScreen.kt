@@ -40,9 +40,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.model.event.Notice
+import com.wap.wapp.core.model.event.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,28 +142,28 @@ private fun BottomSheetContent(expandableHeight: Dp) {
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
-        NoticeList(getDummyNotices())
+        NoticeList(getDummyEvents())
     }
 }
 
 @Composable
-private fun NoticeList(notices: List<com.wap.wapp.core.model.event.Notice>) {
+private fun NoticeList(events: List<Event>) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxWidth(),
     ) {
         itemsIndexed(
-            items = notices,
-            key = { _, notice -> notice.title },
+            items = events,
+            key = { _, event -> event.title },
         ) { _, notice ->
-            NoticeItem(notice = notice)
+            EventItem(event = notice)
         }
     }
 }
 
 @Composable
-private fun NoticeItem(notice: com.wap.wapp.core.model.event.Notice) {
+private fun EventItem(event: Event) {
     Column {
         Row(
             modifier = Modifier
@@ -172,7 +173,7 @@ private fun NoticeItem(notice: com.wap.wapp.core.model.event.Notice) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = notice.time,
+                text = event.period.toString(),
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
@@ -188,13 +189,13 @@ private fun NoticeItem(notice: com.wap.wapp.core.model.event.Notice) {
                 modifier = Modifier.padding(start = 12.dp),
             ) {
                 Text(
-                    text = notice.title,
+                    text = event.title,
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )
 
                 Text(
-                    text = notice.duration,
+                    text = event.period.toString(),
                     style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.grayBD,
                 )
@@ -223,30 +224,19 @@ private fun handleSheetState(
 }
 
 // forTest
-private fun getDummyNotices(): List<com.wap.wapp.core.model.event.Notice> = listOf(
-    com.wap.wapp.core.model.event.Notice(
-        time = "19:00",
-        title = "동아리 MT",
-        duration = "19:00 ~ 21:00",
+private fun getDummyEvents(): List<Event> = listOf(
+    Event(
+        content = "",
+        eventId = 1,
+        location = "부산",
+        period = LocalDateTime.now(),
+        title = "맛있는 반찬",
     ),
-    com.wap.wapp.core.model.event.Notice(
-        time = "19:00",
-        title = "동아리 MT2",
-        duration = "19:00 ~ 21:00",
-    ),
-    com.wap.wapp.core.model.event.Notice(
-        time = "19:00",
-        title = "동아리 MT3",
-        duration = "19:00 ~ 21:00",
-    ),
-    com.wap.wapp.core.model.event.Notice(
-        time = "19:00",
-        title = "동아리 MT4",
-        duration = "19:00 ~ 21:00",
-    ),
-    com.wap.wapp.core.model.event.Notice(
-        time = "19:00",
-        title = "동아리 MT5",
-        duration = "19:00 ~ 21:00",
+    Event(
+        content = "",
+        eventId = 1,
+        location = "부산",
+        period = LocalDateTime.now(),
+        title = "맛있는 반찬",
     ),
 )
