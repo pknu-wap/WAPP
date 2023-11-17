@@ -44,6 +44,7 @@ import com.wap.wapp.core.model.event.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +61,6 @@ internal fun NoticeScreen(
             skipHiddenState = true,
         ),
     )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -142,12 +142,12 @@ private fun BottomSheetContent(expandableHeight: Dp) {
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
-        NoticeList(getDummyEvents())
+        EventsList(getDummyEvents())
     }
 }
 
 @Composable
-private fun NoticeList(events: List<Event>) {
+private fun EventsList(events: List<Event>) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -155,15 +155,16 @@ private fun NoticeList(events: List<Event>) {
     ) {
         itemsIndexed(
             items = events,
-            key = { _, event -> event.title },
-        ) { _, notice ->
-            EventItem(event = notice)
+            key = { _, event -> event.id },
+        ) { _, event ->
+            EventItem(event = event)
         }
     }
 }
 
 @Composable
 private fun EventItem(event: Event) {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
     Column {
         Row(
             modifier = Modifier
@@ -173,7 +174,7 @@ private fun EventItem(event: Event) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = event.period.toString(),
+                text = formatter.format(event.period),
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
@@ -189,13 +190,13 @@ private fun EventItem(event: Event) {
                 modifier = Modifier.padding(start = 12.dp),
             ) {
                 Text(
-                    text = event.title,
+                    text = event.id,
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )
 
                 Text(
-                    text = event.period.toString(),
+                    text = formatter.format(event.period),
                     style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.grayBD,
                 )
@@ -230,13 +231,13 @@ private fun getDummyEvents(): List<Event> = listOf(
         eventId = 1,
         location = "부산",
         period = LocalDateTime.now(),
-        title = "맛있는 반찬",
+        id = "맛있는 반찬",
     ),
     Event(
         content = "",
-        eventId = 1,
+        eventId = 2,
         location = "부산",
         period = LocalDateTime.now(),
-        title = "맛있는 반찬",
+        id = "맛있는 반찬2",
     ),
 )

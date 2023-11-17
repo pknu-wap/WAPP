@@ -15,7 +15,7 @@ data class EventResponse(
         content = content,
         eventId = eventId,
         location = location,
-        title = title,
+        id = title,
         period = LocalDateTime.parse(
             this.period,
             DateTimeFormatter.ISO_LOCAL_DATE_TIME,
