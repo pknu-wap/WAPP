@@ -24,6 +24,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +44,6 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +53,8 @@ internal fun NoticeScreen(
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
+    val events by viewModel.events.collectAsState()
+
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
@@ -61,6 +63,7 @@ internal fun NoticeScreen(
             skipHiddenState = true,
         ),
     )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +73,7 @@ internal fun NoticeScreen(
             scaffoldState = scaffoldState,
             sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
-            sheetContent = { BottomSheetContent(expandableHeight) },
+            sheetContent = { BottomSheetContent(expandableHeight, events) },
         ) {
             Column(
                 modifier = Modifier
@@ -131,7 +134,7 @@ internal fun NoticeScreen(
 }
 
 @Composable
-private fun BottomSheetContent(expandableHeight: Dp) {
+private fun BottomSheetContent(expandableHeight: Dp, events: NoticeViewModel.EventsState) {
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.height(expandableHeight),
@@ -142,7 +145,12 @@ private fun BottomSheetContent(expandableHeight: Dp) {
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
-        EventsList(getDummyEvents())
+
+        when (events) {
+            is NoticeViewModel.EventsState.Loading -> Unit // toDo ex) Lottie..
+            is NoticeViewModel.EventsState.Success -> { EventsList(events.events) }
+            is NoticeViewModel.EventsState.Failure -> Unit
+        }
     }
 }
 
@@ -164,7 +172,7 @@ private fun EventsList(events: List<Event>) {
 
 @Composable
 private fun EventItem(event: Event) {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
+    val formatter = DateTimeFormatter.ofPattern("MM-dd")
     Column {
         Row(
             modifier = Modifier
@@ -223,21 +231,3 @@ private fun handleSheetState(
         }
     }
 }
-
-// forTest
-private fun getDummyEvents(): List<Event> = listOf(
-    Event(
-        content = "",
-        eventId = 1,
-        location = "부산",
-        period = LocalDateTime.now(),
-        id = "맛있는 반찬",
-    ),
-    Event(
-        content = "",
-        eventId = 2,
-        location = "부산",
-        period = LocalDateTime.now(),
-        id = "맛있는 반찬2",
-    ),
-)

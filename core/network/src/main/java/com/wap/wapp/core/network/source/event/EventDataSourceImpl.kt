@@ -13,12 +13,11 @@ class EventDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : EventDataSource {
     override suspend fun getNowMonthEvents(): Result<List<EventResponse>> = runCatching {
-        val nowMonth = getNowMonth()
         val result = mutableListOf<EventResponse>()
 
         val task = firebaseFirestore.collection(EVENT_COLLECTION)
-            .whereGreaterThanOrEqualTo("period", nowMonth)
-            .whereLessThanOrEqualTo("period", nowMonth + "~")
+            .document(getNowMonth())
+            .collection(EVENT_COLLECTION)
             .get()
             .await()
 
@@ -27,13 +26,14 @@ class EventDataSourceImpl @Inject constructor(
             checkNotNull(event)
             result.add(event)
         }
+
         result
     }
 
     private fun getNowMonth(): String {
-        val nowTime = LocalDateTime.now()
-        // 2023-11 형식 포맷
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
+        val nowTime = LocalDateTime.now()
+
         return nowTime.format(formatter)
     }
 }

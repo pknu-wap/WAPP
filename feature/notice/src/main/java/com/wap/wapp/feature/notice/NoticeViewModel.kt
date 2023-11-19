@@ -22,8 +22,12 @@ class NoticeViewModel @Inject constructor(
     private val _signUpEventFlow = MutableSharedFlow<NoticeEvent>()
     val signUpEventFlow: SharedFlow<NoticeEvent> = _signUpEventFlow.asSharedFlow()
 
-    private val _events = MutableStateFlow<EventsState>(EventsState.Init)
+    private val _events = MutableStateFlow<EventsState>(EventsState.Loading)
     val events: StateFlow<EventsState> = _events.asStateFlow()
+
+    init {
+        getNowMonthEvents()
+    }
 
     fun event(event: NoticeEvent) = viewModelScope.launch { _signUpEventFlow.emit(event) }
 
@@ -40,7 +44,6 @@ class NoticeViewModel @Inject constructor(
     sealed class NoticeEvent
 
     sealed class EventsState {
-        data object Init : EventsState()
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
         data class Failure(val throwable: Throwable) : EventsState()
