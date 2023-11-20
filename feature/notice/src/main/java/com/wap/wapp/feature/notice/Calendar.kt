@@ -15,4 +15,10 @@ class Calendar @Inject constructor() {
 
         return formatter.format(date) to dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
     }
+
+    companion object {
+        const val YEAR_MONTH_START_INDEX = 0
+        const val YEAR_MONTH_END_INDEX = 7
+        const val MONTH_DATE_START_INDEX = 5
+    }
 }

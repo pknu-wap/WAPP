@@ -40,6 +40,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.notice.Calendar.Companion.MONTH_DATE_START_INDEX
+import com.wap.wapp.feature.notice.Calendar.Companion.YEAR_MONTH_END_INDEX
+import com.wap.wapp.feature.notice.Calendar.Companion.YEAR_MONTH_START_INDEX
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -120,7 +123,10 @@ internal fun NoticeScreen(
                             .padding(start = 16.dp),
                     )
                     Text(
-                        text = dateAndDayOfWeek.first.substring(0, 7),
+                        text = dateAndDayOfWeek.first.substring(
+                            YEAR_MONTH_START_INDEX,
+                            YEAR_MONTH_END_INDEX,
+                        ),
                         style = WappTheme.typography.titleBold,
                         color = WappTheme.colors.white,
                         modifier = Modifier.padding(start = 10.dp),
@@ -154,7 +160,7 @@ private fun BottomSheetContent(
         modifier = Modifier.height(expandableHeight),
     ) {
         Text(
-            text = "${date.substring(5)} $dayOfWeek",
+            text = "${date.substring(MONTH_DATE_START_INDEX)} $dayOfWeek",
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
