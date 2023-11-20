@@ -1,0 +1,18 @@
+package com.wap.wapp.feature.notice
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
+import javax.inject.Inject
+
+class Calendar @Inject constructor() {
+
+    // 현재 시간을 Pair<2023-11-20, "월요일"> 과 같은 쌍으로 반환합니다.
+    fun generateNowDateAndDay(date: LocalDate = LocalDate.now()): Pair<String, String> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val dayOfWeek = date.dayOfWeek
+
+        return formatter.format(date) to dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
+    }
+}

@@ -48,10 +48,10 @@ import java.time.format.DateTimeFormatter
 @Composable
 internal fun NoticeScreen(
     events: NoticeViewModel.EventsState,
+    dateAndDayOfWeek: Pair<String, String>,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
-
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
@@ -70,7 +70,13 @@ internal fun NoticeScreen(
             scaffoldState = scaffoldState,
             sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
-            sheetContent = { BottomSheetContent(expandableHeight, events) },
+            sheetContent = {
+                BottomSheetContent(
+                    expandableHeight,
+                    events,
+                    dateAndDayOfWeek,
+                )
+            },
         ) {
             Column(
                 modifier = Modifier
@@ -110,7 +116,7 @@ internal fun NoticeScreen(
                             .padding(start = 16.dp),
                     )
                     Text(
-                        text = "2023. 10",
+                        text = dateAndDayOfWeek.first.substring(0, 7),
                         style = WappTheme.typography.titleBold,
                         color = WappTheme.colors.white,
                         modifier = Modifier.padding(start = 10.dp),
@@ -131,25 +137,29 @@ internal fun NoticeScreen(
 }
 
 @Composable
-private fun BottomSheetContent(expandableHeight: Dp, events: NoticeViewModel.EventsState) {
+private fun BottomSheetContent(
+    expandableHeight: Dp,
+    events: EventsState,
+    dateAndDayOfWeek: Pair<String, String>,
+) {
+    val date = dateAndDayOfWeek.first
+    val dayOfWeek = dateAndDayOfWeek.second
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.height(expandableHeight),
     ) {
         Text(
-            text = "10.25 수요일",
+            text = "${date.substring(5)} $dayOfWeek",
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
 
         when (events) {
-            is NoticeViewModel.EventsState.Loading -> Unit // toDo ex) Lottie..
-            is NoticeViewModel.EventsState.Success -> {
-                EventsList(events.events)
-            }
-
-            is NoticeViewModel.EventsState.Failure -> Unit
+            is EventsState.Loading -> Unit // toDo ex) Lottie..
+            is EventsState.Success -> EventsList(events.events)
+            is EventsState.Failure -> Unit
         }
     }
 }
