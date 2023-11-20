@@ -1,8 +1,6 @@
 package com.wap.wapp.feature.notice
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,20 +30,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
-import com.wap.wapp.feature.notice.DateUtil.Companion.YEAR_MONTH_END_INDEX
-import com.wap.wapp.feature.notice.DateUtil.Companion.YEAR_MONTH_START_INDEX
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,8 +73,11 @@ internal fun NoticeScreen(
                 )
             },
         ) {
-            Column(
-                modifier = Modifier
+            Calendar(
+                coroutineScope = coroutineScope,
+                bottomSheetState = scaffoldState.bottomSheetState,
+                dateAndDayOfWeek = dateAndDayOfWeek,
+                measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
                     .layout { measurable, constraints ->
@@ -94,54 +88,18 @@ internal fun NoticeScreen(
                             placeable.placeRelative(0, 0)
                         }
                     },
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .layout { measurable, constraints ->
-                            val placeable = measurable.measure(constraints)
-                            expandableHeight =
-                                constraints.maxHeight.toDp() - (placeable.height.toDp() * 2)
-                            layout(placeable.width, placeable.height) {
-                                placeable.placeRelative(0, 0)
-                            }
+                measureExpandableModifier = Modifier
+                    .layout { measurable, constraints ->
+                        val placeable = measurable.measure(constraints)
+                        expandableHeight =
+                            constraints.maxHeight.toDp() - (placeable.height.toDp() * 2)
+                        layout(placeable.width, placeable.height) {
+                            placeable.placeRelative(0, 0)
                         }
-                        .padding(vertical = 10.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_threelines),
-                        contentDescription =
-                        stringResource(R.string.calendarToggleImageContextDescription),
-                        modifier = Modifier
-                            .clickable {
-                                toggleBottomSheetState(
-                                    coroutineScope,
-                                    scaffoldState.bottomSheetState,
-                                )
-                            }
-                            .padding(start = 16.dp),
-                    )
-                    Text(
-                        text = dateAndDayOfWeek.first.substring(
-                            YEAR_MONTH_START_INDEX,
-                            YEAR_MONTH_END_INDEX,
-                        ),
-                        style = WappTheme.typography.titleBold,
-                        color = WappTheme.colors.white,
-                        modifier = Modifier.padding(start = 10.dp),
-                    )
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.ic_calendar),
-                    contentDescription = stringResource(id = R.string.calendarContextDescription),
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                        .fillMaxWidth(),
-                )
-            }
+                    }
+                    .padding(vertical = 10.dp)
+                    .fillMaxWidth(),
+            )
         }
     }
 }
@@ -225,7 +183,6 @@ private fun EventItem(event: Event) {
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )
-
                 Text(
                     text = formatter.format(event.period),
                     style = WappTheme.typography.captionRegular,
@@ -238,17 +195,5 @@ private fun EventItem(event: Event) {
             thickness = (0.5).dp,
             modifier = Modifier.padding(top = 15.dp),
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-private fun toggleBottomSheetState(
-    coroutineScope: CoroutineScope,
-    sheetState: SheetState,
-) = coroutineScope.launch {
-    when (sheetState.currentValue) {
-        SheetValue.Expanded -> sheetState.partialExpand()
-        SheetValue.PartiallyExpanded -> sheetState.expand()
-        SheetValue.Hidden -> sheetState.expand()
     }
 }
