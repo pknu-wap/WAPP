@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
@@ -47,7 +48,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoticeScreen(
-    events: NoticeViewModel.EventsState,
+    events: EventsState,
     dateAndDayOfWeek: Pair<String, String>,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
