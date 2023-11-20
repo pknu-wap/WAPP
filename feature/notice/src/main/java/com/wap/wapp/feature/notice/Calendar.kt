@@ -33,34 +33,12 @@ fun Calendar(
     Column(
         modifier = measureDefaultModifier,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = measureExpandableModifier,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_threelines),
-                contentDescription =
-                stringResource(R.string.calendarToggleImageContextDescription),
-                modifier = Modifier
-                    .clickable {
-                        toggleBottomSheetState(
-                            coroutineScope,
-                            bottomSheetState,
-                        )
-                    }
-                    .padding(start = 16.dp),
-            )
-            Text(
-                text = dateAndDayOfWeek.first.substring(
-                    DateUtil.YEAR_MONTH_START_INDEX,
-                    DateUtil.YEAR_MONTH_END_INDEX,
-                ),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-                modifier = Modifier.padding(start = 10.dp),
-            )
-        }
-
+        CalendarHeader(
+            coroutineScope = coroutineScope,
+            bottomSheetState = bottomSheetState,
+            dateAndDayOfWeek = dateAndDayOfWeek,
+            measureExpandableModifier = measureExpandableModifier,
+        )
         Image(
             painter = painterResource(id = R.drawable.ic_calendar),
             contentDescription = stringResource(id = R.string.calendarContextDescription),
@@ -70,6 +48,41 @@ fun Calendar(
                 .fillMaxWidth(),
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CalendarHeader(
+    coroutineScope: CoroutineScope,
+    bottomSheetState: SheetState,
+    dateAndDayOfWeek: Pair<String, String>,
+    measureExpandableModifier: Modifier,
+) = Row(
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = measureExpandableModifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.ic_threelines),
+        contentDescription =
+        stringResource(R.string.calendarToggleImageContextDescription),
+        modifier = Modifier
+            .clickable {
+                toggleBottomSheetState(
+                    coroutineScope,
+                    bottomSheetState,
+                )
+            }
+            .padding(start = 16.dp),
+    )
+    Text(
+        text = dateAndDayOfWeek.first.substring(
+            DateUtil.YEAR_MONTH_START_INDEX,
+            DateUtil.YEAR_MONTH_END_INDEX,
+        ),
+        style = WappTheme.typography.titleBold,
+        color = WappTheme.colors.white,
+        modifier = Modifier.padding(start = 10.dp),
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
