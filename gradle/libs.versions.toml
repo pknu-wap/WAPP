@@ -40,6 +40,9 @@ ktlint-gradle = "11.3.1"
 
 hilt = "2.48"
 
+lottie-compose = "6.2.0"
+
+
 [libraries]
 android-build = { module = "com.android.tools.build:gradle", version.ref = "gradleplugin" }
 kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -90,6 +93,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie-compose" }
 
 [bundles]
 androidx = [

@@ -1,5 +1,6 @@
 package com.wap.wapp.core.network.source.event
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
@@ -13,6 +14,8 @@ class EventDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : EventDataSource {
     override suspend fun getNowMonthEvents(): Result<List<EventResponse>> = runCatching {
+        Log.d("test", "EventDataSourceImpl : 진입")
+
         val result = mutableListOf<EventResponse>()
 
         val task = firebaseFirestore.collection(EVENT_COLLECTION)
@@ -21,11 +24,15 @@ class EventDataSourceImpl @Inject constructor(
             .get()
             .await()
 
+        Log.d("test", "EventDataSourceImpl : task : $task")
+
         for (document in task.documents) {
             val event = document.toObject<EventResponse>()
             checkNotNull(event)
             result.add(event)
         }
+
+        Log.d("test", "EventDataSourceImpl : result : $result")
 
         result
     }

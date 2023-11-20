@@ -1,6 +1,7 @@
 package com.wap.wapp.feature.notice
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,8 @@ class NoticeFragment : Fragment() {
 
         composeView.setContent {
             val events by viewModel.events.collectAsState()
+            Log.d("test", "NoticeFragment : $events")
+
             val dateAndDayOfWeek = calendar.generateNowDateAndDay()
             WappTheme {
                 NoticeScreen(events, dateAndDayOfWeek)

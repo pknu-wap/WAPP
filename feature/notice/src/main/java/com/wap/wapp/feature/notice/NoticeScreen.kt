@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.notice
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -167,6 +168,7 @@ private fun BottomSheetContent(
 
 @Composable
 private fun EventsList(events: List<Event>) {
+    Log.d("test", "NoticeScreen : EventsList : $events")
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
