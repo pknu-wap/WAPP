@@ -38,8 +38,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
 import kotlinx.coroutines.CoroutineScope
@@ -49,11 +47,10 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoticeScreen(
-    viewModel: NoticeViewModel = hiltViewModel(),
+    events: NoticeViewModel.EventsState,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
-    val events by viewModel.events.collectAsStateWithLifecycle()
 
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
