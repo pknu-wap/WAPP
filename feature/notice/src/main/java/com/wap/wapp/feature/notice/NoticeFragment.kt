@@ -21,7 +21,7 @@ class NoticeFragment : Fragment() {
     private val viewModel: NoticeViewModel by viewModels()
 
     @Inject
-    lateinit var calendar: Calendar
+    lateinit var dateUtil: DateUtil
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +40,7 @@ class NoticeFragment : Fragment() {
             val events by viewModel.events.collectAsState()
             Log.d("test", "NoticeFragment : $events")
 
-            val dateAndDayOfWeek = calendar.generateNowDateAndDay()
+            val dateAndDayOfWeek = dateUtil.generateNowDateAndDay()
             WappTheme {
                 NoticeScreen(events, dateAndDayOfWeek)
             }

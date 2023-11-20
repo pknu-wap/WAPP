@@ -40,9 +40,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.notice.Calendar.Companion.MONTH_DATE_START_INDEX
-import com.wap.wapp.feature.notice.Calendar.Companion.YEAR_MONTH_END_INDEX
-import com.wap.wapp.feature.notice.Calendar.Companion.YEAR_MONTH_START_INDEX
+import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
+import com.wap.wapp.feature.notice.DateUtil.Companion.YEAR_MONTH_END_INDEX
+import com.wap.wapp.feature.notice.DateUtil.Companion.YEAR_MONTH_START_INDEX
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
