@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.notice
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.usecase.event.GetEventsUseCase
@@ -33,14 +32,12 @@ class NoticeViewModel @Inject constructor(
     fun event(event: NoticeEvent) = viewModelScope.launch { _signUpEventFlow.emit(event) }
 
     fun getNowMonthEvents() {
-        Log.d("test", "NoticeViewModel : $events")
         _events.value = EventsState.Loading
         viewModelScope.launch {
             getEventsUseCase().fold(
                 onSuccess = { _events.value = EventsState.Success(it) },
                 onFailure = { _events.value = EventsState.Failure(it) },
             )
-            Log.d("test", "NoticeViewModel : $events")
         }
     }
 

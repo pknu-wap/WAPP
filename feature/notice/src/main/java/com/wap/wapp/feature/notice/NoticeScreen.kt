@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.notice
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -113,7 +112,10 @@ internal fun NoticeScreen(
                         stringResource(R.string.calendarToggleImageContextDescription),
                         modifier = Modifier
                             .clickable {
-                                handleSheetState(coroutineScope, scaffoldState.bottomSheetState)
+                                toggleBottomSheetState(
+                                    coroutineScope,
+                                    scaffoldState.bottomSheetState,
+                                )
                             }
                             .padding(start = 16.dp),
                     )
@@ -157,18 +159,20 @@ private fun BottomSheetContent(
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
-
-        when (events) {
-            is EventsState.Loading -> Unit // toDo ex) Lottie..
-            is EventsState.Success -> EventsList(events.events)
-            is EventsState.Failure -> Unit
-        }
+        HandleEventsState(events = events)
     }
 }
 
 @Composable
+private fun HandleEventsState(events: EventsState) =
+    when (events) {
+        is EventsState.Loading -> Loader()
+        is EventsState.Success -> EventsList(events.events)
+        is EventsState.Failure -> Unit
+    }
+
+@Composable
 private fun EventsList(events: List<Event>) {
-    Log.d("test", "NoticeScreen : EventsList : $events")
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -232,7 +236,7 @@ private fun EventItem(event: Event) {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-private fun handleSheetState(
+private fun toggleBottomSheetState(
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
 ) = coroutineScope.launch {
