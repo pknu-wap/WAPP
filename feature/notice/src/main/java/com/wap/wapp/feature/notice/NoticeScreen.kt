@@ -148,7 +148,10 @@ private fun BottomSheetContent(expandableHeight: Dp, events: NoticeViewModel.Eve
 
         when (events) {
             is NoticeViewModel.EventsState.Loading -> Unit // toDo ex) Lottie..
-            is NoticeViewModel.EventsState.Success -> { EventsList(events.events) }
+            is NoticeViewModel.EventsState.Success -> {
+                EventsList(events.events)
+            }
+
             is NoticeViewModel.EventsState.Failure -> Unit
         }
     }
@@ -222,12 +225,10 @@ private fun EventItem(event: Event) {
 private fun handleSheetState(
     coroutineScope: CoroutineScope,
     sheetState: SheetState,
-) {
-    coroutineScope.launch {
-        when (sheetState.currentValue) {
-            SheetValue.Expanded -> sheetState.partialExpand()
-            SheetValue.PartiallyExpanded -> sheetState.expand()
-            SheetValue.Hidden -> sheetState.expand()
-        }
+) = coroutineScope.launch {
+    when (sheetState.currentValue) {
+        SheetValue.Expanded -> sheetState.partialExpand()
+        SheetValue.PartiallyExpanded -> sheetState.expand()
+        SheetValue.Hidden -> sheetState.expand()
     }
 }
