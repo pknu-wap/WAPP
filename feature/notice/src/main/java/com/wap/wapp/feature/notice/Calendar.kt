@@ -37,8 +37,9 @@ fun Calendar(
             coroutineScope = coroutineScope,
             bottomSheetState = bottomSheetState,
             dateAndDayOfWeek = dateAndDayOfWeek,
-            measureExpandableModifier = measureExpandableModifier,
+            modifier = measureExpandableModifier,
         )
+        CalendarBody()
         Image(
             painter = painterResource(id = R.drawable.ic_calendar),
             contentDescription = stringResource(id = R.string.calendarContextDescription),
@@ -56,10 +57,10 @@ fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     dateAndDayOfWeek: Pair<String, String>,
-    measureExpandableModifier: Modifier,
+    modifier: Modifier,
 ) = Row(
     verticalAlignment = Alignment.CenterVertically,
-    modifier = measureExpandableModifier,
+    modifier = modifier,
 ) {
     Image(
         painter = painterResource(id = R.drawable.ic_threelines),
@@ -84,6 +85,9 @@ fun CalendarHeader(
         modifier = Modifier.padding(start = 10.dp),
     )
 }
+
+@Composable
+fun CalendarBody() {}
 
 @OptIn(ExperimentalMaterial3Api::class)
 private fun toggleBottomSheetState(
