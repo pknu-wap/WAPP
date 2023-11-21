@@ -23,6 +23,7 @@ class DateUtil @Inject constructor() {
         const val YEAR_MONTH_START_INDEX = 0
         const val YEAR_MONTH_END_INDEX = 7
         const val MONTH_DATE_START_INDEX = 5
+        const val DAYS_IN_WEEK = 7
     }
 
     enum class DaysOfWeek(val displayName: String) {

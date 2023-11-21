@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.notice
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.feature.notice.DateUtil.Companion.DAYS_IN_WEEK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -144,8 +144,6 @@ fun CalendarMonthItem(
     val firstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
     val days: List<Int> = (1..lastDay).toList()
 
-    Log.d("test", selectedDate.toString())
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(7),
         modifier = Modifier.fillMaxWidth(),
@@ -157,7 +155,7 @@ fun CalendarMonthItem(
         items(IntRange(beforeMonthLastDay - beforeMonthDate, beforeMonthLastDay).toList()) { idx ->
             CalendarDayText(
                 text = idx.toString(),
-                color = when ((idx + 1) % 7) {
+                color = when ((idx + 1) % DAYS_IN_WEEK) {
                     1 -> Color.Red
                     0 -> Color.Blue
                     else -> Color.White
@@ -176,7 +174,7 @@ fun CalendarMonthItem(
 
             CalendarDayText(
                 text = formatter.format(date),
-                color = when (((day + firstDayOfWeek.value + 1)) % 7) {
+                color = when (((day + firstDayOfWeek.value + 1)) % DAYS_IN_WEEK) {
                     1 -> Color.Red
                     0 -> Color.Blue
                     else -> Color.White
@@ -190,12 +188,12 @@ fun CalendarMonthItem(
             )
         }
 
-        val remainingDays = 7 - ((beforeMonthDate + 1 + days.size) % 7)
+        val remainingDays = 7 - ((beforeMonthDate + 1 + days.size) % DAYS_IN_WEEK)
 
         items(IntRange(1, remainingDays).toList()) { idx ->
             CalendarDayText(
                 text = idx.toString(),
-                color = when ((beforeMonthDate + days.size + idx + 1) % 7) {
+                color = when ((beforeMonthDate + days.size + idx + 1) % DAYS_IN_WEEK) {
                     1 -> Color.Red
                     0 -> Color.Blue
                     else -> Color.White
