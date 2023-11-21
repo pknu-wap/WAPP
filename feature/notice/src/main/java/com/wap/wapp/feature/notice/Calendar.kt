@@ -140,30 +140,28 @@ fun CalendarMonthItem(
     eventDates: List<LocalDate>,
     selectedDate: LocalDate,
 ) {
-    val lastDay = currentDate.lengthOfMonth()
-    val firstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
-    val days: List<Int> = (1..lastDay).toList()
-
     LazyVerticalGrid(
-        columns = GridCells.Fixed(7),
+        columns = GridCells.Fixed(DAYS_IN_WEEK),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        val beforeMonthDate = calculateBeforeMonthDate(currentDate)
-        val beforeMonth = currentDate.minusMonths(1)
-        val beforeMonthLastDay = beforeMonth.lengthOfMonth()
+        val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(currentDate)
+        val beforeMonthDaysToShow = generateBeforeMonthDaysToShow(
+            visibleDaysFromLastMonth,
+            currentDate,
+        )
 
-        items(IntRange(beforeMonthLastDay - beforeMonthDate, beforeMonthLastDay).toList()) { idx ->
+        items(beforeMonthDaysToShow) { day ->
             CalendarDayText(
-                text = idx.toString(),
-                color = when ((idx + 1) % DAYS_IN_WEEK) {
-                    1 -> Color.Red
-                    0 -> Color.Blue
-                    else -> Color.White
-                }.copy(alpha = 0.3F),
+                text = (day - 1).toString(),
+                color = getDayColor(day).copy(alpha = ALPHA_DIM),
             )
         }
 
-        items(days) { day ->
+        val thisMonthLastDate = currentDate.lengthOfMonth()
+        val thisMonthFirstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
+        val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
+
+        items(thisMonthDaysToShow) { day ->
             val date = currentDate.withDayOfMonth(day)
             val formatter = DateTimeFormatter.ofPattern("dd")
             val nowDate = LocalDate.of(
@@ -172,42 +170,50 @@ fun CalendarMonthItem(
                 day,
             )
 
+            val isEvent = nowDate in eventDates
+            val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
                 text = formatter.format(date),
-                color = when (((day + firstDayOfWeek.value + 1)) % DAYS_IN_WEEK) {
-                    1 -> Color.Red
-                    0 -> Color.Blue
-                    else -> Color.White
-                },
-                isEvent = if (nowDate in eventDates) {
-                    true
-                } else {
-                    false
-                },
-                isSelect = (day == selectedDate.dayOfMonth),
+                color = getDayColor(day + thisMonthFirstDayOfWeek.value),
+                isEvent = isEvent,
+                isSelected = isSelected,
             )
         }
 
-        val remainingDays = 7 - ((beforeMonthDate + 1 + days.size) % DAYS_IN_WEEK)
-
-        items(IntRange(1, remainingDays).toList()) { idx ->
+        val remainingDays =
+            DAYS_IN_WEEK - ((visibleDaysFromLastMonth + thisMonthDaysToShow.size) % DAYS_IN_WEEK)
+        val nextMonthDaysToShow = IntRange(1, remainingDays).toList()
+        items(nextMonthDaysToShow) { day ->
             CalendarDayText(
-                text = idx.toString(),
-                color = when ((beforeMonthDate + days.size + idx + 1) % DAYS_IN_WEEK) {
-                    1 -> Color.Red
-                    0 -> Color.Blue
-                    else -> Color.White
-                }.copy(alpha = 0.3F),
+                text = (day - 1).toString(),
+                color = getDayColor(day = visibleDaysFromLastMonth + thisMonthDaysToShow.size + day)
+                    .copy(alpha = ALPHA_DIM),
             )
         }
     }
 }
 
 @Composable
+fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
+    SUNDAY -> Color.Red
+    SATURDAY -> Color.Blue
+    else -> Color.White
+}
+
+private fun generateBeforeMonthDaysToShow(
+    visibleDaysFromLastMonth: Int,
+    currentDate: LocalDate,
+): List<Int> {
+    val beforeMonth = currentDate.minusMonths(1)
+    val beforeMonthLastDay = beforeMonth.lengthOfMonth() - 1
+    return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth, beforeMonthLastDay).toList()
+}
+
+@Composable
 fun CalendarDayText(
     text: String,
     color: Color,
-    isSelect: Boolean = false,
+    isSelected: Boolean = false,
     isEvent: Boolean = false,
     onClick: (Unit) -> Unit = {},
     modifier: Modifier = Modifier,
@@ -217,41 +223,39 @@ fun CalendarDayText(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            modifier = if (isSelect) {
-                Modifier
-                    .padding(horizontal = 15.dp, vertical = 8.dp)
-                    .aspectRatio(1f)
-                    .background(Color.White, shape = CircleShape)
-            } else {
-                Modifier
-                    .padding(horizontal = 15.dp, vertical = 8.dp)
-                    .aspectRatio(1f)
-            },
             contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(horizontal = 15.dp, vertical = 8.dp)
+                .aspectRatio(1f)
+                .apply {
+                    if (isSelected) {
+                        background(Color.White, shape = CircleShape)
+                    }
+                },
         ) {
             Text(
                 text = text,
-                color = if (isSelect && color == Color.White) Color.Black else color,
+                color = if (isSelected && color == Color.White) Color.Black else color,
                 textAlign = TextAlign.Center,
                 modifier = modifier,
             )
         }
 
-        if (isEvent) {
-            Box(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(5.dp)
-                    .aspectRatio(1f)
-                    .background(Color.Red, shape = CircleShape),
-            )
-        } else {
-            Box(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(5.dp),
-            )
-        }
+        val eventBoxModifierBase = Modifier
+            .padding(top = 5.dp)
+            .size(5.dp)
+
+        Box(
+            modifier = eventBoxModifierBase.apply {
+                if (isEvent) {
+                    aspectRatio(1f)
+                    background(
+                        color = Color.Red,
+                        shape = CircleShape,
+                    )
+                }
+            },
+        )
     }
 }
 
@@ -267,15 +271,20 @@ private fun toggleBottomSheetState(
     }
 }
 
-private fun calculateBeforeMonthDate(currentDate: LocalDate): Int {
+private fun calculateVisibleDaysFromLastMonth(currentDate: LocalDate): Int {
     val firstDayOfWeek: DayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
-    var count = 0
 
+    var count = 0
     for (day in DateUtil.DaysOfWeek.values()) {
         if (day.name == firstDayOfWeek.getDisplayName(TextStyle.FULL, Locale.US).uppercase()) {
             break
         }
         count += 1
     }
+
     return count
 }
+
+private const val ALPHA_DIM = 0.3F
+private const val SUNDAY = 0
+private const val SATURDAY = 6
