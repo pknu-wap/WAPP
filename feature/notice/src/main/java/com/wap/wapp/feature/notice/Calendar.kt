@@ -32,7 +32,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -144,12 +143,12 @@ fun CalendarMonthItem(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
         modifier = Modifier.fillMaxWidth(),
     ) {
+        // 이전 달
         val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(currentDate)
         val beforeMonthDaysToShow = generateBeforeMonthDaysToShow(
             visibleDaysFromLastMonth,
             currentDate,
         )
-
         items(beforeMonthDaysToShow) { day ->
             CalendarDayText(
                 text = (day - 1).toString(),
@@ -157,29 +156,28 @@ fun CalendarMonthItem(
             )
         }
 
+        // 이번 달
         val thisMonthLastDate = currentDate.lengthOfMonth()
         val thisMonthFirstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
         val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
-
         items(thisMonthDaysToShow) { day ->
             val date = currentDate.withDayOfMonth(day)
-            val formatter = DateTimeFormatter.ofPattern("dd")
-            val nowDate = LocalDate.of(
+            val currentLocalDate = LocalDate.of(
                 LocalDate.now().year,
                 LocalDate.now().month,
                 day,
             )
-
-            val isEvent = nowDate in eventDates
+            val isEvent = currentLocalDate in eventDates
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
-                text = formatter.format(date),
+                text = DateUtil.ddFormatter.format(date),
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value),
                 isEvent = isEvent,
                 isSelected = isSelected,
             )
         }
 
+        // 다음 달
         val remainingDays =
             DAYS_IN_WEEK - ((visibleDaysFromLastMonth + thisMonthDaysToShow.size) % DAYS_IN_WEEK)
         val nextMonthDaysToShow = IntRange(1, remainingDays).toList()

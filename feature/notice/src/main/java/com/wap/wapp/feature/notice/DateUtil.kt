@@ -11,7 +11,7 @@ class DateUtil @Inject constructor() {
 
     private val seoulZoneId = ZoneId.of("Asia/Seoul")
 
-    // 현재 시간을 Pair<2023-11-20, "월요일"> 과 같은 쌍으로 반환합니다.
+    // 현재 날짜를 Pair<2023-11-20, "월요일"> 과 같은 쌍으로 반환합니다.
     fun generateNowDateAndDay(date: LocalDate = LocalDate.now(seoulZoneId)): Pair<String, String> {
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         val dayOfWeek = date.dayOfWeek
@@ -24,6 +24,9 @@ class DateUtil @Inject constructor() {
         const val YEAR_MONTH_END_INDEX = 7
         const val MONTH_DATE_START_INDEX = 5
         const val DAYS_IN_WEEK = 7
+
+        // 현재 날짜에서 일만 반환해주는 포맷입니다. ex 2023-11-20 -> 20
+        val ddFormatter = DateTimeFormatter.ofPattern("dd")
     }
 
     enum class DaysOfWeek(val displayName: String) {
