@@ -95,6 +95,27 @@ fun CalendarHeader(
 
 @Composable
 fun CalendarBody() {
+    DayOfWeek()
+}
+
+@Composable
+fun DayOfWeek(modifier: Modifier = Modifier) {
+    Row(modifier = modifier) {
+        DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
+            Text(
+                text = dayOfWeek.displayName,
+                textAlign = TextAlign.Center,
+                color = when (dayOfWeek) {
+                    DateUtil.DaysOfWeek.SATURDAY -> Color.Blue
+                    DateUtil.DaysOfWeek.SUNDAY -> Color.Red
+                    else -> Color.White
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 10.dp),
+            )
+        }
+    }
 }
 
 @Composable
