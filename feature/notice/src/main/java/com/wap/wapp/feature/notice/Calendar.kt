@@ -42,6 +42,9 @@ fun Calendar(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     dateAndDayOfWeek: Pair<String, String>,
+    currentDate: LocalDate,
+    eventsDate: List<LocalDate>,
+    selectedDate: LocalDate,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
 ) {
@@ -54,7 +57,11 @@ fun Calendar(
             dateAndDayOfWeek = dateAndDayOfWeek,
             modifier = measureExpandableModifier,
         )
-        CalendarBody()
+        CalendarBody(
+            currentDate = currentDate,
+            eventsDate = eventsDate,
+            selectedDate = selectedDate,
+        )
     }
 }
 
@@ -94,8 +101,17 @@ fun CalendarHeader(
 }
 
 @Composable
-fun CalendarBody() {
+fun CalendarBody(
+    currentDate: LocalDate,
+    eventsDate: List<LocalDate>,
+    selectedDate: LocalDate,
+) {
     DayOfWeek()
+    CalendarMonthItem(
+        currentDate = currentDate,
+        eventDates = eventsDate,
+        selectedDate = selectedDate,
+    )
 }
 
 @Composable
