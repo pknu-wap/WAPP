@@ -28,7 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.feature.notice.DateUtil.Companion.DAYS_IN_WEEK
+import com.wap.wapp.core.domain.util.DateUtil
+import com.wap.wapp.core.domain.util.DateUtil.Companion.DAYS_IN_WEEK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek

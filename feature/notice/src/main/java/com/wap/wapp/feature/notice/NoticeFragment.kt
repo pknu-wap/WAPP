@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.domain.util.DateUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

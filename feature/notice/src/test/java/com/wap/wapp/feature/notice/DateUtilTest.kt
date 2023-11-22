@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.notice
 
+import com.wap.wapp.core.domain.util.DateUtil
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.LocalDate

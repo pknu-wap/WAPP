@@ -35,8 +35,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.Loader
+import com.wap.wapp.core.domain.util.DateUtil
+import com.wap.wapp.core.domain.util.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

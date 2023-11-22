@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.notice
+package com.wap.wapp.core.domain.util
 
 import java.time.LocalDate
 import java.time.ZoneId
@@ -19,7 +19,7 @@ class DateUtil @Inject constructor() {
         return formatter.format(date) to dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
     }
 
-    fun generateNowDate() : LocalDate = LocalDate.now(seoulZoneId)
+    fun generateNowDate(): LocalDate = LocalDate.now(seoulZoneId)
 
     companion object {
         const val YEAR_MONTH_START_INDEX = 0
