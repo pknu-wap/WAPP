@@ -47,6 +47,7 @@ internal fun Calendar(
     monthEventsState: NoticeViewModel.EventsState,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
+    selectNewDateCallback: (LocalDate) -> Unit,
 ) {
     val date = selectedDate.format(yyyyMMddFormatter)
 
@@ -60,7 +61,11 @@ internal fun Calendar(
             modifier = measureExpandableModifier,
         )
 
-        handleMonthEventsState(monthEventsState, selectedDate)
+        handleMonthEventsState(
+            eventsState = monthEventsState,
+            selectedDate = selectedDate,
+            selectNewDateCallback = selectNewDateCallback,
+        )
     }
 }
 
@@ -103,6 +108,7 @@ private fun CalendarHeader(
 private fun handleMonthEventsState(
     eventsState: NoticeViewModel.EventsState,
     selectedDate: LocalDate,
+    selectNewDateCallback: (LocalDate) -> Unit,
 ) = when (eventsState) {
     is NoticeViewModel.EventsState.Loading -> Loader()
     is NoticeViewModel.EventsState.Success -> {
@@ -112,8 +118,10 @@ private fun handleMonthEventsState(
         CalendarBody(
             selectedDate = selectedDate,
             eventsDate = eventDates,
+            selectNewDateCallback = selectNewDateCallback,
         )
     }
+
     is NoticeViewModel.EventsState.Failure -> {}
 }
 
@@ -121,11 +129,13 @@ private fun handleMonthEventsState(
 private fun CalendarBody(
     selectedDate: LocalDate,
     eventsDate: List<LocalDate>,
+    selectNewDateCallback: (LocalDate) -> Unit,
 ) {
     DayOfWeek()
     CalendarMonthItem(
         eventDates = eventsDate,
         selectedDate = selectedDate,
+        selectNewDateCallback = selectNewDateCallback,
     )
 }
 
@@ -156,6 +166,7 @@ private fun DayOfWeek(modifier: Modifier = Modifier) {
 private fun CalendarMonthItem(
     selectedDate: LocalDate,
     eventDates: List<LocalDate>,
+    selectNewDateCallback: (LocalDate) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
@@ -183,6 +194,7 @@ private fun CalendarMonthItem(
                 LocalDate.now().month,
                 day,
             )
+
             val isEvent = (currentLocalDate in eventDates)
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
@@ -190,6 +202,7 @@ private fun CalendarMonthItem(
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value + 1),
                 isEvent = isEvent,
                 isSelected = isSelected,
+                modifier = Modifier.clickable { selectNewDateCallback(currentLocalDate) },
             )
         }
 
@@ -213,10 +226,9 @@ private fun CalendarDayText(
     color: Color,
     isSelected: Boolean = false,
     isEvent: Boolean = false,
-    onClick: (Unit) -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
-    var columnModifier = Modifier
-        .clickable { onClick }
+    var columnModifier = modifier
         .padding(
             horizontal = 10.dp,
             vertical = 5.dp,

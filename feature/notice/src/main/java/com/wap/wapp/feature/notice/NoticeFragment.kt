@@ -35,9 +35,9 @@ class NoticeFragment : Fragment() {
             val MonthEvents by viewModel.monthEvents.collectAsStateWithLifecycle()
             val selectedDateEvents by viewModel.selectedDateEvent.collectAsStateWithLifecycle()
             val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
-
+            val selectNewDateCallback = viewModel::setSelectedDate
             WappTheme {
-                NoticeScreen(MonthEvents, selectedDateEvents, selectedDate)
+                NoticeScreen(MonthEvents, selectedDateEvents, selectedDate, selectNewDateCallback)
             }
         }
     }

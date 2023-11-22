@@ -30,6 +30,7 @@ internal fun NoticeScreen(
     monthEvents: EventsState,
     selectedDateEvents: EventsState,
     selectedDate: LocalDate,
+    selectNewDateCallback: (LocalDate) -> Unit,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
@@ -64,6 +65,7 @@ internal fun NoticeScreen(
                 bottomSheetState = scaffoldState.bottomSheetState,
                 selectedDate = selectedDate,
                 monthEventsState = monthEvents,
+                selectNewDateCallback = selectNewDateCallback,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
