@@ -24,8 +24,8 @@ class NoticeViewModel @Inject constructor(
     private val _selectedDateEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val selectedDateEvent: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
 
-    private val _selectedDates = MutableStateFlow<LocalDate>(dateUtil.generateNowDate())
-    val selectedDates: StateFlow<LocalDate> = _selectedDates.asStateFlow()
+    private val _selectedDate = MutableStateFlow<LocalDate>(dateUtil.generateNowDate())
+    val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
     init {
         getMonthEvents()
@@ -35,7 +35,7 @@ class NoticeViewModel @Inject constructor(
     private fun getMonthEvents() {
         _monthEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventsUseCase(_selectedDates.value).fold(
+            getEventsUseCase(_selectedDate.value).fold(
                 onSuccess = { _monthEvents.value = EventsState.Success(it) },
                 onFailure = { _monthEvents.value = EventsState.Failure(it) },
             )
@@ -43,22 +43,16 @@ class NoticeViewModel @Inject constructor(
     }
 
     fun getSelectedDateEvents() {
-        _selectedDateEvents.value =
-            when (_monthEvents.value) {
-                is EventsState.Success ->
-                    EventsState.Success(
-                        (_monthEvents.value as EventsState.Success).events.filter {
-                            it.period == _selectedDates.value
-                        }.also {
-                            it
-                        },
-                    )
-
-                is EventsState.Failure ->
-                    EventsState.Failure((_monthEvents.value as EventsState.Failure).throwable)
-
-                is EventsState.Loading -> EventsState.Loading
-            }
+        _selectedDateEvents.value = EventsState.Loading
+        viewModelScope.launch {
+            getEventsUseCase(_selectedDate.value).fold(
+                onSuccess = {
+                    _selectedDateEvents.value =
+                        EventsState.Success(it.filter { it.period == _selectedDate.value })
+                },
+                onFailure = { _selectedDateEvents.value = EventsState.Failure(it) },
+            )
+        }
     }
 
     sealed class EventsState {

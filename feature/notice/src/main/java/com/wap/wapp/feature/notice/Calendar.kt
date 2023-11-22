@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.Loader
 import com.wap.wapp.feature.notice.DateUtil.Companion.DAYS_IN_WEEK
 import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +44,7 @@ internal fun Calendar(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     selectedDate: LocalDate,
-    eventDates: List<LocalDate>,
+    monthEventsState: NoticeViewModel.EventsState,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
 ) {
@@ -58,10 +59,8 @@ internal fun Calendar(
             date = date,
             modifier = measureExpandableModifier,
         )
-        CalendarBody(
-            selectedDate = selectedDate,
-            eventsDate = eventDates,
-        )
+
+        handleMonthEventsState(monthEventsState, selectedDate)
     }
 }
 
@@ -98,6 +97,24 @@ private fun CalendarHeader(
         color = WappTheme.colors.white,
         modifier = Modifier.padding(start = 10.dp),
     )
+}
+
+@Composable
+private fun handleMonthEventsState(
+    eventsState: NoticeViewModel.EventsState,
+    selectedDate: LocalDate,
+) = when (eventsState) {
+    is NoticeViewModel.EventsState.Loading -> Loader()
+    is NoticeViewModel.EventsState.Success -> {
+        val eventDates = eventsState.events.map {
+            it.period
+        }
+        CalendarBody(
+            selectedDate = selectedDate,
+            eventsDate = eventDates,
+        )
+    }
+    is NoticeViewModel.EventsState.Failure -> {}
 }
 
 @Composable

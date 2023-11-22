@@ -27,7 +27,8 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NoticeScreen(
-    events: EventsState,
+    monthEvents: EventsState,
+    selectedDateEvents: EventsState,
     selectedDate: LocalDate,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
@@ -53,7 +54,7 @@ internal fun NoticeScreen(
             sheetContent = {
                 BottomSheetContent(
                     expandableHeight,
-                    events,
+                    selectedDateEvents,
                     selectedDate,
                 )
             },
@@ -62,12 +63,7 @@ internal fun NoticeScreen(
                 coroutineScope = coroutineScope,
                 bottomSheetState = scaffoldState.bottomSheetState,
                 selectedDate = selectedDate,
-                eventDates = listOf(
-                    LocalDate.of(2023, 11, 22),
-                    LocalDate.of(2023, 11, 19),
-                    LocalDate.of(2023, 11, 18),
-                    LocalDate.of(2023, 11, 15),
-                ),
+                monthEventsState = monthEvents,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
