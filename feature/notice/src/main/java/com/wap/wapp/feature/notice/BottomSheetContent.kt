@@ -1,0 +1,122 @@
+package com.wap.wapp.feature.notice
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.Loader
+import com.wap.wapp.core.domain.util.DateUtil.Companion.MONTH_DATE_START_INDEX
+import com.wap.wapp.core.model.event.Event
+import java.time.format.DateTimeFormatter
+
+@Composable
+internal fun BottomSheetContent(
+    expandableHeight: Dp,
+    events: NoticeViewModel.EventsState,
+    dateAndDayOfWeek: Pair<String, String>,
+) {
+    val date = dateAndDayOfWeek.first
+    val dayOfWeek = dateAndDayOfWeek.second
+
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.height(expandableHeight),
+    ) {
+        Text(
+            text = "${date.substring(MONTH_DATE_START_INDEX)} $dayOfWeek",
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
+        )
+        HandleEventsState(events = events)
+    }
+}
+
+@Composable
+private fun HandleEventsState(events: NoticeViewModel.EventsState) =
+    when (events) {
+        is NoticeViewModel.EventsState.Loading -> Loader()
+        is NoticeViewModel.EventsState.Success -> EventsList(events.events)
+        is NoticeViewModel.EventsState.Failure -> Unit
+    }
+
+@Composable
+private fun EventsList(events: List<Event>) {
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 15.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        itemsIndexed(
+            items = events,
+            key = { _, event -> event.id },
+        ) { _, event ->
+            EventItem(event = event)
+        }
+    }
+}
+
+@Composable
+private fun EventItem(event: Event) {
+    val formatter = DateTimeFormatter.ofPattern("MM-dd")
+    Column {
+        Row(
+            modifier = Modifier
+                .background(WappTheme.colors.black25)
+                .fillMaxWidth()
+                .padding(top = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = formatter.format(event.period),
+                style = WappTheme.typography.contentBold,
+                color = WappTheme.colors.white,
+            )
+            Box(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(width = 4.dp, height = 20.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(WappTheme.colors.yellow),
+            )
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.padding(start = 12.dp),
+            ) {
+                Text(
+                    text = event.id,
+                    style = WappTheme.typography.contentRegular,
+                    color = WappTheme.colors.white,
+                )
+                Text(
+                    text = formatter.format(event.period),
+                    style = WappTheme.typography.captionRegular,
+                    color = WappTheme.colors.grayBD,
+                )
+            }
+        }
+        Divider(
+            color = WappTheme.colors.gray82,
+            thickness = (0.5).dp,
+            modifier = Modifier.padding(top = 15.dp),
+        )
+    }
+}
