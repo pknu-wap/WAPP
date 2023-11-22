@@ -28,6 +28,8 @@ import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 internal fun BottomSheetContent(
@@ -35,15 +37,18 @@ internal fun BottomSheetContent(
     events: NoticeViewModel.EventsState,
     selectedDate: LocalDate,
 ) {
-    val date = yyyyMMddFormatter.format(selectedDate)
-    val dayOfWeek = selectedDate.dayOfWeek
+    val date = yyyyMMddFormatter.format(selectedDate).substring(MONTH_DATE_START_INDEX)
+    val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(
+        TextStyle.FULL,
+        Locale.KOREAN,
+    )
 
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.height(expandableHeight),
     ) {
         Text(
-            text = "${date.substring(MONTH_DATE_START_INDEX)} $dayOfWeek",
+            text = "$date $dayOfWeek",
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
@@ -53,12 +58,11 @@ internal fun BottomSheetContent(
 }
 
 @Composable
-private fun HandleEventsState(events: NoticeViewModel.EventsState) =
-    when (events) {
-        is NoticeViewModel.EventsState.Loading -> Loader()
-        is NoticeViewModel.EventsState.Success -> EventsList(events.events)
-        is NoticeViewModel.EventsState.Failure -> Unit
-    }
+private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (events) {
+    is NoticeViewModel.EventsState.Loading -> Loader()
+    is NoticeViewModel.EventsState.Success -> EventsList(events.events)
+    is NoticeViewModel.EventsState.Failure -> Unit
+}
 
 @Composable
 private fun EventsList(events: List<Event>) {

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.feature.notice.DateUtil.Companion.DAYS_IN_WEEK
+import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -46,7 +47,7 @@ internal fun Calendar(
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
 ) {
-    val date = DateUtil.yyyyMMddFormatter.format(selectedDate)
+    val date = selectedDate.format(yyyyMMddFormatter)
 
     Column(
         modifier = measureDefaultModifier,
