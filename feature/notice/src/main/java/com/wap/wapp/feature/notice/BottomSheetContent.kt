@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
@@ -66,17 +67,26 @@ private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (event
 
 @Composable
 private fun EventsList(events: List<Event>) {
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 15.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        itemsIndexed(
-            items = events,
-            key = { _, event -> event.id },
-        ) { _, event ->
-            EventItem(event = event)
+    if (events.size > 0) {
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 15.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            itemsIndexed(
+                items = events,
+                key = { _, event -> event.id },
+            ) { _, event ->
+                EventItem(event = event)
+            }
         }
+    } else {
+        Text(
+            text = "해당 날짜에 일정이 없습니다.",
+            style = WappTheme.typography.contentBold,
+            color = WappTheme.colors.white,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
