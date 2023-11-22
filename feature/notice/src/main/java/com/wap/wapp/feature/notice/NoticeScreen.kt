@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.domain.util.DateUtil
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import java.time.LocalDate
 

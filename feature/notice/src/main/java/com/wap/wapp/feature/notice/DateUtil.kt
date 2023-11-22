@@ -1,4 +1,4 @@
-package com.wap.wapp.core.domain.util
+package com.wap.wapp.feature.notice
 
 import java.time.LocalDate
 import java.time.ZoneId
