@@ -37,6 +37,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +45,7 @@ import java.time.format.DateTimeFormatter
 internal fun NoticeScreen(
     events: EventsState,
     dateAndDayOfWeek: Pair<String, String>,
+    dateUtil: DateUtil,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
@@ -99,6 +101,14 @@ internal fun NoticeScreen(
                     }
                     .padding(vertical = 10.dp)
                     .fillMaxWidth(),
+                currentDate = dateUtil.generateNowDate(),
+                eventDates = listOf(
+                    LocalDate.of(2023, 11, 20),
+                    LocalDate.of(2023, 11, 19),
+                    LocalDate.of(2023, 11, 18),
+                    LocalDate.of(2023, 11, 15),
+                ),
+                selectedDate = dateUtil.generateNowDate(),
             )
         }
     }

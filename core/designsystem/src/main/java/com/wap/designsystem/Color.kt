@@ -17,6 +17,8 @@ val GrayBD = Color(0xFFBDBDBD)
 val GrayF4 = Color(0xFFF4F4F4)
 val GrayA2 = Color(0xFFA2A2A2)
 val Yellow = Color(0xFFFBCF34)
+val Red = Color(0xFFE7475D)
+val Blue = Color(0xFF2F3EA3)
 
 @Stable
 class WappColor(
@@ -31,6 +33,8 @@ class WappColor(
     grayBD: Color = GrayBD,
     gray82: Color = Gray82,
     yellow: Color = Yellow,
+    red: Color = Red,
+    blue: Color = Blue,
 ) {
     var white by mutableStateOf(white)
         private set
@@ -53,5 +57,9 @@ class WappColor(
     var gray82 by mutableStateOf(gray82)
         private set
     var yellow by mutableStateOf(yellow)
+        private set
+    var red by mutableStateOf(red)
+        private set
+    var blue by mutableStateOf(blue)
         private set
 }

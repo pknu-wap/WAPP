@@ -42,7 +42,7 @@ fun Calendar(
     bottomSheetState: SheetState,
     dateAndDayOfWeek: Pair<String, String>,
     currentDate: LocalDate,
-    eventsDate: List<LocalDate>,
+    eventDates: List<LocalDate>,
     selectedDate: LocalDate,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
@@ -58,7 +58,7 @@ fun Calendar(
         )
         CalendarBody(
             currentDate = currentDate,
-            eventsDate = eventsDate,
+            eventsDate = eventDates,
             selectedDate = selectedDate,
         )
     }
@@ -151,8 +151,8 @@ fun CalendarMonthItem(
         )
         items(beforeMonthDaysToShow) { day ->
             CalendarDayText(
-                text = (day - 1).toString(),
-                color = getDayColor(day).copy(alpha = ALPHA_DIM),
+                text = day.toString(),
+                color = getDayColor(day + 1).copy(alpha = ALPHA_DIM),
             )
         }
 
@@ -171,7 +171,7 @@ fun CalendarMonthItem(
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
                 text = DateUtil.ddFormatter.format(date),
-                color = getDayColor(day + thisMonthFirstDayOfWeek.value),
+                color = getDayColor(day + thisMonthFirstDayOfWeek.value + 1),
                 isEvent = isEvent,
                 isSelected = isSelected,
             )
@@ -179,12 +179,13 @@ fun CalendarMonthItem(
 
         // 다음 달
         val remainingDays =
-            DAYS_IN_WEEK - ((visibleDaysFromLastMonth + thisMonthDaysToShow.size) % DAYS_IN_WEEK)
+            DAYS_IN_WEEK - (visibleDaysFromLastMonth + thisMonthDaysToShow.size + 1) % DAYS_IN_WEEK
         val nextMonthDaysToShow = IntRange(1, remainingDays).toList()
         items(nextMonthDaysToShow) { day ->
             CalendarDayText(
-                text = (day - 1).toString(),
-                color = getDayColor(day = visibleDaysFromLastMonth + thisMonthDaysToShow.size + day)
+                text = day.toString(),
+                color =
+                getDayColor(visibleDaysFromLastMonth + thisMonthDaysToShow.size + day + 1)
                     .copy(alpha = ALPHA_DIM),
             )
         }
@@ -193,8 +194,8 @@ fun CalendarMonthItem(
 
 @Composable
 fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
-    SUNDAY -> Color.Red
-    SATURDAY -> Color.Blue
+    SUNDAY -> WappTheme.colors.red
+    SATURDAY -> WappTheme.colors.blue
     else -> Color.White
 }
 
@@ -203,7 +204,7 @@ private fun generateBeforeMonthDaysToShow(
     currentDate: LocalDate,
 ): List<Int> {
     val beforeMonth = currentDate.minusMonths(1)
-    val beforeMonthLastDay = beforeMonth.lengthOfMonth() - 1
+    val beforeMonthLastDay = beforeMonth.lengthOfMonth()
     return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth, beforeMonthLastDay).toList()
 }
 
@@ -214,46 +215,46 @@ fun CalendarDayText(
     isSelected: Boolean = false,
     isEvent: Boolean = false,
     onClick: (Unit) -> Unit = {},
-    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = Modifier.clickable { onClick },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
+            modifier = if (isSelected) {
+                Modifier
+                    .padding(horizontal = 15.dp, vertical = 8.dp)
+                    .aspectRatio(1f)
+                    .background(Color.White, shape = CircleShape)
+            } else {
+                Modifier
+                    .padding(horizontal = 15.dp, vertical = 8.dp)
+                    .aspectRatio(1f)
+            },
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .padding(horizontal = 15.dp, vertical = 8.dp)
-                .aspectRatio(1f)
-                .apply {
-                    if (isSelected) {
-                        background(Color.White, shape = CircleShape)
-                    }
-                },
         ) {
             Text(
                 text = text,
                 color = if (isSelected && color == Color.White) Color.Black else color,
                 textAlign = TextAlign.Center,
-                modifier = modifier,
             )
         }
 
-        val eventBoxModifierBase = Modifier
-            .padding(top = 5.dp)
-            .size(5.dp)
-
-        Box(
-            modifier = eventBoxModifierBase.apply {
-                if (isEvent) {
-                    aspectRatio(1f)
-                    background(
-                        color = Color.Red,
-                        shape = CircleShape,
-                    )
-                }
-            },
-        )
+        if (isEvent) {
+            Box(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .size(5.dp)
+                    .aspectRatio(1f)
+                    .background(Color.Red, shape = CircleShape),
+            )
+        } else {
+            Box(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .size(5.dp),
+            )
+        }
     }
 }
 
@@ -284,5 +285,5 @@ private fun calculateVisibleDaysFromLastMonth(currentDate: LocalDate): Int {
 }
 
 private const val ALPHA_DIM = 0.3F
-private const val SUNDAY = 0
-private const val SATURDAY = 6
+private const val SUNDAY = 1
+private const val SATURDAY = 0

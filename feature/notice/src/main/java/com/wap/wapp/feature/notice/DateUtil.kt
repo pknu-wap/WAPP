@@ -19,6 +19,8 @@ class DateUtil @Inject constructor() {
         return formatter.format(date) to dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
     }
 
+    fun generateNowDate() : LocalDate = LocalDate.now(seoulZoneId)
+
     companion object {
         const val YEAR_MONTH_START_INDEX = 0
         const val YEAR_MONTH_END_INDEX = 7

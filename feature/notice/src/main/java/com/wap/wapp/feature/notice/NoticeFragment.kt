@@ -40,7 +40,7 @@ class NoticeFragment : Fragment() {
             val dateAndDayOfWeek = dateUtil.generateNowDateAndDay()
 
             WappTheme {
-                NoticeScreen(events, dateAndDayOfWeek)
+                NoticeScreen(events, dateAndDayOfWeek, dateUtil)
             }
         }
     }
