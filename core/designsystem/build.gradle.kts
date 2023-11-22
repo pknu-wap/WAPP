@@ -25,6 +25,7 @@ android {
 dependencies {
     implementation(libs.androidx.core)
     implementation(libs.material)
+    implementation(libs.lottie.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

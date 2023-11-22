@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.notice
+package com.wap.designsystem.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,12 +10,13 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun Loader() {
+fun Loader(modifier: Modifier = Modifier.fillMaxSize()) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.raw_loading))
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         contentAlignment = Alignment.TopCenter,
     ) {
         LottieAnimation(
