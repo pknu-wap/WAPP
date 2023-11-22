@@ -28,11 +28,11 @@ import java.time.LocalDate
 @Composable
 internal fun NoticeScreen(
     events: EventsState,
-    dateAndDayOfWeek: Pair<String, String>,
-    dateUtil: DateUtil,
+    selectedDate: LocalDate,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
+
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(
@@ -55,14 +55,13 @@ internal fun NoticeScreen(
                 BottomSheetContent(
                     expandableHeight,
                     events,
-                    dateAndDayOfWeek,
+                    selectedDate,
                 )
             },
         ) {
             Calendar(
                 coroutineScope = coroutineScope,
                 bottomSheetState = scaffoldState.bottomSheetState,
-                dateAndDayOfWeek = dateAndDayOfWeek,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
@@ -85,14 +84,13 @@ internal fun NoticeScreen(
                     }
                     .padding(vertical = 10.dp)
                     .fillMaxWidth(),
-                currentDate = dateUtil.generateNowDate(),
+                selectedDate = selectedDate,
                 eventDates = listOf(
                     LocalDate.of(2023, 11, 22),
                     LocalDate.of(2023, 11, 19),
                     LocalDate.of(2023, 11, 18),
                     LocalDate.of(2023, 11, 15),
                 ),
-                selectedDate = dateUtil.generateNowDate(),
             )
         }
     }

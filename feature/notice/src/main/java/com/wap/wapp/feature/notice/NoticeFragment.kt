@@ -11,16 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.wap.designsystem.WappTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class NoticeFragment : Fragment() {
 
     private lateinit var composeView: ComposeView
     private val viewModel: NoticeViewModel by viewModels()
-
-    @Inject
-    lateinit var dateUtil: DateUtil
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +33,10 @@ class NoticeFragment : Fragment() {
 
         composeView.setContent {
             val events by viewModel.events.collectAsState()
-            val dateAndDayOfWeek = dateUtil.generateNowDateAndDay()
+            val selectedDate by viewModel.selectedDates.collectAsState()
 
             WappTheme {
-                NoticeScreen(events, dateAndDayOfWeek, dateUtil)
+                NoticeScreen(events, selectedDate)
             }
         }
     }

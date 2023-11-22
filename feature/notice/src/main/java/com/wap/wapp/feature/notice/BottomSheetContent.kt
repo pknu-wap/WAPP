@@ -23,18 +23,20 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.Loader
-import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
+import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun BottomSheetContent(
     expandableHeight: Dp,
     events: NoticeViewModel.EventsState,
-    dateAndDayOfWeek: Pair<String, String>,
+    selectedDate: LocalDate,
 ) {
-    val date = dateAndDayOfWeek.first
-    val dayOfWeek = dateAndDayOfWeek.second
+    val date = yyyyMMddFormatter.format(selectedDate)
+    val dayOfWeek = selectedDate.dayOfWeek
 
     Column(
         horizontalAlignment = Alignment.Start,

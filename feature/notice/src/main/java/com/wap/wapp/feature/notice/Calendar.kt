@@ -41,26 +41,25 @@ import java.util.Locale
 internal fun Calendar(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
-    dateAndDayOfWeek: Pair<String, String>,
-    currentDate: LocalDate,
-    eventDates: List<LocalDate>,
     selectedDate: LocalDate,
+    eventDates: List<LocalDate>,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
 ) {
+    val date = DateUtil.yyyyMMddFormatter.format(selectedDate)
+
     Column(
         modifier = measureDefaultModifier,
     ) {
         CalendarHeader(
             coroutineScope = coroutineScope,
             bottomSheetState = bottomSheetState,
-            dateAndDayOfWeek = dateAndDayOfWeek,
+            date = date,
             modifier = measureExpandableModifier,
         )
         CalendarBody(
-            currentDate = currentDate,
-            eventsDate = eventDates,
             selectedDate = selectedDate,
+            eventsDate = eventDates,
         )
     }
 }
@@ -70,7 +69,7 @@ internal fun Calendar(
 private fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
-    dateAndDayOfWeek: Pair<String, String>,
+    date: String,
     modifier: Modifier,
 ) = Row(
     verticalAlignment = Alignment.CenterVertically,
@@ -90,7 +89,7 @@ private fun CalendarHeader(
             .padding(start = 16.dp),
     )
     Text(
-        text = dateAndDayOfWeek.first.substring(
+        text = date.substring(
             DateUtil.YEAR_MONTH_START_INDEX,
             DateUtil.YEAR_MONTH_END_INDEX,
         ),
@@ -102,13 +101,11 @@ private fun CalendarHeader(
 
 @Composable
 private fun CalendarBody(
-    currentDate: LocalDate,
-    eventsDate: List<LocalDate>,
     selectedDate: LocalDate,
+    eventsDate: List<LocalDate>,
 ) {
     DayOfWeek()
     CalendarMonthItem(
-        currentDate = currentDate,
         eventDates = eventsDate,
         selectedDate = selectedDate,
     )
@@ -139,18 +136,17 @@ private fun DayOfWeek(modifier: Modifier = Modifier) {
 
 @Composable
 private fun CalendarMonthItem(
-    currentDate: LocalDate,
-    eventDates: List<LocalDate>,
     selectedDate: LocalDate,
+    eventDates: List<LocalDate>,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(currentDate)
+        val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(selectedDate)
         val beforeMonthDaysToShow = generateBeforeMonthDaysToShow(
             visibleDaysFromLastMonth,
-            currentDate,
+            selectedDate,
         )
         items(beforeMonthDaysToShow) { day ->
             CalendarDayText(
@@ -159,11 +155,11 @@ private fun CalendarMonthItem(
             )
         }
 
-        val thisMonthLastDate = currentDate.lengthOfMonth()
-        val thisMonthFirstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
+        val thisMonthLastDate = selectedDate.lengthOfMonth()
+        val thisMonthFirstDayOfWeek = selectedDate.withDayOfMonth(1).dayOfWeek
         val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
         items(thisMonthDaysToShow) { day ->
-            val date = currentDate.withDayOfMonth(day)
+            val date = selectedDate.withDayOfMonth(day)
             val currentLocalDate = LocalDate.of(
                 LocalDate.now().year,
                 LocalDate.now().month,
