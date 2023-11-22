@@ -121,9 +121,9 @@ fun DayOfWeek(modifier: Modifier = Modifier) {
                 text = dayOfWeek.displayName,
                 textAlign = TextAlign.Center,
                 color = when (dayOfWeek) {
-                    DateUtil.DaysOfWeek.SATURDAY -> Color.Blue
-                    DateUtil.DaysOfWeek.SUNDAY -> Color.Red
-                    else -> Color.White
+                    DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
+                    DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
+                    else -> WappTheme.colors.white
                 },
                 modifier = Modifier
                     .weight(1f)
