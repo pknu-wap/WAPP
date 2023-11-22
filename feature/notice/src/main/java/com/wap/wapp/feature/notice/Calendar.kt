@@ -196,7 +196,7 @@ fun CalendarMonthItem(
 fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
     SUNDAY -> WappTheme.colors.red
     SATURDAY -> WappTheme.colors.blue
-    else -> Color.White
+    else -> WappTheme.colors.white
 }
 
 private fun generateBeforeMonthDaysToShow(
@@ -223,20 +223,33 @@ fun CalendarDayText(
         Box(
             modifier = if (isSelected) {
                 Modifier
-                    .padding(horizontal = 15.dp, vertical = 8.dp)
+                    .padding(
+                        horizontal = 15.dp,
+                        vertical = 8.dp,
+                    )
                     .aspectRatio(1f)
-                    .background(Color.White, shape = CircleShape)
+                    .background(
+                        color = Color.White,
+                        shape = CircleShape,
+                    )
             } else {
                 Modifier
-                    .padding(horizontal = 15.dp, vertical = 8.dp)
+                    .padding(
+                        horizontal = 15.dp,
+                        vertical = 8.dp,
+                    )
                     .aspectRatio(1f)
             },
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = text,
-                color = if (isSelected && color == Color.White) Color.Black else color,
                 textAlign = TextAlign.Center,
+                color = if (isSelected && color == WappTheme.colors.white) {
+                    WappTheme.colors.black
+                } else {
+                    color
+                },
             )
         }
 
@@ -246,7 +259,10 @@ fun CalendarDayText(
                     .padding(top = 5.dp)
                     .size(5.dp)
                     .aspectRatio(1f)
-                    .background(Color.Red, shape = CircleShape),
+                    .background(
+                        color = WappTheme.colors.red,
+                        shape = CircleShape,
+                    ),
             )
         } else {
             Box(
