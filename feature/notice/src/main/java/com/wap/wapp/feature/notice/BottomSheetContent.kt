@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.notice
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -81,12 +84,25 @@ private fun EventsList(events: List<Event>) {
             }
         }
     } else {
-        Text(
-            text = "해당 날짜에 일정이 없습니다.",
-            style = WappTheme.typography.contentBold,
-            color = WappTheme.colors.white,
-            textAlign = TextAlign.Center,
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp),
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_cat),
+                contentDescription = stringResource(id = R.string.bottomSheetCatContextDescription),
+            )
+
+            Text(
+                text = stringResource(id = R.string.bottomSheetNoEvent),
+                style = WappTheme.typography.titleMedium,
+                color = WappTheme.colors.white,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 30.dp),
+            )
+        }
     }
 }
 

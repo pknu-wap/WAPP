@@ -1,4 +1,6 @@
 <resources>
     <string name="calendarToggleImageContextDescription">공지사항 목록만을 보여주거나, 캘린더를 다시 보여줍니다.</string>
     <string name="calendarContextDescription">공지사항을 보여주는 달력입니다.</string>
+    <string name="bottomSheetCatContextDescription">일정이 없을 때 보여주는 작고 귀여운 고양이 입니다.</string>
+    <string name="bottomSheetNoEvent">일정이 없습니다.</string>
 </resources>
