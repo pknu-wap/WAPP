@@ -117,14 +117,17 @@ fun CalendarBody(
 fun DayOfWeek(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
+
+            val textColor = when (dayOfWeek) {
+                DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
+                DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
+                else -> WappTheme.colors.white
+            }
+
             Text(
                 text = dayOfWeek.displayName,
                 textAlign = TextAlign.Center,
-                color = when (dayOfWeek) {
-                    DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
-                    DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
-                    else -> WappTheme.colors.white
-                },
+                color = textColor,
                 modifier = Modifier
                     .weight(1f)
                     .padding(vertical = 10.dp),
@@ -193,22 +196,6 @@ fun CalendarMonthItem(
 }
 
 @Composable
-fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
-    SUNDAY -> WappTheme.colors.red
-    SATURDAY -> WappTheme.colors.blue
-    else -> WappTheme.colors.white
-}
-
-private fun generateBeforeMonthDaysToShow(
-    visibleDaysFromLastMonth: Int,
-    currentDate: LocalDate,
-): List<Int> {
-    val beforeMonth = currentDate.minusMonths(1)
-    val beforeMonthLastDay = beforeMonth.lengthOfMonth()
-    return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth, beforeMonthLastDay).toList()
-}
-
-@Composable
 fun CalendarDayText(
     text: String,
     color: Color,
@@ -272,6 +259,22 @@ fun CalendarDayText(
             )
         }
     }
+}
+
+@Composable
+fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
+    SUNDAY -> WappTheme.colors.red
+    SATURDAY -> WappTheme.colors.blue
+    else -> WappTheme.colors.white
+}
+
+private fun generateBeforeMonthDaysToShow(
+    visibleDaysFromLastMonth: Int,
+    currentDate: LocalDate,
+): List<Int> {
+    val beforeMonth = currentDate.minusMonths(1)
+    val beforeMonthLastDay = beforeMonth.lengthOfMonth()
+    return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth, beforeMonthLastDay).toList()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
