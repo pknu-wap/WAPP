@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -146,7 +147,6 @@ fun CalendarMonthItem(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        // 이전 달
         val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(currentDate)
         val beforeMonthDaysToShow = generateBeforeMonthDaysToShow(
             visibleDaysFromLastMonth,
@@ -159,7 +159,6 @@ fun CalendarMonthItem(
             )
         }
 
-        // 이번 달
         val thisMonthLastDate = currentDate.lengthOfMonth()
         val thisMonthFirstDayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
         val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
@@ -170,7 +169,7 @@ fun CalendarMonthItem(
                 LocalDate.now().month,
                 day,
             )
-            val isEvent = currentLocalDate in eventDates
+            val isEvent = (currentLocalDate in eventDates)
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
                 text = DateUtil.ddFormatter.format(date),
@@ -180,7 +179,6 @@ fun CalendarMonthItem(
             )
         }
 
-        // 다음 달
         val remainingDays =
             DAYS_IN_WEEK - (visibleDaysFromLastMonth + thisMonthDaysToShow.size + 1) % DAYS_IN_WEEK
         val nextMonthDaysToShow = IntRange(1, remainingDays).toList()
@@ -203,40 +201,31 @@ fun CalendarDayText(
     isEvent: Boolean = false,
     onClick: (Unit) -> Unit = {},
 ) {
+    var modifier = Modifier.padding(
+        horizontal = 10.dp,
+        vertical = 5.dp,
+    )
+
+    if (isSelected) {
+        modifier = modifier.background(
+            color = WappTheme.colors.gray82.copy(alpha = 0.4F),
+            shape = RoundedCornerShape(5.dp),
+        )
+    }
+
+    modifier = modifier.padding(vertical = 5.dp)
+
     Column(
-        modifier = Modifier.clickable { onClick },
+        modifier = modifier.clickable { onClick },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            modifier = if (isSelected) {
-                Modifier
-                    .padding(
-                        horizontal = 15.dp,
-                        vertical = 8.dp,
-                    )
-                    .aspectRatio(1f)
-                    .background(
-                        color = Color.White,
-                        shape = CircleShape,
-                    )
-            } else {
-                Modifier
-                    .padding(
-                        horizontal = 15.dp,
-                        vertical = 8.dp,
-                    )
-                    .aspectRatio(1f)
-            },
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = text,
                 textAlign = TextAlign.Center,
-                color = if (isSelected && color == WappTheme.colors.white) {
-                    WappTheme.colors.black
-                } else {
-                    color
-                },
+                color = color,
             )
         }
 
@@ -247,7 +236,7 @@ fun CalendarDayText(
                     .size(5.dp)
                     .aspectRatio(1f)
                     .background(
-                        color = WappTheme.colors.red,
+                        color = WappTheme.colors.yellow,
                         shape = CircleShape,
                     ),
             )

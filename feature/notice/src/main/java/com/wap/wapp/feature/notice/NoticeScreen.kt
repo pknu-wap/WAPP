@@ -103,7 +103,7 @@ internal fun NoticeScreen(
                     .fillMaxWidth(),
                 currentDate = dateUtil.generateNowDate(),
                 eventDates = listOf(
-                    LocalDate.of(2023, 11, 20),
+                    LocalDate.of(2023, 11, 22),
                     LocalDate.of(2023, 11, 19),
                     LocalDate.of(2023, 11, 18),
                     LocalDate.of(2023, 11, 15),
