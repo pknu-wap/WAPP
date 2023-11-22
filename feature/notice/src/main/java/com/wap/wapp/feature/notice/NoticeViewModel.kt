@@ -55,6 +55,11 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
+    fun setSelectedDate(newSelectedDate: LocalDate) {
+        _selectedDate.value = newSelectedDate
+        getSelectedDateEvents()
+    }
+
     sealed class EventsState {
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
