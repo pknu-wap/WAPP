@@ -38,7 +38,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Calendar(
+internal fun Calendar(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     dateAndDayOfWeek: Pair<String, String>,
@@ -67,7 +67,7 @@ fun Calendar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarHeader(
+private fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     dateAndDayOfWeek: Pair<String, String>,
@@ -101,7 +101,7 @@ fun CalendarHeader(
 }
 
 @Composable
-fun CalendarBody(
+private fun CalendarBody(
     currentDate: LocalDate,
     eventsDate: List<LocalDate>,
     selectedDate: LocalDate,
@@ -115,7 +115,7 @@ fun CalendarBody(
 }
 
 @Composable
-fun DayOfWeek(modifier: Modifier = Modifier) {
+private fun DayOfWeek(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
 
@@ -138,7 +138,7 @@ fun DayOfWeek(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CalendarMonthItem(
+private fun CalendarMonthItem(
     currentDate: LocalDate,
     eventDates: List<LocalDate>,
     selectedDate: LocalDate,
@@ -194,29 +194,31 @@ fun CalendarMonthItem(
 }
 
 @Composable
-fun CalendarDayText(
+private fun CalendarDayText(
     text: String,
     color: Color,
     isSelected: Boolean = false,
     isEvent: Boolean = false,
     onClick: (Unit) -> Unit = {},
 ) {
-    var modifier = Modifier.padding(
-        horizontal = 10.dp,
-        vertical = 5.dp,
-    )
+    var columnModifier = Modifier
+        .clickable { onClick }
+        .padding(
+            horizontal = 10.dp,
+            vertical = 5.dp,
+        )
 
     if (isSelected) {
-        modifier = modifier.background(
+        columnModifier = columnModifier.background(
             color = WappTheme.colors.gray82.copy(alpha = 0.4F),
             shape = RoundedCornerShape(5.dp),
         )
     }
 
-    modifier = modifier.padding(vertical = 5.dp)
+    columnModifier = columnModifier.padding(vertical = 5.dp)
 
     Column(
-        modifier = modifier.clickable { onClick },
+        modifier = columnModifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
@@ -228,30 +230,30 @@ fun CalendarDayText(
                 color = color,
             )
         }
-
-        if (isEvent) {
-            Box(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(5.dp)
-                    .aspectRatio(1f)
-                    .background(
-                        color = WappTheme.colors.yellow,
-                        shape = CircleShape,
-                    ),
-            )
-        } else {
-            Box(
-                modifier = Modifier
-                    .padding(top = 5.dp)
-                    .size(5.dp),
-            )
-        }
+        EventDot(isEvent)
     }
 }
 
 @Composable
-fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
+private fun EventDot(isEvent: Boolean) {
+    var boxModifier = Modifier
+        .padding(top = 5.dp)
+        .size(5.dp)
+
+    if (isEvent) {
+        boxModifier = boxModifier
+            .aspectRatio(1f)
+            .background(
+                color = WappTheme.colors.yellow,
+                shape = CircleShape,
+            )
+    }
+
+    Box(modifier = boxModifier)
+}
+
+@Composable
+private fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
     SUNDAY -> WappTheme.colors.red
     SATURDAY -> WappTheme.colors.blue
     else -> WappTheme.colors.white
