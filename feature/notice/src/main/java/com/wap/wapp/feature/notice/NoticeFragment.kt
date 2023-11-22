@@ -32,7 +32,7 @@ class NoticeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         composeView.setContent {
-            val events by viewModel.events.collectAsState()
+            val events by viewModel.monthEvents.collectAsState()
             val selectedDate by viewModel.selectedDates.collectAsState()
 
             WappTheme {

@@ -18,24 +18,47 @@ class NoticeViewModel @Inject constructor(
     private val dateUtil: DateUtil,
 ) : ViewModel() {
 
-    private val _events = MutableStateFlow<EventsState>(EventsState.Loading)
-    val events: StateFlow<EventsState> = _events.asStateFlow()
+    private val _monthEvents = MutableStateFlow<EventsState>(EventsState.Loading)
+    val monthEvents: StateFlow<EventsState> = _monthEvents.asStateFlow()
+
+    private val _selectedDateEvents = MutableStateFlow<EventsState>(EventsState.Loading)
+    val selectedDateEvent: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
 
     private val _selectedDates = MutableStateFlow<LocalDate>(dateUtil.generateNowDate())
     val selectedDates: StateFlow<LocalDate> = _selectedDates.asStateFlow()
 
     init {
         getMonthEvents()
+        getSelectedDateEvents()
     }
 
-    fun getMonthEvents() {
-        _events.value = EventsState.Loading
+    private fun getMonthEvents() {
+        _monthEvents.value = EventsState.Loading
         viewModelScope.launch {
             getEventsUseCase(_selectedDates.value).fold(
-                onSuccess = { _events.value = EventsState.Success(it) },
-                onFailure = { _events.value = EventsState.Failure(it) },
+                onSuccess = { _monthEvents.value = EventsState.Success(it) },
+                onFailure = { _monthEvents.value = EventsState.Failure(it) },
             )
         }
+    }
+
+    fun getSelectedDateEvents() {
+        _selectedDateEvents.value =
+            when (_monthEvents.value) {
+                is EventsState.Success ->
+                    EventsState.Success(
+                        (_monthEvents.value as EventsState.Success).events.filter {
+                            it.period == _selectedDates.value
+                        }.also {
+                            it
+                        },
+                    )
+
+                is EventsState.Failure ->
+                    EventsState.Failure((_monthEvents.value as EventsState.Failure).throwable)
+
+                is EventsState.Loading -> EventsState.Loading
+            }
     }
 
     sealed class EventsState {
