@@ -15,7 +15,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val getEventsUseCase: GetEventsUseCase,
-    private val dateUtil: DateUtil,
 ) : ViewModel() {
 
     private val _monthEvents = MutableStateFlow<EventsState>(EventsState.Loading)
@@ -24,7 +23,7 @@ class NoticeViewModel @Inject constructor(
     private val _selectedDateEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val selectedDateEvent: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
 
-    private val _selectedDate = MutableStateFlow<LocalDate>(dateUtil.generateNowDate())
+    private val _selectedDate = MutableStateFlow<LocalDate>(DateUtil.generateNowDate())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
     init {
