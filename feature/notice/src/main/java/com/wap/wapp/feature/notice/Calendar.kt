@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.Loader
+import com.wap.designsystem.component.Loading
 import com.wap.wapp.feature.notice.DateUtil.Companion.DAYS_IN_WEEK
 import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
@@ -110,7 +110,7 @@ private fun handleMonthEventsState(
     selectedDate: LocalDate,
     selectNewDateCallback: (LocalDate) -> Unit,
 ) = when (eventsState) {
-    is NoticeViewModel.EventsState.Loading -> Loader()
+    is NoticeViewModel.EventsState.Loading -> Loading()
     is NoticeViewModel.EventsState.Success -> {
         val eventDates = eventsState.events.map {
             it.period
@@ -143,7 +143,6 @@ private fun CalendarBody(
 private fun DayOfWeek(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
-
             val textColor = when (dayOfWeek) {
                 DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
                 DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red

@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.Loader
+import com.wap.designsystem.component.Loading
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.notice.DateUtil.Companion.MONTH_DATE_START_INDEX
 import com.wap.wapp.feature.notice.DateUtil.Companion.yyyyMMddFormatter
@@ -63,7 +63,7 @@ internal fun BottomSheetContent(
 
 @Composable
 private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (events) {
-    is NoticeViewModel.EventsState.Loading -> Loader()
+    is NoticeViewModel.EventsState.Loading -> Loading()
     is NoticeViewModel.EventsState.Success -> EventsList(events.events)
     is NoticeViewModel.EventsState.Failure -> Unit
 }
@@ -109,6 +109,7 @@ private fun EventsList(events: List<Event>) {
 @Composable
 private fun EventItem(event: Event) {
     val formatter = DateTimeFormatter.ofPattern("MM-dd")
+
     Column {
         Row(
             modifier = Modifier
