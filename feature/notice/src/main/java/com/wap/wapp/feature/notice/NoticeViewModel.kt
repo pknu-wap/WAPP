@@ -2,6 +2,7 @@ package com.wap.wapp.feature.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventsUseCase
 import com.wap.wapp.core.model.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel

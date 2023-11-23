@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.Loading
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.notice.DateUtil.MONTH_DATE_START_INDEX
-import com.wap.wapp.feature.notice.DateUtil.yyyyMMddFormatter
+import com.wap.wapp.core.commmon.util.DateUtil.MONTH_DATE_START_INDEX
+import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle

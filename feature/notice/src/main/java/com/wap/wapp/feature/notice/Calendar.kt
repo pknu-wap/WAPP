@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.Loading
-import com.wap.wapp.feature.notice.DateUtil.DAYS_IN_WEEK
-import com.wap.wapp.feature.notice.DateUtil.yyyyMMddFormatter
+import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
+import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -95,8 +95,8 @@ private fun CalendarHeader(
     )
     Text(
         text = date.substring(
-            DateUtil.YEAR_MONTH_START_INDEX,
-            DateUtil.YEAR_MONTH_END_INDEX,
+            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX,
+            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX,
         ),
         style = WappTheme.typography.titleBold,
         color = WappTheme.colors.white,
@@ -142,10 +142,10 @@ private fun CalendarBody(
 @Composable
 private fun DayOfWeek(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
-        DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
+        com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
             val textColor = when (dayOfWeek) {
-                DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
-                DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
+                com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
+                com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
                 else -> WappTheme.colors.white
             }
 
@@ -197,7 +197,7 @@ private fun CalendarMonthItem(
             val isEvent = (currentLocalDate in eventDates)
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
-                text = DateUtil.ddFormatter.format(date),
+                text = com.wap.wapp.core.commmon.util.DateUtil.ddFormatter.format(date),
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value + 1),
                 isEvent = isEvent,
                 isSelected = isSelected,
@@ -309,7 +309,7 @@ private fun calculateVisibleDaysFromLastMonth(currentDate: LocalDate): Int {
     val firstDayOfWeek: DayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
 
     var count = 0
-    for (day in DateUtil.DaysOfWeek.values()) {
+    for (day in com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.values()) {
         if (day.name == firstDayOfWeek.getDisplayName(TextStyle.FULL, Locale.US).uppercase()) {
             break
         }
