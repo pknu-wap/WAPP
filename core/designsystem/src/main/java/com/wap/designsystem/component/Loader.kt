@@ -13,7 +13,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun Loader(modifier: Modifier = Modifier.fillMaxSize()) {
+fun Loading(modifier: Modifier = Modifier.fillMaxSize()) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.raw_loading))
     Box(
         modifier = modifier,
