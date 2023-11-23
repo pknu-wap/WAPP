@@ -7,9 +7,7 @@ import javax.inject.Inject
 
 class DateUtil @Inject constructor() {
 
-    private val seoulZoneId = ZoneId.of("Asia/Seoul")
-
-    fun generateNowDate(): LocalDate = LocalDate.now(seoulZoneId)
+    fun generateNowDate(zoneId: ZoneId = ZoneId.of("Asia/Seoul")): LocalDate = LocalDate.now(zoneId)
 
     companion object {
         const val YEAR_MONTH_START_INDEX = 0
