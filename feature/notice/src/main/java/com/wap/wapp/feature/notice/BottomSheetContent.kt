@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,10 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.Loading
-import com.wap.wapp.core.model.event.Event
+import com.wap.designsystem.component.CircleLoader
 import com.wap.wapp.core.commmon.util.DateUtil.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
+import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -63,7 +64,7 @@ internal fun BottomSheetContent(
 
 @Composable
 private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (events) {
-    is NoticeViewModel.EventsState.Loading -> Loading()
+    is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is NoticeViewModel.EventsState.Success -> EventsList(events.events)
     is NoticeViewModel.EventsState.Failure -> Unit
 }

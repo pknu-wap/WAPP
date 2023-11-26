@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.Loading
+import com.wap.designsystem.component.CircleLoader
 import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
@@ -110,7 +111,7 @@ private fun handleMonthEventsState(
     selectedDate: LocalDate,
     selectNewDateCallback: (LocalDate) -> Unit,
 ) = when (eventsState) {
-    is NoticeViewModel.EventsState.Loading -> Loading()
+    is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is NoticeViewModel.EventsState.Success -> {
         val eventDates = eventsState.events.map {
             it.period
@@ -179,7 +180,7 @@ private fun CalendarMonthItem(
         items(beforeMonthDaysToShow) { day ->
             CalendarDayText(
                 text = day.toString(),
-                color = getDayColor(day + 1).copy(alpha = ALPHA_DIM),
+                color = getDayColor(day).copy(alpha = ALPHA_DIM),
             )
         }
 
@@ -198,7 +199,7 @@ private fun CalendarMonthItem(
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
                 text = com.wap.wapp.core.commmon.util.DateUtil.ddFormatter.format(date),
-                color = getDayColor(day + thisMonthFirstDayOfWeek.value + 1),
+                color = getDayColor(day + thisMonthFirstDayOfWeek.value),
                 isEvent = isEvent,
                 isSelected = isSelected,
                 modifier = Modifier.clickable { selectNewDateCallback(currentLocalDate) },
@@ -206,13 +207,13 @@ private fun CalendarMonthItem(
         }
 
         val remainingDays =
-            DAYS_IN_WEEK - (visibleDaysFromLastMonth + thisMonthDaysToShow.size + 1) % DAYS_IN_WEEK
+            DAYS_IN_WEEK - (visibleDaysFromLastMonth + thisMonthDaysToShow.size) % DAYS_IN_WEEK
         val nextMonthDaysToShow = IntRange(1, remainingDays).toList()
         items(nextMonthDaysToShow) { day ->
             CalendarDayText(
                 text = day.toString(),
                 color =
-                getDayColor(visibleDaysFromLastMonth + thisMonthDaysToShow.size + day + 1)
+                getDayColor(visibleDaysFromLastMonth + thisMonthDaysToShow.size + day)
                     .copy(alpha = ALPHA_DIM),
             )
         }
@@ -290,7 +291,7 @@ private fun generateBeforeMonthDaysToShow(
 ): List<Int> {
     val beforeMonth = currentDate.minusMonths(1)
     val beforeMonthLastDay = beforeMonth.lengthOfMonth()
-    return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth, beforeMonthLastDay).toList()
+    return IntRange(beforeMonthLastDay - visibleDaysFromLastMonth + 1, beforeMonthLastDay).toList()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

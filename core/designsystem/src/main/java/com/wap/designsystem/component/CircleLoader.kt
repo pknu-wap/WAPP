@@ -1,7 +1,6 @@
 package com.wap.designsystem.component
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -13,7 +12,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun Loading(modifier: Modifier = Modifier.fillMaxSize()) {
+fun CircleLoader(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.raw_loading))
     Box(
         modifier = modifier,
