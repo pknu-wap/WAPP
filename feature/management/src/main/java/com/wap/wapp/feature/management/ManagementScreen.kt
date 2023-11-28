@@ -32,6 +32,7 @@ internal fun ManagementScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyList = viewModel.surveyList.collectAsState().value
+    val eventList = viewModel.eventList.collectAsState().value
 
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
@@ -42,7 +43,10 @@ internal fun ManagementScreen(
 
                 ManagerState.Init -> {}
                 ManagerState.Manager -> {
-                    viewModel.getSurveyList()
+                    viewModel.apply {
+                        getSurveyList()
+                        getMonthEventList()
+                    }
                 }
             }
         }
@@ -86,7 +90,8 @@ internal fun ManagementScreen(
             ManagementSurveyContent(
                 surveyList = surveyList,
                 onCardClicked = { },
-                onAddSurveyButtonClicked = { },
+                onAddSurveyButtonClicked = {},
+                modifier = Modifier.padding(top = 20.dp),
             )
         }
     }

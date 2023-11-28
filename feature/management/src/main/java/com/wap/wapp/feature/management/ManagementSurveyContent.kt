@@ -36,12 +36,14 @@ internal fun ManagementSurveyContent(
     surveyList: List<Survey>,
     onCardClicked: (String) -> Unit,
     onAddSurveyButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),
+        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),

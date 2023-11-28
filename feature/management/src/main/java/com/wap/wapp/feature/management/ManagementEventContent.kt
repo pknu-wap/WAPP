@@ -30,19 +30,21 @@ internal fun ManagementEventContent(
     eventList: List<Event>,
     onCardClicked: (Int) -> Unit,
     onAddEventButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),
+        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(16.dp),
         ) {
             Text(
-                text = stringResource(R.string.survey),
+                text = stringResource(R.string.event),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
@@ -60,7 +62,7 @@ internal fun ManagementEventContent(
             }
 
             WappButton(
-                textRes = R.string.add_survey,
+                textRes = R.string.add_event,
                 onClick = { onAddEventButtonClicked() },
             )
         }

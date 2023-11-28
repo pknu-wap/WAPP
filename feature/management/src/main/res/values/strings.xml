@@ -9,6 +9,6 @@
     <string name="detail_icon_description">자세히보기 버튼</string>
     <string name="survey">설문</string>
     <string name="event">일정</string>
-    <string name="add_event">일정</string>
+    <string name="add_event">일정 추가</string>
 
 </resources>
