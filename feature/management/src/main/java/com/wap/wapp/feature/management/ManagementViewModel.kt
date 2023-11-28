@@ -39,6 +39,7 @@ class ManagementViewModel @Inject constructor(
 
     init {
         hasManagerState()
+        _managerState.value = ManagerState.Manager
     }
 
     private fun hasManagerState() {

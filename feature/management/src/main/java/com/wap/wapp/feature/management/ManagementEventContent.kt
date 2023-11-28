@@ -90,11 +90,11 @@ private fun ManagementEventItem(
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
-                    text = item.content,
+                    text = item.title,
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,

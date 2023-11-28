@@ -18,7 +18,7 @@ data class EventResponse(
         content = content,
         eventId = eventId,
         location = location,
-        id = title,
+        title = title,
         period = LocalDate.parse(this.period, formatter),
     )
 }
