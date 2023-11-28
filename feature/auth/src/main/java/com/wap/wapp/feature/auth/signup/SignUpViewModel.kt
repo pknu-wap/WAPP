@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.usecase.user.PostUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
@@ -61,12 +61,12 @@ class SignUpViewModel @Inject constructor(
         _signUpSemester.value = semester
     }
 
-    companion object {
-        const val FIRST_SEMESTER = "1학기"
-    }
-
     sealed class SignUpEvent {
         data object Success : SignUpEvent()
         data class Failure(val throwable: Throwable) : SignUpEvent()
+    }
+
+    companion object {
+        const val FIRST_SEMESTER = "1학기"
     }
 }
