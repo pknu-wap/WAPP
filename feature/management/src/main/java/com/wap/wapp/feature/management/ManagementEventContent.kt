@@ -4,17 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.Survey
-import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun ManagementEventContent(
     eventList: List<Event>,
+    onCardClicked: (Int) -> Unit,
     onAddEventButtonClicked: () -> Unit,
 ) {
     Card(
@@ -54,11 +50,11 @@ internal fun ManagementEventContent(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                itemsIndexed(surveyList) { currentIndex, survey ->
-                    ManagementSurveyItem(
-                        item = survey,
+                itemsIndexed(eventList) { currentIndex, event ->
+                    ManagementEventItem(
+                        item = event,
                         cardColor = ManagementCardColor(currentIndex = currentIndex),
-                        onCardClicked = { surveyId -> onCardClicked(surveyId) },
+                        onCardClicked = { eventId -> onCardClicked(eventId) },
                     )
                 }
             }
@@ -72,15 +68,15 @@ internal fun ManagementEventContent(
 }
 
 @Composable
-private fun ManagementSurveyItem(
-    item: Survey,
+private fun ManagementEventItem(
+    item: Event,
     cardColor: Color,
-    onCardClicked: (String) -> Unit,
+    onCardClicked: (Int) -> Unit,
 ) {
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onCardClicked(item.surveyId) },
+            .clickable { onCardClicked(item.eventId) },
         colors = CardDefaults.cardColors(containerColor = cardColor),
     ) {
         Row(
@@ -96,65 +92,28 @@ private fun ManagementSurveyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = item.review,
+                    text = item.content,
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,
                 )
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    SurveyCaption(item.noticeName, WappTheme.colors.white)
-
-                    CaptionDivider()
-
-                    SurveyCaption(item.userName, WappTheme.colors.yellow)
-
-                    CaptionDivider()
-
-                    SurveyCaption(
-                        text = item.surveyedAt.format(
-                            DateTimeFormatter.ofPattern("yyyy.MM.dd"),
-                        ),
-                        WappTheme.colors.white,
-                    )
-                }
+                Text(
+                    text = item.period.toString(),
+                    style = WappTheme.typography.captionMedium,
+                    color = WappTheme.colors.white,
+                    maxLines = 1,
+                )
             }
-
-            Spacer(modifier = Modifier.width(16.dp))
 
             Icon(
                 painter = painterResource(com.wap.wapp.core.designresource.R.drawable.ic_forward),
                 contentDescription = stringResource(R.string.detail_icon_description),
                 tint = WappTheme.colors.yellow,
                 modifier = Modifier
-                    .clickable { onCardClicked(item.surveyId) }
+                    .clickable { onCardClicked(item.eventId) }
                     .size(20.dp),
             )
         }
     }
-}
-
-@Composable
-private fun SurveyCaption(
-    text: String,
-    color: Color,
-) {
-    Text(
-        text = text.take(10), // Limit max Length
-        style = WappTheme.typography.captionRegular,
-        color = color,
-    )
-}
-
-@Composable
-private fun CaptionDivider() {
-    Divider(
-        modifier = Modifier.size(
-            height = 14.dp,
-            width = 1.dp,
-        ),
-    )
 }

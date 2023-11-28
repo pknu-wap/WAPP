@@ -39,7 +39,8 @@ internal fun ManagementScreen(
                 ManagerState.NonManager -> {
                     showManageCodeDialog()
                 }
-                ManagerState.Init -> { }
+
+                ManagerState.Init -> {}
                 ManagerState.Manager -> {
                     viewModel.getSurveyList()
                 }
@@ -76,6 +77,12 @@ internal fun ManagementScreen(
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
+            ManagementEventContent(
+                eventList = eventList,
+                onCardClicked = {},
+                onAddEventButtonClicked = {},
+            )
+
             ManagementSurveyContent(
                 surveyList = surveyList,
                 onCardClicked = { },
