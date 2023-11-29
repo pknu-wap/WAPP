@@ -37,7 +37,7 @@ fun WappButton(
         content = {
             Text(
                 text = stringResource(textRes),
-                style = WappTheme.typography.contentMedium,
+                style = WappTheme.typography.contentRegular,
             )
         },
     )
