@@ -22,7 +22,7 @@ internal fun SurveyInformationContent(
     title: String,
     onTitleChange: (String) -> Unit,
     content: String,
-    onContentChange: (String) -> Unit,
+    onContentChanged: (String) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -62,7 +62,7 @@ internal fun SurveyInformationContent(
             )
             SurveyRegistrationTextField(
                 value = content,
-                onValueChange = onContentChange,
+                onValueChange = onContentChanged,
                 placeholder = stringResource(R.string.survey_introduce_hint),
                 modifier = Modifier
                     .fillMaxWidth()

@@ -199,7 +199,7 @@ private fun SurveyRegistrationContent(
                 title = title,
                 onTitleChange = onTitleChanged,
                 content = content,
-                onContentChange = onContentChanged,
+                onContentChanged = onContentChanged,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
             )
         }
