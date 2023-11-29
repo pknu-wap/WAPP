@@ -7,15 +7,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimePickerState
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -36,6 +44,7 @@ import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyRegistrationScreen(
     viewModel: SurveyRegistrationViewModel = hiltViewModel(),
@@ -51,6 +60,10 @@ internal fun SurveyRegistrationScreen(
     val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
     val time = viewModel.surveyTimeDeadline.collectAsState().value
     val date = viewModel.surveyDateDeadline.collectAsState().value
+    val datePickerState = rememberDatePickerState()
+    val timePickerState = rememberTimePickerState()
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.surveyRegistrationEvent.collectLatest {
@@ -101,8 +114,14 @@ internal fun SurveyRegistrationScreen(
                 question = question,
                 date = date,
                 time = time,
+                datePickerState = datePickerState,
+                timePickerState = timePickerState,
+                showDatePicker = showDatePicker,
+                showTimePicker = showTimePicker,
                 currentQuestionIndex = totalQuestionSize,
                 totalQuestionSize = totalQuestionSize,
+                onDatePickerStateChanged = { state -> showDatePicker = state },
+                onTimePickerStateChanged = { state -> showTimePicker = state },
                 onEventListChanged = { viewModel.getEventList() },
                 onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
@@ -133,6 +152,7 @@ private fun SurveyRegistrationStateIndicator(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SurveyRegistrationContent(
     surveyRegistrationState: SurveyRegistrationState,
@@ -145,6 +165,12 @@ private fun SurveyRegistrationContent(
     date: LocalDate,
     currentQuestionIndex: Int,
     totalQuestionSize: Int,
+    datePickerState: DatePickerState,
+    timePickerState: TimePickerState,
+    showDatePicker: Boolean,
+    showTimePicker: Boolean,
+    onDatePickerStateChanged: (Boolean) -> Unit,
+    onTimePickerStateChanged: (Boolean) -> Unit,
     onEventListChanged: () -> Unit,
     onEventSelected: (Event) -> Unit,
     onTitleChanged: (String) -> Unit,
@@ -163,7 +189,7 @@ private fun SurveyRegistrationContent(
                 eventList = eventList,
                 eventSelection = eventSelection,
                 // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
-                onEventSelected = { defaultEvent -> onEventSelected(defaultEvent) },
+                onEventSelected = onEventSelected,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.INFORMATION) },
             )
         }
@@ -171,9 +197,9 @@ private fun SurveyRegistrationContent(
         SurveyRegistrationState.INFORMATION -> {
             SurveyInformationContent(
                 title = title,
-                onTitleChange = { defaultTitle -> onTitleChanged(defaultTitle) },
+                onTitleChange = onTitleChanged,
                 content = content,
-                onContentChange = { defaultContent -> onContentChanged(defaultContent) },
+                onContentChange = onContentChanged,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
             )
         }
@@ -181,8 +207,8 @@ private fun SurveyRegistrationContent(
         SurveyRegistrationState.QUESTION -> {
             SurveyQuestionContent(
                 question = question,
-                onQuestionChanged = { defaultQuestion -> onQuestionChanged(defaultQuestion) },
-                onAddSurveyQuestionButtonClicked = { type -> onAddQuestionButtonClicked(type) },
+                onQuestionChanged = onQuestionChanged,
+                onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
                 currentQuestionIndex = currentQuestionIndex,
                 totalQuestionIndex = totalQuestionSize,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },
@@ -191,11 +217,17 @@ private fun SurveyRegistrationContent(
 
         SurveyRegistrationState.DEADLINE -> {
             SurveyDeadlineContent(
-                onRegisterButtonClicked = onRegisterButtonClicked,
                 time = time,
                 date = date,
-                onDateChanged = { localDate -> onDateChanged(localDate) },
-                onTimeChanged = { localTime -> onTimeChanged(localTime) },
+                datePickerState = datePickerState,
+                timePickerState = timePickerState,
+                showDatePicker = showDatePicker,
+                showTimePicker = showTimePicker,
+                onDatePickerStateChanged = onDatePickerStateChanged,
+                onTimePickerStateChanged = onTimePickerStateChanged,
+                onDateChanged = onDateChanged,
+                onTimeChanged = onTimeChanged,
+                onRegisterButtonClicked = onRegisterButtonClicked,
             )
         }
     }
