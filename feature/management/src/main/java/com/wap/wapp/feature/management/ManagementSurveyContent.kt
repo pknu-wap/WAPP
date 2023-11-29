@@ -58,7 +58,7 @@ internal fun ManagementSurveyContent(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                itemsIndexed(surveyList) { currentIndex, survey ->
+                itemsIndexed(surveyList.takeLast(2)) { currentIndex, survey ->
                     ManagementSurveyItem(
                         item = survey,
                         cardColor = ManagementCardColor(currentIndex = currentIndex),
