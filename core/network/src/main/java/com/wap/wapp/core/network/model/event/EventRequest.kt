@@ -1,9 +1,9 @@
 package com.wap.wapp.core.network.model.event
 
 data class EventRequest(
-    val eventTitle: String = "",
-    val eventContent: String = "",
-    val eventLocation: String = "",
-    val eventDate: String = "",
-    val eventTime: String = "",
+    val title: String = "",
+    val content: String = "",
+    val location: String = "",
+    val date: String = "",
+    val time: String = "",
 )
