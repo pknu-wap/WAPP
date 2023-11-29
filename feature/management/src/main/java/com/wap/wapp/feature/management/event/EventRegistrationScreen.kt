@@ -56,6 +56,8 @@ internal fun EventRegistrationScreen(
                 modifier = Modifier.padding(top = 16.dp),
             )
         }
+
+        EventRegistrationContent()
     }
 }
 
