@@ -270,7 +270,7 @@ private fun EventDot(isEvent: Boolean) {
         boxModifier = boxModifier
             .aspectRatio(1f)
             .background(
-                color = WappTheme.colors.yellow,
+                color = WappTheme.colors.yellow34,
                 shape = CircleShape,
             )
     }

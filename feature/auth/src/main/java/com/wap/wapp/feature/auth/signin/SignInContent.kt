@@ -60,7 +60,7 @@ internal fun SignInContent(
                 text = stringResource(id = string.application_name),
                 fontSize = 48.sp,
                 style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.yellow,
+                color = WappTheme.colors.yellow34,
             )
         }
 
@@ -101,7 +101,7 @@ internal fun SignInContent(
                     navigateToNotice()
                 },
                 colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = WappTheme.colors.yellow,
+                    containerColor = WappTheme.colors.yellow34,
                     contentColor = WappTheme.colors.white,
                 ),
                 shape = RoundedCornerShape(10.dp),

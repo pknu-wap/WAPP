@@ -157,7 +157,7 @@ internal fun SignUpScreen(
                         .fillMaxWidth()
                         .height(48.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = WappTheme.colors.yellow,
+                        containerColor = WappTheme.colors.yellow34,
                     ),
                     shape = RoundedCornerShape(10.dp),
                 ) {

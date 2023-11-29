@@ -30,8 +30,8 @@ fun WappTextField(
             errorTextColor = WappTheme.colors.white,
             unfocusedSupportingTextColor = WappTheme.colors.white,
             focusedSupportingTextColor = WappTheme.colors.white,
-            focusedIndicatorColor = WappTheme.colors.yellow,
-            cursorColor = WappTheme.colors.yellow,
+            focusedIndicatorColor = WappTheme.colors.yellow34,
+            cursorColor = WappTheme.colors.yellow34,
         ),
         label = {
             Text(text = stringResource(label))
