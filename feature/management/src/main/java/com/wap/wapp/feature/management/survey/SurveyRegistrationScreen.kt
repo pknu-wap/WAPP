@@ -38,6 +38,7 @@ import java.time.LocalTime
 
 @Composable
 internal fun SurveyRegistrationScreen(
+    registerSurveyForm: () -> Unit,
     viewModel: SurveyRegistrationViewModel = hiltViewModel(),
     onBackButtonClicked: () -> Unit,
 ) {
@@ -48,6 +49,7 @@ internal fun SurveyRegistrationScreen(
     val title = viewModel.surveyTitle.collectAsState().value
     val content = viewModel.surveyContent.collectAsState().value
     val question = viewModel.surveyQuestion.collectAsState().value
+    val questionType = viewModel.surveyQuestionType.collectAsState().value
     val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
     val time = viewModel.surveyTimeDeadline.collectAsState().value
     val date = viewModel.surveyDateDeadline.collectAsState().value
@@ -61,6 +63,10 @@ internal fun SurveyRegistrationScreen(
 
                 is SurveyRegistrationViewModel.SurveyRegistrationEvent.ValidationError -> {
                     snackBarHostState.showSnackbar(it.message)
+                }
+
+                is SurveyRegistrationViewModel.SurveyRegistrationEvent.Success -> {
+                    registerSurveyForm()
                 }
             }
         }
@@ -99,6 +105,7 @@ internal fun SurveyRegistrationScreen(
                 title = title,
                 content = content,
                 question = question,
+                questionType = questionType,
                 date = date,
                 time = time,
                 currentQuestionIndex = totalQuestionSize,
@@ -108,12 +115,15 @@ internal fun SurveyRegistrationScreen(
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
                 onContentChanged = { content -> viewModel.setSurveyContent(content) },
                 onQuestionChanged = { question -> viewModel.setSurveyQuestion(question) },
+                onQuestionTypeChanged = { questionType ->
+                    viewModel.setSurveyQuestionType(questionType)
+                },
                 onDateChanged = { localDate -> viewModel.setSurveyDateDeadline(localDate) },
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
                 onNextButtonClicked = { surveyRegistrationState ->
                     viewModel.setSurveyRegistrationState(surveyRegistrationState)
                 },
-                onAddQuestionButtonClicked = { type -> viewModel.addSurveyQuestion(type) },
+                onAddQuestionButtonClicked = { viewModel.addSurveyQuestion() },
                 onRegisterButtonClicked = { viewModel.registerSurvey() },
             )
         }
@@ -141,6 +151,7 @@ private fun SurveyRegistrationContent(
     title: String,
     content: String,
     question: String,
+    questionType: QuestionType,
     time: LocalTime,
     date: LocalDate,
     currentQuestionIndex: Int,
@@ -150,10 +161,11 @@ private fun SurveyRegistrationContent(
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onQuestionChanged: (String) -> Unit,
+    onQuestionTypeChanged: (QuestionType) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
     onNextButtonClicked: (SurveyRegistrationState) -> Unit,
-    onAddQuestionButtonClicked: (QuestionType) -> Unit,
+    onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     when (surveyRegistrationState) {
@@ -181,8 +193,12 @@ private fun SurveyRegistrationContent(
         SurveyRegistrationState.QUESTION -> {
             SurveyQuestionContent(
                 question = question,
+                questionType = questionType,
                 onQuestionChanged = { defaultQuestion -> onQuestionChanged(defaultQuestion) },
-                onAddSurveyQuestionButtonClicked = { type -> onAddQuestionButtonClicked(type) },
+                onQuestionTypeChanged = { defaultQuestionType ->
+                    onQuestionTypeChanged(defaultQuestionType)
+                },
+                onAddSurveyQuestionButtonClicked = { onAddQuestionButtonClicked() },
                 currentQuestionIndex = currentQuestionIndex,
                 totalQuestionIndex = totalQuestionSize,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },

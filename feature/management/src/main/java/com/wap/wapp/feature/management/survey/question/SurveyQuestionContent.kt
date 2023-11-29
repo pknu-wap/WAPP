@@ -15,10 +15,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,14 +33,15 @@ import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 @Composable
 internal fun SurveyQuestionContent(
     question: String,
+    questionType: QuestionType,
     onQuestionChanged: (String) -> Unit,
+    onQuestionTypeChanged: (QuestionType) -> Unit,
     onNextButtonClicked: () -> Unit,
-    onAddSurveyQuestionButtonClicked: (QuestionType) -> Unit,
+    onAddSurveyQuestionButtonClicked: () -> Unit,
     currentQuestionIndex: Int,
     totalQuestionIndex: Int,
 ) {
     val scrollState = rememberScrollState()
-    var questionTypeState by remember { mutableStateOf(QuestionType.ESSAY) }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -106,26 +103,26 @@ internal fun SurveyQuestionContent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 SurveyQuestionTypeChip(
-                    selected = (questionTypeState == QuestionType.ESSAY),
-                    onSelected = { questionTypeState = QuestionType.ESSAY },
+                    selected = (questionType == QuestionType.ESSAY),
+                    onSelected = { onQuestionTypeChanged(QuestionType.ESSAY) },
                     label = stringResource(R.string.essay),
                 )
 
                 SurveyQuestionTypeChip(
-                    selected = (questionTypeState == QuestionType.MULTIPLE_CHOICE),
-                    onSelected = { questionTypeState = QuestionType.MULTIPLE_CHOICE },
+                    selected = (questionType == QuestionType.MULTIPLE_CHOICE),
+                    onSelected = { onQuestionTypeChanged(QuestionType.MULTIPLE_CHOICE) },
                     label = stringResource(R.string.multie_choice),
                 )
             }
 
             SurveyQuestionTypeDescription(
-                type = questionTypeState,
+                type = questionType,
             )
         }
 
         SurveyQuestionButton(
             onAddSurveyQuestionButtonClicked = {
-                onAddSurveyQuestionButtonClicked(questionTypeState)
+                onAddSurveyQuestionButtonClicked()
             },
             onNextButtonClicked = { onNextButtonClicked() },
         )
