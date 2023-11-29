@@ -57,9 +57,7 @@ class ManagementFragment : Fragment() {
         }
     }
 
-    private fun navigateToSurveyRegistration() {
-        findNavController().navigate(
-            ManagementFragmentDirections.actionManageFragmentToSurveyRegistrationFragment(),
-        )
-    }
+    private fun navigateToSurveyRegistration() = findNavController().navigate(
+        ManagementFragmentDirections.actionManageFragmentToSurveyRegistrationFragment(),
+    )
 }
