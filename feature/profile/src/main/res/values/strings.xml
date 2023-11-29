@@ -1,3 +1,5 @@
 <resources>
     <string name="profile_setting_description">마이 페이지 설정으로 가는 톱니바퀴 모양 버튼입니다.</string>
+    <string name="normal">일반 회원</string>
+    <string name="manager">운영진</string>
 </resources>

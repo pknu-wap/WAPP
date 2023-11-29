@@ -17,17 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
+import com.wap.wapp.feature.profile.R
 
 @Composable
-fun WappProfileCard(
+internal fun WappProfileCard(
     isManager: Boolean,
     userName: String,
 ) {
-    var position = "일반 회원"
+    var position = stringResource(R.string.normal)
     var githubImage = drawable.ic_normal_github
     var catImage = drawable.ic_normal_cat
     var brush = Brush.horizontalGradient(
@@ -39,7 +42,7 @@ fun WappProfileCard(
     )
 
     if (isManager) {
-        position = "운영진"
+        position = stringResource(R.string.manager)
         githubImage = drawable.ic_manager_github
         catImage = drawable.ic_manager_cat
         brush = Brush.horizontalGradient(
@@ -100,4 +103,16 @@ fun WappProfileCard(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun NormalProfileCard() {
+    WappProfileCard(isManager = false, userName = "WAPP")
+}
+
+@Preview
+@Composable
+private fun ManagerProfileCard() {
+    WappProfileCard(isManager = true, userName = "WAPP")
 }

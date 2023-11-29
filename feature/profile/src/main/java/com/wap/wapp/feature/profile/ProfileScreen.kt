@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
+import com.wap.wapp.feature.profile.component.WappProfileCard
 
 @Composable
 internal fun ProfileScreen(
@@ -52,6 +53,8 @@ internal fun ProfileScreen(
                     .clickable { onProfileSetingClicked() },
             )
         }
+
+        WappProfileCard(isManager = true, userName = "태규")
     }
 }
 
