@@ -65,8 +65,8 @@ internal fun EventRegistrationScreen(
                 modifier = Modifier.padding(top = 50.dp),
                 eventTitle = eventTitle,
                 eventContent = eventContent,
-                onTitleChange = onTitleChange,
-                onContentChange = onContentChange,
+                onTitleChanged = onTitleChange,
+                onContentChanged = onContentChange,
             )
         }
     }

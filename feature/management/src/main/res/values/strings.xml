@@ -19,4 +19,5 @@
     <string name="event_title_hint">행사 이름을 입력하세요.</string>
     <string name="event_description">행사 소개</string>
     <string name="event_description_hint">행사를 이해하기 쉽도록 소개해주세요.</string>
+    <string name="next">다음</string>
 </resources>
