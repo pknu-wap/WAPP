@@ -15,4 +15,8 @@
     <string name="event_details_content">부원들이 알아보기 쉽도록 자세하게 작성해주세요.</string>
     <string name="event_schedule_title">"행사 일정 작성"</string>
     <string name="event_schedule_content">정확한 날짜와 시간 그리고 장소를 입력해주세요.</string>
+    <string name="event_title">행사 이름</string>
+    <string name="event_title_hint">행사 이름을 입력하세요.</string>
+    <string name="event_description">행사 소개</string>
+    <string name="event_description_hint">행사를 이해하기 쉽도록 소개해주세요.</string>
 </resources>
