@@ -37,7 +37,7 @@ class EventDataSourceImpl @Inject constructor(
             firebaseFirestore.collection(EVENT_COLLECTION)
                 .document(getMonth(date))
                 .collection(EVENT_COLLECTION)
-                .document()
+                .document("0")
                 .set(eventRequest)
                 .await()
         }

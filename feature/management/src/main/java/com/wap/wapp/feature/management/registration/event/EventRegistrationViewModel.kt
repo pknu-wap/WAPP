@@ -1,13 +1,19 @@
 package com.wap.wapp.feature.management.registration.event
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
+import com.wap.wapp.core.domain.usecase.event.PostEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventRegistrationViewModel @Inject constructor() : ViewModel() {
+class EventRegistrationViewModel @Inject constructor(
+    private val postEventUseCase: PostEventUseCase,
+) : ViewModel() {
     private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
     val currentRegistrationState = _currentRegistrationState.asStateFlow()
@@ -51,5 +57,15 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
         _currentRegistrationState.value = eventRegistrationState
     }
 
-    fun registerEvent() {}
+    fun registerEvent() =
+        viewModelScope.launch {
+            postEventUseCase(
+                date = generateNowDate(),
+                eventTitle = _eventTitle.value,
+                eventContent = _eventContent.value,
+                eventLocation = _eventLocation.value,
+                eventDate = _eventDate.value,
+                eventTime = _eventTime.value,
+            )
+        }
 }
