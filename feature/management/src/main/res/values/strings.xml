@@ -17,8 +17,14 @@
     <string name="event_schedule_content">정확한 날짜와 시간 그리고 장소를 입력해주세요.</string>
     <string name="event_title">행사 이름</string>
     <string name="event_title_hint">행사 이름을 입력하세요.</string>
-    <string name="event_description">행사 소개</string>
-    <string name="event_description_hint">행사를 이해하기 쉽도록 소개해주세요.</string>
+    <string name="event_content">행사 소개</string>
+    <string name="event_content_hint">행사를 이해하기 쉽도록 소개해주세요.</string>
     <string name="next">다음</string>
+    <string name="event_location">장소</string>
+    <string name="event_date">날짜</string>
+    <string name="event_time">시간</string>
+    <string name="event_location_hint">어디에서 진행되는 일정인가요?</string>
+    <string name="event_date_hint">언제 진행되는 일정인가요?</string>
+    <string name="event_time_hint">몇시부터 몇시까지 진행되는 일정인가요?</string>
     <string name="register_event">일정 등록</string>
 </resources>

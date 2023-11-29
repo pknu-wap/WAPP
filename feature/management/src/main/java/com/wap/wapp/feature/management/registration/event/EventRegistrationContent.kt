@@ -102,7 +102,7 @@ private fun EventDetailsContent(
             RegistrationTextField(
                 value = eventContent,
                 onValueChange = onContentChanged,
-                placeholder = stringResource(R.string.event_description_hint),
+                placeholder = stringResource(R.string.event_content_hint),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
@@ -163,7 +163,7 @@ private fun EventScheduleContent(
             RegistrationTextField(
                 value = eventDate,
                 onValueChange = onDateChanged,
-                placeholder = stringResource(R.string.event_description_hint),
+                placeholder = stringResource(R.string.event_content_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -177,7 +177,7 @@ private fun EventScheduleContent(
             RegistrationTextField(
                 value = eventTime,
                 onValueChange = onTimeChanged,
-                placeholder = stringResource(R.string.event_description_hint),
+                placeholder = stringResource(R.string.event_content_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
