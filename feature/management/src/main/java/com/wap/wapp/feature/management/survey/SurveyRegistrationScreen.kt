@@ -74,7 +74,8 @@ internal fun SurveyRegistrationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(paddingValues) // paddingValue padding
+                .padding(16.dp), // dp value padding
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             Column(
