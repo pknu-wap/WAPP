@@ -56,7 +56,7 @@ private fun EventDetailsContent(
         )
 
         Text(
-            text = stringResource(R.string.event_title),
+            text = stringResource(R.string.event_schedule_title),
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
             modifier = Modifier.padding(top = 30.dp),

@@ -11,4 +11,10 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
     private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
     val currentRegistrationState = _currentRegistrationState.asStateFlow()
+
+    private val _eventTitle: MutableStateFlow<String> = MutableStateFlow("")
+    val eventTitle = _eventTitle.asStateFlow()
+
+    private val _eventContent: MutableStateFlow<String> = MutableStateFlow("")
+    val eventContent = _eventContent.asStateFlow()
 }
