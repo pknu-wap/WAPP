@@ -25,16 +25,32 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.survey.deadline.SurveyDeadlineContent
+import com.wap.wapp.feature.management.survey.event.SurveyEventSelectionContent
+import com.wap.wapp.feature.management.survey.information.SurveyInformationContent
+import com.wap.wapp.feature.management.survey.question.SurveyQuestionContent
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 internal fun SurveyRegistrationScreen(
     viewModel: SurveyRegistrationViewModel = hiltViewModel(),
     onBackButtonClicked: () -> Unit,
 ) {
-    val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
     val snackBarHostState = remember { SnackbarHostState() }
+    val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
+    val eventList = viewModel.eventList.collectAsState().value
+    val eventSelection = viewModel.surveyEventSelection.collectAsState().value
+    val title = viewModel.surveyTitle.collectAsState().value
+    val content = viewModel.surveyContent.collectAsState().value
+    val question = viewModel.surveyQuestion.collectAsState().value
+    val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
+    val time = viewModel.surveyTimeDeadline.collectAsState().value
+    val date = viewModel.surveyDateDeadline.collectAsState().value
 
     LaunchedEffect(true) {
         viewModel.surveyRegistrationEvent.collectLatest {
@@ -76,8 +92,28 @@ internal fun SurveyRegistrationScreen(
             }
 
             SurveyRegistrationContent(
-                currentRegistrationState,
-                viewModel,
+                surveyRegistrationState = currentRegistrationState,
+                eventList = eventList,
+                eventSelection = eventSelection,
+                title = title,
+                content = content,
+                question = question,
+                date = date,
+                time = time,
+                currentQuestionIndex = totalQuestionSize,
+                totalQuestionSize = totalQuestionSize,
+                onEventListChanged = { viewModel.getEventList() },
+                onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
+                onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
+                onContentChanged = { content -> viewModel.setSurveyContent(content) },
+                onQuestionChanged = { question -> viewModel.setSurveyQuestion(question) },
+                onDateChanged = { localDate -> viewModel.setSurveyDateDeadline(localDate) },
+                onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
+                onNextButtonClicked = { surveyRegistrationState ->
+                    viewModel.setSurveyRegistrationState(surveyRegistrationState)
+                },
+                onAddQuestionButtonClicked = { type -> viewModel.addSurveyQuestion(type) },
+                onRegisterButtonClicked = { viewModel.registerSurvey() },
             )
         }
     }
@@ -99,57 +135,66 @@ private fun SurveyRegistrationStateIndicator(
 @Composable
 private fun SurveyRegistrationContent(
     surveyRegistrationState: SurveyRegistrationState,
-    viewModel: SurveyRegistrationViewModel,
+    eventList: List<Event>,
+    eventSelection: Event,
+    title: String,
+    content: String,
+    question: String,
+    time: LocalTime,
+    date: LocalDate,
+    currentQuestionIndex: Int,
+    totalQuestionSize: Int,
+    onEventListChanged: () -> Unit,
+    onEventSelected: (Event) -> Unit,
+    onTitleChanged: (String) -> Unit,
+    onContentChanged: (String) -> Unit,
+    onQuestionChanged: (String) -> Unit,
+    onDateChanged: (LocalDate) -> Unit,
+    onTimeChanged: (LocalTime) -> Unit,
+    onNextButtonClicked: (SurveyRegistrationState) -> Unit,
+    onAddQuestionButtonClicked: (QuestionType) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
 ) {
-    val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
-
     when (surveyRegistrationState) {
+        SurveyRegistrationState.EVENT_SELECTION -> {
+            onEventListChanged()
+            SurveyEventSelectionContent(
+                eventList = eventList,
+                eventSelection = eventSelection,
+                // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
+                onEventSelected = { defaultEvent -> onEventSelected(defaultEvent) },
+                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.INFORMATION) },
+            )
+        }
+
         SurveyRegistrationState.INFORMATION -> {
             SurveyInformationContent(
-                title = viewModel.surveyTitle.collectAsState().value,
-                onTitleChange = { title -> viewModel.setSurveyTitle(title) },
-                content = viewModel.surveyContent.collectAsState().value,
-                onContentChange = { content -> viewModel.setSurveyContent(content) },
-                onNextButtonClicked = {
-                    if (viewModel.isValidSurveyInformation()) {
-                        viewModel.setSurveyRegistrationState(SurveyRegistrationState.QUESTION)
-                    }
-                },
+                title = title,
+                onTitleChange = { defaultTitle -> onTitleChanged(defaultTitle) },
+                content = content,
+                onContentChange = { defaultContent -> onContentChanged(defaultContent) },
+                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
             )
         }
 
         SurveyRegistrationState.QUESTION -> {
             SurveyQuestionContent(
-                question = viewModel.surveyQuestion.collectAsState().value,
-                onQuestionChanged = { question -> viewModel.setSurveyQuestion(question) },
-                onAddSurveyQuestionButtonClicked = { type ->
-                    viewModel.addSurveyQuestion(type)
-                },
-                currentQuestionIndex = totalQuestionSize,
+                question = question,
+                onQuestionChanged = { defaultQuestion -> onQuestionChanged(defaultQuestion) },
+                onAddSurveyQuestionButtonClicked = { type -> onAddQuestionButtonClicked(type) },
+                currentQuestionIndex = currentQuestionIndex,
                 totalQuestionIndex = totalQuestionSize,
-                onNextButtonClicked = {
-                    if (viewModel.isValidSurveyQuestion()) {
-                        viewModel.setSurveyRegistrationState(SurveyRegistrationState.DEADLINE)
-                    }
-                },
+                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },
             )
         }
 
         SurveyRegistrationState.DEADLINE -> {
             SurveyDeadlineContent(
-                onRegisterButtonClicked = {
-                    if (viewModel.isValidSurveyDeadline()) {
-                        viewModel.registerSurvey()
-                    }
-                },
-                time = viewModel.surveyTimeDeadline.collectAsState().value,
-                date = viewModel.surveyDateDeadline.collectAsState().value,
-                onDateChanged = { localDate ->
-                    viewModel.setSurveyDateDeadline(localDate)
-                },
-                onTimeChanged = { localTime ->
-                    viewModel.setSurveyTimeDeadline(localTime)
-                },
+                onRegisterButtonClicked = { onRegisterButtonClicked() },
+                time = time,
+                date = date,
+                onDateChanged = { localDate -> onDateChanged(localDate) },
+                onTimeChanged = { localTime -> onTimeChanged(localTime) },
             )
         }
     }
