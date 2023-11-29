@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.event
+package com.wap.wapp.feature.management.registration.event
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.component.RegistrationTextField
-import com.wap.wapp.feature.management.component.RegistrationTitle
+import com.wap.wapp.feature.management.registration.component.RegistrationTextField
+import com.wap.wapp.feature.management.registration.component.RegistrationTitle
 
 @Composable
 internal fun EventRegistrationContent(

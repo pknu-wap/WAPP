@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.component
+package com.wap.wapp.feature.management.registration.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

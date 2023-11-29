@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.event
+package com.wap.wapp.feature.management.registration.event
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,31 +13,27 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.feature.management.R
 
 @Composable
 internal fun EventRegistrationScreen(
-    viewModel: EventRegistrationViewModel = hiltViewModel(),
+    currentRegistrationState: EventRegistrationState,
+    eventTitle: String,
+    eventContent: String,
+    onTitleChanged: (String) -> Unit,
+    onContentChanged: (String) -> Unit,
+    onNextButtonClicked: (EventRegistrationState) -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val currentRegistrationState by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
-    val eventTitle by viewModel.eventTitle.collectAsStateWithLifecycle()
-    val eventContent by viewModel.eventContent.collectAsStateWithLifecycle()
-    val onTitleChange = viewModel::setEventTitle
-    val onContentChange = viewModel::setEventContent
-    val onNextButtonClicked = viewModel::setEventRegistrationState
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -66,8 +62,8 @@ internal fun EventRegistrationScreen(
                 modifier = Modifier.padding(top = 50.dp),
                 eventTitle = eventTitle,
                 eventContent = eventContent,
-                onTitleChanged = onTitleChange,
-                onContentChanged = onContentChange,
+                onTitleChanged = onTitleChanged,
+                onContentChanged = onContentChanged,
                 onNextButtonClicked = onNextButtonClicked,
             )
         }

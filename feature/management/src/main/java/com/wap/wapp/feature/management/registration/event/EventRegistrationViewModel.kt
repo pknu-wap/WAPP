@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.event
+package com.wap.wapp.feature.management.registration.event
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

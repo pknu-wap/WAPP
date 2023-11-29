@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/eventRegistrationFragment"
-        android:name="com.wap.wapp.feature.management.event.EventRegistrationFragment"
+        android:name="com.wap.wapp.feature.management.registration.event.EventRegistrationFragment"
         android:label="EventRegistrationFragment" >
         <action
             android:id="@+id/action_eventRegistrationFragment_to_manageFragment"

@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.event
+package com.wap.wapp.feature.management.registration.event
 
 enum class EventRegistrationState(
     val page: String,
