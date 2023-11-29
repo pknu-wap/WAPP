@@ -35,7 +35,7 @@ fun WappTopBar(
     @DrawableRes rightButtonDrawableRes: Int = R.drawable.ic_close,
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
     ) {
         if (showLeftButton) {
             Icon(

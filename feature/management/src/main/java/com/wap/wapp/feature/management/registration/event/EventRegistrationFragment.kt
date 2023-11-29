@@ -36,19 +36,33 @@ class EventRegistrationFragment : Fragment() {
                 by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
             val eventTitle by viewModel.eventTitle.collectAsStateWithLifecycle()
             val eventContent by viewModel.eventContent.collectAsStateWithLifecycle()
+            val eventLocation by viewModel.eventLocation.collectAsStateWithLifecycle()
+            val eventDate by viewModel.eventDate.collectAsStateWithLifecycle()
+            val eventTime by viewModel.eventTime.collectAsStateWithLifecycle()
             val onTitleChanged = viewModel::setEventTitle
             val onContentChanged = viewModel::setEventContent
+            val onLocationChanged = viewModel::setEventLocation
+            val onDateChanged = viewModel::setEventDate
+            val onTimeChanged = viewModel::setEventTime
             val onNextButtonClicked =
                 viewModel::setEventRegistrationState
+            val onRegisterButtonClicked = viewModel::registerEvent
 
             WappTheme {
                 EventRegistrationScreen(
                     currentRegistrationState = currentRegistrationState,
                     eventTitle = eventTitle,
                     eventContent = eventContent,
+                    eventLocation = eventLocation,
+                    eventDate = eventDate,
+                    eventTime = eventTime,
                     onTitleChanged = onTitleChanged,
                     onContentChanged = onContentChanged,
+                    onLocationChanged = onLocationChanged,
+                    onDateChanged = onDateChanged,
+                    onTimeChanged = onTimeChanged,
                     onNextButtonClicked = onNextButtonClicked,
+                    onRegisterButtonClicked = onRegisterButtonClicked,
                     onBackButtonClicked = { navigateToManagement() },
                 )
             }

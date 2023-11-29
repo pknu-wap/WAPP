@@ -25,9 +25,16 @@ internal fun EventRegistrationContent(
     modifier: Modifier = Modifier,
     eventTitle: String,
     eventContent: String,
+    eventLocation: String,
+    eventDate: String,
+    eventTime: String,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
+    onLocationChanged: (String) -> Unit,
+    onDateChanged: (String) -> Unit,
+    onTimeChanged: (String) -> Unit,
     onNextButtonClicked: (EventRegistrationState) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
 ) {
     Column(modifier = modifier) {
         when (eventRegistrationState) {
@@ -40,7 +47,15 @@ internal fun EventRegistrationContent(
                 { onNextButtonClicked(EventRegistrationState.EVENT_SCHEDULE) },
             )
 
-            EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent()
+            EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
+                eventLocation = eventLocation,
+                eventDate = eventDate,
+                eventTime = eventTime,
+                onLocationChanged = onLocationChanged,
+                onDateChanged = onDateChanged,
+                onTimeChanged = onTimeChanged,
+                onNextButtonClicked = onRegisterButtonClicked,
+            )
         }
     }
 }
@@ -105,9 +120,74 @@ private fun EventDetailsContent(
 }
 
 @Composable
-private fun EventScheduleContent() {
+private fun EventScheduleContent(
+    eventLocation: String,
+    eventDate: String,
+    eventTime: String,
+    onLocationChanged: (String) -> Unit,
+    onDateChanged: (String) -> Unit,
+    onTimeChanged: (String) -> Unit,
+    onNextButtonClicked: () -> Unit,
+) {
     RegistrationTitle(
         title = stringResource(id = R.string.event_schedule_title),
         content = stringResource(id = R.string.event_schedule_content),
     )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier
+                .padding(top = 50.dp)
+                .align(Alignment.TopCenter),
+        ) {
+            Text(
+                text = stringResource(R.string.event_title),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+            )
+
+            RegistrationTextField(
+                value = eventLocation,
+                onValueChange = onLocationChanged,
+                placeholder = stringResource(R.string.event_title_hint),
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Text(
+                text = stringResource(R.string.event_schedule_title),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+                modifier = Modifier.padding(top = 30.dp),
+            )
+
+            RegistrationTextField(
+                value = eventDate,
+                onValueChange = onDateChanged,
+                placeholder = stringResource(R.string.event_description_hint),
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Text(
+                text = stringResource(R.string.event_schedule_title),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+                modifier = Modifier.padding(top = 30.dp),
+            )
+
+            RegistrationTextField(
+                value = eventTime,
+                onValueChange = onTimeChanged,
+                placeholder = stringResource(R.string.event_description_hint),
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        WappButton(
+            onClick = onNextButtonClicked,
+            textRes = R.string.register_event,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 20.dp),
+        )
+    }
 }

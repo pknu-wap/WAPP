@@ -18,6 +18,15 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
     private val _eventContent: MutableStateFlow<String> = MutableStateFlow("")
     val eventContent = _eventContent.asStateFlow()
 
+    private val _eventLocation: MutableStateFlow<String> = MutableStateFlow("")
+    val eventLocation = _eventLocation.asStateFlow()
+
+    private val _eventDate: MutableStateFlow<String> = MutableStateFlow("")
+    val eventDate = _eventDate.asStateFlow()
+
+    private val _eventTime: MutableStateFlow<String> = MutableStateFlow("")
+    val eventTime = _eventTime.asStateFlow()
+
     fun setEventTitle(eventTitle: String) {
         _eventTitle.value = eventTitle
     }
@@ -26,7 +35,21 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
         _eventContent.value = eventContent
     }
 
+    fun setEventLocation(eventLocation: String) {
+        _eventLocation.value = eventLocation
+    }
+
+    fun setEventDate(eventDate: String) {
+        _eventDate.value = eventDate
+    }
+
+    fun setEventTime(eventTime: String) {
+        _eventTime.value = eventTime
+    }
+
     fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
         _currentRegistrationState.value = eventRegistrationState
     }
+
+    fun registerEvent() {}
 }

@@ -28,9 +28,16 @@ internal fun EventRegistrationScreen(
     currentRegistrationState: EventRegistrationState,
     eventTitle: String,
     eventContent: String,
+    eventLocation: String,
+    eventDate: String,
+    eventTime: String,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
+    onLocationChanged: (String) -> Unit,
+    onDateChanged: (String) -> Unit,
+    onTimeChanged: (String) -> Unit,
     onNextButtonClicked: (EventRegistrationState) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -62,9 +69,16 @@ internal fun EventRegistrationScreen(
                 modifier = Modifier.padding(top = 50.dp),
                 eventTitle = eventTitle,
                 eventContent = eventContent,
+                eventLocation = eventLocation,
+                eventDate = eventDate,
+                eventTime = eventTime,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
+                onLocationChanged = onLocationChanged,
+                onDateChanged = onDateChanged,
+                onTimeChanged = onTimeChanged,
                 onNextButtonClicked = onNextButtonClicked,
+                onRegisterButtonClicked = onRegisterButtonClicked,
             )
         }
     }
