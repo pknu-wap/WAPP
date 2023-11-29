@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.wap.designsystem.WappTheme
 
 class ProfileFragment : Fragment() {
 
@@ -26,6 +27,9 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         composeView.setContent {
+            WappTheme {
+                ProfileScreen()
+            }
         }
     }
 }
