@@ -55,6 +55,17 @@ internal fun ProfileScreen(
         }
 
         WappProfileCard(isManager = true, userName = "태규")
+
+        Box {
+            Text(
+                text = "출석",
+                style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
+                color = WappTheme.colors.white,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 25.dp),
+            )
+        }
     }
 }
 
