@@ -27,6 +27,7 @@ internal fun EventRegistrationContent(
     eventContent: String,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
+    onNextButtonClicked: (EventRegistrationState) -> Unit,
 ) {
     Column(modifier = modifier) {
         when (eventRegistrationState) {
@@ -35,7 +36,8 @@ internal fun EventRegistrationContent(
                 eventContent = eventContent,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
-                onNextButtonClicked = {},
+                onNextButtonClicked =
+                { onNextButtonClicked(EventRegistrationState.EVENT_SCHEDULE) },
             )
 
             EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent()

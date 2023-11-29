@@ -25,4 +25,8 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
     fun setEventContent(eventContent: String) {
         _eventContent.value = eventContent
     }
+
+    fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
+        _currentRegistrationState.value = eventRegistrationState
+    }
 }

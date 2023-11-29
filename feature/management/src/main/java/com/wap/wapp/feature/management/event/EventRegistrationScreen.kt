@@ -37,6 +37,7 @@ internal fun EventRegistrationScreen(
     val eventContent by viewModel.eventContent.collectAsStateWithLifecycle()
     val onTitleChange = viewModel::setEventTitle
     val onContentChange = viewModel::setEventContent
+    val onNextButtonClicked = viewModel::setEventRegistrationState
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -67,6 +68,7 @@ internal fun EventRegistrationScreen(
                 eventContent = eventContent,
                 onTitleChanged = onTitleChange,
                 onContentChanged = onContentChange,
+                onNextButtonClicked = onNextButtonClicked,
             )
         }
     }
