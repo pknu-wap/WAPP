@@ -8,7 +8,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.wap.designsystem.WappTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SurveyRegistrationFragment : Fragment() {
 
     private lateinit var composeView: ComposeView
@@ -29,6 +31,9 @@ class SurveyRegistrationFragment : Fragment() {
             WappTheme {
                 SurveyRegistrationScreen(
                     onBackButtonClicked = { navigateToManagement() },
+                    registerSurveyForm = {
+                        navigateToManagement()
+                    }
                 )
             }
         }
