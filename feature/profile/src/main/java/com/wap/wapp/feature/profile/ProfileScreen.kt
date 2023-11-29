@@ -3,8 +3,10 @@ package com.wap.wapp.feature.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -56,15 +58,49 @@ internal fun ProfileScreen(
 
         WappProfileCard(isManager = true, userName = "태규")
 
-        Box {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp),
+        ) {
             Text(
                 text = "출석",
                 style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
                 color = WappTheme.colors.white,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .padding(start = 25.dp),
+                    .padding(start = 25.dp, bottom = 10.dp),
             )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 15.dp),
+            ) {
+                Image(
+                    painter = painterResource(id = drawable.ic_green_circle),
+                    contentDescription = "",
+                )
+
+                Text(
+                    text = "출석",
+                    style = WappTheme.typography.labelRegular,
+                    color = WappTheme.colors.white,
+                )
+
+                Image(
+                    painter = painterResource(id = drawable.ic_red_circle),
+                    contentDescription = "",
+                )
+
+                Text(
+                    text = "결석",
+                    style = WappTheme.typography.labelRegular,
+                    color = WappTheme.colors.white,
+                )
+            }
         }
     }
 }
