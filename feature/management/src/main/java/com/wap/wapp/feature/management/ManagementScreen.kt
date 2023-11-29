@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
+    navigateToEventRegistration: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyList = viewModel.surveyList.collectAsState().value
@@ -84,7 +85,7 @@ internal fun ManagementScreen(
             ManagementEventContent(
                 eventList = eventList,
                 onCardClicked = {},
-                onAddEventButtonClicked = {},
+                onAddEventButtonClicked = navigateToEventRegistration,
             )
 
             ManagementSurveyContent(

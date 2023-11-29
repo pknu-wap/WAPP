@@ -62,7 +62,7 @@ internal fun ManagementEventContent(
             }
 
             WappButton(
-                textRes = R.string.add_event,
+                textRes = R.string.event_registration,
                 onClick = { onAddEventButtonClicked() },
             )
         }
