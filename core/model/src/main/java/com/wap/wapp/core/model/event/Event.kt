@@ -7,5 +7,5 @@ data class Event(
     val eventId: Int,
     val location: String,
     val period: LocalDate,
-    val id: String,
+    val title: String,
 )
