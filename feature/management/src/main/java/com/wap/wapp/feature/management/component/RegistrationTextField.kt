@@ -32,6 +32,7 @@ internal fun RegistrationTextField(
         placeholder = {
             Text(
                 text = placeholder,
+                color = WappTheme.colors.gray82,
             )
         },
         shape = RoundedCornerShape(10.dp),

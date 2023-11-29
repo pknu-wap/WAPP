@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.event
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,11 +19,18 @@ import com.wap.wapp.feature.management.component.RegistrationTitle
 internal fun EventRegistrationContent(
     eventRegistrationState: EventRegistrationState,
     modifier: Modifier = Modifier,
+    eventTitle: String,
+    eventContent: String,
+    onTitleChange: (String) -> Unit,
+    onContentChange: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
         when (eventRegistrationState) {
             EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
-                onTitleChange = {},
+                eventTitle = eventTitle,
+                eventContent = eventContent,
+                onTitleChange = onTitleChange,
+                onContentChange = onContentChange,
             )
 
             EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent()
@@ -32,7 +40,10 @@ internal fun EventRegistrationContent(
 
 @Composable
 private fun EventDetailsContent(
+    eventTitle: String,
+    eventContent: String,
     onTitleChange: (String) -> Unit,
+    onContentChange: (String) -> Unit,
 ) {
     RegistrationTitle(
         title = stringResource(id = R.string.event_details_title),
@@ -49,7 +60,7 @@ private fun EventDetailsContent(
         )
 
         RegistrationTextField(
-            value = stringResource(id = R.string.event_title),
+            value = eventTitle,
             onValueChange = onTitleChange,
             placeholder = stringResource(R.string.event_title_hint),
             modifier = Modifier.fillMaxWidth(),
@@ -63,10 +74,12 @@ private fun EventDetailsContent(
         )
 
         RegistrationTextField(
-            value = stringResource(id = R.string.event_description),
-            onValueChange = onTitleChange,
+            value = eventContent,
+            onValueChange = onContentChange,
             placeholder = stringResource(R.string.event_description_hint),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
         )
     }
 }

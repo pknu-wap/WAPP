@@ -17,4 +17,12 @@ class EventRegistrationViewModel @Inject constructor() : ViewModel() {
 
     private val _eventContent: MutableStateFlow<String> = MutableStateFlow("")
     val eventContent = _eventContent.asStateFlow()
+
+    fun setEventTitle(eventTitle: String) {
+        _eventTitle.value = eventTitle
+    }
+
+    fun setEventContent(eventContent: String) {
+        _eventContent.value = eventContent
+    }
 }
