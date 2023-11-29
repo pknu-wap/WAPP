@@ -14,4 +14,14 @@ class EventRepositoryImpl @Inject constructor(
                 eventResponse.toDomain()
             }
         }
+
+    override suspend fun postEvent(
+        eventTitle: String,
+        eventContent: String,
+        eventLocation: String,
+        eventDate: String,
+        eventTime: String,
+    ): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 }
