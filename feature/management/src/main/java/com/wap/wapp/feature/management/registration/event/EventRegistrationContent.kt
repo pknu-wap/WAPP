@@ -141,7 +141,7 @@ private fun EventScheduleContent(
                 .align(Alignment.TopCenter),
         ) {
             Text(
-                text = stringResource(R.string.event_title),
+                text = stringResource(R.string.event_location),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
@@ -149,12 +149,12 @@ private fun EventScheduleContent(
             RegistrationTextField(
                 value = eventLocation,
                 onValueChange = onLocationChanged,
-                placeholder = stringResource(R.string.event_title_hint),
+                placeholder = stringResource(R.string.event_location_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
 
             Text(
-                text = stringResource(R.string.event_schedule_title),
+                text = stringResource(R.string.event_date),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
                 modifier = Modifier.padding(top = 30.dp),
@@ -163,12 +163,12 @@ private fun EventScheduleContent(
             RegistrationTextField(
                 value = eventDate,
                 onValueChange = onDateChanged,
-                placeholder = stringResource(R.string.event_content_hint),
+                placeholder = stringResource(R.string.event_date_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
 
             Text(
-                text = stringResource(R.string.event_schedule_title),
+                text = stringResource(R.string.event_time),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
                 modifier = Modifier.padding(top = 30.dp),
@@ -177,7 +177,7 @@ private fun EventScheduleContent(
             RegistrationTextField(
                 value = eventTime,
                 onValueChange = onTimeChanged,
-                placeholder = stringResource(R.string.event_content_hint),
+                placeholder = stringResource(R.string.event_time_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
