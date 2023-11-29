@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
+import com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -143,10 +144,10 @@ private fun CalendarBody(
 @Composable
 private fun DayOfWeek(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
-        com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
+        DaysOfWeek.values().forEach { dayOfWeek ->
             val textColor = when (dayOfWeek) {
-                com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.SATURDAY -> WappTheme.colors.blue
-                com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.SUNDAY -> WappTheme.colors.red
+                DaysOfWeek.SATURDAY -> WappTheme.colors.blueA3
+                DaysOfWeek.SUNDAY -> WappTheme.colors.red
                 else -> WappTheme.colors.white
             }
 
@@ -281,7 +282,7 @@ private fun EventDot(isEvent: Boolean) {
 @Composable
 private fun getDayColor(day: Int): Color = when (day % DAYS_IN_WEEK) {
     SUNDAY -> WappTheme.colors.red
-    SATURDAY -> WappTheme.colors.blue
+    SATURDAY -> WappTheme.colors.blueA3
     else -> WappTheme.colors.white
 }
 
@@ -310,7 +311,7 @@ private fun calculateVisibleDaysFromLastMonth(currentDate: LocalDate): Int {
     val firstDayOfWeek: DayOfWeek = currentDate.withDayOfMonth(1).dayOfWeek
 
     var count = 0
-    for (day in com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek.values()) {
+    for (day in DaysOfWeek.values()) {
         if (day.name == firstDayOfWeek.getDisplayName(TextStyle.FULL, Locale.US).uppercase()) {
             break
         }
