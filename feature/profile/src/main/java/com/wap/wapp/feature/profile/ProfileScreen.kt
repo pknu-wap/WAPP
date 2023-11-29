@@ -9,7 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -100,6 +104,34 @@ internal fun ProfileScreen(
                     style = WappTheme.typography.labelRegular,
                     color = WappTheme.colors.white,
                 )
+            }
+        }
+
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 160.dp),
+        ) {
+            LazyColumn() {
+            }
+        }
+
+        Text(
+            text = "내가 한 설문",
+            style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
+            color = WappTheme.colors.white,
+            modifier = Modifier
+                .padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+        )
+
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 160.dp),
+        ) {
+            LazyColumn() {
             }
         }
     }
