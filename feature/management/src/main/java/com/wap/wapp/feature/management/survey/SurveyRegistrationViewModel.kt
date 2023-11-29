@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SurveyRegistrationViewModel @Inject constructor(
-    private val registerSurveyUseCase: RegisterSurveyUseCase
+    private val registerSurveyUseCase: RegisterSurveyUseCase,
 ) : ViewModel() {
     private val _surveyRegistrationEvent: MutableSharedFlow<SurveyRegistrationEvent> =
         MutableSharedFlow()
@@ -95,14 +95,14 @@ class SurveyRegistrationViewModel @Inject constructor(
             val eventList = emptyList<Event>()
             _eventList.value = listOf(
                 Event("ㅂㅈㄷ", 1, "", LocalDate.now(), "안녕"),
-                Event("123", 2, "", LocalDate.now(), "누구세요")
+                Event("123", 2, "", LocalDate.now(), "누구세요"),
             )
         }
     }
 
     fun registerSurvey() {
         viewModelScope.launch {
-            if(isValidDeadline()) {
+            if (isValidDeadline()) {
                 registerSurveyUseCase(
                     event = surveyEventSelection.value,
                     title = _surveyTitle.value,
@@ -116,9 +116,11 @@ class SurveyRegistrationViewModel @Inject constructor(
                     _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
                 }
             } else {
-                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.ValidationError(
-                    "최소 하루 이상 설문 날짜를 지정하세요."
-                ))
+                _surveyRegistrationEvent.emit(
+                    SurveyRegistrationEvent.ValidationError(
+                        "최소 하루 이상 설문 날짜를 지정하세요.",
+                    ),
+                )
             }
         }
     }
@@ -171,7 +173,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
             _surveyRegistrationEvent.emit(
-                SurveyRegistrationEvent.ValidationError(message)
+                SurveyRegistrationEvent.ValidationError(message),
             )
         }
     }

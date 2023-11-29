@@ -33,7 +33,7 @@ class SurveyRegistrationFragment : Fragment() {
                     onBackButtonClicked = { navigateToManagement() },
                     registerSurveyForm = {
                         navigateToManagement()
-                    }
+                    },
                 )
             }
         }
