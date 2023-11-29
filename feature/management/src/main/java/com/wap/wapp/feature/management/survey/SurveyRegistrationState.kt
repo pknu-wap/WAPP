@@ -4,7 +4,8 @@ enum class SurveyRegistrationState(
     val page: String,
     val progress: Float,
 ) {
-    INFORMATION("1", 0.33f),
-    QUESTION("2", 0.66f),
-    DEADLINE("3", 1f),
+    EVENT_SELECTION("1", 0.25f),
+    INFORMATION("2", 0.50f),
+    QUESTION("3", 0.75f),
+    DEADLINE("4", 1f),
 }

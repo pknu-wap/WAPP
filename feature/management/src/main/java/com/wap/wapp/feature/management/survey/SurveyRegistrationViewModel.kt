@@ -2,6 +2,7 @@ package com.wap.wapp.feature.management.survey
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyQuestion
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,14 +17,20 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SurveyRegistrationViewModel @Inject constructor() : ViewModel() {
-
     private val _surveyRegistrationEvent: MutableSharedFlow<SurveyRegistrationEvent> =
         MutableSharedFlow()
     val surveyRegistrationEvent = _surveyRegistrationEvent.asSharedFlow()
 
     private val _currentRegistrationState: MutableStateFlow<SurveyRegistrationState> =
-        MutableStateFlow(SurveyRegistrationState.INFORMATION)
+        MutableStateFlow(SurveyRegistrationState.EVENT_SELECTION)
     val currentRegistrationState = _currentRegistrationState.asStateFlow()
+
+    private val _eventList: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
+    val eventList = _eventList.asStateFlow()
+
+    private val _surveyEventSelection: MutableStateFlow<Event> =
+        MutableStateFlow(EVENT_SELECTION_INIT)
+    val surveyEventSelection = _surveyEventSelection.asStateFlow()
 
     private val _surveyTitle: MutableStateFlow<String> = MutableStateFlow("")
     val surveyTitle = _surveyTitle.asStateFlow()
@@ -46,6 +53,10 @@ class SurveyRegistrationViewModel @Inject constructor() : ViewModel() {
 
     fun setSurveyRegistrationState(surveyRegistrationState: SurveyRegistrationState) {
         _currentRegistrationState.value = surveyRegistrationState
+    }
+
+    fun setSurveyEventSelection(event: Event) {
+        _surveyEventSelection.value = event
     }
 
     fun setSurveyTitle(title: String) {
@@ -90,13 +101,13 @@ class SurveyRegistrationViewModel @Inject constructor() : ViewModel() {
         _surveyQuestion.value = EMPTY
     }
 
-    fun isValidSurveyInformation(): Boolean =
-        _surveyContent.value.isNotEmpty() && _surveyTitle.value.isNotEmpty()
-
-    fun isValidSurveyQuestion(): Boolean = _surveyQuestionList.value.isNotEmpty()
-
-    fun isValidSurveyDeadline(): Boolean =
-        _surveyDateDeadline.value != LOCAL_DATE_INIT && _surveyTimeDeadline.value != LOCAL_TIME_INIT
+    fun getEventList() {
+        viewModelScope.launch {
+            // TODO GET EVENT LIST
+            val eventList = emptyList<Event>()
+            _eventList.value = eventList
+        }
+    }
 
     fun registerSurvey() {}
 
@@ -109,5 +120,12 @@ class SurveyRegistrationViewModel @Inject constructor() : ViewModel() {
         const val EMPTY = ""
         val LOCAL_TIME_INIT: LocalTime = LocalTime.now()
         val LOCAL_DATE_INIT: LocalDate = LocalDate.now()
+        val EVENT_SELECTION_INIT: Event = Event(
+            "",
+            -1,
+            "",
+            LocalDate.now(),
+            "",
+        )
     }
 }
