@@ -55,9 +55,12 @@ internal fun EventRegistrationScreen(
                 eventRegistrationState = currentRegistrationState,
                 modifier = Modifier.padding(top = 16.dp),
             )
-        }
 
-        EventRegistrationContent()
+            EventRegistrationContent(
+                eventRegistrationState = currentRegistrationState,
+                modifier = Modifier.padding(top = 50.dp),
+            )
+        }
     }
 }
 

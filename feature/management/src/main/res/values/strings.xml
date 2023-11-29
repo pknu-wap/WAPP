@@ -11,4 +11,8 @@
     <string name="event">일정</string>
     <string name="event_registration">일정 추가</string>
     <string name="event_registration_total_page">/ 2</string>
+    <string name="event_details_title">행사 내용 작성</string>
+    <string name="event_details_content">부원들이 알아보기 쉽도록 자세하게 작성해주세요.</string>
+    <string name="event_schedule_title">"행사 일정 작성"</string>
+    <string name="event_schedule_content">정확한 날짜와 시간 그리고 장소를 입력해주세요.</string>
 </resources>
