@@ -62,7 +62,10 @@ class EventRegistrationFragment : Fragment() {
                     onDateChanged = onDateChanged,
                     onTimeChanged = onTimeChanged,
                     onNextButtonClicked = onNextButtonClicked,
-                    onRegisterButtonClicked = onRegisterButtonClicked,
+                    onRegisterButtonClicked = {
+                        onRegisterButtonClicked()
+                        navigateToManagement()
+                    },
                     onBackButtonClicked = { navigateToManagement() },
                 )
             }

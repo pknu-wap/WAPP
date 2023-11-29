@@ -30,7 +30,7 @@ class EventRepositoryImpl @Inject constructor(
                 title = eventTitle,
                 content = eventContent,
                 location = eventLocation,
-                date = eventDate,
+                period = eventDate,
                 time = eventTime,
             ),
         )

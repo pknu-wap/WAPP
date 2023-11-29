@@ -57,7 +57,7 @@ class EventRegistrationViewModel @Inject constructor(
         _currentRegistrationState.value = eventRegistrationState
     }
 
-    fun registerEvent() =
+    fun registerEvent() {
         viewModelScope.launch {
             postEventUseCase(
                 date = generateNowDate(),
@@ -68,4 +68,5 @@ class EventRegistrationViewModel @Inject constructor(
                 eventTime = _eventTime.value,
             )
         }
+    }
 }
