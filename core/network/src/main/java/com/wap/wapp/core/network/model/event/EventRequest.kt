@@ -6,7 +6,7 @@ data class EventRequest(
     val title: String = "",
     val content: String = "",
     val location: String = "",
-    val date: String = "",
+    @PropertyName("period") val date: String = "",
     val time: String = "",
     @PropertyName("event_id") val id: Int = 0,
 )
