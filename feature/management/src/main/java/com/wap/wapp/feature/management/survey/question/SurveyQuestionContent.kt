@@ -127,7 +127,7 @@ internal fun SurveyQuestionContent(
             onAddSurveyQuestionButtonClicked = {
                 onAddSurveyQuestionButtonClicked(questionTypeState)
             },
-            onNextButtonClicked = { onNextButtonClicked() },
+            onNextButtonClicked = onNextButtonClicked,
         )
     }
 }
@@ -245,13 +245,13 @@ private fun SurveyQuestionButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         WappButton(
-            onClick = { onAddSurveyQuestionButtonClicked() },
+            onClick = onAddSurveyQuestionButtonClicked,
             textRes = R.string.add_survey_question,
             modifier = Modifier.weight(1f),
         )
 
         WappButton(
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
             textRes = R.string.next,
             modifier = Modifier.weight(1f),
         )

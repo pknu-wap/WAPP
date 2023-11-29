@@ -80,7 +80,7 @@ internal fun SurveyEventSelectionContent(
 
         WappButton(
             textRes = R.string.next,
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
         )
     }
 }

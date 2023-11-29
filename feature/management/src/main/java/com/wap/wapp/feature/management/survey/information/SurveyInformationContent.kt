@@ -71,7 +71,7 @@ internal fun SurveyInformationContent(
         }
 
         WappButton(
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
             textRes = R.string.next,
         )
     }

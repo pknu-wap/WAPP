@@ -84,7 +84,7 @@ internal fun SurveyRegistrationScreen(
                 WappTopBar(
                     titleRes = R.string.survey_registeration,
                     showLeftButton = true,
-                    onClickLeftButton = { onBackButtonClicked() },
+                    onClickLeftButton = onBackButtonClicked,
                 )
 
                 SurveyRegistrationStateIndicator(
@@ -191,7 +191,7 @@ private fun SurveyRegistrationContent(
 
         SurveyRegistrationState.DEADLINE -> {
             SurveyDeadlineContent(
-                onRegisterButtonClicked = { onRegisterButtonClicked() },
+                onRegisterButtonClicked = onRegisterButtonClicked,
                 time = time,
                 date = date,
                 onDateChanged = { localDate -> onDateChanged(localDate) },

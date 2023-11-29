@@ -7,11 +7,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-kotlin {
+/*kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of("17"))
     }
-}
+}*/
 
 dependencies {
     compileOnly(libs.android.build)

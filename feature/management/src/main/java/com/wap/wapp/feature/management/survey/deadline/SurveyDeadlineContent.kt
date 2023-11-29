@@ -124,7 +124,7 @@ internal fun SurveyDeadlineContent(
 
         WappButton(
             textRes = R.string.register_survey,
-            onClick = { onRegisterButtonClicked() },
+            onClick = onRegisterButtonClicked,
         )
     }
 }
@@ -190,7 +190,7 @@ private fun TimePickerDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = { onDismissButtonClicked() },
+                        onClick = onDismissButtonClicked,
                     ) {
                         Text(stringResource(R.string.cancel))
                     }
