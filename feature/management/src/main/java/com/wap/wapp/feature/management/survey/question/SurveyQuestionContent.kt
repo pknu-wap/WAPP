@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey
+package com.wap.wapp.feature.management.survey.question
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

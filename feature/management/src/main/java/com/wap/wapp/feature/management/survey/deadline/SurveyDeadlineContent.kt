@@ -1,9 +1,10 @@
-package com.wap.wapp.feature.management.survey
+package com.wap.wapp.feature.management.survey.deadline
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -93,7 +94,8 @@ internal fun SurveyDeadlineContent(
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize(),
     ) {
         SurveyRegistrationTitle(
             title = stringResource(R.string.survey_deadline_title),
