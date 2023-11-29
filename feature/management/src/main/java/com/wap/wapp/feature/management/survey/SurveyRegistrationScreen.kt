@@ -197,7 +197,7 @@ private fun SurveyRegistrationContent(
         SurveyRegistrationState.INFORMATION -> {
             SurveyInformationContent(
                 title = title,
-                onTitleChange = onTitleChanged,
+                onTitleChanged = onTitleChanged,
                 content = content,
                 onContentChanged = onContentChanged,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },

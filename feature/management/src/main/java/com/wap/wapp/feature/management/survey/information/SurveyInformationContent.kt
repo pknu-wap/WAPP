@@ -20,7 +20,7 @@ import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 @Composable
 internal fun SurveyInformationContent(
     title: String,
-    onTitleChange: (String) -> Unit,
+    onTitleChanged: (String) -> Unit,
     content: String,
     onContentChanged: (String) -> Unit,
     onNextButtonClicked: () -> Unit,
@@ -46,7 +46,7 @@ internal fun SurveyInformationContent(
             )
             SurveyRegistrationTextField(
                 value = title,
-                onValueChange = onTitleChange,
+                onValueChange = onTitleChanged,
                 placeholder = stringResource(R.string.survey_title_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
