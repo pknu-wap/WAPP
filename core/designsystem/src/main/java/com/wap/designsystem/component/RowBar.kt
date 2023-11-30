@@ -19,10 +19,11 @@ import com.wap.wapp.core.designsystem.R
 fun WappRowBar(
     title: String,
     onBarClicked: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
-            .padding(top = 25.dp, start = 20.dp, end = 20.dp)
+        modifier = modifier
+            .padding(horizontal = 20.dp)
             .clickable { onBarClicked() },
     ) {
         Text(
