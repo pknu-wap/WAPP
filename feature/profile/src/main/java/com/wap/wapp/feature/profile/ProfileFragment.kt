@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.wap.designsystem.WappTheme
 
 class ProfileFragment : Fragment() {
@@ -28,8 +29,13 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         composeView.setContent {
             WappTheme {
-                ProfileScreen()
+                ProfileScreen(onProfileSettingClicked = { navigateToProfileSetting() })
             }
         }
     }
+
+    private fun navigateToProfileSetting() =
+        findNavController().navigate(
+            ProfileFragmentDirections.actionProfileFragmentToProfileMoreFragment(),
+        )
 }
