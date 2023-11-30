@@ -19,6 +19,6 @@
 
     <fragment
         android:id="@+id/profileMoreFragment"
-        android:name="com.wap.wapp.feature.profile.profilemore.ProfileSettingFragment"
+        android:name="com.wap.wapp.feature.profile.profilesetting.ProfileSettingFragment"
         android:label="ProfileMoreFragment" />
 </navigation>

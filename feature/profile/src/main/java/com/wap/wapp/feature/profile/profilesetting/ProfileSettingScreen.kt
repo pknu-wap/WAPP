@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.profile.profilemore
+package com.wap.wapp.feature.profile.profilesetting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,7 +28,6 @@ internal fun ProfileSettingScreen(
     onClickedTermsAndPolicies: () -> Unit = {},
     onClickedPrivacyPolicy: () -> Unit = {},
 ) {
-
     val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
 

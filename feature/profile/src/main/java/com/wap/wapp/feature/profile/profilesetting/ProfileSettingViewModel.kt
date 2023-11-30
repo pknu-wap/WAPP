@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.profile.profilemore
+package com.wap.wapp.feature.profile.profilesetting
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

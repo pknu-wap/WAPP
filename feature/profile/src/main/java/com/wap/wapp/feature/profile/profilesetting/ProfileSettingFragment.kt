@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.profile.profilemore
+package com.wap.wapp.feature.profile.profilesetting
 
 import android.os.Bundle
 import android.view.LayoutInflater
