@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
+import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.profile.component.WappProfileCard
 
 @Composable
@@ -42,7 +43,7 @@ internal fun ProfileScreen(
                 .padding(vertical = 25.dp),
         ) {
             Text(
-                text = "프로필",
+                text = stringResource(id = string.profile),
                 style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
                 color = WappTheme.colors.white,
                 modifier = Modifier
@@ -68,7 +69,7 @@ internal fun ProfileScreen(
                 .padding(top = 40.dp),
         ) {
             Text(
-                text = "출석",
+                text = stringResource(id = R.string.attendacne),
                 style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
                 color = WappTheme.colors.white,
                 modifier = Modifier
@@ -89,7 +90,7 @@ internal fun ProfileScreen(
                 )
 
                 Text(
-                    text = "출석",
+                    text = stringResource(id = R.string.attendance),
                     style = WappTheme.typography.labelRegular,
                     color = WappTheme.colors.white,
                 )
@@ -100,7 +101,7 @@ internal fun ProfileScreen(
                 )
 
                 Text(
-                    text = "결석",
+                    text = stringResource(id = R.string.absent),
                     style = WappTheme.typography.labelRegular,
                     color = WappTheme.colors.white,
                 )
@@ -118,7 +119,7 @@ internal fun ProfileScreen(
         }
 
         Text(
-            text = "내가 한 설문",
+            text = stringResource(id = R.string.survey_i_did),
             style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
             color = WappTheme.colors.white,
             modifier = Modifier
