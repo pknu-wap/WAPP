@@ -30,6 +30,7 @@ internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
     onAddSurveyButtonClicked: () -> Unit,
+    onCardClicked: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyList = viewModel.surveyList.collectAsState().value
@@ -79,7 +80,7 @@ internal fun ManagementScreen(
         ) {
             ManagementSurveyContent(
                 surveyList = surveyList,
-                onCardClicked = { },
+                onCardClicked = onCardClicked,
                 onAddSurveyButtonClicked = { onAddSurveyButtonClicked() },
             )
         }
