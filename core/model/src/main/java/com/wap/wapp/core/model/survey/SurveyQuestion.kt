@@ -6,5 +6,5 @@ data class SurveyQuestion(
 )
 
 enum class QuestionType {
-    MULTIPLE_CHOICE, ESSAY
+    SUBJECTIVE, OBJECTIVE
 }

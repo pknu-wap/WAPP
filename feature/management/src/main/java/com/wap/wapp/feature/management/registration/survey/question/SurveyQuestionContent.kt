@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.question
+package com.wap.wapp.feature.management.registration.survey.question
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,8 +27,8 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTextField
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
+import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTextField
+import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTitle
 
 @Composable
 internal fun SurveyQuestionContent(
@@ -103,14 +103,14 @@ internal fun SurveyQuestionContent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 SurveyQuestionTypeChip(
-                    selected = (questionType == QuestionType.ESSAY),
-                    onSelected = { onQuestionTypeChanged(QuestionType.ESSAY) },
+                    selected = (questionType == QuestionType.SUBJECTIVE),
+                    onSelected = { onQuestionTypeChanged(QuestionType.SUBJECTIVE) },
                     label = stringResource(R.string.essay),
                 )
 
                 SurveyQuestionTypeChip(
-                    selected = (questionType == QuestionType.MULTIPLE_CHOICE),
-                    onSelected = { onQuestionTypeChanged(QuestionType.MULTIPLE_CHOICE) },
+                    selected = (questionType == QuestionType.OBJECTIVE),
+                    onSelected = { onQuestionTypeChanged(QuestionType.OBJECTIVE) },
                     label = stringResource(R.string.multie_choice),
                 )
             }
@@ -134,7 +134,7 @@ private fun SurveyQuestionTypeDescription(
     type: QuestionType,
 ) {
     when (type) {
-        QuestionType.ESSAY -> {
+        QuestionType.SUBJECTIVE -> {
             Text(
                 text = stringResource(R.string.essay_hint),
                 color = WappTheme.colors.yellow,
@@ -142,7 +142,7 @@ private fun SurveyQuestionTypeDescription(
             )
         }
 
-        QuestionType.MULTIPLE_CHOICE -> {
+        QuestionType.OBJECTIVE -> {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxWidth(),
