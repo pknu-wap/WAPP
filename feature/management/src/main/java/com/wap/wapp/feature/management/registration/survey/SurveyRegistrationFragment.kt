@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey
+package com.wap.wapp.feature.management.registration.survey
 
 import android.os.Bundle
 import android.view.LayoutInflater

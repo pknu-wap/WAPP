@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.deadline
+package com.wap.wapp.feature.management.registration.survey.deadline
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import androidx.compose.ui.window.Dialog
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
+import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTitle
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime

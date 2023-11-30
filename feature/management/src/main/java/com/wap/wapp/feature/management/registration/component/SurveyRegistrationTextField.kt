@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.component
+package com.wap.wapp.feature.management.registration.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
