@@ -41,6 +41,8 @@ class ManagementFragment : Fragment() {
                 ManagementScreen(
                     showManageCodeDialog = { isShowDialog = true },
                     navigateToEventRegistration = { navigateToEventRegistration() },
+                    onAddSurveyButtonClicked = { navigateToSurveyRegistration() },
+                    onCardClicked = { surveyId -> navigateToSurveyCheck(surveyId) },
                 )
 
                 if (isShowDialog) {
@@ -60,4 +62,14 @@ class ManagementFragment : Fragment() {
     private fun navigateToEventRegistration() = findNavController().navigate(
         ManagementFragmentDirections.actionManageFragmentToEventRegistrationFragment(),
     )
+
+    private fun navigateToSurveyRegistration() =
+        findNavController().navigate(
+            ManagementFragmentDirections.actionManageFragmentToSurveyRegistrationFragment(),
+        )
+
+    private fun navigateToSurveyCheck(surveyId: String) =
+        findNavController().navigate(
+            ManagementFragmentDirections.actionManageFragmentToSurveyCheckFragment(surveyId),
+        )
 }

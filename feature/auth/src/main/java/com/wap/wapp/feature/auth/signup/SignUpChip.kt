@@ -42,7 +42,7 @@ internal fun SignUpChip(
                 },
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = WappTheme.colors.black82,
-                    selectedContainerColor = WappTheme.colors.yellow,
+                    selectedContainerColor = WappTheme.colors.yellow34,
                 ),
             )
         }

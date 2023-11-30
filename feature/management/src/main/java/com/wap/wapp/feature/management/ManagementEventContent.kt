@@ -111,7 +111,7 @@ private fun ManagementEventItem(
             Icon(
                 painter = painterResource(com.wap.wapp.core.designresource.R.drawable.ic_forward),
                 contentDescription = stringResource(R.string.detail_icon_description),
-                tint = WappTheme.colors.yellow,
+                tint = WappTheme.colors.yellow34,
                 modifier = Modifier
                     .clickable { onCardClicked(item.eventId) }
                     .size(20.dp),

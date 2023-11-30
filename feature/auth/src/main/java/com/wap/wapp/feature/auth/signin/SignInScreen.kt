@@ -93,7 +93,7 @@ internal fun SignInScreen(
                     ),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = WappTheme.colors.white,
-                        focusedBorderColor = WappTheme.colors.yellow,
+                        focusedBorderColor = WappTheme.colors.yellow34,
                     ),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -121,7 +121,7 @@ internal fun SignInScreen(
                     enabled = email.isNotBlank(),
                     colors = ButtonDefaults.buttonColors(
                         contentColor = WappTheme.colors.white,
-                        containerColor = WappTheme.colors.yellow,
+                        containerColor = WappTheme.colors.yellow34,
                         disabledContentColor = WappTheme.colors.white,
                         disabledContainerColor = WappTheme.colors.grayA2,
                     ),
@@ -144,7 +144,7 @@ internal fun SignInScreen(
                     textAlign = TextAlign.Center,
                     text = stringResource(id = R.string.sign_in_find_email),
                     style = WappTheme.typography.captionMedium,
-                    color = WappTheme.colors.yellow,
+                    color = WappTheme.colors.yellow34,
                 )
                 Spacer(modifier = Modifier.height(32.dp))
             }

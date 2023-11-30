@@ -100,7 +100,7 @@ private fun ManagementSurveyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = item.review,
+                    text = item.answerList.first().questionAnswer,
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,
@@ -110,11 +110,11 @@ private fun ManagementSurveyItem(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    SurveyCaption(item.noticeName, WappTheme.colors.white)
+                    SurveyCaption(item.eventName, WappTheme.colors.white)
 
                     CaptionDivider()
 
-                    SurveyCaption(item.userName, WappTheme.colors.yellow)
+                    SurveyCaption(item.userName, WappTheme.colors.yellow34)
 
                     CaptionDivider()
 
@@ -132,7 +132,7 @@ private fun ManagementSurveyItem(
             Icon(
                 painter = painterResource(id = R.drawable.ic_forward),
                 contentDescription = stringResource(string.detail_icon_description),
-                tint = WappTheme.colors.yellow,
+                tint = WappTheme.colors.yellow34,
                 modifier = Modifier
                     .clickable { onCardClicked(item.surveyId) }
                     .size(20.dp),

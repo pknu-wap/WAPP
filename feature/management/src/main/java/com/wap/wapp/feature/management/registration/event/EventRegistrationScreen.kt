@@ -107,7 +107,7 @@ private fun EventRegistrationStateText(
         Text(
             text = currentRegistrationPage,
             style = WappTheme.typography.contentMedium,
-            color = WappTheme.colors.yellow,
+            color = WappTheme.colors.yellow34,
         )
         Text(
             text = stringResource(R.string.event_registration_total_page),
@@ -125,7 +125,7 @@ private fun EventRegistrationStateProgressBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
-        color = WappTheme.colors.yellow,
+        color = WappTheme.colors.yellow34,
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )

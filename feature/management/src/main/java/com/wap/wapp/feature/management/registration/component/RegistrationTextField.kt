@@ -27,7 +27,7 @@ internal fun RegistrationTextField(
             unfocusedContainerColor = WappTheme.colors.black25,
             focusedIndicatorColor = WappTheme.colors.black25,
             unfocusedIndicatorColor = WappTheme.colors.black25,
-            cursorColor = WappTheme.colors.yellow,
+            cursorColor = WappTheme.colors.yellow34,
         ),
         placeholder = {
             Text(
