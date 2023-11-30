@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.information
+package com.wap.wapp.feature.management.registration.survey.information
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTextField
+import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTextField
 
 @Composable
 internal fun SurveyInformationContent(

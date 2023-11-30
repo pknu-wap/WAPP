@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey
+package com.wap.wapp.feature.management.registration.survey
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,10 +36,10 @@ import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.deadline.SurveyDeadlineContent
-import com.wap.wapp.feature.management.survey.event.SurveyEventSelectionContent
-import com.wap.wapp.feature.management.survey.information.SurveyInformationContent
-import com.wap.wapp.feature.management.survey.question.SurveyQuestionContent
+import com.wap.wapp.feature.management.registration.survey.deadline.SurveyDeadlineContent
+import com.wap.wapp.feature.management.registration.survey.event.SurveyEventSelectionContent
+import com.wap.wapp.feature.management.registration.survey.information.SurveyInformationContent
+import com.wap.wapp.feature.management.registration.survey.question.SurveyQuestionContent
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime

@@ -12,15 +12,34 @@
         <action
             android:id="@+id/action_manageFragment_to_surveyRegistrationFragment"
             app:destination="@id/surveyRegistrationFragment" />
+        <action
+            android:id="@+id/action_manageFragment_to_surveyCheckFragment"
+            app:destination="@id/surveyCheckFragment" >
+            <argument
+                android:name="surveyId"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <deepLink app:uri="wapp://feature/nav_management"/>
     <fragment
         android:id="@+id/surveyRegistrationFragment"
-        android:name="com.wap.wapp.feature.management.survey.SurveyRegistrationFragment"
+        android:name="com.wap.wapp.feature.management.registration.survey.SurveyRegistrationFragment"
         android:label="SurveyRegistrationFragment" >
         <action
             android:id="@+id/action_surveyRegistrationFragment_to_manageFragment"
             app:destination="@id/manageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/surveyCheckFragment"
+        android:name="com.wap.wapp.feature.management.check.SurveyCheckFragment"
+        android:label="SurveyCheckFragment" >
+        <action
+            android:id="@+id/action_surveyCheckFragment_to_manageFragment"
+            app:destination="@id/manageFragment" />
+        <argument
+            android:name="surveyId"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
 </navigation>

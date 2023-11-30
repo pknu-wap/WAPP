@@ -4,4 +4,6 @@ import com.wap.wapp.core.model.survey.Survey
 
 interface SurveyRepository {
     suspend fun getSurveyList(): Result<List<Survey>>
+
+    suspend fun getSurvey(surveyId: String): Result<Survey>
 }

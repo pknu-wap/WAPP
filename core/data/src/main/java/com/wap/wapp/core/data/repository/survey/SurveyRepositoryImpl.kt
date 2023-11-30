@@ -17,12 +17,27 @@ class SurveyRepositoryImpl @Inject constructor(
                         val userName = userProfileResponse.toDomain().userName
 
                         noticeNameResponse.mapCatching { noticeNameResponse ->
-                            val noticeName = noticeNameResponse.toDomain()
+                            val eventName = noticeNameResponse.toDomain()
 
-                            surveyResponse.toDomain(userName = userName, noticeName = noticeName)
+                            surveyResponse.toDomain(userName = userName, eventName = eventName)
                         }.getOrThrow()
                     }.getOrThrow()
             }
+        }
+    }
+
+    override suspend fun getSurvey(surveyId: String): Result<Survey> {
+        return surveyDataSource.getSurvey(surveyId).mapCatching { surveyResponse ->
+            userDataSource.getUserProfile(userId = surveyResponse.userId)
+                .mapCatching { userProfileResponse ->
+                    val userName = userProfileResponse.toDomain().userName
+
+                    noticeNameResponse.mapCatching { noticeNameResponse ->
+                        val eventName = noticeNameResponse.toDomain()
+
+                        surveyResponse.toDomain(userName = userName, eventName = eventName)
+                    }.getOrThrow()
+                }.getOrThrow()
         }
     }
 

@@ -1,10 +1,7 @@
 package com.wap.wapp.core.model.survey
 
-data class SurveyQuestion(
+data class SurveyAnswer(
     val questionTitle: String,
+    val questionAnswer: String,
     val questionType: QuestionType,
 )
-
-enum class QuestionType {
-    SUBJECTIVE, OBJECTIVE
-}

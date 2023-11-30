@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey
+package com.wap.wapp.feature.management.registration.survey
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +45,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     val surveyQuestion = _surveyQuestion.asStateFlow()
 
     private val _surveyQuestionType: MutableStateFlow<QuestionType> =
-        MutableStateFlow(QuestionType.ESSAY)
+        MutableStateFlow(QuestionType.SUBJECTIVE)
     val surveyQuestionType = _surveyQuestionType.asStateFlow()
 
     private val _surveyQuestionList: MutableStateFlow<MutableList<SurveyQuestion>> =
