@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.profile
+package com.wap.wapp.feature.profile.profilesetting
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.wap.designsystem.WappTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFragment : Fragment() {
+@AndroidEntryPoint
+class ProfileSettingFragment : Fragment() {
 
     private lateinit var composeView: ComposeView
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileSettingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +30,8 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         composeView.setContent {
             WappTheme {
-                ProfileScreen(onProfileSettingClicked = { navigateToProfileSetting() })
+                ProfileSettingScreen()
             }
         }
     }
-
-    private fun navigateToProfileSetting() =
-        findNavController().navigate(
-            ProfileFragmentDirections.actionProfileFragmentToProfileMoreFragment(),
-        )
 }

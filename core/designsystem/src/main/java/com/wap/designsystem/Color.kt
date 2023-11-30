@@ -16,9 +16,14 @@ val Gray82 = Color(0xFF828282)
 val GrayBD = Color(0xFFBDBDBD)
 val GrayF4 = Color(0xFFF4F4F4)
 val GrayA2 = Color(0xFFA2A2A2)
-val Yellow = Color(0xFFFBCF34)
+val Yellow34 = Color(0xFFFBCF34)
+val Yellow3C = Color(0xFFFFBD3C)
+val YellowA4 = Color(0xFFFEEBA4)
 val Red = Color(0xFFE7475D)
-val Blue = Color(0xFF2F3EA3)
+val BlueA3 = Color(0xFF2F3EA3)
+val Blue2FF = Color(0xFFB1B2FF)
+val Blue4FF = Color(0xFFAAC4FF)
+val Blue1FF = Color(0xFFEEF1FF)
 
 @Stable
 class WappColor(
@@ -32,9 +37,14 @@ class WappColor(
     grayF4: Color = GrayF4,
     grayBD: Color = GrayBD,
     gray82: Color = Gray82,
-    yellow: Color = Yellow,
+    yellow34: Color = Yellow34,
+    yellow3C: Color = Yellow3C,
+    yellowA4: Color = YellowA4,
     red: Color = Red,
-    blue: Color = Blue,
+    blueA3: Color = BlueA3,
+    blue2FF: Color = Blue2FF,
+    blue4FF: Color = Blue4FF,
+    blue1FF: Color = Blue1FF,
 ) {
     var white by mutableStateOf(white)
         private set
@@ -56,10 +66,20 @@ class WappColor(
         private set
     var gray82 by mutableStateOf(gray82)
         private set
-    var yellow by mutableStateOf(yellow)
+    var yellow34 by mutableStateOf(yellow34)
+        private set
+    var yellow3C by mutableStateOf(yellow3C)
+        private set
+    var yellowA4 by mutableStateOf(yellowA4)
         private set
     var red by mutableStateOf(red)
         private set
-    var blue by mutableStateOf(blue)
+    var blueA3 by mutableStateOf(blueA3)
+        private set
+    var blue2FF by mutableStateOf(blue2FF)
+        private set
+    var blue4FF by mutableStateOf(blue4FF)
+        private set
+    var blue1FF by mutableStateOf(blue1FF)
         private set
 }

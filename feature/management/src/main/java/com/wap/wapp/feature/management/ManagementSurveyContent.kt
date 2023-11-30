@@ -112,7 +112,7 @@ private fun ManagementSurveyItem(
 
                     CaptionDivider()
 
-                    SurveyCaption(item.userName, WappTheme.colors.yellow)
+                    SurveyCaption(item.userName, WappTheme.colors.yellow34)
 
                     CaptionDivider()
 
@@ -130,7 +130,7 @@ private fun ManagementSurveyItem(
             Icon(
                 painter = painterResource(id = R.drawable.ic_forward),
                 contentDescription = stringResource(string.detail_icon_description),
-                tint = WappTheme.colors.yellow,
+                tint = WappTheme.colors.yellow34,
                 modifier = Modifier
                     .clickable { onCardClicked(item.surveyId) }
                     .size(20.dp),

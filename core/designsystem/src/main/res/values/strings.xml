@@ -4,4 +4,5 @@
     <string name="close_button">닫기 버튼</string>
     <string name="notice">공지사항</string>
     <string name="done">완료</string>
+    <string name="right_yellow_arrow_description">해당 기능으로 이동하는 오른쪽으로 뽈록한 노란색 화살표 입니다.</string>
 </resources>

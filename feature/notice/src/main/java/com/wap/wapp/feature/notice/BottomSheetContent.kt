@@ -129,7 +129,7 @@ private fun EventItem(event: Event) {
                     .padding(10.dp)
                     .size(width = 4.dp, height = 20.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(WappTheme.colors.yellow),
+                    .background(WappTheme.colors.yellow34),
             )
             Column(
                 horizontalAlignment = Alignment.Start,
