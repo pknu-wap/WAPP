@@ -24,6 +24,7 @@ class ManagementRepositoryImpl @Inject constructor(
     override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> {
         return managementDataSource.postSurveyForm(
             surveyFormRequest = SurveyFormRequest(
+                eventId = surveyForm.eventId,
                 userId = surveyForm.userId,
                 title = surveyForm.title,
                 content = surveyForm.content,
