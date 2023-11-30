@@ -11,10 +11,10 @@ import com.wap.designsystem.WappTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileMoreFragment : Fragment() {
+class ProfileSettingFragment : Fragment() {
 
     private lateinit var composeView: ComposeView
-    private val viewModel: ProfileMoreViewModel by viewModels()
+    private val viewModel: ProfileSettingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +30,7 @@ class ProfileMoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         composeView.setContent {
             WappTheme {
-                ProfileMoreScreen()
+                ProfileSettingScreen()
             }
         }
     }

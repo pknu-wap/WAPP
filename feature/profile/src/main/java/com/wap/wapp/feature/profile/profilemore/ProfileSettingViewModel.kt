@@ -5,4 +5,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileMoreViewModel @Inject constructor() : ViewModel()
+class ProfileSettingViewModel @Inject constructor() : ViewModel()

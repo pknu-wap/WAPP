@@ -18,7 +18,7 @@ import com.wap.designsystem.component.WappRowBar
 import com.wap.wapp.core.designresource.R
 
 @Composable
-internal fun ProfileMoreScreen() {
+internal fun ProfileSettingScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -125,5 +125,5 @@ internal fun ProfileMoreScreen() {
 @Preview
 @Composable
 fun PreviewProfileMoreScreen() {
-    ProfileMoreScreen()
+    ProfileSettingScreen()
 }
