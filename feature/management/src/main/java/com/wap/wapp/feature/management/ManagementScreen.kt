@@ -81,7 +81,7 @@ internal fun ManagementScreen(
             ManagementSurveyContent(
                 surveyList = surveyList,
                 onCardClicked = onCardClicked,
-                onAddSurveyButtonClicked = { onAddSurveyButtonClicked() },
+                onAddSurveyButtonClicked = onAddSurveyButtonClicked,
             )
         }
     }
