@@ -79,7 +79,7 @@ private fun EventsList(events: List<Event>) {
         ) {
             itemsIndexed(
                 items = events,
-                key = { _, event -> event.id },
+                key = { _, event -> event.title },
             ) { _, event ->
                 EventItem(event = event)
             }
@@ -136,7 +136,7 @@ private fun EventItem(event: Event) {
                 modifier = Modifier.padding(start = 12.dp),
             ) {
                 Text(
-                    text = event.id,
+                    text = event.title,
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )

@@ -8,7 +8,19 @@
     <fragment
         android:id="@+id/manageFragment"
         android:name="com.wap.wapp.feature.management.ManagementFragment"
-        android:label="fragment_manage" />
+        android:label="fragment_manage" >
+        <action
+            android:id="@+id/action_manageFragment_to_surveyRegistrationFragment"
+            app:destination="@id/surveyRegistrationFragment" />
+    </fragment>
 
     <deepLink app:uri="wapp://feature/nav_management"/>
+    <fragment
+        android:id="@+id/surveyRegistrationFragment"
+        android:name="com.wap.wapp.feature.management.survey.SurveyRegistrationFragment"
+        android:label="SurveyRegistrationFragment" >
+        <action
+            android:id="@+id/action_surveyRegistrationFragment_to_manageFragment"
+            app:destination="@id/manageFragment" />
+    </fragment>
 </navigation>
