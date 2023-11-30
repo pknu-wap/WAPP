@@ -36,12 +36,14 @@ internal fun ManagementSurveyContent(
     surveyList: List<Survey>,
     onCardClicked: (String) -> Unit,
     onAddSurveyButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),
+        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -56,7 +58,7 @@ internal fun ManagementSurveyContent(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                itemsIndexed(surveyList) { currentIndex, survey ->
+                itemsIndexed(surveyList.takeLast(2)) { currentIndex, survey ->
                     ManagementSurveyItem(
                         item = survey,
                         cardColor = ManagementCardColor(currentIndex = currentIndex),
@@ -112,7 +114,7 @@ private fun ManagementSurveyItem(
 
                     CaptionDivider()
 
-                    SurveyCaption(item.userName, WappTheme.colors.yellow)
+                    SurveyCaption(item.userName, WappTheme.colors.yellow34)
 
                     CaptionDivider()
 
@@ -130,7 +132,7 @@ private fun ManagementSurveyItem(
             Icon(
                 painter = painterResource(id = R.drawable.ic_forward),
                 contentDescription = stringResource(string.detail_icon_description),
-                tint = WappTheme.colors.yellow,
+                tint = WappTheme.colors.yellow34,
                 modifier = Modifier
                     .clickable { onCardClicked(item.surveyId) }
                     .size(20.dp),

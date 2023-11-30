@@ -3,6 +3,7 @@ package com.wap.wapp.core.network.source.event
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
+import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
 import java.time.LocalDate
@@ -29,6 +30,16 @@ class EventDataSourceImpl @Inject constructor(
             }
 
             result
+        }
+
+    override suspend fun postEvent(date: LocalDate, eventRequest: EventRequest): Result<Unit> =
+        runCatching {
+            firebaseFirestore.collection(EVENT_COLLECTION)
+                .document(getMonth(date))
+                .collection(EVENT_COLLECTION)
+                .document()
+                .set(eventRequest)
+                .await()
         }
 
     private fun getMonth(date: LocalDate): String {

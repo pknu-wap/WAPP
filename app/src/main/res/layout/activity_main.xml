@@ -24,6 +24,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bnv_main_bottomNaviView"
             android:layout_width="match_parent"
+            app:labelVisibilityMode="labeled"
             android:layout_height="70dp"
             android:background="@color/black_1"
             app:itemActiveIndicatorStyle="@style/Style.BottomNavigationView.Custom.Indicator"

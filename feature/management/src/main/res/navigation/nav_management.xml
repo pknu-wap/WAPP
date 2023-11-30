@@ -19,6 +19,20 @@
                 android:name="surveyId"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_manageFragment_to_eventRegistrationFragment"
+            app:destination="@id/eventRegistrationFragment" />
+    </fragment>
+
+    <deepLink app:uri="wapp://feature/nav_management"/>
+
+    <fragment
+        android:id="@+id/eventRegistrationFragment"
+        android:name="com.wap.wapp.feature.management.registration.event.EventRegistrationFragment"
+        android:label="EventRegistrationFragment" >
+        <action
+            android:id="@+id/action_eventRegistrationFragment_to_manageFragment"
+            app:destination="@id/manageFragment" />
     </fragment>
 
     <deepLink app:uri="wapp://feature/nav_management"/>
@@ -30,6 +44,7 @@
             android:id="@+id/action_surveyRegistrationFragment_to_manageFragment"
             app:destination="@id/manageFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/surveyCheckFragment"
         android:name="com.wap.wapp.feature.management.check.SurveyCheckFragment"

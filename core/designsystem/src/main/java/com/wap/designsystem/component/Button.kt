@@ -29,11 +29,16 @@ fun WappButton(
         enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
             contentColor = WappTheme.colors.black,
-            containerColor = WappTheme.colors.yellow,
+            containerColor = WappTheme.colors.yellow34,
             disabledContentColor = WappTheme.colors.white,
             disabledContainerColor = WappTheme.colors.grayA2,
         ),
         shape = RoundedCornerShape(10.dp),
-        content = { Text(text = stringResource(textRes)) },
+        content = {
+            Text(
+                text = stringResource(textRes),
+                style = WappTheme.typography.contentRegular,
+            )
+        },
     )
 }

@@ -51,7 +51,7 @@ internal fun SurveyEventSelectionContent(
                         .clickable { onEventSelected(event) },
                     border = BorderStroke(
                         color = if (event.eventId == eventSelection.eventId) {
-                            WappTheme.colors.yellow
+                            WappTheme.colors.yellow34
                         } else {
                             WappTheme.colors.black25
                         },
@@ -71,7 +71,7 @@ internal fun SurveyEventSelectionContent(
                         Text(
                             text = event.content,
                             style = WappTheme.typography.captionMedium,
-                            color = WappTheme.colors.yellow,
+                            color = WappTheme.colors.yellow34,
                         )
                     }
                 }

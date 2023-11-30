@@ -40,6 +40,7 @@ class ManagementFragment : Fragment() {
             WappTheme {
                 ManagementScreen(
                     showManageCodeDialog = { isShowDialog = true },
+                    navigateToEventRegistration = { navigateToEventRegistration() },
                     onAddSurveyButtonClicked = { navigateToSurveyRegistration() },
                     onCardClicked = { surveyId -> navigateToSurveyCheck(surveyId) },
                 )
@@ -57,6 +58,10 @@ class ManagementFragment : Fragment() {
             }
         }
     }
+
+    private fun navigateToEventRegistration() = findNavController().navigate(
+        ManagementFragmentDirections.actionManageFragmentToEventRegistrationFragment(),
+    )
 
     private fun navigateToSurveyRegistration() =
         findNavController().navigate(

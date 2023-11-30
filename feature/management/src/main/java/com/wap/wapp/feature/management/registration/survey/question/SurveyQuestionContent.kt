@@ -70,7 +70,7 @@ internal fun SurveyQuestionContent(
                     text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
-                                WappTheme.colors.yellow,
+                                WappTheme.colors.yellow34,
                             ),
                         ) { append(currentQuestionIndex.toString()) }
                         append(" / $totalQuestionIndex")
@@ -137,7 +137,7 @@ private fun SurveyQuestionTypeDescription(
         QuestionType.SUBJECTIVE -> {
             Text(
                 text = stringResource(R.string.essay_hint),
-                color = WappTheme.colors.yellow,
+                color = WappTheme.colors.yellow34,
                 style = WappTheme.typography.labelRegular,
             )
         }
@@ -183,13 +183,13 @@ private fun SurveyQuestionTypeChip(
             containerColor = WappTheme.colors.backgroundBlack,
             selectedContainerColor = WappTheme.colors.backgroundBlack,
             labelColor = WappTheme.colors.white,
-            selectedLabelColor = WappTheme.colors.yellow,
+            selectedLabelColor = WappTheme.colors.yellow34,
         ),
         border = FilterChipDefaults.filterChipBorder(
             borderWidth = 1.dp,
             selectedBorderWidth = 1.dp,
             borderColor = WappTheme.colors.white,
-            selectedBorderColor = WappTheme.colors.yellow,
+            selectedBorderColor = WappTheme.colors.yellow34,
         ),
     )
 }

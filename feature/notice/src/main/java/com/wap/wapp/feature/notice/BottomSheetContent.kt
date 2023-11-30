@@ -120,7 +120,7 @@ private fun EventItem(event: Event) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = formatter.format(event.period),
+                text = event.time,
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
@@ -129,7 +129,7 @@ private fun EventItem(event: Event) {
                     .padding(10.dp)
                     .size(width = 4.dp, height = 20.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(WappTheme.colors.yellow),
+                    .background(WappTheme.colors.yellow34),
             )
             Column(
                 horizontalAlignment = Alignment.Start,
@@ -141,7 +141,7 @@ private fun EventItem(event: Event) {
                     color = WappTheme.colors.white,
                 )
                 Text(
-                    text = formatter.format(event.period),
+                    text = event.time,
                     style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.grayBD,
                 )

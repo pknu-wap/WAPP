@@ -257,7 +257,7 @@ private fun SurveyRegistrationStateText(
         Text(
             text = currentRegistrationPage,
             style = WappTheme.typography.contentMedium,
-            color = WappTheme.colors.yellow,
+            color = WappTheme.colors.yellow34,
         )
         Text(
             text = stringResource(R.string.survey_registration_total_page),
@@ -275,7 +275,7 @@ private fun SurveyRegistrationStateProgressBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
-        color = WappTheme.colors.yellow,
+        color = WappTheme.colors.yellow34,
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )
