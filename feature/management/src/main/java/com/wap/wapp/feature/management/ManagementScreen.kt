@@ -29,11 +29,13 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
+    navigateToEventRegistration: () -> Unit,
     onAddSurveyButtonClicked: () -> Unit,
     onCardClicked: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyList = viewModel.surveyList.collectAsState().value
+    val eventList = viewModel.eventList.collectAsState().value
 
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
@@ -41,9 +43,13 @@ internal fun ManagementScreen(
                 ManagerState.NonManager -> {
                     showManageCodeDialog()
                 }
-                ManagerState.Init -> { }
+
+                ManagerState.Init -> {}
                 ManagerState.Manager -> {
-                    viewModel.getSurveyList()
+                    viewModel.apply {
+                        getSurveyList()
+                        getMonthEventList()
+                    }
                 }
             }
         }
@@ -78,8 +84,15 @@ internal fun ManagementScreen(
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
+            ManagementEventContent(
+                eventList = eventList,
+                onCardClicked = {},
+                onAddEventButtonClicked = navigateToEventRegistration,
+            )
+
             ManagementSurveyContent(
                 surveyList = surveyList,
+                modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = onCardClicked,
                 onAddSurveyButtonClicked = onAddSurveyButtonClicked,
             )

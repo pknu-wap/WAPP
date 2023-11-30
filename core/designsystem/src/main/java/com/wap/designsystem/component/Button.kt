@@ -34,6 +34,11 @@ fun WappButton(
             disabledContainerColor = WappTheme.colors.grayA2,
         ),
         shape = RoundedCornerShape(10.dp),
-        content = { Text(text = stringResource(textRes)) },
+        content = {
+            Text(
+                text = stringResource(textRes),
+                style = WappTheme.typography.contentRegular,
+            )
+        },
     )
 }

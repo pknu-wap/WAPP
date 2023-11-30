@@ -2,6 +2,8 @@ package com.wap.wapp.feature.management.registration.survey
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.event.GetEventsUseCase
 import com.wap.wapp.core.domain.usecase.management.RegisterSurveyUseCase
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SurveyRegistrationViewModel @Inject constructor(
     private val registerSurveyUseCase: RegisterSurveyUseCase,
+    private val getEventsUseCase: GetEventsUseCase,
 ) : ViewModel() {
     private val _surveyRegistrationEvent: MutableSharedFlow<SurveyRegistrationEvent> =
         MutableSharedFlow()
@@ -91,11 +94,12 @@ class SurveyRegistrationViewModel @Inject constructor(
 
     fun getEventList() {
         viewModelScope.launch {
-            // TODO GET EVENT LIST
-            val eventList = emptyList<Event>()
-            _eventList.value = listOf(
-                Event("ㅂㅈㄷ", 1, "", LocalDate.now(), "안녕"),
-                Event("123", 2, "", LocalDate.now(), "누구세요"),
+            getEventsUseCase(DateUtil.generateNowDate()).fold(
+                onSuccess = { eventList ->
+                    _eventList.value = eventList
+                },
+                onFailure = { exception ->
+                },
             )
         }
     }

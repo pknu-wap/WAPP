@@ -11,6 +11,7 @@ data class EventResponse(
     val location: String = "",
     val period: String = "",
     val title: String = "",
+    val time: String = "",
 ) {
     private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
@@ -20,5 +21,6 @@ data class EventResponse(
         location = location,
         title = title,
         period = LocalDate.parse(this.period, formatter),
+        time = time,
     )
 }

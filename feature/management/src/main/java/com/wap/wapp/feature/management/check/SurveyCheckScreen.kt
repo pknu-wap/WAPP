@@ -96,7 +96,7 @@ internal fun SurveyCheckScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = WappTheme.colors.yellow,
+                    containerColor = WappTheme.colors.yellow34,
                 ),
             )
         },
@@ -323,7 +323,7 @@ private fun ObjectiveAnswerIndicator(
             label = { },
             colors = FilterChipDefaults.filterChipColors(
                 containerColor = WappTheme.colors.black42,
-                selectedContainerColor = WappTheme.colors.yellow,
+                selectedContainerColor = WappTheme.colors.yellow34,
             ),
             modifier = Modifier.size(height = 40.dp, width = 80.dp),
         )

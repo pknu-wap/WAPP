@@ -1,7 +1,7 @@
 package com.wap.wapp.feature.management.registration.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 
 @Composable
-internal fun SurveyRegistrationTextField(
+internal fun RegistrationTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     placeholder: String,
 ) {
     TextField(
@@ -32,6 +32,7 @@ internal fun SurveyRegistrationTextField(
         placeholder = {
             Text(
                 text = placeholder,
+                color = WappTheme.colors.gray82,
             )
         },
         shape = RoundedCornerShape(10.dp),
