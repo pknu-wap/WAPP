@@ -27,4 +27,16 @@ class SurveyDataSourceImpl @Inject constructor(
             result
         }
     }
+
+    override suspend fun getSurvey(surveyId: String): Result<SurveyResponse> {
+        return runCatching {
+            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .document(surveyId)
+                .get()
+                .await()
+
+            val surveyResponse = result.toObject(SurveyResponse::class.java)
+            checkNotNull(surveyResponse)
+        }
+    }
 }
