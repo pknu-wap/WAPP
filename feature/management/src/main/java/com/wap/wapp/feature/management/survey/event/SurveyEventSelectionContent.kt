@@ -18,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 
 @Composable
 internal fun SurveyEventSelectionContent(
@@ -33,7 +33,7 @@ internal fun SurveyEventSelectionContent(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
     ) {
-        SurveyRegistrationTitle(
+        WappTitle(
             title = stringResource(R.string.event_selection_title),
             content = stringResource(R.string.event_selection_content),
         )
@@ -80,7 +80,7 @@ internal fun SurveyEventSelectionContent(
 
         WappButton(
             textRes = R.string.next,
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
         )
     }
 }

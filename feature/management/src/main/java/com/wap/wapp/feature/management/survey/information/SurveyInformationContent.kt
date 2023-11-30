@@ -13,16 +13,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
 import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTextField
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 
 @Composable
 internal fun SurveyInformationContent(
     title: String,
-    onTitleChange: (String) -> Unit,
+    onTitleChanged: (String) -> Unit,
     content: String,
-    onContentChange: (String) -> Unit,
+    onContentChanged: (String) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -31,7 +31,7 @@ internal fun SurveyInformationContent(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier.verticalScroll(scrollState),
     ) {
-        SurveyRegistrationTitle(
+        WappTitle(
             title = stringResource(R.string.survey_information_title),
             content = stringResource(R.string.survey_information_content),
         )
@@ -46,7 +46,7 @@ internal fun SurveyInformationContent(
             )
             SurveyRegistrationTextField(
                 value = title,
-                onValueChange = onTitleChange,
+                onValueChange = onTitleChanged,
                 placeholder = stringResource(R.string.survey_title_hint),
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -62,7 +62,7 @@ internal fun SurveyInformationContent(
             )
             SurveyRegistrationTextField(
                 value = content,
-                onValueChange = onContentChange,
+                onValueChange = onContentChanged,
                 placeholder = stringResource(R.string.survey_introduce_hint),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -71,7 +71,7 @@ internal fun SurveyInformationContent(
         }
 
         WappButton(
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
             textRes = R.string.next,
         )
     }

@@ -11,18 +11,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePickerState
-import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -42,20 +37,21 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyDeadlineContent(
-    onRegisterButtonClicked: () -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
-    onTimeChanged: (LocalTime) -> Unit,
     date: LocalDate,
     time: LocalTime,
+    datePickerState: DatePickerState,
+    timePickerState: TimePickerState,
+    showDatePicker: Boolean,
+    showTimePicker: Boolean,
+    onDatePickerStateChanged: (Boolean) -> Unit,
+    onTimePickerStateChanged: (Boolean) -> Unit,
+    onDateChanged: (LocalDate) -> Unit,
+    onTimeChanged: (LocalTime) -> Unit,
+    onRegisterButtonClicked: () -> Unit,
 ) {
-    val datePickerState = rememberDatePickerState()
-    val timePickerState = rememberTimePickerState()
-    var showDatePicker by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
-
     if (showDatePicker) {
         DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
+            onDismissRequest = { onDatePickerStateChanged(false) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -65,13 +61,13 @@ internal fun SurveyDeadlineContent(
                                 selectedDateMillis.toLocalDate(),
                             )
                         }
-                        showDatePicker = false
+                        onDatePickerStateChanged(false)
                     },
                 ) { Text(stringResource(id = R.string.select)) }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { showDatePicker = false },
+                    onClick = { onDatePickerStateChanged(false) },
                 ) { Text(stringResource(id = R.string.cancel)) }
             },
         ) {
@@ -82,13 +78,13 @@ internal fun SurveyDeadlineContent(
     if (showTimePicker) {
         TimePickerDialog(
             state = timePickerState,
-            onDismissRequest = { showTimePicker = false },
+            onDismissRequest = { onTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onTimeChanged(localTime)
-                showTimePicker = false
+                onTimePickerStateChanged(false)
             },
             onDismissButtonClicked = {
-                showTimePicker = false
+                onTimePickerStateChanged(false)
             },
         )
     }
@@ -97,7 +93,7 @@ internal fun SurveyDeadlineContent(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
     ) {
-        SurveyRegistrationTitle(
+        WappTitle(
             title = stringResource(R.string.survey_deadline_title),
             content = stringResource(R.string.survey_deadline_content),
         )
@@ -109,7 +105,7 @@ internal fun SurveyDeadlineContent(
                 title = stringResource(R.string.date),
                 hint = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
-                    showDatePicker = true
+                    onDatePickerStateChanged(true)
                 },
             )
 
@@ -117,14 +113,14 @@ internal fun SurveyDeadlineContent(
                 title = stringResource(R.string.time),
                 hint = time.format(DateTimeFormatter.ofPattern("HH.mm")),
                 onCardClicked = {
-                    showTimePicker = true
+                    onTimePickerStateChanged(true)
                 },
             )
         }
 
         WappButton(
             textRes = R.string.register_survey,
-            onClick = { onRegisterButtonClicked() },
+            onClick = onRegisterButtonClicked,
         )
     }
 }
@@ -190,7 +186,7 @@ private fun TimePickerDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = { onDismissButtonClicked() },
+                        onClick = onDismissButtonClicked,
                     ) {
                         Text(stringResource(R.string.cancel))
                     }

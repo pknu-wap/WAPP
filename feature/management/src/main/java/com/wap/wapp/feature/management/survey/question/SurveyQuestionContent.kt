@@ -25,10 +25,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.R
 import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTextField
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 
 @Composable
 internal fun SurveyQuestionContent(
@@ -47,7 +47,7 @@ internal fun SurveyQuestionContent(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier.verticalScroll(scrollState),
     ) {
-        SurveyRegistrationTitle(
+        WappTitle(
             title = stringResource(R.string.survey_question_title),
             content = stringResource(R.string.survey_question_content),
         )
@@ -124,7 +124,7 @@ internal fun SurveyQuestionContent(
             onAddSurveyQuestionButtonClicked = {
                 onAddSurveyQuestionButtonClicked()
             },
-            onNextButtonClicked = { onNextButtonClicked() },
+            onNextButtonClicked = onNextButtonClicked,
         )
     }
 }
@@ -242,13 +242,13 @@ private fun SurveyQuestionButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         WappButton(
-            onClick = { onAddSurveyQuestionButtonClicked() },
+            onClick = onAddSurveyQuestionButtonClicked,
             textRes = R.string.add_survey_question,
             modifier = Modifier.weight(1f),
         )
 
         WappButton(
-            onClick = { onNextButtonClicked() },
+            onClick = onNextButtonClicked,
             textRes = R.string.next,
             modifier = Modifier.weight(1f),
         )

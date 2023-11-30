@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.component
+package com.wap.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 
 @Composable
-internal fun SurveyRegistrationTitle(
+fun WappTitle(
     title: String,
     content: String,
 ) {
