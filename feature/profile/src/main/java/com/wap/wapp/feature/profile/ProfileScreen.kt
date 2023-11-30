@@ -30,7 +30,7 @@ import com.wap.wapp.feature.profile.component.WappProfileCard
 
 @Composable
 internal fun ProfileScreen(
-    onProfileSetingClicked: () -> Unit = {},
+    onProfileSettingClicked: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +57,7 @@ internal fun ProfileScreen(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = 20.dp)
-                    .clickable { onProfileSetingClicked() },
+                    .clickable { onProfileSettingClicked() },
             )
         }
 
@@ -69,7 +69,7 @@ internal fun ProfileScreen(
                 .padding(top = 40.dp),
         ) {
             Text(
-                text = stringResource(id = R.string.attendacne),
+                text = stringResource(id = R.string.attendance),
                 style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
                 color = WappTheme.colors.white,
                 modifier = Modifier
@@ -108,11 +108,14 @@ internal fun ProfileScreen(
             }
         }
 
+        val cardModifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = 160.dp)
+            .background(WappTheme.colors.black25)
+
         Card(
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 160.dp),
+            modifier = cardModifier,
         ) {
             LazyColumn() {
             }
@@ -122,15 +125,12 @@ internal fun ProfileScreen(
             text = stringResource(id = R.string.survey_i_did),
             style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
             color = WappTheme.colors.white,
-            modifier = Modifier
-                .padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+            modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
         )
 
         Card(
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 160.dp),
+            modifier = cardModifier,
         ) {
             LazyColumn() {
             }
