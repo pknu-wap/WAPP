@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.survey.component.SurveyRegistrationTitle
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -93,7 +93,7 @@ internal fun SurveyDeadlineContent(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
     ) {
-        SurveyRegistrationTitle(
+        WappTitle(
             title = stringResource(R.string.survey_deadline_title),
             content = stringResource(R.string.survey_deadline_content),
         )
