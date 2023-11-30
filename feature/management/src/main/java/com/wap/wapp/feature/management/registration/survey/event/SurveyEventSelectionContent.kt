@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.event
+package com.wap.wapp.feature.management.registration.survey.event
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

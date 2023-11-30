@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.deadline
+package com.wap.wapp.feature.management.registration.survey.deadline
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

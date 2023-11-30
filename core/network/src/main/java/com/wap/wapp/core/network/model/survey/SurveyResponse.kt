@@ -6,13 +6,11 @@ import java.time.format.DateTimeFormatter
 
 data class SurveyResponse(
     val surveyId: String,
-    val noticeId: String,
+    val eventId: String,
     val userId: String,
     val title: String,
     val content: String,
-    val review: String,
-    val feedBack: String,
-    val rating: RatingResponse,
+    val answerList: List<SurveyAnswerResponse>,
     val surveyedAt: String,
 ) {
     constructor() : this(
@@ -21,21 +19,17 @@ data class SurveyResponse(
         "",
         "",
         "",
-        "",
-        "",
-        RatingResponse.GOOD,
+        emptyList<SurveyAnswerResponse>(),
         "",
     )
 
-    fun toDomain(noticeName: String, userName: String): Survey = Survey(
-        surveyId = this.surveyId,
-        noticeName = noticeName,
+    fun toDomain(eventName: String, userName: String): Survey = Survey(
+        surveyId = surveyId,
+        eventName = eventName,
         userName = userName,
         title = this.title,
         content = this.content,
-        review = this.review,
-        feedBack = this.feedBack,
-        rating = this.rating.toDomain(),
+        answerList = this.answerList.map { answer -> answer.toDomain() },
         surveyedAt = LocalDateTime.parse(
             this.surveyedAt,
             DateTimeFormatter.ISO_LOCAL_DATE_TIME,

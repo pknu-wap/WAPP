@@ -98,7 +98,7 @@ private fun ManagementSurveyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = item.review,
+                    text = item.answerList.first().questionAnswer,
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,
@@ -108,7 +108,7 @@ private fun ManagementSurveyItem(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    SurveyCaption(item.noticeName, WappTheme.colors.white)
+                    SurveyCaption(item.eventName, WappTheme.colors.white)
 
                     CaptionDivider()
 
