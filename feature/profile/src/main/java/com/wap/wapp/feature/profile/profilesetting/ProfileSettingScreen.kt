@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
@@ -21,7 +22,7 @@ import com.wap.wapp.core.designresource.R
 @Composable
 internal fun ProfileSettingScreen(
     onClickedAlarmSetting: () -> Unit = {},
-    onClickedLogout: () -> Unit = {},
+    onClickedSignout: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
     onClickedInquriy: () -> Unit = {},
     onClickedFAQ: () -> Unit = {},
@@ -45,14 +46,14 @@ internal fun ProfileSettingScreen(
                 contentDescription = "",
             )
             Text(
-                text = "계정 설정",
+                text = stringResource(id = com.wap.wapp.feature.profile.R.string.account_setting),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
         }
 
         WappRowBar(
-            title = "알림 설정",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.alarm_setting),
             onClicked = onClickedAlarmSetting,
         )
 
@@ -62,8 +63,8 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = "로그아웃",
-            onClicked = onClickedLogout,
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.sign_out),
+            onClicked = onClickedSignout,
         )
 
         Divider(
@@ -72,7 +73,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = "회원탈퇴",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.withdrawal),
             onClicked = onClickedWithdrawal,
         )
 
@@ -90,14 +91,14 @@ internal fun ProfileSettingScreen(
                 contentDescription = "",
             )
             Text(
-                text = "더보기",
+                text = stringResource(id = com.wap.wapp.feature.profile.R.string.more),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
         }
 
         WappRowBar(
-            title = "문의하기",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquriy),
             onClicked = onClickedInquriy,
         )
 
@@ -107,7 +108,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = "FAQ",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.faq),
             onClicked = onClickedFAQ,
         )
 
@@ -117,7 +118,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = "약관 및 정책",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.terms_and_policies),
             onClicked = onClickedTermsAndPolicies,
         )
 
@@ -127,7 +128,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = "개인정보 처리 방침",
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.privacy_policy),
             onClicked = onClickedPrivacyPolicy,
         )
 
