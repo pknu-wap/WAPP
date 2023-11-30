@@ -41,4 +41,7 @@
     <string name="bad_description">행사 진행이 아쉬웠고,\n행사 내용이 부족함.</string>
     <string name="event_selection_title">행사 선택</string>
     <string name="event_selection_content">설문을 등록할 행사를 선택하세요.</string>
+    <string name="check_survey">설문 확인</string>
+    <string name="event">행사</string>
+    <string name="name">이름</string>
 </resources>
