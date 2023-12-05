@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.navigation.TopLevelDestination
 
@@ -28,7 +29,7 @@ internal fun WappBottomBar(
         content = {
             BottomNavigation(
                 backgroundColor = WappTheme.colors.backgroundBlack,
-                modifier = modifier
+                modifier = modifier,
             ) {
                 TopLevelDestination.entries.forEach { destination ->
                     val isSelect = currentRoute == destination.route
@@ -46,14 +47,14 @@ internal fun WappBottomBar(
                         label = {
                             Text(
                                 text = stringResource(id = destination.labelTextId),
-                                style = WappTheme.typography.labelNormal,
+                                style = WappTheme.typography.labelMedium.copy(fontSize = 10.sp),
                                 color = if (isSelect) WappTheme.colors.yellow34
                                 else WappTheme.colors.grayA2,
                             )
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     )
 }
