@@ -41,7 +41,7 @@ class ManagementFragment : Fragment() {
                 ManagementScreen(
                     showManageCodeDialog = { isShowDialog = true },
                     navigateToEventRegistration = { navigateToEventRegistration() },
-                    onAddSurveyButtonClicked = { navigateToSurveyRegistration() },
+                    navigateToSurveyRegistration = { navigateToSurveyRegistration() },
                     onCardClicked = { surveyId -> navigateToSurveyCheck(surveyId) },
                 )
 

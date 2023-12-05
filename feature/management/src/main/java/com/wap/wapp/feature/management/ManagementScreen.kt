@@ -12,7 +12,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -22,7 +26,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.ManagementViewModel.ManagerState
+import com.wap.wapp.feature.management.dialog.ManagementCodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
+
+@Composable
+internal fun ManagementRoute(
+    navigateToEventRegistration: () -> Unit = {},
+    navigateToSurveyRegistration: () -> Unit = {},
+    showToast: (String) -> Unit = {},
+) {
+    var isShowDialog by rememberSaveable { mutableStateOf(false) }
+
+    ManagementScreen(
+        showManageCodeDialog = { isShowDialog = true },
+        navigateToEventRegistration = navigateToEventRegistration,
+        navigateToSurveyRegistration = navigateToSurveyRegistration,
+        onCardClicked = {},
+    )
+
+    if (isShowDialog) {
+        ManagementCodeValidationDialog(
+            onDismissRequest = { isShowDialog = false },
+            showToast = { throwable ->
+                showToast(throwable.toSupportingText())
+            },
+        )
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +60,7 @@ internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
     navigateToEventRegistration: () -> Unit,
-    onAddSurveyButtonClicked: () -> Unit,
+    navigateToSurveyRegistration: () -> Unit,
     onCardClicked: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -94,7 +124,7 @@ internal fun ManagementScreen(
                 surveyList = surveyList,
                 modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = onCardClicked,
-                onAddSurveyButtonClicked = onAddSurveyButtonClicked,
+                onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
         }
     }
