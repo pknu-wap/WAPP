@@ -14,7 +14,7 @@ fun NavController.navigateToSignIn(navOptions: NavOptions? = navOptions {}) {
     this.navigate(signInNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.authScreen(
+fun NavGraphBuilder.signInScreen(
     signInUseCase: SignInUseCase,
     navigateToSignUp: () -> Unit,
     navigateToNotice: () -> Unit,
