@@ -17,7 +17,7 @@ import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.survey.navigation.surveyScreen
 
 @Composable
-fun WAPPNavHost(
+fun WappNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     signInUseCase: SignInUseCase,
