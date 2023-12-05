@@ -29,7 +29,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         composeView.setContent {
             WappTheme {
-                ProfileScreen(onProfileSettingClicked = { navigateToProfileSetting() })
+                ProfileScreen(navigateToProfileSetting = { navigateToProfileSetting() })
             }
         }
     }

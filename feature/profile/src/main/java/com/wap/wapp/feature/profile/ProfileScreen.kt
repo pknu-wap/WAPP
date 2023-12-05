@@ -23,14 +23,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.profile.component.WappProfileCard
 
 @Composable
+internal fun ProfileRoute(
+    viewModel: ProfileViewModel = hiltViewModel(),
+    navigateToProfileSetting: () -> Unit,
+) {
+    ProfileScreen(navigateToProfileSetting = navigateToProfileSetting)
+}
+
+@Composable
 internal fun ProfileScreen(
-    onProfileSettingClicked: () -> Unit = {},
+    navigateToProfileSetting: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -57,7 +66,7 @@ internal fun ProfileScreen(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = 20.dp)
-                    .clickable { onProfileSettingClicked() },
+                    .clickable { navigateToProfileSetting() },
             )
         }
 

@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun ManagementRoute(
+    viewModel: ManagementViewModel = hiltViewModel(),
     navigateToEventRegistration: () -> Unit = {},
     navigateToSurveyRegistration: () -> Unit = {},
     showToast: (String) -> Unit = {},
