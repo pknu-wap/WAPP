@@ -9,6 +9,9 @@ import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
 import com.wap.wapp.feature.management.navigation.managementScreen
+import com.wap.wapp.feature.management.navigation.navigateToManagement
+import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
+import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationScreen
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.profileScreen
@@ -39,6 +42,12 @@ fun WappNavHost(
         )
         noticeScreen()
         surveyScreen()
+        surveyRegistrationScreen(
+            navigateToManagement = { navController.navigateToManagement() },
+        )
+        eventRegistrationScreen(
+            navigateToManagement = { navController.navigateToManagement() },
+        )
         profileScreen(
             navigateToProfileSetting = { navController.navigateToProfileSetting() },
         )

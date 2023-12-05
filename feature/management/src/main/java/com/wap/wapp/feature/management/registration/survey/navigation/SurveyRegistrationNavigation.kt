@@ -13,8 +13,8 @@ fun NavController.navigateToSurveyRegistration(navOptions: NavOptions? = navOpti
     this.navigate(surveyRegistrationNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.surveyRegistration(
-    navigateToManagement: () -> Unit = {},
+fun NavGraphBuilder.surveyRegistrationScreen(
+    navigateToManagement: () -> Unit,
 ) {
     composable(route = surveyRegistrationNavigationRoute) {
         SurveyRegistrationRoute(

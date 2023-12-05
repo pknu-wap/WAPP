@@ -13,8 +13,8 @@ fun NavController.navigateToEventRegistration(navOptions: NavOptions? = navOptio
     this.navigate(eventRegistrationNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.eventRegistration(
-    navigateToManagement: () -> Unit = {},
+fun NavGraphBuilder.eventRegistrationScreen(
+    navigateToManagement: () -> Unit,
 ) {
     composable(route = eventRegistrationNavigationRoute) {
         EventRegistrationRoute(
