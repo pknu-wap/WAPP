@@ -5,6 +5,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -32,37 +34,39 @@ internal fun WappBottomBar(
             slideInVertically { height -> height } with
                 slideOutVertically { height -> height }
         },
-        content = { isVisible ->
-            if (isVisible) {
-                BottomNavigation(
-                    backgroundColor = WappTheme.colors.backgroundBlack,
-                    modifier = modifier,
-                ) {
-                    TopLevelDestination.entries.forEach { destination ->
-                        val isSelect = currentRoute == destination.route
-                        BottomNavigationItem(
-                            selected = isSelect,
-                            onClick = { onNavigateToDestination(destination) },
-                            selectedContentColor = WappTheme.colors.yellow34,
-                            unselectedContentColor = WappTheme.colors.grayA2,
-                            icon = {
-                                Icon(
-                                    painter = painterResource(id = destination.iconDrawableId),
-                                    contentDescription = null,
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = stringResource(id = destination.labelTextId),
-                                    style = WappTheme.typography.labelMedium.copy(fontSize = 10.sp),
-                                    color = if (isSelect) WappTheme.colors.yellow34
-                                    else WappTheme.colors.grayA2,
-                                )
-                            },
-                        )
-                    }
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(WappTheme.colors.backgroundBlack),
+    ) { isVisible ->
+        if (isVisible) {
+            BottomNavigation(
+                backgroundColor = WappTheme.colors.black25,
+                modifier = modifier,
+            ) {
+                TopLevelDestination.entries.forEach { destination ->
+                    val isSelect = currentRoute == destination.route
+                    BottomNavigationItem(
+                        selected = isSelect,
+                        onClick = { onNavigateToDestination(destination) },
+                        selectedContentColor = WappTheme.colors.yellow34,
+                        unselectedContentColor = WappTheme.colors.grayA2,
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = destination.iconDrawableId),
+                                contentDescription = null,
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(id = destination.labelTextId),
+                                style = WappTheme.typography.labelMedium.copy(fontSize = 10.sp),
+                                color = if (isSelect) WappTheme.colors.yellow34
+                                else WappTheme.colors.grayA2,
+                            )
+                        },
+                    )
                 }
             }
-        },
-    )
+        }
+    }
 }

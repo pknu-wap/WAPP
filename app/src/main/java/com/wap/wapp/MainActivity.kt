@@ -3,6 +3,8 @@ package com.wap.wapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -40,9 +42,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             WappTheme {
                 val navController = rememberNavController()
+
                 Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(WappTheme.colors.black25),
                     bottomBar = {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val navBackStackEntry by
+                        navController.currentBackStackEntryAsState()
+
                         val currentRoute = navBackStackEntry?.destination?.route
                         var bottomBarState by rememberSaveable { mutableStateOf(false) }
 
@@ -75,30 +83,30 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    private fun handleBottomBarState(
-        currentRoute: String?,
-        setBottomBarState: (Boolean) -> Unit,
-    ): Unit = when (currentRoute) {
-        null -> setBottomBarState(false)
-        signInNavigationRoute -> setBottomBarState(false)
-        signUpNavigationRoute -> setBottomBarState(false)
-        splashNavigationRoute -> setBottomBarState(false)
-        surveyRegistrationNavigationRoute -> setBottomBarState(false)
-        eventRegistrationNavigationRoute -> setBottomBarState(false)
-        else -> setBottomBarState(true)
-    }
+private fun handleBottomBarState(
+    currentRoute: String?,
+    setBottomBarState: (Boolean) -> Unit,
+): Unit = when (currentRoute) {
+    null -> setBottomBarState(false)
+    signInNavigationRoute -> setBottomBarState(false)
+    signUpNavigationRoute -> setBottomBarState(false)
+    splashNavigationRoute -> setBottomBarState(false)
+    surveyRegistrationNavigationRoute -> setBottomBarState(false)
+    eventRegistrationNavigationRoute -> setBottomBarState(false)
+    else -> setBottomBarState(true)
+}
 
-    private fun navigateToTopLevelDestination(
-        navController: NavController,
-        destination: TopLevelDestination,
-    ) {
-        navController.navigate(route = destination.route) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+private fun navigateToTopLevelDestination(
+    navController: NavController,
+    destination: TopLevelDestination,
+) {
+    navController.navigate(route = destination.route) {
+        popUpTo(navController.graph.findStartDestination().id) {
+            saveState = true
         }
+        launchSingleTop = true
+        restoreState = true
     }
 }

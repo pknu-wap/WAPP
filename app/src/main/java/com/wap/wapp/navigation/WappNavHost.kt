@@ -1,9 +1,12 @@
 package com.wap.wapp.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
+import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
@@ -32,10 +35,16 @@ fun WappNavHost(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier,
+        modifier = modifier.background(WappTheme.colors.black25),
     ) {
         splashScreen(
-            navigateToAuth = { navController.navigateToSignIn() },
+            navigateToAuth = {
+                navController.navigateToSignIn(
+                    navOptions {
+                        popUpTo(splashNavigationRoute) { inclusive = true }
+                    },
+                )
+            },
         )
         signInScreen(
             signInUseCase = signInUseCase,
