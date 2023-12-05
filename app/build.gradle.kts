@@ -33,6 +33,7 @@ dependencies {
     implementation(project(":feature:management"))
     implementation(project(":feature:splash"))
     implementation(project(":core:designresource"))
+    implementation(project(":core:domain"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)
