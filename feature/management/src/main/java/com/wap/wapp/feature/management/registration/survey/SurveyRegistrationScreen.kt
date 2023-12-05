@@ -44,14 +44,11 @@ import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyRegistrationScreen(
-    registerSurveyForm: () -> Unit,
+internal fun SurveyRegistrationRoute(
     viewModel: SurveyRegistrationViewModel = hiltViewModel(),
-    onBackButtonClicked: () -> Unit,
+    navigateToManagement: () -> Unit,
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
     val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
     val eventList = viewModel.eventList.collectAsState().value
     val eventSelection = viewModel.surveyEventSelection.collectAsState().value
@@ -62,6 +59,43 @@ internal fun SurveyRegistrationScreen(
     val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
     val time = viewModel.surveyTimeDeadline.collectAsState().value
     val date = viewModel.surveyDateDeadline.collectAsState().value
+
+    SurveyRegistrationScreen(
+        currentRegistrationState = currentRegistrationState,
+        eventList = eventList,
+        eventSelection = eventSelection,
+        title = title,
+        content = content,
+        question = question,
+        questionType = questionType,
+        totalQuestionSize = totalQuestionSize,
+        time = time,
+        date = date,
+        onBackButtonClicked = { navigateToManagement() },
+        registerSurveyForm = {
+            navigateToManagement()
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun SurveyRegistrationScreen(
+    currentRegistrationState: SurveyRegistrationState,
+    eventList: List<Event>,
+    eventSelection: Event,
+    title: String,
+    content: String,
+    question: String,
+    questionType: QuestionType,
+    totalQuestionSize: Int,
+    time: LocalTime,
+    date: LocalDate,
+    registerSurveyForm: () -> Unit,
+    viewModel: SurveyRegistrationViewModel = hiltViewModel(),
+    onBackButtonClicked: () -> Unit,
+) {
+    val snackBarHostState = remember { SnackbarHostState() }
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
