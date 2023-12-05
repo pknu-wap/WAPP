@@ -5,9 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
+import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
+import com.wap.wapp.feature.management.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
 import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
@@ -38,10 +40,13 @@ fun WappNavHost(
         )
         signUpScreen(
             navigateToNotice = { navController.navigateToNotice() },
-            navigateToSignIn = { navController.navigateToNotice() },
+            navigateToSignIn = { navController.navigateToSignIn() },
         )
         noticeScreen()
         surveyScreen()
+        surveyCheckScreen(
+            navigateToManagement = { navController.navigateToManagement() },
+        )
         surveyRegistrationScreen(
             navigateToManagement = { navController.navigateToManagement() },
         )

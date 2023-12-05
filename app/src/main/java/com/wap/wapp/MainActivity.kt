@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WappTheme {
                 val navController = rememberNavController()
-
                 Scaffold(
                     bottomBar = {
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
