@@ -18,7 +18,7 @@ fun NavGraphBuilder.eventRegistrationScreen(
 ) {
     composable(route = eventRegistrationNavigationRoute) {
         EventRegistrationRoute(
-            navigateToManagement = navigateToManagement
+            navigateToManagement = navigateToManagement,
         )
     }
 }

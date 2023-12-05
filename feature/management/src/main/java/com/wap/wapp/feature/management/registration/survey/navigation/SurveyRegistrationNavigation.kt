@@ -18,7 +18,7 @@ fun NavGraphBuilder.surveyRegistrationScreen(
 ) {
     composable(route = surveyRegistrationNavigationRoute) {
         SurveyRegistrationRoute(
-            navigateToManagement = navigateToManagement
+            navigateToManagement = navigateToManagement,
         )
     }
 }

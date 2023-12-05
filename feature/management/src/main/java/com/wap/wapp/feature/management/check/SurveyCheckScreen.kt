@@ -48,7 +48,6 @@ import com.wap.wapp.core.model.survey.Rating
 import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.model.survey.toNaturalLanguage
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.dialog.ManagementCodeValidationViewModel.ManagementCodeUiState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

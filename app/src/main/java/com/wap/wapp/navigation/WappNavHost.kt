@@ -19,6 +19,7 @@ import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.profileScreen
 import com.wap.wapp.feature.profile.profilesetting.navigation.navigateToProfileSetting
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
+import com.wap.wapp.feature.splash.navigation.splashScreen
 import com.wap.wapp.feature.survey.navigation.surveyScreen
 
 @Composable
@@ -33,6 +34,9 @@ fun WappNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
+        splashScreen(
+            navigateToAuth = { navController.navigateToSignIn() },
+        )
         signInScreen(
             signInUseCase = signInUseCase,
             navigateToNotice = { navController.navigateToNotice() },
