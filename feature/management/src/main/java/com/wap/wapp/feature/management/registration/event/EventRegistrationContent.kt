@@ -72,12 +72,13 @@ private fun EventDetailsContent(
         title = stringResource(id = R.string.event_details_title),
         content = stringResource(id = R.string.event_details_content),
     )
-    Box(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
+                .fillMaxSize()
                 .padding(top = 50.dp)
-                .align(Alignment.TopCenter),
+                .weight(1f),
         ) {
             Text(
                 text = stringResource(R.string.event_title),
@@ -112,9 +113,7 @@ private fun EventDetailsContent(
         WappButton(
             onClick = onNextButtonClicked,
             textRes = R.string.next,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 20.dp),
+            modifier = Modifier.padding(bottom = 20.dp),
         )
     }
 }

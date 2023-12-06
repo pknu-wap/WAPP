@@ -16,6 +16,8 @@ import com.wap.wapp.feature.management.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
 import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
+import com.wap.wapp.feature.management.registration.event.navigation.navigateToEventRegistration
+import com.wap.wapp.feature.management.registration.survey.navigation.navigateToSurveyRegistration
 import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationScreen
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
@@ -69,6 +71,9 @@ fun WappNavHost(
         profileScreen(
             navigateToProfileSetting = { navController.navigateToProfileSetting() },
         )
-        managementScreen()
+        managementScreen(
+            navigateToSurveyRegistration = { navController.navigateToSurveyRegistration() },
+            navigateToEventRegistration = { navController.navigateToEventRegistration() },
+        )
     }
 }
