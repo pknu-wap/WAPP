@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -36,10 +34,6 @@ import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.survey.deadline.SurveyDeadlineContent
-import com.wap.wapp.feature.management.registration.survey.event.SurveyEventSelectionContent
-import com.wap.wapp.feature.management.registration.survey.information.SurveyInformationContent
-import com.wap.wapp.feature.management.registration.survey.question.SurveyQuestionContent
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime

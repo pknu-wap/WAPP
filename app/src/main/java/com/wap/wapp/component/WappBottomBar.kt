@@ -57,11 +57,16 @@ internal fun WappBottomBar(
                             )
                         },
                         label = {
+                            val labelColor = if (isSelect) {
+                                WappTheme.colors.yellow34
+                            } else {
+                                WappTheme.colors.grayA2
+                            }
+
                             Text(
                                 text = stringResource(id = destination.labelTextId),
                                 style = WappTheme.typography.labelMedium.copy(fontSize = 10.sp),
-                                color = if (isSelect) WappTheme.colors.yellow34
-                                else WappTheme.colors.grayA2,
+                                color = labelColor,
                             )
                         },
                     )

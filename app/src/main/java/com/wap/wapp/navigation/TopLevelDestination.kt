@@ -33,5 +33,5 @@ enum class TopLevelDestination(
         route = managementNavigationRoute,
         iconDrawableId = R.drawable.ic_management,
         labelTextId = string.management,
-    )
+    ),
 }

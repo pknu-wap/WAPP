@@ -9,7 +9,7 @@ import com.wap.wapp.feature.splash.SplashRoute
 
 const val splashNavigationRoute = "splash_route"
 
-fun NavController.navigateToSplah(navOptions: NavOptions? = navOptions {}) {
+fun NavController.navigateToSplash(navOptions: NavOptions? = navOptions {}) {
     this.navigate(splashNavigationRoute, navOptions)
 }
 
