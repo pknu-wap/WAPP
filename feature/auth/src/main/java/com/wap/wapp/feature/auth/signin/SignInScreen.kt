@@ -43,8 +43,8 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SignInRoute(
     signInUseCase: SignInUseCase,
-    navigateToSignUp: () -> Unit = {},
-    navigateToNotice: () -> Unit = {},
+    navigateToSignUp: () -> Unit,
+    navigateToNotice: () -> Unit,
 ) {
     SignInScreen(
         signInUseCase = signInUseCase,

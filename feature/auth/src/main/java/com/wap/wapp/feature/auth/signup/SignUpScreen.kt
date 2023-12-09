@@ -41,8 +41,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 internal fun SignUpRoute(
     viewModel: SignUpViewModel = hiltViewModel(),
-    navigateToSignIn: () -> Unit = {},
-    navigateToNotice: () -> Unit = {},
+    navigateToSignIn: () -> Unit,
+    navigateToNotice: () -> Unit,
 ) {
     SignUpScreen(
         viewModel = viewModel,
