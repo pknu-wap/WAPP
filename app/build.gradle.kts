@@ -33,6 +33,8 @@ dependencies {
     implementation(project(":feature:management"))
     implementation(project(":feature:splash"))
     implementation(project(":core:designresource"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)
@@ -41,7 +43,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso)
 }
 
-/*tasks.getByPath(":app:preBuild").dependsOn("installGitHook")
+tasks.getByPath(":app:preBuild").dependsOn("installGitHook")
 
 tasks.register<Copy>("installGitHook") {
     dependsOn("deletePreviousGitHook")
@@ -58,4 +60,4 @@ tasks.register<Delete>("deletePreviousGitHook") {
     if (file(prePush).exists()) {
         delete(prePush)
     }
-}*/
+}

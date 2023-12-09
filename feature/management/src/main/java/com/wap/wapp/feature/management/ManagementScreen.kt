@@ -1,5 +1,7 @@
 package com.wap.wapp.feature.management
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,9 +14,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,7 +29,38 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.ManagementViewModel.ManagerState
+import com.wap.wapp.feature.management.dialog.ManagementCodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
+
+@Composable
+internal fun ManagementRoute(
+    viewModel: ManagementViewModel = hiltViewModel(),
+    navigateToEventRegistration: () -> Unit,
+    navigateToSurveyRegistration: () -> Unit,
+) {
+    var isShowDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    ManagementScreen(
+        showManageCodeDialog = { isShowDialog = true },
+        navigateToEventRegistration = navigateToEventRegistration,
+        navigateToSurveyRegistration = navigateToSurveyRegistration,
+        onCardClicked = {},
+    )
+
+    if (isShowDialog) {
+        ManagementCodeValidationDialog(
+            onDismissRequest = { isShowDialog = false },
+            showToast = { throwable ->
+                showToast(throwable.toSupportingText(), context)
+            },
+        )
+    }
+}
+
+private fun showToast(text: String, context: Context) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +68,7 @@ internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
     navigateToEventRegistration: () -> Unit,
-    onAddSurveyButtonClicked: () -> Unit,
+    navigateToSurveyRegistration: () -> Unit,
     onCardClicked: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -94,7 +132,7 @@ internal fun ManagementScreen(
                 surveyList = surveyList,
                 modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = onCardClicked,
-                onAddSurveyButtonClicked = onAddSurveyButtonClicked,
+                onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
         }
     }

@@ -1,6 +1,5 @@
 package com.wap.wapp.plugin
 
-import com.wap.wapp.plugin.configure.configureBinding
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -13,7 +12,6 @@ class AndroidFeatureConventionPlugin: Plugin<Project>{
                 apply("com.wap.wapp.hilt")
                 apply("com.wap.wapp.navigation")
             }
-            configureBinding()
         }
     }
 }

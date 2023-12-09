@@ -13,15 +13,60 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.feature.management.R
+
+@Composable
+internal fun EventRegistrationRoute(
+    viewModel: EventRegistrationViewModel = hiltViewModel(),
+    navigateToManagement: () -> Unit,
+) {
+    val currentRegistrationState
+        by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
+    val eventTitle by viewModel.eventTitle.collectAsStateWithLifecycle()
+    val eventContent by viewModel.eventContent.collectAsStateWithLifecycle()
+    val eventLocation by viewModel.eventLocation.collectAsStateWithLifecycle()
+    val eventDate by viewModel.eventDate.collectAsStateWithLifecycle()
+    val eventTime by viewModel.eventTime.collectAsStateWithLifecycle()
+    val onTitleChanged = viewModel::setEventTitle
+    val onContentChanged = viewModel::setEventContent
+    val onLocationChanged = viewModel::setEventLocation
+    val onDateChanged = viewModel::setEventDate
+    val onTimeChanged = viewModel::setEventTime
+    val onNextButtonClicked =
+        viewModel::setEventRegistrationState
+    val onRegisterButtonClicked = viewModel::registerEvent
+
+    EventRegistrationScreen(
+        currentRegistrationState = currentRegistrationState,
+        eventTitle = eventTitle,
+        eventContent = eventContent,
+        eventLocation = eventLocation,
+        eventDate = eventDate,
+        eventTime = eventTime,
+        onTitleChanged = onTitleChanged,
+        onContentChanged = onContentChanged,
+        onLocationChanged = onLocationChanged,
+        onDateChanged = onDateChanged,
+        onTimeChanged = onTimeChanged,
+        onNextButtonClicked = onNextButtonClicked,
+        onRegisterButtonClicked = {
+            onRegisterButtonClicked()
+            navigateToManagement()
+        },
+        onBackButtonClicked = { navigateToManagement() },
+    )
+}
 
 @Composable
 internal fun EventRegistrationScreen(

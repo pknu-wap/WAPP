@@ -3,13 +3,13 @@
     android:height="20dp"
     android:viewportWidth="20"
     android:viewportHeight="20">
-  <path
-      android:pathData="M1.5,0L18.5,0A1.5,1.5 0,0 1,20 1.5L20,1.5A1.5,1.5 0,0 1,18.5 3L1.5,3A1.5,1.5 0,0 1,0 1.5L0,1.5A1.5,1.5 0,0 1,1.5 0z"
-      android:fillColor="#ffffff"/>
-  <path
-      android:pathData="M1.5,17L5.5,17A1.5,1.5 0,0 1,7 18.5L7,18.5A1.5,1.5 0,0 1,5.5 20L1.5,20A1.5,1.5 0,0 1,0 18.5L0,18.5A1.5,1.5 0,0 1,1.5 17z"
-      android:fillColor="#ffffff"/>
-  <path
-      android:pathData="M1.5,8.5L11.5,8.5A1.5,1.5 0,0 1,13 10L13,10A1.5,1.5 0,0 1,11.5 11.5L1.5,11.5A1.5,1.5 0,0 1,0 10L0,10A1.5,1.5 0,0 1,1.5 8.5z"
-      android:fillColor="#ffffff"/>
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M1.5,0L18.5,0A1.5,1.5 0,0 1,20 1.5L20,1.5A1.5,1.5 0,0 1,18.5 3L1.5,3A1.5,1.5 0,0 1,0 1.5L0,1.5A1.5,1.5 0,0 1,1.5 0z" />
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M1.5,17L5.5,17A1.5,1.5 0,0 1,7 18.5L7,18.5A1.5,1.5 0,0 1,5.5 20L1.5,20A1.5,1.5 0,0 1,0 18.5L0,18.5A1.5,1.5 0,0 1,1.5 17z" />
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M1.5,8.5L11.5,8.5A1.5,1.5 0,0 1,13 10L13,10A1.5,1.5 0,0 1,11.5 11.5L1.5,11.5A1.5,1.5 0,0 1,0 10L0,10A1.5,1.5 0,0 1,1.5 8.5z" />
 </vector>

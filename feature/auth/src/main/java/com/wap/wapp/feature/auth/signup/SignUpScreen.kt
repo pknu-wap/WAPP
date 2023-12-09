@@ -39,10 +39,23 @@ import com.wap.wapp.feature.auth.signup.SignUpViewModel.SignUpEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
+internal fun SignUpRoute(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    navigateToSignIn: () -> Unit,
+    navigateToNotice: () -> Unit,
+) {
+    SignUpScreen(
+        viewModel = viewModel,
+        navigateToNotice = navigateToNotice,
+        navigateToSignIn = navigateToSignIn,
+    )
+}
+
+@Composable
 internal fun SignUpScreen(
+    viewModel: SignUpViewModel,
     navigateToNotice: () -> Unit,
     navigateToSignIn: () -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 

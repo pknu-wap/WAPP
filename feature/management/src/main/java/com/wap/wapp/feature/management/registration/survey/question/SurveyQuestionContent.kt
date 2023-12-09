@@ -219,8 +219,7 @@ private fun SurveyQuestionTypeCard(
                 color = WappTheme.colors.white,
                 style = WappTheme.typography.contentBold,
                 textAlign = TextAlign.Center,
-
-            )
+                )
 
             Text(
                 text = content,

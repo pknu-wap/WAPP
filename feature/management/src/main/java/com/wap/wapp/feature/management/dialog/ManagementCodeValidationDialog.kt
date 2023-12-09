@@ -36,10 +36,12 @@ fun ManagementCodeValidationDialog(
                 is ManagementCodeUiState.Success -> {
                     onDismissRequest()
                 }
+
                 is ManagementCodeUiState.Failure -> {
                     showToast(it.throwable)
                 }
-                is ManagementCodeUiState.Init -> { }
+
+                is ManagementCodeUiState.Init -> {}
             }
         }
     }
