@@ -16,13 +16,11 @@ fun NavController.navigateToManagement(navOptions: NavOptions? = navOptions {}) 
 fun NavGraphBuilder.managementScreen(
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    showToast: (String) -> Unit = {}, // Todo
 ) {
     composable(route = managementNavigationRoute) {
         ManagementRoute(
             navigateToEventRegistration = navigateToEventRegistration,
             navigateToSurveyRegistration = navigateToSurveyRegistration,
-            showToast = showToast,
         )
     }
 }
