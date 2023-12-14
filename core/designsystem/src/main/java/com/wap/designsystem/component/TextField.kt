@@ -1,11 +1,14 @@
 package com.wap.designsystem.component
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 
 @Composable
@@ -40,5 +43,35 @@ fun WappTextField(
         supportingText = {
             Text(text = supportingText)
         },
+    )
+}
+
+@Composable
+fun WappRoundedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    @StringRes placeholder: Int,
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = WappTheme.colors.white,
+            unfocusedTextColor = WappTheme.colors.white,
+            focusedContainerColor = WappTheme.colors.black25,
+            unfocusedContainerColor = WappTheme.colors.black25,
+            focusedIndicatorColor = WappTheme.colors.black25,
+            unfocusedIndicatorColor = WappTheme.colors.black25,
+            cursorColor = WappTheme.colors.yellow34,
+        ),
+        placeholder = {
+            androidx.compose.material.Text(
+                text = stringResource(id = placeholder),
+                color = WappTheme.colors.gray82,
+            )
+        },
+        shape = RoundedCornerShape(10.dp),
     )
 }
