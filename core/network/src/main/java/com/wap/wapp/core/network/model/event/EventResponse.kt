@@ -1,13 +1,12 @@
 package com.wap.wapp.core.network.model.event
 
-import com.google.firebase.firestore.PropertyName
 import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 data class EventResponse(
     val content: String = "",
-    @PropertyName("event_id") val eventId: Int = 0,
+    val eventId: Int = 0,
     val location: String = "",
     val period: String = "",
     val title: String = "",
