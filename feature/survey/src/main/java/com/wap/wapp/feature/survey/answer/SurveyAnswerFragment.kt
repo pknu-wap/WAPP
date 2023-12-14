@@ -33,14 +33,14 @@ class SurveyAnswerFragment : Fragment() {
             WappTheme {
                 SurveyAnswerScreen(
                     onBackButtonClicked = { navigateToSurvey() },
+                    onSubmitButtonClicked = { navigateToSurvey() },
                     eventId = args.eventId,
                 )
             }
         }
     }
 
-    private fun navigateToSurvey() =
-        findNavController().navigate(
-            SurveyAnswerFragmentDirections.actionSurveyAnswerFragmentToSurveyFragment(),
-        )
+    private fun navigateToSurvey() = findNavController().navigate(
+        SurveyAnswerFragmentDirections.actionSurveyAnswerFragmentToSurveyFragment(),
+    )
 }
