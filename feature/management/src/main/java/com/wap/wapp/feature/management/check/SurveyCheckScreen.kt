@@ -45,7 +45,7 @@ import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.Rating
 import com.wap.wapp.core.model.survey.SurveyAnswer
-import com.wap.wapp.core.model.survey.toNaturalLanguage
+import com.wap.wapp.core.model.survey.toDescription
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -312,7 +312,7 @@ private fun ObjectiveAnswerIndicator(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = rating.toNaturalLanguage(),
+            text = rating.toDescription().title,
             style = WappTheme.typography.captionRegular,
             color = WappTheme.colors.white,
         )
