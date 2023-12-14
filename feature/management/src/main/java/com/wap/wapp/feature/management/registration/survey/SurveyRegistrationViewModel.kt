@@ -98,7 +98,8 @@ class SurveyRegistrationViewModel @Inject constructor(
                 onSuccess = { eventList ->
                     _eventList.value = eventList
                 },
-                onFailure = { exception ->
+                onFailure = { throwable ->
+                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
                 },
             )
         }
@@ -111,7 +112,7 @@ class SurveyRegistrationViewModel @Inject constructor(
                     event = surveyEventSelection.value,
                     title = _surveyTitle.value,
                     content = _surveyContent.value,
-                    surveyQuestion = _surveyQuestionList.value,
+                    surveyQuestionList = _surveyQuestionList.value,
                     deadlineDate = _surveyDateDeadline.value,
                     deadlineTime = _surveyTimeDeadline.value,
                 ).onSuccess {
@@ -166,6 +167,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     private fun clearSurveyQuestionState() { _surveyQuestion.value = EMPTY }
 
     private fun isValidSurveyQuestion() = _surveyQuestion.value.isNotBlank()
+
     private fun isNotValidEventSelection() =
         _surveyEventSelection.value.eventId == EVENT_SELECTION_INIT.eventId
 
