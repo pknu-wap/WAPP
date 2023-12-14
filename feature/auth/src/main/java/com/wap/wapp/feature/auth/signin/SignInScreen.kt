@@ -40,6 +40,19 @@ import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.R
 import kotlinx.coroutines.launch
 
+@Composable
+internal fun SignInRoute(
+    signInUseCase: SignInUseCase,
+    navigateToSignUp: () -> Unit,
+    navigateToNotice: () -> Unit,
+) {
+    SignInScreen(
+        signInUseCase = signInUseCase,
+        navigateToSignUp = navigateToSignUp,
+        navigateToNotice = navigateToNotice,
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SignInScreen(
@@ -104,8 +117,13 @@ internal fun SignInScreen(
                             signInUseCase(email = email)
                                 .onSuccess {
                                     when (it) {
-                                        AuthState.SIGN_IN -> { navigateToNotice() }
-                                        AuthState.SIGN_UP -> { navigateToSignUp() }
+                                        AuthState.SIGN_IN -> {
+                                            navigateToNotice()
+                                        }
+
+                                        AuthState.SIGN_UP -> {
+                                            navigateToSignUp()
+                                        }
                                     }
                                 }
                                 .onFailure { throwable ->

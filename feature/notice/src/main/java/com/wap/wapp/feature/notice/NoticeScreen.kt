@@ -20,9 +20,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import java.time.LocalDate
+
+@Composable
+internal fun NoticeRoute(
+    viewModel: NoticeViewModel = hiltViewModel(),
+) {
+    val MonthEvents by viewModel.monthEvents.collectAsStateWithLifecycle()
+    val selectedDateEvents by viewModel.selectedDateEvent.collectAsStateWithLifecycle()
+    val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
+    val selectNewDateCallback = viewModel::setSelectedDate
+
+    NoticeScreen(MonthEvents, selectedDateEvents, selectedDate, selectNewDateCallback)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

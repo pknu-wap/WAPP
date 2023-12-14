@@ -9,14 +9,14 @@ import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyQuestion
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import java.time.LocalTime
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import javax.inject.Inject
 
 @HiltViewModel
 class SurveyRegistrationViewModel @Inject constructor(
@@ -64,7 +64,8 @@ class SurveyRegistrationViewModel @Inject constructor(
     // Content 전환 함수, 전환 전 내용 검증
     fun setSurveyRegistrationState(surveyRegistrationState: SurveyRegistrationState) {
         when (surveyRegistrationState) {
-            SurveyRegistrationState.EVENT_SELECTION -> { /* initial value */ }
+            SurveyRegistrationState.EVENT_SELECTION -> { /* initial value */
+            }
 
             SurveyRegistrationState.INFORMATION -> {
                 if (isNotValidEventSelection()) {
@@ -130,21 +131,33 @@ class SurveyRegistrationViewModel @Inject constructor(
         }
     }
 
-    fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
+    fun setSurveyEventSelection(event: Event) {
+        _surveyEventSelection.value = event
+    }
 
-    fun setSurveyTitle(title: String) { _surveyTitle.value = title }
+    fun setSurveyTitle(title: String) {
+        _surveyTitle.value = title
+    }
 
-    fun setSurveyContent(content: String) { _surveyContent.value = content }
+    fun setSurveyContent(content: String) {
+        _surveyContent.value = content
+    }
 
-    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
+    fun setSurveyQuestion(question: String) {
+        _surveyQuestion.value = question
+    }
 
     fun setSurveyQuestionType(questionType: QuestionType) {
         _surveyQuestionType.value = questionType
     }
 
-    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+    fun setSurveyTimeDeadline(time: LocalTime) {
+        _surveyTimeDeadline.value = time
+    }
 
-    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
+    fun setSurveyDateDeadline(date: LocalDate) {
+        _surveyDateDeadline.value = date
+    }
 
     fun addSurveyQuestion() {
         if (isValidSurveyQuestion()) {
@@ -164,7 +177,9 @@ class SurveyRegistrationViewModel @Inject constructor(
         }
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = EMPTY }
+    private fun clearSurveyQuestionState() {
+        _surveyQuestion.value = EMPTY
+    }
 
     private fun isValidSurveyQuestion() = _surveyQuestion.value.isNotBlank()
 

@@ -6,10 +6,10 @@ import com.wap.wapp.core.domain.model.CodeValidation
 import com.wap.wapp.core.domain.usecase.management.ValidateManagementCodeUseCase
 import com.wap.wapp.feature.management.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ManagementCodeValidationViewModel @Inject constructor(
@@ -38,6 +38,7 @@ class ManagementCodeValidationViewModel @Inject constructor(
                         CodeValidation.VALID -> {
                             _managementCodeUiState.value = ManagementCodeUiState.Success
                         }
+
                         CodeValidation.INVALID -> {
                             _isError.value = true
                             _errorSupportingText.value = R.string.management_incorrect_code

@@ -15,9 +15,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.feature.profile.ProfileScreen
+
+@Composable
+internal fun ProfileSettingRoute(
+    viewModel: ProfileSettingViewModel = hiltViewModel(),
+) {
+    ProfileScreen()
+}
 
 @Composable
 internal fun ProfileSettingScreen(

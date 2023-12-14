@@ -1,3 +1,4 @@
+/*
 package com.wap.wapp.feature.survey.answer
 
 import android.os.Bundle
@@ -15,7 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class SurveyAnswerFragment : Fragment() {
     private lateinit var composeView: ComposeView
 
-    private val args: SurveyAnswerFragmentArgs by navArgs()
+   */
+/* private val args: SurveyAnswerFragmentArgs by navArgs()*//*
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +43,10 @@ class SurveyAnswerFragment : Fragment() {
         }
     }
 
-    private fun navigateToSurvey() = findNavController().navigate(
+   */
+/* private fun navigateToSurvey() = findNavController().navigate(
         SurveyAnswerFragmentDirections.actionSurveyAnswerFragmentToSurveyFragment(),
-    )
+    )*//*
+
 }
+*/

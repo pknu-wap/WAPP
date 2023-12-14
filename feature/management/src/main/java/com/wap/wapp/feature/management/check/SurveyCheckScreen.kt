@@ -28,7 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.commmon.extensions.toSupportingText
@@ -49,15 +50,31 @@ import com.wap.wapp.core.model.survey.toDescription
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
 
+@Composable
+internal fun SurveyCheckRoute(
+    viewModel: SurveyCheckViewModel = hiltViewModel(),
+    surveyId: String = "",
+    navigateToManagement: () -> Unit,
+) {
+    val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
+
+    SurveyCheckScreen(
+        surveyId = surveyId,
+        surveyUiState = surveyUiState,
+        onDoneButtonClicked = { navigateToManagement() },
+        onBackButtonClicked = { navigateToManagement() },
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyCheckScreen(
     viewModel: SurveyCheckViewModel = hiltViewModel(),
     surveyId: String,
+    surveyUiState: SurveyCheckViewModel.SurveyUiState,
     onDoneButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
-    val surveyUiState = viewModel.surveyUiState.collectAsState().value
     val snackBarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
@@ -112,7 +129,7 @@ internal fun SurveyCheckScreen(
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             when (surveyUiState) {
-                is SurveyCheckViewModel.SurveyUiState.Init -> { }
+                is SurveyCheckViewModel.SurveyUiState.Init -> {}
 
                 is SurveyCheckViewModel.SurveyUiState.Success -> {
                     SurveyInformationCard(

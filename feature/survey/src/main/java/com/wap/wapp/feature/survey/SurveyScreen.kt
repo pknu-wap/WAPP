@@ -32,6 +32,14 @@ import com.wap.wapp.core.model.survey.SurveyForm
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
+internal fun SurveyRoute() {
+    SurveyScreen(
+        selectedSurveyForm = { eventId ->
+        },
+    )
+}
+
+@Composable
 internal fun SurveyScreen(
     viewModel: SurveyViewModel = hiltViewModel(),
     selectedSurveyForm: (Int) -> Unit,
