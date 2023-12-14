@@ -25,10 +25,9 @@ class ManagementRepositoryImpl @Inject constructor(
         return managementDataSource.postSurveyForm(
             surveyFormRequest = SurveyFormRequest(
                 eventId = surveyForm.eventId,
-                userId = surveyForm.userId,
                 title = surveyForm.title,
                 content = surveyForm.content,
-                surveyQuestion = surveyForm.surveyQuestion,
+                surveyQuestionList = surveyForm.surveyQuestionList,
                 deadline = surveyForm.deadline.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
             ),
             eventId = surveyForm.eventId,
