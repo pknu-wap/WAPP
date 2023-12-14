@@ -6,5 +6,6 @@
         <item>@id/signUpFragment</item>
         <item>@id/surveyRegistrationFragment</item>
         <item>@id/surveyCheckFragment</item>
+        <item>@id/surveyAnswerFragment</item>
     </array>
 </resources>
