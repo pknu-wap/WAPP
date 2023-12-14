@@ -9,7 +9,7 @@ data class SurveyFormResponse(
     val userId: String,
     val title: String,
     val content: String,
-    val surveyQuestion: List<SurveyQuestionResponse>,
+    val surveyQuestionList: List<SurveyQuestionResponse>,
     val deadline: String,
 ) {
     constructor() : this(
@@ -23,10 +23,9 @@ data class SurveyFormResponse(
 
     fun toDomain(): SurveyForm = SurveyForm(
         eventId = eventId,
-        userId = userId,
         title = title,
         content = content,
-        surveyQuestion = surveyQuestion.map { it.toDomain() },
+        surveyQuestionList = surveyQuestionList.map { it.toDomain() },
         deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
     )
 }
