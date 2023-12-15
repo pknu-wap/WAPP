@@ -66,6 +66,7 @@ internal fun SurveyRegistrationRoute(
         time = time,
         date = date,
         onBackButtonClicked = { navigateToManagement() },
+        viewModel = viewModel,
         registerSurveyForm = {
             navigateToManagement()
         },
@@ -86,7 +87,7 @@ internal fun SurveyRegistrationScreen(
     time: LocalTime,
     date: LocalDate,
     registerSurveyForm: () -> Unit,
-    viewModel: SurveyRegistrationViewModel = hiltViewModel(),
+    viewModel: SurveyRegistrationViewModel,
     onBackButtonClicked: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }

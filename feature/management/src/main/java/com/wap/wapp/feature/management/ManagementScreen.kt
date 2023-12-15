@@ -43,6 +43,7 @@ internal fun ManagementRoute(
 
     ManagementScreen(
         showManageCodeDialog = { isShowDialog = true },
+        viewModel = viewModel,
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
         onCardClicked = {},
@@ -66,7 +67,7 @@ private fun showToast(text: String, context: Context) {
 @Composable
 internal fun ManagementScreen(
     showManageCodeDialog: () -> Unit,
-    viewModel: ManagementViewModel = hiltViewModel(),
+    viewModel: ManagementViewModel,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     onCardClicked: (String) -> Unit,

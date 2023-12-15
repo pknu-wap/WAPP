@@ -59,6 +59,7 @@ internal fun SurveyCheckRoute(
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
 
     SurveyCheckScreen(
+        viewModel = viewModel,
         surveyId = surveyId,
         surveyUiState = surveyUiState,
         onDoneButtonClicked = { navigateToManagement() },
@@ -69,7 +70,7 @@ internal fun SurveyCheckRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyCheckScreen(
-    viewModel: SurveyCheckViewModel = hiltViewModel(),
+    viewModel: SurveyCheckViewModel,
     surveyId: String,
     surveyUiState: SurveyCheckViewModel.SurveyUiState,
     onDoneButtonClicked: () -> Unit,
