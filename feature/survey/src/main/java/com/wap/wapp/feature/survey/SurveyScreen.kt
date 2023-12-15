@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
@@ -32,16 +33,8 @@ import com.wap.wapp.core.model.survey.SurveyForm
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-internal fun SurveyRoute() {
-    SurveyScreen(
-        selectedSurveyForm = { eventId ->
-        },
-    )
-}
-
-@Composable
 internal fun SurveyScreen(
-    viewModel: SurveyViewModel = hiltViewModel(),
+    viewModel: SurveyViewModel,
     selectedSurveyForm: (Int) -> Unit,
 ) {
     val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
@@ -84,7 +77,7 @@ private fun SurveyContent(
                 ),
                 title = {
                     Text(
-                        text = "설문",
+                        text = stringResource(id = R.string.survey),
                         color = WappTheme.colors.white,
                         style = WappTheme.typography.titleBold,
                     )
@@ -102,8 +95,8 @@ private fun SurveyContent(
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
             WappTitle(
-                title = "설문 작성",
-                content = "참가한 행사에 대해 설문에 응답하세요!",
+                title = stringResource(R.string.survey_title),
+                content = stringResource(R.string.survey_content),
             )
 
             LazyColumn(
