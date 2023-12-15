@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
@@ -67,7 +68,7 @@ private fun TextCounter(
         )
 
         Text(
-            text = "/10자 이상",
+            text = stringResource(R.string.text_counter_content),
             color = WappTheme.colors.white,
             style = WappTheme.typography.labelMedium,
         )
