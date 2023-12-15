@@ -25,7 +25,9 @@ import com.wap.wapp.feature.profile.navigation.profileScreen
 import com.wap.wapp.feature.profile.profilesetting.navigation.navigateToProfileSetting
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
-import com.wap.wapp.feature.survey.navigation.surveyScreen
+import com.wap.wapp.feature.survey.navigation.navigateToSurvey
+import com.wap.wapp.feature.survey.navigation.navigateToSurveyAnswer
+import com.wap.wapp.feature.survey.navigation.surveyNavGraph
 
 @Composable
 fun WappNavHost(
@@ -58,7 +60,10 @@ fun WappNavHost(
             navigateToSignIn = { navController.navigateToSignIn() },
         )
         noticeScreen()
-        surveyScreen()
+        surveyNavGraph(
+            navigateToSurvey = { navController.navigateToSurvey() },
+            navigateToSurveyAnswer = { eventId -> navController.navigateToSurveyAnswer(eventId) },
+        )
         surveyCheckScreen(
             navigateToManagement = { navController.navigateToManagement() },
         )

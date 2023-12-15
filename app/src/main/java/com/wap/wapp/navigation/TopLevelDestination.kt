@@ -7,7 +7,7 @@ import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.management.navigation.managementNavigationRoute
 import com.wap.wapp.feature.notice.navigation.noticeNavigationRoute
 import com.wap.wapp.feature.profile.navigation.profileNavigationRoute
-import com.wap.wapp.feature.survey.navigation.surveyNavigationRoute
+import com.wap.wapp.feature.survey.navigation.SurveyRoute
 
 enum class TopLevelDestination(
     val route: String,
@@ -20,7 +20,7 @@ enum class TopLevelDestination(
         labelTextId = string.notice,
     ),
     SURVEY(
-        route = surveyNavigationRoute,
+        route = SurveyRoute.route,
         iconDrawableId = R.drawable.ic_survey,
         labelTextId = string.survey,
     ),
