@@ -153,12 +153,12 @@ private fun calculateDeadline(deadline: LocalDateTime): String {
         return leftMinutes + "분 후 마감"
     }
 
-    if(duration.toHours() < 24) {
+    if (duration.toHours() < 24) {
         val leftHours = duration.toHours().toString()
         return leftHours + "시간 후 마감"
     }
 
-    if(duration.toDays() < 31) {
+    if (duration.toDays() < 31) {
         val leftDays = duration.toDays().toString()
         return leftDays + "일 후 마감"
     }
