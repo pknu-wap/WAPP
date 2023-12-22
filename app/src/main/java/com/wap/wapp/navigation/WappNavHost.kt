@@ -61,8 +61,8 @@ fun WappNavHost(
         )
         noticeScreen()
         surveyNavGraph(
-            navigateToSurvey = { navController.navigateToSurvey() },
-            navigateToSurveyAnswer = { eventId -> navController.navigateToSurveyAnswer(eventId) },
+            navigateToSurvey = navController::navigateToSurvey ,
+            navigateToSurveyAnswer = navController::navigateToSurveyAnswer,
         )
         surveyCheckScreen(
             navigateToManagement = { navController.navigateToManagement() },
