@@ -1,8 +1,11 @@
 package com.wap.wapp.core.data.repository.survey
 
 import com.wap.wapp.core.model.survey.Survey
+import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.network.source.survey.SurveyDataSource
 import com.wap.wapp.core.network.source.user.UserDataSource
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SurveyRepositoryImpl @Inject constructor(
@@ -39,6 +42,24 @@ class SurveyRepositoryImpl @Inject constructor(
                     }.getOrThrow()
                 }.getOrThrow()
         }
+    }
+
+    override suspend fun postSurvey(
+        eventId: Int,
+        userId: String,
+        title: String,
+        content: String,
+        surveyAnswerList: List<SurveyAnswer>,
+        surveyedAt: LocalDateTime,
+    ): Result<Unit> {
+        return surveyDataSource.postSurvey(
+            eventId = eventId,
+            userId = userId,
+            title = title,
+            content = content,
+            surveyAnswerList = surveyAnswerList,
+            surveyedAt = surveyedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+        )
     }
 
     private val noticeNameResponse: Result<String> = Result.success("notice datasource dummy data")

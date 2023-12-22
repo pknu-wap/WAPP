@@ -40,7 +40,7 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindsSurveyFormRepository(
-        surveyFormRepositoryImpl: SurveyFormRepositoryImpl
+        surveyFormRepositoryImpl: SurveyFormRepositoryImpl,
     ): SurveyFormRepository
 
     @Binds
