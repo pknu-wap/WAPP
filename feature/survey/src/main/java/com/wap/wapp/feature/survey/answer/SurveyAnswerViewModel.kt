@@ -3,6 +3,7 @@ package com.wap.wapp.feature.survey.answer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
+import com.wap.wapp.core.domain.usecase.survey.PostSurveyUseCase
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.Rating
 import com.wap.wapp.core.model.survey.SurveyAnswer
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SurveyAnswerViewModel @Inject constructor(
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
+    private val postSurveyUseCase: PostSurveyUseCase,
 ) : ViewModel() {
     private val _surveyFormUiState: MutableStateFlow<SurveyFormUiState> =
         MutableStateFlow(SurveyFormUiState.Init)
@@ -85,9 +87,9 @@ class SurveyAnswerViewModel @Inject constructor(
 
     fun setNextQuestion() {
         val currentQuestionNumber = _questionNumber.value
-        val lastQuestionNumber = surveyAnswerList.value.size
+        val lastQuestionNumber = _surveyForm.value.surveyQuestionList.lastIndex
 
-        if(currentQuestionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
+        if (currentQuestionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
             submitSurvey()
             return
         }
@@ -96,8 +98,20 @@ class SurveyAnswerViewModel @Inject constructor(
     }
 
     private fun submitSurvey() {
-        viewModelScope.launch {
+        val surveyForm = _surveyForm.value
+        val surveyAnswerList = surveyAnswerList.value
 
+        viewModelScope.launch {
+            postSurveyUseCase(
+                eventId = surveyForm.eventId,
+                title = surveyForm.title,
+                content = surveyForm.content,
+                surveyAnswerList = surveyAnswerList,
+            ).onSuccess {
+                _surveyAnswerEvent.emit(SurveyAnswerUiEvent.SubmitSuccess)
+            }.onFailure { throwable ->
+                _surveyAnswerEvent.emit(SurveyAnswerUiEvent.Failure(throwable))
+            }
         }
     }
 
