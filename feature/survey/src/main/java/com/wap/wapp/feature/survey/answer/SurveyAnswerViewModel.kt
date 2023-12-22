@@ -54,12 +54,7 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
-    fun submitSurvey() {
-        viewModelScope.launch {
-        }
-    }
-
-    fun setSurveyAnswer() {
+    fun addSurveyAnswer() {
         val questionNumber = _questionNumber.value
         val surveyQuestion = _surveyForm.value.surveyQuestionList[questionNumber]
 
@@ -88,11 +83,29 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
+    fun setNextQuestion() {
+        val currentQuestionNumber = _questionNumber.value
+        val lastQuestionNumber = surveyAnswerList.value.size
+
+        if(currentQuestionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
+            submitSurvey()
+            return
+        }
+
+        addQuestionNumber() // 다음 질문 넘기기
+    }
+
+    private fun submitSurvey() {
+        viewModelScope.launch {
+
+        }
+    }
+
     fun setSubjectiveAnswer(answer: String) { _subjectiveAnswer.value = answer }
 
     fun setObjectiveAnswer(answer: Rating) { _objectiveAnswer.value = answer }
 
-    fun setNextQuestionNumber() { _questionNumber.value += 1 }
+    private fun addQuestionNumber() { _questionNumber.value += 1 }
 
     private fun clearSubjectiveAnswer() { _subjectiveAnswer.value = "" }
 
