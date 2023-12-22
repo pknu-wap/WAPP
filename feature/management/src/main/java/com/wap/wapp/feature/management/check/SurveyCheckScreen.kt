@@ -53,7 +53,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 internal fun SurveyCheckRoute(
     viewModel: SurveyCheckViewModel = hiltViewModel(),
-    surveyId: String = "",
+    surveyId: String,
     navigateToManagement: () -> Unit,
 ) {
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
@@ -143,7 +143,7 @@ internal fun SurveyCheckScreen(
                     Column(
                         verticalArrangement = Arrangement.spacedBy(32.dp),
                     ) {
-                        surveyUiState.survey.answerList.forEach { surveyAnswer ->
+                        surveyUiState.survey.surveyAnswerList.forEach { surveyAnswer ->
                             when (surveyAnswer.questionType) {
                                 QuestionType.OBJECTIVE -> {
                                     ObjectiveQuestionCard(surveyAnswer)
