@@ -1,6 +1,6 @@
 package com.wap.wapp.core.network.source.survey
 
-import com.wap.wapp.core.network.model.survey.SurveyFormResponse
+import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.network.model.survey.SurveyResponse
 
 interface SurveyDataSource {
@@ -8,7 +8,5 @@ interface SurveyDataSource {
 
     suspend fun getSurvey(surveyId: String): Result<SurveyResponse>
 
-    suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>>
-
-    suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse>
+    suspend fun postSurvey(survey: Survey): Result<Unit>
 }

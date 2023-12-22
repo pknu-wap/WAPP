@@ -6,6 +6,8 @@ import com.wap.wapp.core.network.source.management.ManagementDataSource
 import com.wap.wapp.core.network.source.management.ManagementDataSourceImpl
 import com.wap.wapp.core.network.source.survey.SurveyDataSource
 import com.wap.wapp.core.network.source.survey.SurveyDataSourceImpl
+import com.wap.wapp.core.network.source.survey.SurveyFormDataSource
+import com.wap.wapp.core.network.source.survey.SurveyFormDataSourceImpl
 import com.wap.wapp.core.network.source.user.UserDataSource
 import com.wap.wapp.core.network.source.user.UserDataSourceImpl
 import dagger.Binds
@@ -35,6 +37,12 @@ abstract class NetworkModule {
     abstract fun bindsSurveyDataSoruce(
         surveyDataSourceImpl: SurveyDataSourceImpl,
     ): SurveyDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsSurveyFormDateSource(
+        surveyFormDataSourceImpl: SurveyFormDataSourceImpl
+    ): SurveyFormDataSource
 
     @Binds
     @Singleton

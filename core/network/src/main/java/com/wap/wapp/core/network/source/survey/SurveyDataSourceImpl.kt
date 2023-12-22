@@ -1,9 +1,9 @@
 package com.wap.wapp.core.network.source.survey
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
-import com.wap.wapp.core.network.constant.SURVEY_FORM_COLLECTION
-import com.wap.wapp.core.network.model.survey.SurveyFormResponse
 import com.wap.wapp.core.network.model.survey.SurveyResponse
 import com.wap.wapp.core.network.utils.await
 import javax.inject.Inject
@@ -42,34 +42,17 @@ class SurveyDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>> {
+    override suspend fun postSurvey(survey: Survey): Result<Unit> {
         return runCatching {
-            val result: MutableList<SurveyFormResponse> = mutableListOf()
+            val setOption = SetOptions.merge()
+            val documentId = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .document()
+                .id
 
-            val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .get()
+            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .document(documentId)
+                .set(survey, setOption)
                 .await()
-
-            for (document in task.documents) {
-                val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
-                checkNotNull(surveyFormResponse)
-
-                result.add(surveyFormResponse)
-            }
-
-            result
-        }
-    }
-
-    override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> {
-        return runCatching {
-            val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(eventId.toString())
-                .get()
-                .await()
-
-            val surveyFormResponse = result.toObject(SurveyFormResponse::class.java)
-            checkNotNull(surveyFormResponse)
         }
     }
 }
