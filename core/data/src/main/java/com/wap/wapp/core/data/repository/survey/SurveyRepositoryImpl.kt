@@ -62,6 +62,10 @@ class SurveyRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean> {
+        return surveyDataSource.isSubmittedSurvey(eventId, userId)
+    }
+
     private val noticeNameResponse: Result<String> = Result.success("notice datasource dummy data")
 
     // TODO 도메인 모델 구현을 위한 익스텐션, notice DataSource 구현 후 소거

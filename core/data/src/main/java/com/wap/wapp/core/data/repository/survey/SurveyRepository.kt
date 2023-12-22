@@ -17,4 +17,6 @@ interface SurveyRepository {
         surveyAnswerList: List<SurveyAnswer>,
         surveyedAt: LocalDateTime,
     ): Result<Unit>
+
+    suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean>
 }

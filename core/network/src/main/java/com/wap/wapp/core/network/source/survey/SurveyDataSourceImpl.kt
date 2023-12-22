@@ -71,4 +71,16 @@ class SurveyDataSourceImpl @Inject constructor(
                 .await()
         }
     }
+
+    override suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean> {
+        return runCatching {
+            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .whereEqualTo("eventId", eventId)
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+
+            result.isEmpty.not()
+        }
+    }
 }
