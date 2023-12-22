@@ -147,6 +147,7 @@ private fun SurveyAnswerForm(
         SurveyAnswerButton(
             isLastQuestion = isLastQuestion,
             onButtonClicked = onNextButtonClicked,
+            isEnabled = isButtonEnabled(surveyQuestion.questionType, subjectiveAnswer),
         )
     }
 }
@@ -188,16 +189,28 @@ private fun SurveyAnswerTopBar(
 private fun SurveyAnswerButton(
     isLastQuestion: Boolean,
     onButtonClicked: () -> Unit,
+    isEnabled: Boolean,
 ) {
     if (isLastQuestion) {
         WappButton(
             textRes = R.string.submit,
             onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
         )
     } else {
         WappButton(
             textRes = R.string.next,
             onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
         )
     }
+}
+
+private fun isButtonEnabled(
+    questionType: QuestionType,
+    subjectiveAnswer: String,
+): Boolean {
+    if (questionType == QuestionType.SUBJECTIVE) return subjectiveAnswer.length >= 10
+
+    return true
 }
