@@ -41,7 +41,7 @@ abstract class NetworkModule {
     @Binds
     @Singleton
     abstract fun bindsSurveyFormDateSource(
-        surveyFormDataSourceImpl: SurveyFormDataSourceImpl
+        surveyFormDataSourceImpl: SurveyFormDataSourceImpl,
     ): SurveyFormDataSource
 
     @Binds
