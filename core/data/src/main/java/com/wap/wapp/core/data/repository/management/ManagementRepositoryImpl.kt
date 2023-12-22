@@ -24,10 +24,10 @@ class ManagementRepositoryImpl @Inject constructor(
     override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> {
         return managementDataSource.postSurveyForm(
             surveyFormRequest = SurveyFormRequest(
-                userId = surveyForm.userId,
+                eventId = surveyForm.eventId,
                 title = surveyForm.title,
                 content = surveyForm.content,
-                surveyQuestion = surveyForm.surveyQuestion,
+                surveyQuestionList = surveyForm.surveyQuestionList,
                 deadline = surveyForm.deadline.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
             ),
             eventId = surveyForm.eventId,

@@ -1,4 +1,12 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="survey">설문</string>
+    <string name="submit">제출</string>
+    <string name="next">다음</string>
+    <string name="subjective_answer_hint">질문에 대한 응답을 작성하세요</string>
+    <string name="survey_title">설문 작성</string>
+    <string name="survey_content">참가한 행사에 대해 설문에 응답하세요!</string>
+    <string name="survey_answer">설문 응답</string>
+    <string name="text_counter_content">/10자 이상</string>
 </resources>

@@ -6,5 +6,5 @@ data class EventRequest(
     val location: String = "",
     val period: String = "",
     val time: String = "",
-    val event_id: Int = 0,
+    val eventId: Int = 0,
 )

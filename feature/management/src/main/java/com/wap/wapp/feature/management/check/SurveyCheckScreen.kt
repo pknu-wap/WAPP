@@ -46,7 +46,7 @@ import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.Rating
 import com.wap.wapp.core.model.survey.SurveyAnswer
-import com.wap.wapp.core.model.survey.toNaturalLanguage
+import com.wap.wapp.core.model.survey.toDescription
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
 
@@ -59,6 +59,7 @@ internal fun SurveyCheckRoute(
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
 
     SurveyCheckScreen(
+        viewModel = viewModel,
         surveyId = surveyId,
         surveyUiState = surveyUiState,
         onDoneButtonClicked = { navigateToManagement() },
@@ -69,7 +70,7 @@ internal fun SurveyCheckRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyCheckScreen(
-    viewModel: SurveyCheckViewModel = hiltViewModel(),
+    viewModel: SurveyCheckViewModel,
     surveyId: String,
     surveyUiState: SurveyCheckViewModel.SurveyUiState,
     onDoneButtonClicked: () -> Unit,
@@ -329,7 +330,7 @@ private fun ObjectiveAnswerIndicator(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = rating.toNaturalLanguage(),
+            text = rating.toDescription().title,
             style = WappTheme.typography.captionRegular,
             color = WappTheme.colors.white,
         )
