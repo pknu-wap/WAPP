@@ -1,4 +1,4 @@
-package com.wap.wapp.core.network.model.survey
+package com.wap.wapp.core.network.model.survey.form
 
 import com.wap.wapp.core.model.survey.SurveyForm
 import java.time.LocalDateTime

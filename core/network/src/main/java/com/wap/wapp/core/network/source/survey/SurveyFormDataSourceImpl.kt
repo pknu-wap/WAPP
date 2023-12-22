@@ -3,14 +3,14 @@ package com.wap.wapp.core.network.source.survey
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.wap.wapp.core.network.constant.SURVEY_FORM_COLLECTION
-import com.wap.wapp.core.network.model.management.SurveyFormRequest
-import com.wap.wapp.core.network.model.survey.SurveyFormResponse
+import com.wap.wapp.core.network.model.survey.form.SurveyFormRequest
+import com.wap.wapp.core.network.model.survey.form.SurveyFormResponse
 import com.wap.wapp.core.network.utils.await
 import javax.inject.Inject
 
 class SurveyFormDataSourceImpl @Inject constructor(
-    private val firebaseFirestore: FirebaseFirestore
-): SurveyFormDataSource {
+    private val firebaseFirestore: FirebaseFirestore,
+) : SurveyFormDataSource {
     override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> {
         return runCatching {
             val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
@@ -44,12 +44,11 @@ class SurveyFormDataSourceImpl @Inject constructor(
 
     override suspend fun postSurveyForm(
         surveyFormRequest: SurveyFormRequest,
-        eventId: Int,
     ): Result<Unit> {
         return runCatching {
             val setOption = SetOptions.merge()
             firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(eventId.toString())
+                .document(surveyFormRequest.eventId.toString())
                 .set(surveyFormRequest, setOption)
                 .await()
         }

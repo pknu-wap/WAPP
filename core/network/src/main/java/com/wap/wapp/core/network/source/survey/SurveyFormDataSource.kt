@@ -1,10 +1,10 @@
 package com.wap.wapp.core.network.source.survey
 
-import com.wap.wapp.core.network.model.management.SurveyFormRequest
-import com.wap.wapp.core.network.model.survey.SurveyFormResponse
+import com.wap.wapp.core.network.model.survey.form.SurveyFormRequest
+import com.wap.wapp.core.network.model.survey.form.SurveyFormResponse
 
 interface SurveyFormDataSource {
-    suspend fun postSurveyForm(surveyFormRequest: SurveyFormRequest, eventId: Int): Result<Unit>
+    suspend fun postSurveyForm(surveyFormRequest: SurveyFormRequest): Result<Unit>
 
     suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse>
 
