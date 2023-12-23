@@ -95,8 +95,14 @@ internal fun SurveyAnswerScreen(
                         onSubjectiveAnswerChanged = viewModel::setSubjectiveAnswer,
                         onObjectiveAnswerSelected = viewModel::setObjectiveAnswer,
                         onNextButtonClicked = {
-                            viewModel.addSurveyAnswer()
-                            viewModel.setNextQuestion()
+                            viewModel.addSurveyAnswer() // 현재 응답 저장
+
+                            if (questionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
+                                viewModel.submitSurvey()
+                                return@SurveyAnswerForm
+                            }
+
+                            viewModel.setNextQuestionNumber() // 다음 질문 불러오기
                         },
                     )
                 }
@@ -147,6 +153,7 @@ private fun SurveyAnswerForm(
         SurveyAnswerButton(
             isLastQuestion = isLastQuestion,
             onButtonClicked = onNextButtonClicked,
+            isEnabled = isButtonEnabled(surveyQuestion.questionType, subjectiveAnswer),
         )
     }
 }
@@ -188,16 +195,28 @@ private fun SurveyAnswerTopBar(
 private fun SurveyAnswerButton(
     isLastQuestion: Boolean,
     onButtonClicked: () -> Unit,
+    isEnabled: Boolean,
 ) {
     if (isLastQuestion) {
         WappButton(
             textRes = R.string.submit,
             onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
         )
     } else {
         WappButton(
             textRes = R.string.next,
             onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
         )
     }
+}
+
+private fun isButtonEnabled(
+    questionType: QuestionType,
+    subjectiveAnswer: String,
+): Boolean {
+    if (questionType == QuestionType.SUBJECTIVE) return subjectiveAnswer.length >= 10
+
+    return true
 }

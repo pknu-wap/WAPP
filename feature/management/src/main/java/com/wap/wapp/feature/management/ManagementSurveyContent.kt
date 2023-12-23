@@ -100,7 +100,7 @@ private fun ManagementSurveyItem(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = item.answerList.first().questionAnswer,
+                    text = item.surveyAnswerList.first().questionAnswer,
                     style = WappTheme.typography.contentMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,

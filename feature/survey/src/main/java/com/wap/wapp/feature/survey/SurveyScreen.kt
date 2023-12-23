@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,8 +37,9 @@ import java.time.LocalDateTime
 @Composable
 internal fun SurveyScreen(
     viewModel: SurveyViewModel,
-    selectedSurveyForm: (Int) -> Unit,
+    navigateToSurveyAnswer: (Int) -> Unit,
 ) {
+    val context = LocalContext.current
     val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -46,6 +48,16 @@ internal fun SurveyScreen(
             when (it) {
                 is SurveyViewModel.SurveyUiEvent.Failure -> {
                     snackBarHostState.showSnackbar(it.throwable.toSupportingText())
+                }
+
+                is SurveyViewModel.SurveyUiEvent.AlreadySubmitted -> {
+                    snackBarHostState.showSnackbar(
+                        context.getString(R.string.alreay_submitted_description),
+                    )
+                }
+
+                is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
+                    navigateToSurveyAnswer(it.eventId)
                 }
             }
         }
@@ -57,7 +69,7 @@ internal fun SurveyScreen(
             SurveyContent(
                 surveyFormList = surveyFormListUiState.surveyFormList,
                 snackBarHostState = snackBarHostState,
-                selectedSurveyForm = selectedSurveyForm,
+                selectedSurveyForm = viewModel::isSubmittedSurvey,
             )
         }
     }

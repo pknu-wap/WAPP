@@ -1,4 +1,4 @@
-package com.wap.wapp.core.network.model.management
+package com.wap.wapp.core.network.model.survey.form
 
 import com.wap.wapp.core.model.survey.SurveyQuestion
 

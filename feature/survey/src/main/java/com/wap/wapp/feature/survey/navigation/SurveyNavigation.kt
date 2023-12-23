@@ -26,7 +26,7 @@ fun NavGraphBuilder.surveyNavGraph(
     composable(route = SurveyRoute.route) {
         SurveyScreen(
             viewModel = hiltViewModel(),
-            selectedSurveyForm = { eventId ->
+            navigateToSurveyAnswer = { eventId ->
                 navigateToSurveyAnswer(eventId)
             },
         )

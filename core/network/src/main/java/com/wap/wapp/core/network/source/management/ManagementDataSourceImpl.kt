@@ -4,8 +4,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.wap.wapp.core.network.constant.CODES_COLLECTION
 import com.wap.wapp.core.network.constant.MANAGER_COLLECTION
-import com.wap.wapp.core.network.constant.SURVEY_FORM_COLLECTION
-import com.wap.wapp.core.network.model.management.SurveyFormRequest
 import com.wap.wapp.core.network.utils.await
 import javax.inject.Inject
 
@@ -43,19 +41,6 @@ class ManagementDataSourceImpl @Inject constructor(
                 .await()
 
             result.isEmpty.not()
-        }
-    }
-
-    override suspend fun postSurveyForm(
-        surveyFormRequest: SurveyFormRequest,
-        eventId: Int,
-    ): Result<Unit> {
-        return runCatching {
-            val setOption = SetOptions.merge()
-            firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(eventId.toString())
-                .set(surveyFormRequest, setOption)
-                .await()
         }
     }
 }
