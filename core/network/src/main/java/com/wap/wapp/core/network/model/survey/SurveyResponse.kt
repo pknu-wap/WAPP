@@ -1,8 +1,7 @@
 package com.wap.wapp.core.network.model.survey
 
 import com.wap.wapp.core.model.survey.Survey
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.wap.wapp.core.network.utils.toISOLocalDateTime
 
 data class SurveyResponse(
     val surveyId: String,
@@ -30,9 +29,6 @@ data class SurveyResponse(
         title = this.title,
         content = this.content,
         surveyAnswerList = this.surveyAnswerList.map { answer -> answer.toDomain() },
-        surveyedAt = LocalDateTime.parse(
-            this.surveyedAt,
-            DateTimeFormatter.ISO_LOCAL_DATE_TIME,
-        ),
+        surveyedAt = surveyedAt.toISOLocalDateTime(),
     )
 }
