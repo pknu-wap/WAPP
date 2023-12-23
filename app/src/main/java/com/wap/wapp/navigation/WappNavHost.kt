@@ -24,6 +24,7 @@ import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.profileScreen
 import com.wap.wapp.feature.profile.profilesetting.navigation.navigateToProfileSetting
+import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
 import com.wap.wapp.feature.survey.navigation.navigateToSurvey
@@ -82,5 +83,6 @@ fun WappNavHost(
             navigateToEventRegistration = navController::navigateToEventRegistration,
             navigateToSurveyCheck = navController::navigateToSurveyCheck,
         )
+        profileSettingScreen()
     }
 }
