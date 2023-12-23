@@ -25,7 +25,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,15 +37,19 @@ import com.wap.wapp.feature.profile.component.WappProfileCard
 internal fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToProfileSetting: () -> Unit,
+    navigateToSignInScreen: () -> Unit,
 ) {
-    ProfileScreen(navigateToProfileSetting = navigateToProfileSetting)
+    ProfileScreen(
+        navigateToProfileSetting = navigateToProfileSetting,
+        navigateToSignInScreen = navigateToSignInScreen,
+    )
 }
 
 @Composable
 internal fun ProfileScreen(
     role: Role = Role.GUEST,
-    navigateToProfileSetting: () -> Unit = {},
-    navigateToLogin: () -> Unit = {},
+    navigateToProfileSetting: () -> Unit,
+    navigateToSignInScreen: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -98,7 +101,7 @@ internal fun ProfileScreen(
                     .padding(top = 40.dp)
                     .height(50.dp)
                     .fillMaxWidth()
-                    .clickable { navigateToLogin() },
+                    .clickable { navigateToSignInScreen() },
             ) {
                 Text(
                     text = "로그인 하러 가기",
@@ -177,10 +180,4 @@ fun SpannableGuestText() = buildAnnotatedString {
         append("추억")
     }
     append("을 쌓아보세요!")
-}
-
-@Preview
-@Composable
-fun PreviewProfileScreen() {
-    ProfileScreen()
 }

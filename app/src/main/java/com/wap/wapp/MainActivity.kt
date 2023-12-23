@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(WappTheme.colors.black25),
+                        .background(WappTheme.colors.backgroundBlack),
                     bottomBar = {
                         val navBackStackEntry by
                         navController.currentBackStackEntryAsState()

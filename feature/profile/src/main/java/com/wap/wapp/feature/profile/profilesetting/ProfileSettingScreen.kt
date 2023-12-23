@@ -19,13 +19,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
 import com.wap.wapp.core.designresource.R
-import com.wap.wapp.feature.profile.ProfileScreen
 
 @Composable
 internal fun ProfileSettingRoute(
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    ProfileScreen()
+    ProfileSettingScreen()
 }
 
 @Composable
