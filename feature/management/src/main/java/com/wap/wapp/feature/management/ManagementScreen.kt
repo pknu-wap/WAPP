@@ -37,6 +37,7 @@ internal fun ManagementRoute(
     viewModel: ManagementViewModel = hiltViewModel(),
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
+    navigateToSurveyCheck: (String) -> Unit,
 ) {
     var isShowDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
@@ -46,7 +47,7 @@ internal fun ManagementRoute(
         viewModel = viewModel,
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
-        onCardClicked = {},
+        navigateToSurveyCheck = navigateToSurveyCheck,
     )
 
     if (isShowDialog) {
@@ -70,7 +71,7 @@ internal fun ManagementScreen(
     viewModel: ManagementViewModel,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    onCardClicked: (String) -> Unit,
+    navigateToSurveyCheck: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyList = viewModel.surveyList.collectAsState().value
@@ -132,7 +133,7 @@ internal fun ManagementScreen(
             ManagementSurveyContent(
                 surveyList = surveyList,
                 modifier = Modifier.padding(top = 20.dp),
-                onCardClicked = onCardClicked,
+                onCardClicked = navigateToSurveyCheck,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
         }

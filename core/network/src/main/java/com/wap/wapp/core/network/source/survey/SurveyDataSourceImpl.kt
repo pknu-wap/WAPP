@@ -1,9 +1,10 @@
 package com.wap.wapp.core.network.source.survey
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
-import com.wap.wapp.core.network.constant.SURVEY_FORM_COLLECTION
-import com.wap.wapp.core.network.model.survey.SurveyFormResponse
+import com.wap.wapp.core.network.model.survey.SurveyRequest
 import com.wap.wapp.core.network.model.survey.SurveyResponse
 import com.wap.wapp.core.network.utils.await
 import javax.inject.Inject
@@ -42,34 +43,44 @@ class SurveyDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>> {
+    override suspend fun postSurvey(
+        eventId: Int,
+        userId: String,
+        title: String,
+        content: String,
+        surveyAnswerList: List<SurveyAnswer>,
+        surveyedAt: String,
+    ): Result<Unit> {
         return runCatching {
-            val result: MutableList<SurveyFormResponse> = mutableListOf()
+            val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
 
-            val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .get()
+            val surveyRequest = SurveyRequest(
+                surveyId = documentId,
+                eventId = eventId,
+                userId = userId,
+                title = title,
+                content = content,
+                surveyAnswerList = surveyAnswerList,
+                surveyedAt = surveyedAt,
+            )
+            val setOption = SetOptions.merge()
+
+            firebaseFirestore.collection(SURVEY_COLLECTION)
+                .document(documentId)
+                .set(surveyRequest, setOption)
                 .await()
-
-            for (document in task.documents) {
-                val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
-                checkNotNull(surveyFormResponse)
-
-                result.add(surveyFormResponse)
-            }
-
-            result
         }
     }
 
-    override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> {
+    override suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean> {
         return runCatching {
-            val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(eventId.toString())
+            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .whereEqualTo("eventId", eventId)
+                .whereEqualTo("userId", userId)
                 .get()
                 .await()
 
-            val surveyFormResponse = result.toObject(SurveyFormResponse::class.java)
-            checkNotNull(surveyFormResponse)
+            result.isEmpty.not()
         }
     }
 }

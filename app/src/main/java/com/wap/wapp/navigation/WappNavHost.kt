@@ -12,6 +12,7 @@ import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
+import com.wap.wapp.feature.management.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.management.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
@@ -61,7 +62,7 @@ fun WappNavHost(
         )
         noticeScreen()
         surveyNavGraph(
-            navigateToSurvey = navController::navigateToSurvey ,
+            navigateToSurvey = navController::navigateToSurvey,
             navigateToSurveyAnswer = navController::navigateToSurveyAnswer,
         )
         surveyCheckScreen(
@@ -77,8 +78,9 @@ fun WappNavHost(
             navigateToProfileSetting = { navController.navigateToProfileSetting() },
         )
         managementScreen(
-            navigateToSurveyRegistration = { navController.navigateToSurveyRegistration() },
-            navigateToEventRegistration = { navController.navigateToEventRegistration() },
+            navigateToSurveyRegistration = navController::navigateToSurveyRegistration,
+            navigateToEventRegistration = navController::navigateToEventRegistration,
+            navigateToSurveyCheck = navController::navigateToSurveyCheck,
         )
     }
 }

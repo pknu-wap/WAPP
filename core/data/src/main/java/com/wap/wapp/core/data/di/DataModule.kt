@@ -4,6 +4,8 @@ import com.wap.wapp.core.data.repository.event.EventRepository
 import com.wap.wapp.core.data.repository.event.EventRepositoryImpl
 import com.wap.wapp.core.data.repository.management.ManagementRepository
 import com.wap.wapp.core.data.repository.management.ManagementRepositoryImpl
+import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
+import com.wap.wapp.core.data.repository.survey.SurveyFormRepositoryImpl
 import com.wap.wapp.core.data.repository.survey.SurveyRepository
 import com.wap.wapp.core.data.repository.survey.SurveyRepositoryImpl
 import com.wap.wapp.core.data.repository.user.UserRepository
@@ -34,6 +36,12 @@ abstract class DataModule {
     abstract fun bindsSurveyRepository(
         surveyRepositoryImpl: SurveyRepositoryImpl,
     ): SurveyRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsSurveyFormRepository(
+        surveyFormRepositoryImpl: SurveyFormRepositoryImpl,
+    ): SurveyFormRepository
 
     @Binds
     @Singleton

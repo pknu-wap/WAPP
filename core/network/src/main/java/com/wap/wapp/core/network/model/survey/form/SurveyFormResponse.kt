@@ -1,8 +1,7 @@
-package com.wap.wapp.core.network.model.survey
+package com.wap.wapp.core.network.model.survey.form
 
 import com.wap.wapp.core.model.survey.SurveyForm
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.wap.wapp.core.network.utils.toISOLocalDateTime
 
 data class SurveyFormResponse(
     val eventId: Int,
@@ -26,6 +25,6 @@ data class SurveyFormResponse(
         title = title,
         content = content,
         surveyQuestionList = surveyQuestionList.map { it.toDomain() },
-        deadline = LocalDateTime.parse(deadline, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+        deadline = deadline.toISOLocalDateTime(),
     )
 }

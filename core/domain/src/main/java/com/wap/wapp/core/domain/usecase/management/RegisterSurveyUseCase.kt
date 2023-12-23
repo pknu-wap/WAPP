@@ -1,6 +1,6 @@
 package com.wap.wapp.core.domain.usecase.management
 
-import com.wap.wapp.core.data.repository.management.ManagementRepository
+import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.survey.SurveyQuestion
@@ -10,7 +10,7 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 class RegisterSurveyUseCase @Inject constructor(
-    private val managementRepository: ManagementRepository,
+    private val surveyFormRepository: SurveyFormRepository,
 ) {
     suspend operator fun invoke(
         event: Event,
@@ -21,7 +21,7 @@ class RegisterSurveyUseCase @Inject constructor(
         deadlineTime: LocalTime,
     ): Result<Unit> {
         return runCatching {
-            managementRepository.postSurveyForm(
+            surveyFormRepository.postSurveyForm(
                 SurveyForm(
                     eventId = event.eventId,
                     title = title,

@@ -12,6 +12,6 @@ data class Survey(
     val userName: String,
     val title: String,
     val content: String,
-    val answerList: List<SurveyAnswer>,
+    val surveyAnswerList: List<SurveyAnswer>,
     val surveyedAt: LocalDateTime,
 )
