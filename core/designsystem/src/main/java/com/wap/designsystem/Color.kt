@@ -7,48 +7,50 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
-val Black = Color(0xFF000000)
-val BackgroundBlack = Color(0xFF131313)
-val Black82 = Color(0xFF828282)
-val Black42 = Color(0xFF424242)
-val Black25 = Color(0xFF252424)
-val Gray82 = Color(0xFF828282)
-val GrayBD = Color(0xFFBDBDBD)
 val GrayF4 = Color(0xFFF4F4F4)
-val GrayA2 = Color(0xFFA2A2A2)
+val GrayBD = Color(0xFFBDBDBD)
+val Gray82 = Color(0xFF828282)
 val Gray7C = Color(0xFF7C7C7C)
 val Gray4A = Color(0xFF49494A)
-val Yellow34 = Color(0xFFFBCF34)
-val Yellow3C = Color(0xFFFFBD3C)
+val Black25 = Color(0xFF252424)
+val Black42 = Color(0xFF424242)
+val Black82 = Color(0xFF828282)
+val Black = Color(0xFF000000)
+val BackgroundBlack = Color(0xFF131313)
+
 val YellowA4 = Color(0xFFFEEBA4)
+val Yellow3C = Color(0xFFFFBD3C)
+val Yellow34 = Color(0xFFFBCF34)
+
 val Red = Color(0xFFE7475D)
-val BlueA3 = Color(0xFF2F3EA3)
-val Blue2FF = Color(0xFFB1B2FF)
-val Blue4FF = Color(0xFFAAC4FF)
+
 val Blue1FF = Color(0xFFEEF1FF)
+val Blue4FF = Color(0xFFAAC4FF)
+val Blue2FF = Color(0xFFB1B2FF)
+val BlueA3 = Color(0xFF2F3EA3)
 
 @Stable
 class WappColor(
-    white: Color = White,
-    black: Color = Black,
-    backgroundBlack: Color = BackgroundBlack,
-    black25: Color = Black25,
-    black42: Color = Black42,
-    black82: Color = Black82,
-    grayA2: Color = GrayA2,
-    grayF4: Color = GrayF4,
-    grayBD: Color = GrayBD,
-    gray82: Color = Gray82,
-    gray7C: Color = Gray7C,
-    gray4A: Color = Gray4A,
-    yellow34: Color = Yellow34,
-    yellow3C: Color = Yellow3C,
-    yellowA4: Color = YellowA4,
-    red: Color = Red,
-    blueA3: Color = BlueA3,
-    blue2FF: Color = Blue2FF,
-    blue4FF: Color = Blue4FF,
-    blue1FF: Color = Blue1FF,
+    white: Color = Color(0xFFFFFFFF),
+    black: Color = Color(0xFF000000),
+    backgroundBlack: Color = Color(0xFF131313),
+    black25: Color = Color(0xFF252424),
+    black42: Color = Color(0xFF424242),
+    black82: Color = Color(0xFF828282),
+    grayA2: Color = Color(0xFFA2A2A2),
+    grayF4: Color = Color(0xFFF4F4F4),
+    grayBD: Color = Color(0xFFBDBDBD),
+    gray82: Color = Color(0xFF828282),
+    gray7C: Color = Color(0xFF7C7C7C),
+    gray4A: Color = Color(0xFF49494A),
+    yellow34: Color = Color(0xFFFBCF34),
+    yellow3C: Color = Color(0xFFFFBD3C),
+    yellowA4: Color = Color(0xFFFEEBA4),
+    red: Color = Color(0xFFE7475D),
+    blueA3: Color = Color(0xFF2F3EA3),
+    blue2FF: Color = Color(0xFFB1B2FF),
+    blue4FF: Color = Color(0xFFAAC4FF),
+    blue1FF: Color = Color(0xFFEEF1FF),
 ) {
     var white by mutableStateOf(white)
         private set
