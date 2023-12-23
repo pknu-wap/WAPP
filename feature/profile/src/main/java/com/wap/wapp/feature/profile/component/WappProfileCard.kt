@@ -70,8 +70,8 @@ internal fun WappProfileCard(
             brush = Brush.horizontalGradient(
                 listOf(
                     WappTheme.colors.grayA2,
-                    WappTheme.colors.blue4FF,
-                    WappTheme.colors.blue1FF,
+                    WappTheme.colors.gray7C,
+                    WappTheme.colors.gray4A,
                 ),
             )
         }
