@@ -65,11 +65,11 @@ internal fun WappProfileCard(
 
         Role.GUEST -> {
             position = stringResource(R.string.guest)
-            githubImage = drawable.ic_manager_github
-            catImage = drawable.ic_manager_cat
+            githubImage = drawable.ic_guest_github
+            catImage = drawable.ic_guest_cat
             brush = Brush.horizontalGradient(
                 listOf(
-                    WappTheme.colors.blue2FF,
+                    WappTheme.colors.grayA2,
                     WappTheme.colors.blue4FF,
                     WappTheme.colors.blue1FF,
                 ),
