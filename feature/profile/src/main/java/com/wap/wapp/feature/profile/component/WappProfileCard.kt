@@ -24,34 +24,57 @@ import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.profile.R
+import com.wap.wapp.feature.profile.Role
 
 @Composable
 internal fun WappProfileCard(
-    isManager: Boolean,
+    role: Role,
     userName: String,
 ) {
-    var position = stringResource(R.string.normal)
-    var githubImage = drawable.ic_normal_github
-    var catImage = drawable.ic_normal_cat
-    var brush = Brush.horizontalGradient(
-        listOf(
-            WappTheme.colors.yellow3C,
-            WappTheme.colors.yellow34,
-            WappTheme.colors.yellowA4,
-        ),
-    )
+    var position: String? = null
+    var githubImage: Int? = null
+    var catImage: Int? = null
+    var brush: Brush? = null
 
-    if (isManager) {
-        position = stringResource(R.string.manager)
-        githubImage = drawable.ic_manager_github
-        catImage = drawable.ic_manager_cat
-        brush = Brush.horizontalGradient(
-            listOf(
-                WappTheme.colors.blue2FF,
-                WappTheme.colors.blue4FF,
-                WappTheme.colors.blue1FF,
-            ),
-        )
+    when (role) {
+        Role.MANAGER -> {
+            position = stringResource(R.string.manager)
+            githubImage = drawable.ic_manager_github
+            catImage = drawable.ic_manager_cat
+            brush = Brush.horizontalGradient(
+                listOf(
+                    WappTheme.colors.blue2FF,
+                    WappTheme.colors.blue4FF,
+                    WappTheme.colors.blue1FF,
+                ),
+            )
+        }
+
+        Role.NORMAL -> {
+            position = stringResource(R.string.normal)
+            githubImage = drawable.ic_normal_github
+            catImage = drawable.ic_normal_cat
+            brush = Brush.horizontalGradient(
+                listOf(
+                    WappTheme.colors.yellow3C,
+                    WappTheme.colors.yellow34,
+                    WappTheme.colors.yellowA4,
+                ),
+            )
+        }
+
+        Role.GUEST -> {
+            position = stringResource(R.string.manager)
+            githubImage = drawable.ic_manager_github
+            catImage = drawable.ic_manager_cat
+            brush = Brush.horizontalGradient(
+                listOf(
+                    WappTheme.colors.blue2FF,
+                    WappTheme.colors.blue4FF,
+                    WappTheme.colors.blue1FF,
+                ),
+            )
+        }
     }
 
     Card(
@@ -108,11 +131,11 @@ internal fun WappProfileCard(
 @Preview
 @Composable
 private fun NormalProfileCard() {
-    WappProfileCard(isManager = false, userName = "WAPP")
+    WappProfileCard(role = Role.NORMAL, userName = "WAPP")
 }
 
 @Preview
 @Composable
 private fun ManagerProfileCard() {
-    WappProfileCard(isManager = true, userName = "WAPP")
+    WappProfileCard(role = Role.MANAGER, userName = "WAPP")
 }

@@ -70,7 +70,7 @@ internal fun ProfileScreen(
             )
         }
 
-        WappProfileCard(isManager = true, userName = "태규")
+        WappProfileCard(role = Role.NORMAL, userName = "태규")
 
         Box(
             modifier = Modifier

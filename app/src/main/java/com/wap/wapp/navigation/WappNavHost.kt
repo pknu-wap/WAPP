@@ -61,7 +61,7 @@ fun WappNavHost(
         )
         noticeScreen()
         surveyNavGraph(
-            navigateToSurvey = navController::navigateToSurvey ,
+            navigateToSurvey = navController::navigateToSurvey,
             navigateToSurveyAnswer = navController::navigateToSurveyAnswer,
         )
         surveyCheckScreen(

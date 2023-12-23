@@ -60,7 +60,8 @@ class SurveyAnswerViewModel @Inject constructor(
 
         when (surveyQuestion.questionType) {
             QuestionType.SUBJECTIVE -> {
-                surveyAnswerList.value.add( // 현재 질문 답변 리스트에 저장
+                surveyAnswerList.value.add(
+                    // 현재 질문 답변 리스트에 저장
                     SurveyAnswer(
                         questionType = surveyQuestion.questionType,
                         questionTitle = surveyQuestion.questionTitle,
@@ -87,7 +88,7 @@ class SurveyAnswerViewModel @Inject constructor(
         val currentQuestionNumber = _questionNumber.value
         val lastQuestionNumber = surveyAnswerList.value.size
 
-        if(currentQuestionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
+        if (currentQuestionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
             submitSurvey()
             return
         }
@@ -97,19 +98,28 @@ class SurveyAnswerViewModel @Inject constructor(
 
     private fun submitSurvey() {
         viewModelScope.launch {
-
         }
     }
 
-    fun setSubjectiveAnswer(answer: String) { _subjectiveAnswer.value = answer }
+    fun setSubjectiveAnswer(answer: String) {
+        _subjectiveAnswer.value = answer
+    }
 
-    fun setObjectiveAnswer(answer: Rating) { _objectiveAnswer.value = answer }
+    fun setObjectiveAnswer(answer: Rating) {
+        _objectiveAnswer.value = answer
+    }
 
-    private fun addQuestionNumber() { _questionNumber.value += 1 }
+    private fun addQuestionNumber() {
+        _questionNumber.value += 1
+    }
 
-    private fun clearSubjectiveAnswer() { _subjectiveAnswer.value = "" }
+    private fun clearSubjectiveAnswer() {
+        _subjectiveAnswer.value = ""
+    }
 
-    private fun clearObjectiveAnswer() { _objectiveAnswer.value = Rating.GOOD }
+    private fun clearObjectiveAnswer() {
+        _objectiveAnswer.value = Rating.GOOD
+    }
 
     sealed class SurveyFormUiState {
         data object Init : SurveyFormUiState()
