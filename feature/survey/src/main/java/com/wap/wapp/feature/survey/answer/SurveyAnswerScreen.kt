@@ -95,8 +95,14 @@ internal fun SurveyAnswerScreen(
                         onSubjectiveAnswerChanged = viewModel::setSubjectiveAnswer,
                         onObjectiveAnswerSelected = viewModel::setObjectiveAnswer,
                         onNextButtonClicked = {
-                            viewModel.addSurveyAnswer()
-                            viewModel.setNextQuestion()
+                            viewModel.addSurveyAnswer() // 현재 응답 저장
+
+                            if (questionNumber == lastQuestionNumber) { // 마지막 질문일 경우 제출
+                                viewModel.submitSurvey()
+                                return@SurveyAnswerForm
+                            }
+
+                            viewModel.setNextQuestionNumber() // 다음 질문 불러오기
                         },
                     )
                 }
