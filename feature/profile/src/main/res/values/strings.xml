@@ -16,4 +16,5 @@
     <string name="faq">FAQ</string>
     <string name="terms_and_policies">약관 및 정책</string>
     <string name="privacy_policy">개인정보 처리 방침</string>
+    <string name="navigate_to_login">로그인 하러 가기</string>
 </resources>

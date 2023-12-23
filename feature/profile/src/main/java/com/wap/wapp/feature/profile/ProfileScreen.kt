@@ -48,6 +48,7 @@ internal fun ProfileRoute(
 @Composable
 internal fun ProfileScreen(
     role: Role = Role.GUEST,
+    userName: String = "",
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
@@ -80,7 +81,7 @@ internal fun ProfileScreen(
             )
         }
 
-        WappProfileCard(role = role, userName = "태규")
+        WappProfileCard(role = role, userName = userName)
 
         if (role == Role.GUEST) {
             GuestModeScreen(navigateToSignInScreen = navigateToSignInScreen)
@@ -113,7 +114,7 @@ private fun GuestModeScreen(navigateToSignInScreen: () -> Unit) {
             .clickable { navigateToSignInScreen() },
     ) {
         Text(
-            text = "로그인 하러 가기",
+            text = stringResource(id = R.string.navigate_to_login),
             style = WappTheme.typography.contentMedium,
             color = WappTheme.colors.white,
             textAlign = TextAlign.Center,
