@@ -9,6 +9,8 @@ import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import com.wap.wapp.feature.management.check.SurveyCheckRoute
 
+const val SURVEY_CHECK_ROUTE = "survey/check/{surveyId}"
+
 fun NavController.navigateToSurveyCheck(
     surveyId: String,
     navOptions: NavOptions? = navOptions {},
@@ -20,7 +22,7 @@ fun NavGraphBuilder.surveyCheckScreen(
     navigateToManagement: () -> Unit,
 ) {
     composable(
-        route = SurveyCheckRoute.route,
+        route = SURVEY_CHECK_ROUTE,
         arguments = listOf(
             navArgument("surveyId") {
                 type = NavType.StringType
@@ -33,8 +35,4 @@ fun NavGraphBuilder.surveyCheckScreen(
             surveyId = surveyId,
         )
     }
-}
-
-object SurveyCheckRoute {
-    const val route = "survey/check/{surveyId}"
 }
