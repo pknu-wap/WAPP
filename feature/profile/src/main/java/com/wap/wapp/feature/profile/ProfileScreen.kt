@@ -3,10 +3,8 @@ package com.wap.wapp.feature.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -39,6 +37,7 @@ internal fun ProfileRoute(
 
 @Composable
 internal fun ProfileScreen(
+    role: Role = Role.GUEST,
     navigateToProfileSetting: () -> Unit = {},
 ) {
     Column(
@@ -70,7 +69,11 @@ internal fun ProfileScreen(
             )
         }
 
-        WappProfileCard(role = Role.NORMAL, userName = "태규")
+        WappProfileCard(role = role, userName = "태규")
+
+        if (role == Role.GUEST) {
+            return@Column
+        }
 
         Box(
             modifier = Modifier
@@ -85,36 +88,6 @@ internal fun ProfileScreen(
                     .align(Alignment.CenterStart)
                     .padding(start = 25.dp, bottom = 10.dp),
             )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 15.dp),
-            ) {
-                Image(
-                    painter = painterResource(id = drawable.ic_green_circle),
-                    contentDescription = "",
-                )
-
-                Text(
-                    text = stringResource(id = R.string.attendance),
-                    style = WappTheme.typography.labelRegular,
-                    color = WappTheme.colors.white,
-                )
-
-                Image(
-                    painter = painterResource(id = drawable.ic_red_circle),
-                    contentDescription = "",
-                )
-
-                Text(
-                    text = stringResource(id = R.string.absent),
-                    style = WappTheme.typography.labelRegular,
-                    color = WappTheme.colors.white,
-                )
-            }
         }
 
         val cardModifier = Modifier

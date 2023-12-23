@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
@@ -58,10 +57,6 @@ internal fun ManagementRoute(
             },
         )
     }
-}
-
-private fun showToast(text: String, context: Context) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,10 +136,6 @@ internal fun ManagementCardColor(currentIndex: Int): Color {
     }
 }
 
-@Preview
-@Composable
-fun previewManagementScreen() {
-    WappTheme {
-        // ManageScreen()
-    }
+private fun showToast(text: String, context: Context) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }

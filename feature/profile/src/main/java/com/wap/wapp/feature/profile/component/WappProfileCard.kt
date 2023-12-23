@@ -29,7 +29,7 @@ import com.wap.wapp.feature.profile.Role
 @Composable
 internal fun WappProfileCard(
     role: Role,
-    userName: String,
+    userName: String? = null,
 ) {
     var position: String? = null
     var githubImage: Int? = null
@@ -104,7 +104,7 @@ internal fun WappProfileCard(
                     modifier = Modifier.padding(start = 5.dp),
                 ) {
                     Text(
-                        text = "$userName 님",
+                        text = if (role == Role.GUEST) "비회원" else "$userName 님",
                         style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
                         color = WappTheme.colors.white,
                     )
