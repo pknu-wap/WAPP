@@ -64,7 +64,7 @@ internal fun WappProfileCard(
         }
 
         Role.GUEST -> {
-            position = stringResource(R.string.manager)
+            position = stringResource(R.string.guest)
             githubImage = drawable.ic_manager_github
             catImage = drawable.ic_manager_cat
             brush = Brush.horizontalGradient(
