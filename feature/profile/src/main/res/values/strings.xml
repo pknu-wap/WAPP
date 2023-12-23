@@ -4,7 +4,7 @@
     <string name="manager">운영진</string>
     <string name="guest">게스트</string>
     <string name="profile">프로필</string>
-    <string name="attendance">출석</string>
+    <string name="my_attendance">나의 출결 현황</string>
     <string name="absent">결석</string>
     <string name="survey_i_did">내가 한 설문</string>
     <string name="account_setting">계정 설정</string>

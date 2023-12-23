@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.WappCard
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.profile.component.WappProfileCard
@@ -47,7 +48,7 @@ internal fun ProfileRoute(
 
 @Composable
 internal fun ProfileScreen(
-    role: Role = Role.GUEST,
+    role: Role = Role.MANAGER,
     userName: String = "",
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
@@ -87,6 +88,7 @@ internal fun ProfileScreen(
             GuestModeScreen(navigateToSignInScreen = navigateToSignInScreen)
             return
         }
+
         UserScreen()
     }
 }
@@ -125,46 +127,46 @@ private fun GuestModeScreen(navigateToSignInScreen: () -> Unit) {
 
 @Composable
 private fun UserScreen() {
-    Box(
-        modifier = Modifier
+    Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+        val cardModifier = Modifier
             .fillMaxWidth()
-            .padding(top = 40.dp),
-    ) {
+            .heightIn(max = 160.dp)
+
+        WappCard(modifier = cardModifier.padding(vertical = 20.dp)) {
+            Text(
+                text = "WAP 출석",
+                style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                color = WappTheme.colors.white,
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(start = 15.dp, top = 10.dp),
+            )
+        }
+
         Text(
-            text = stringResource(id = R.string.attendance),
+            text = stringResource(id = R.string.my_attendance),
             style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
             color = WappTheme.colors.white,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 25.dp, bottom = 10.dp),
+            modifier = Modifier.padding(start = 5.dp),
         )
-    }
 
-    val cardModifier = Modifier
-        .fillMaxWidth()
-        .heightIn(max = 160.dp)
-        .background(WappTheme.colors.black25)
-
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        modifier = cardModifier,
-    ) {
-        LazyColumn() {
+        WappCard(
+            modifier = cardModifier,
+        ) {
+            LazyColumn() {
+            }
         }
-    }
 
-    Text(
-        text = stringResource(id = R.string.survey_i_did),
-        style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
-        color = WappTheme.colors.white,
-        modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
-    )
+        Text(
+            text = stringResource(id = R.string.survey_i_did),
+            style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+        )
 
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        modifier = cardModifier,
-    ) {
-        LazyColumn() {
+        WappCard(modifier = cardModifier) {
+            LazyColumn() {
+            }
         }
     }
 }
