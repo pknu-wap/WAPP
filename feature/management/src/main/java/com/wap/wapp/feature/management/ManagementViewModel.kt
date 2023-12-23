@@ -60,29 +60,22 @@ class ManagementViewModel @Inject constructor(
         }
     }
 
-    fun getMonthEventList() {
-        viewModelScope.launch {
-            getEventsUseCase(generateNowDate()).fold(
-                onSuccess = { eventList ->
-                    _eventList.value = eventList
-                },
-                onFailure = { exception ->
-                    _errorFlow.emit(exception)
-                },
-            )
-        }
+    fun getEventSurveyList() = viewModelScope.launch {
+        launch { getMonthEventList() }
+        getSurveyList()
     }
 
-    fun getSurveyList() {
-        viewModelScope.launch {
-            getSurveyListUseCase()
-                .onSuccess { surveyList ->
-                    _surveyList.emit(surveyList)
-                }
-                .onFailure { exception ->
-                    _errorFlow.emit(exception)
-                }
+    private suspend fun getMonthEventList() =
+        getEventsUseCase(generateNowDate()).onSuccess { eventList ->
+            _eventList.emit(eventList)
+        }.onFailure { exception ->
+            _errorFlow.emit(exception)
         }
+
+    private suspend fun getSurveyList() = getSurveyListUseCase().onSuccess { surveyList ->
+        _surveyList.emit(surveyList)
+    }.onFailure { exception ->
+        _errorFlow.emit(exception)
     }
 
     sealed class ManagerState {

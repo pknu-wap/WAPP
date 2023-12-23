@@ -80,17 +80,9 @@ internal fun ManagementScreen(
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
             when (managerState) {
-                ManagerState.NonManager -> {
-                    showManageCodeDialog()
-                }
-
                 ManagerState.Init -> {}
-                ManagerState.Manager -> {
-                    viewModel.apply {
-                        getSurveyList()
-                        getMonthEventList()
-                    }
-                }
+                ManagerState.NonManager -> showManageCodeDialog()
+                ManagerState.Manager -> viewModel.getEventSurveyList()
             }
         }
 
