@@ -3,7 +3,6 @@ package com.wap.wapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,9 +43,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(WappTheme.colors.backgroundBlack),
+                    modifier = Modifier.fillMaxSize(),
+                    containerColor = WappTheme.colors.backgroundBlack,
                     bottomBar = {
                         val navBackStackEntry by
                         navController.currentBackStackEntryAsState()
