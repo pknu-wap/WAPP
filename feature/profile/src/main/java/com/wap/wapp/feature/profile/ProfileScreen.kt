@@ -83,84 +83,93 @@ internal fun ProfileScreen(
         WappProfileCard(role = role, userName = "태규")
 
         if (role == Role.GUEST) {
-            Text(
-                text = SpannableGuestText(),
-                color = WappTheme.colors.white,
-                style = WappTheme.typography.titleRegular.copy(fontSize = 26.sp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 60.dp),
-            )
-
-            Card(
-                shape = RoundedCornerShape(10.dp),
-                backgroundColor = WappTheme.colors.yellow34,
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .padding(top = 40.dp)
-                    .height(50.dp)
-                    .fillMaxWidth()
-                    .clickable { navigateToSignInScreen() },
-            ) {
-                Text(
-                    text = "로그인 하러 가기",
-                    style = WappTheme.typography.contentMedium,
-                    color = WappTheme.colors.white,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.wrapContentHeight(),
-                )
-            }
+            GuestModeScreen(navigateToSignInScreen = navigateToSignInScreen)
             return
         }
+        UserScreen()
+    }
+}
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 40.dp),
-        ) {
-            Text(
-                text = stringResource(id = R.string.attendance),
-                style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
-                color = WappTheme.colors.white,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 25.dp, bottom = 10.dp),
-            )
-        }
-
-        val cardModifier = Modifier
+@Composable
+private fun GuestModeScreen(navigateToSignInScreen: () -> Unit) {
+    Text(
+        text = SpannableGuestText(),
+        color = WappTheme.colors.white,
+        style = WappTheme.typography.titleRegular.copy(fontSize = 26.sp),
+        modifier = Modifier
             .fillMaxWidth()
-            .heightIn(max = 160.dp)
-            .background(WappTheme.colors.black25)
+            .padding(horizontal = 20.dp)
+            .padding(top = 60.dp),
+    )
 
-        Card(
-            shape = RoundedCornerShape(10.dp),
-            modifier = cardModifier,
-        ) {
-            LazyColumn() {
-            }
-        }
-
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        backgroundColor = WappTheme.colors.yellow34,
+        modifier = Modifier
+            .padding(horizontal = 15.dp)
+            .padding(top = 40.dp)
+            .height(50.dp)
+            .fillMaxWidth()
+            .clickable { navigateToSignInScreen() },
+    ) {
         Text(
-            text = stringResource(id = R.string.survey_i_did),
+            text = "로그인 하러 가기",
+            style = WappTheme.typography.contentMedium,
+            color = WappTheme.colors.white,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.wrapContentHeight(),
+        )
+    }
+}
+
+@Composable
+private fun UserScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 40.dp),
+    ) {
+        Text(
+            text = stringResource(id = R.string.attendance),
             style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
             color = WappTheme.colors.white,
-            modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 25.dp, bottom = 10.dp),
         )
+    }
 
-        Card(
-            shape = RoundedCornerShape(10.dp),
-            modifier = cardModifier,
-        ) {
-            LazyColumn() {
-            }
+    val cardModifier = Modifier
+        .fillMaxWidth()
+        .heightIn(max = 160.dp)
+        .background(WappTheme.colors.black25)
+
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = cardModifier,
+    ) {
+        LazyColumn() {
+        }
+    }
+
+    Text(
+        text = stringResource(id = R.string.survey_i_did),
+        style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
+        color = WappTheme.colors.white,
+        modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+    )
+
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = cardModifier,
+    ) {
+        LazyColumn() {
         }
     }
 }
 
 @Composable
-fun SpannableGuestText() = buildAnnotatedString {
+private fun SpannableGuestText() = buildAnnotatedString {
     append("로그인하여\n")
     withStyle(
         style = SpanStyle(
