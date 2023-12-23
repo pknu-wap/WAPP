@@ -5,10 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -130,17 +130,42 @@ private fun UserScreen() {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         val cardModifier = Modifier
             .fillMaxWidth()
-            .heightIn(max = 160.dp)
+            .wrapContentHeight()
 
         WappCard(modifier = cardModifier.padding(vertical = 20.dp)) {
-            Text(
-                text = "WAP 출석",
-                style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
-                color = WappTheme.colors.white,
+            Column(
                 modifier = Modifier
-                    .align(Alignment.Start)
-                    .padding(start = 15.dp, top = 10.dp),
-            )
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp, vertical = 10.dp),
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "WAP 출석",
+                        style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                        color = WappTheme.colors.white,
+                    )
+
+                    Image(
+                        painter = painterResource(id = drawable.ic_check),
+                        contentDescription = "",
+                        modifier = Modifier.padding(start = 10.dp),
+                    )
+                }
+
+                Text(
+                    text = "2023-12-23",
+                    style = WappTheme.typography.contentRegular,
+                    color = WappTheme.colors.white,
+                    modifier = Modifier.padding(top = 20.dp),
+                )
+
+                Text(
+                    text = "오늘은 별 다른 행사가 없어요!",
+                    style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                    color = WappTheme.colors.white,
+                    modifier = Modifier.padding(top = 5.dp),
+                )
+            }
         }
 
         Text(
@@ -161,7 +186,7 @@ private fun UserScreen() {
             text = stringResource(id = R.string.survey_i_did),
             style = WappTheme.typography.titleBold.copy(fontSize = 20.sp),
             color = WappTheme.colors.white,
-            modifier = Modifier.padding(start = 25.dp, top = 45.dp, bottom = 10.dp),
+            modifier = Modifier.padding(start = 5.dp),
         )
 
         WappCard(modifier = cardModifier) {
