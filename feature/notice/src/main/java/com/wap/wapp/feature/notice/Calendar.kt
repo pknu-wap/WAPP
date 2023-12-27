@@ -54,15 +54,14 @@ internal fun Calendar(
     measureExpandableModifier: Modifier,
     selectNewDateCallback: (LocalDate) -> Unit,
 ) {
-    val date = selectedDate.format(yyyyMMddFormatter)
-
     Column(
         modifier = measureDefaultModifier,
     ) {
         CalendarHeader(
             coroutineScope = coroutineScope,
             bottomSheetState = bottomSheetState,
-            date = date,
+            selectedDate = selectedDate,
+            selectNewDateCallback = selectNewDateCallback,
             modifier = measureExpandableModifier,
         )
 
@@ -79,11 +78,14 @@ internal fun Calendar(
 private fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
-    date: String,
+    selectedDate: LocalDate,
+    selectNewDateCallback: (LocalDate) -> Unit,
     modifier: Modifier,
 ) = Box(
     modifier = modifier,
 ) {
+    val date = selectedDate.format(yyyyMMddFormatter)
+
     Image(
         painter = painterResource(id = R.drawable.ic_threelines),
         contentDescription =
@@ -108,7 +110,7 @@ private fun CalendarHeader(
             contentDescription = null,
             modifier = Modifier
                 .padding(end = 20.dp)
-                .clickable { },
+                .clickable { selectNewDateCallback(selectedDate.minusMonths(1)) },
         )
 
         Text(
@@ -123,9 +125,7 @@ private fun CalendarHeader(
         Image(
             painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_forward),
             contentDescription = null,
-            modifier = Modifier
-                .padding(start = 20.dp)
-                .clickable { },
+            modifier = Modifier.padding(start = 20.dp),
         )
     }
 }
@@ -215,8 +215,8 @@ private fun CalendarMonthItem(
         items(thisMonthDaysToShow) { day ->
             val date = selectedDate.withDayOfMonth(day)
             val currentLocalDate = LocalDate.of(
-                LocalDate.now().year,
-                LocalDate.now().month,
+                selectedDate.year,
+                selectedDate.month,
                 day,
             )
 
