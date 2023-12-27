@@ -18,6 +18,7 @@ internal fun WappSurveyHistoryRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.padding(horizontal = 10.dp),
     ) {
         Row(
@@ -25,7 +26,7 @@ internal fun WappSurveyHistoryRow(
             modifier = Modifier.weight(1f),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_check),
+                painter = painterResource(id = R.drawable.ic_yellow_check),
                 contentDescription = "",
             )
 
@@ -41,6 +42,7 @@ internal fun WappSurveyHistoryRow(
         Image(
             painter = painterResource(id = R.drawable.ic_small_right_arrow),
             contentDescription = "",
+            modifier = Modifier.padding(start = 10.dp),
         )
     }
 }

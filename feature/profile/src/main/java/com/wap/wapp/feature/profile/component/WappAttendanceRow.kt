@@ -19,6 +19,7 @@ internal fun WappAttendacneRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.padding(horizontal = 10.dp),
     ) {
         Row(
@@ -39,6 +40,7 @@ internal fun WappAttendacneRow(
             text = "09월 04일",
             style = WappTheme.typography.labelRegular,
             color = WappTheme.colors.gray95,
+            modifier = Modifier.padding(start = 10.dp),
         )
     }
 }
