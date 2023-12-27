@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,8 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
 import com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek
+import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX
+import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -97,8 +100,8 @@ private fun CalendarHeader(
     )
     Text(
         text = date.substring(
-            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX,
-            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX,
+            YEAR_MONTH_START_INDEX,
+            YEAR_MONTH_END_INDEX,
         ),
         style = WappTheme.typography.titleBold,
         color = WappTheme.colors.white,
@@ -178,10 +181,10 @@ private fun CalendarMonthItem(
             visibleDaysFromLastMonth,
             selectedDate,
         )
-        items(beforeMonthDaysToShow) { day ->
+        itemsIndexed(beforeMonthDaysToShow) { index, day ->
             CalendarDayText(
                 text = day.toString(),
-                color = getDayColor(day).copy(alpha = ALPHA_DIM),
+                color = getDayColor(index + 1).copy(alpha = ALPHA_DIM),
             )
         }
 

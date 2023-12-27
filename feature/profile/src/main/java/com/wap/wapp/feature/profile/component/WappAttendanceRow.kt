@@ -1,6 +1,7 @@
 package com.wap.wapp.feature.profile.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -16,11 +17,14 @@ import com.wap.wapp.core.designresource.R
 @Composable
 internal fun WappAttendacneRow(
     isAttendance: Boolean,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(horizontal = 10.dp),
+        modifier = modifier
+            .padding(horizontal = 10.dp)
+            .clickable { onClick() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
