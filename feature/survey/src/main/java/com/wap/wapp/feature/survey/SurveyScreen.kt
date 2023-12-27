@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -26,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
@@ -39,43 +39,44 @@ internal fun SurveyScreen(
     viewModel: SurveyViewModel,
     navigateToSurveyAnswer: (Int) -> Unit,
 ) {
-    val context = LocalContext.current
-    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
-    val snackBarHostState = remember { SnackbarHostState() }
+    Column(modifier = Modifier.fillMaxSize()) {
+        val context = LocalContext.current
+        val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
+        val snackBarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(true) {
-        viewModel.surveyEvent.collectLatest {
-            when (it) {
-                is SurveyViewModel.SurveyUiEvent.Failure -> {
-                    snackBarHostState.showSnackbar(it.throwable.toSupportingText())
-                }
+        LaunchedEffect(true) {
+            viewModel.surveyEvent.collectLatest {
+                when (it) {
+                    is SurveyViewModel.SurveyUiEvent.Failure -> {
+                        snackBarHostState.showSnackbar(it.throwable.toSupportingText())
+                    }
 
-                is SurveyViewModel.SurveyUiEvent.AlreadySubmitted -> {
-                    snackBarHostState.showSnackbar(
-                        context.getString(R.string.alreay_submitted_description),
-                    )
-                }
+                    is SurveyViewModel.SurveyUiEvent.AlreadySubmitted -> {
+                        snackBarHostState.showSnackbar(
+                            context.getString(R.string.alreay_submitted_description),
+                        )
+                    }
 
-                is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
-                    navigateToSurveyAnswer(it.eventId)
+                    is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
+                        navigateToSurveyAnswer(it.eventId)
+                    }
                 }
             }
         }
-    }
 
-    when (surveyFormListUiState) {
-        is SurveyViewModel.SurveyFormListUiState.Init -> { }
-        is SurveyViewModel.SurveyFormListUiState.Success -> {
-            SurveyContent(
-                surveyFormList = surveyFormListUiState.surveyFormList,
-                snackBarHostState = snackBarHostState,
-                selectedSurveyForm = viewModel::isSubmittedSurvey,
-            )
+        when (surveyFormListUiState) {
+            is SurveyViewModel.SurveyFormListUiState.Init -> CircleLoader()
+            is SurveyViewModel.SurveyFormListUiState.Success -> {
+                SurveyContent(
+                    surveyFormList = surveyFormListUiState.surveyFormList,
+                    snackBarHostState = snackBarHostState,
+                    selectedSurveyForm = viewModel::isSubmittedSurvey,
+                )
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SurveyContent(
     surveyFormList: List<SurveyForm>,

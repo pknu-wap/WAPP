@@ -28,9 +28,8 @@ class ManagementViewModel @Inject constructor(
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
 
-    // for test
     private val _managerState: MutableStateFlow<ManagerState> =
-        MutableStateFlow(ManagerState.Manager)
+        MutableStateFlow(ManagerState.Init)
     val managerState: StateFlow<ManagerState> = _managerState.asStateFlow()
 
     private val _surveyList: MutableStateFlow<List<Survey>> = MutableStateFlow(emptyList())
