@@ -107,7 +107,7 @@ private fun CalendarHeader(
     ) {
         Image(
             painter = painterResource(id = com.wap.wapp.core.designsystem.R.drawable.ic_back),
-            contentDescription = null,
+            contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
             modifier = Modifier
                 .padding(end = 20.dp)
                 .clickable { selectNewDateCallback(selectedDate.minusMonths(1)) },
@@ -124,8 +124,10 @@ private fun CalendarHeader(
 
         Image(
             painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_forward),
-            contentDescription = null,
-            modifier = Modifier.padding(start = 20.dp),
+            contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .clickable { selectNewDateCallback(selectedDate.plusMonths(1)) },
         )
     }
 }
