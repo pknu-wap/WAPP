@@ -15,7 +15,6 @@ val Gray7C = Color(0xFF7C7C7C)
 val Gray4A = Color(0xFF49494A)
 val Black25 = Color(0xFF252424)
 val Black42 = Color(0xFF424242)
-val Black82 = Color(0xFF828282)
 val Black = Color(0xFF000000)
 val BackgroundBlack = Color(0xFF131313)
 
