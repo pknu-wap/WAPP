@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
@@ -30,7 +32,10 @@ internal fun ProfileRoute(
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
+    val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+
     ProfileScreen(
+        eventsState = eventsState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
     )
@@ -40,6 +45,7 @@ internal fun ProfileRoute(
 internal fun ProfileScreen(
     role: Role = Role.MANAGER,
     userName: String = "",
+    eventsState: ProfileViewModel.EventsState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
@@ -79,6 +85,6 @@ internal fun ProfileScreen(
             return
         }
 
-        UserScreen()
+        UserScreen(eventsState = eventsState)
     }
 }

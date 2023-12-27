@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -13,19 +14,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappCard
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.designresource.R.drawable
+import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.profile.ProfileViewModel
 import com.wap.wapp.feature.profile.R
 import com.wap.wapp.feature.profile.component.WappAttendacneRow
 import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 
 @Composable
-internal fun UserScreen() {
+internal fun UserScreen(eventsState: ProfileViewModel.EventsState) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
-        WapAttendance(modifier = Modifier.padding(top = 20.dp))
+        handleMonthEventsState(eventsState = eventsState)
 
         MyAttendanceStatus(modifier = Modifier.padding(top = 20.dp))
 
@@ -34,7 +44,25 @@ internal fun UserScreen() {
 }
 
 @Composable
-private fun WapAttendance(modifier: Modifier) {
+private fun handleMonthEventsState(
+    eventsState: ProfileViewModel.EventsState,
+) = when (eventsState) {
+    is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+    is ProfileViewModel.EventsState.Success -> {
+        WapAttendance(
+            events = eventsState.events,
+            modifier = Modifier.padding(top = 20.dp),
+        )
+    }
+
+    is ProfileViewModel.EventsState.Failure -> {}
+}
+
+@Composable
+private fun WapAttendance(
+    events: List<Event>,
+    modifier: Modifier,
+) {
     WappCard(
         modifier = modifier
             .fillMaxWidth()
@@ -60,18 +88,27 @@ private fun WapAttendance(modifier: Modifier) {
             }
 
             Text(
-                text = "2023-12-23",
+                text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
                 modifier = Modifier.padding(top = 20.dp),
             )
 
-            Text(
-                text = stringResource(id = R.string.no_event_today),
-                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 5.dp),
-            )
+            if (events.isEmpty()) {
+                Text(
+                    text = stringResource(id = R.string.no_event_today),
+                    style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                    color = WappTheme.colors.white,
+                    modifier = Modifier.padding(top = 5.dp),
+                )
+            } else {
+                Text(
+                    text = generateTodayEventString(events = events),
+                    style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                    color = WappTheme.colors.white,
+                    modifier = Modifier.padding(top = 5.dp),
+                )
+            }
         }
     }
 }
@@ -132,4 +169,22 @@ private fun MySurveyHistory(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Composable
+private fun generateTodayEventString(events: List<Event>) = buildAnnotatedString {
+    append("오늘은")
+
+    withStyle(
+        style = SpanStyle(
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline,
+        ),
+    ) {
+        events.forEach { event ->
+            append(event.title + ", ")
+        }
+    }
+
+    append("날 이에요!")
 }
