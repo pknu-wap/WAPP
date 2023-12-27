@@ -13,8 +13,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
 
 @Composable
-internal fun WappAttendacneRow(
-    isAttendance: Boolean,
+internal fun WappSurveyHistoryRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -24,7 +23,6 @@ internal fun WappAttendacneRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f),
         ) {
-            WappAttendanceBadge(isAttendance = isAttendance)
             Text(
                 text = "프로젝트 세미나",
                 style = WappTheme.typography.labelRegular,
