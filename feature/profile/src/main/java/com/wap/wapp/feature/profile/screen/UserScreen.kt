@@ -47,7 +47,7 @@ private fun WapAttendance(modifier: Modifier) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "WAP 출석",
+                    text = stringResource(id = R.string.wap_attendance),
                     style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
                     color = WappTheme.colors.white,
                 )
@@ -67,7 +67,7 @@ private fun WapAttendance(modifier: Modifier) {
             )
 
             Text(
-                text = "오늘은 별 다른 행사가 없어요!",
+                text = stringResource(id = R.string.no_event_today),
                 style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
                 color = WappTheme.colors.white,
                 modifier = Modifier.padding(top = 5.dp),

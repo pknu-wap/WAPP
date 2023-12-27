@@ -22,7 +22,7 @@ class NoticeViewModel @Inject constructor(
     val monthEvents: StateFlow<EventsState> = _monthEvents.asStateFlow()
 
     private val _selectedDateEvents = MutableStateFlow<EventsState>(EventsState.Loading)
-    val selectedDateEvent: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
+    val selectedDateEvents: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
 
     private val _selectedDate = MutableStateFlow<LocalDate>(DateUtil.generateNowDate())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()

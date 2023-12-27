@@ -17,4 +17,6 @@
     <string name="terms_and_policies">약관 및 정책</string>
     <string name="privacy_policy">개인정보 처리 방침</string>
     <string name="navigate_to_login">로그인 하러 가기</string>
+    <string name="wap_attendance">WAP 출석</string>
+    <string name="no_event_today">오늘은 별 다른 행사가 없어요!</string>
 </resources>

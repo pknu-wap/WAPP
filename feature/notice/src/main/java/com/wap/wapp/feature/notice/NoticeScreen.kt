@@ -31,7 +31,7 @@ internal fun NoticeRoute(
     viewModel: NoticeViewModel = hiltViewModel(),
 ) {
     val MonthEvents by viewModel.monthEvents.collectAsStateWithLifecycle()
-    val selectedDateEvents by viewModel.selectedDateEvent.collectAsStateWithLifecycle()
+    val selectedDateEvents by viewModel.selectedDateEvents.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
     val selectNewDateCallback = viewModel::setSelectedDate
 
