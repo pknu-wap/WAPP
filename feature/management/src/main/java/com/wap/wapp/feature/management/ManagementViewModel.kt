@@ -32,11 +32,11 @@ class ManagementViewModel @Inject constructor(
         MutableStateFlow(ManagerState.Init)
     val managerState: StateFlow<ManagerState> = _managerState.asStateFlow()
 
-    private val _surveyList: MutableStateFlow<List<Survey>> = MutableStateFlow(emptyList())
-    val surveyList: StateFlow<List<Survey>> = _surveyList.asStateFlow()
+    private val _surveyList: MutableStateFlow<SurveysState> = MutableStateFlow(SurveysState.Loading)
+    val surveyList: StateFlow<SurveysState> = _surveyList.asStateFlow()
 
-    private val _eventList: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
-    val eventList: StateFlow<List<Event>> = _eventList.asStateFlow()
+    private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Loading)
+    val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
 
     init {
         hasManagerState()
@@ -60,26 +60,47 @@ class ManagementViewModel @Inject constructor(
     }
 
     fun getEventSurveyList() = viewModelScope.launch {
-        launch { getMonthEventList() }
+        getMonthEventList()
         getSurveyList()
     }
 
-    private suspend fun getMonthEventList() =
-        getEventsUseCase(generateNowDate()).onSuccess { eventList ->
-            _eventList.emit(eventList)
+    private suspend fun getMonthEventList() {
+        _eventList.value = EventsState.Loading
+
+        getEventsUseCase(generateNowDate()).onSuccess { events ->
+            _eventList.value = EventsState.Success(events)
         }.onFailure { exception ->
             _errorFlow.emit(exception)
+            _eventList.value = EventsState.Failure(exception)
         }
+    }
 
-    private suspend fun getSurveyList() = getSurveyListUseCase().onSuccess { surveyList ->
-        _surveyList.emit(surveyList)
-    }.onFailure { exception ->
-        _errorFlow.emit(exception)
+    private suspend fun getSurveyList() {
+        _surveyList.value = SurveysState.Loading
+
+        getSurveyListUseCase().onSuccess { surveys ->
+            _surveyList.value = SurveysState.Success(surveys)
+        }.onFailure { exception ->
+            _errorFlow.emit(exception)
+            _eventList.value = EventsState.Failure(exception)
+        }
     }
 
     sealed class ManagerState {
         data object Init : ManagerState()
         data object Manager : ManagerState()
         data object NonManager : ManagerState()
+    }
+
+    sealed class EventsState {
+        data object Loading : EventsState()
+        data class Success(val events: List<Event>) : EventsState()
+        data class Failure(val throwable: Throwable) : EventsState()
+    }
+
+    sealed class SurveysState {
+        data object Loading : SurveysState()
+        data class Success(val surveys: List<Survey>) : SurveysState()
+        data class Failure(val throwable: Throwable) : SurveysState()
     }
 }

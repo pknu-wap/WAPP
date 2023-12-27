@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,12 +23,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.model.event.Event
 
 @Composable
 internal fun ManagementEventContent(
-    eventList: List<Event>,
+    eventsState: ManagementViewModel.EventsState,
     onCardClicked: (Int) -> Unit,
     onAddEventButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
@@ -49,25 +51,35 @@ internal fun ManagementEventContent(
                 color = WappTheme.colors.white,
             )
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                itemsIndexed(
-                    items = eventList.takeLast(2),
-                    key = { index, event -> event.eventId },
-                ) { currentIndex, event ->
-                    ManagementEventItem(
-                        item = event,
-                        cardColor = ManagementCardColor(currentIndex = currentIndex),
-                        onCardClicked = { eventId -> onCardClicked(eventId) },
+            when (eventsState) {
+                is ManagementViewModel.EventsState.Loading -> CircleLoader(
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                is ManagementViewModel.EventsState.Success -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        itemsIndexed(
+                            items = eventsState.events.takeLast(2),
+                            key = { index, event -> event.eventId },
+                        ) { currentIndex, event ->
+                            ManagementEventItem(
+                                item = event,
+                                cardColor = ManagementCardColor(currentIndex = currentIndex),
+                                onCardClicked = { eventId -> onCardClicked(eventId) },
+                            )
+                        }
+                    }
+
+                    WappButton(
+                        textRes = R.string.event_registration,
+                        onClick = { onAddEventButtonClicked() },
                     )
                 }
-            }
 
-            WappButton(
-                textRes = R.string.event_registration,
-                onClick = { onAddEventButtonClicked() },
-            )
+                is ManagementViewModel.EventsState.Failure -> {}
+            }
         }
     }
 }

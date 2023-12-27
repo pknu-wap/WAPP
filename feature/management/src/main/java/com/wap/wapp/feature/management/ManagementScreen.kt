@@ -69,8 +69,8 @@ internal fun ManagementScreen(
     navigateToSurveyCheck: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val surveyList = viewModel.surveyList.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
+    val surveysState by viewModel.surveyList.collectAsState()
+    val eventsState by viewModel.eventList.collectAsState()
 
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
@@ -106,19 +106,20 @@ internal fun ManagementScreen(
             )
         },
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
             ManagementEventContent(
-                eventList = eventList,
+                eventsState = eventsState,
                 onCardClicked = {},
                 onAddEventButtonClicked = navigateToEventRegistration,
             )
 
             ManagementSurveyContent(
-                surveyList = surveyList,
+                surveysState = surveysState,
                 modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = navigateToSurveyCheck,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,

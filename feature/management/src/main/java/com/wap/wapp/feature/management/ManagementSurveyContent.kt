@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.core.model.survey.Survey
@@ -33,7 +35,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun ManagementSurveyContent(
-    surveyList: List<Survey>,
+    surveysState: ManagementViewModel.SurveysState,
     onCardClicked: (String) -> Unit,
     onAddSurveyButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
@@ -55,25 +57,35 @@ internal fun ManagementSurveyContent(
                 color = WappTheme.colors.white,
             )
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                itemsIndexed(
-                    items = surveyList.takeLast(2),
-                    key = { index, survey -> survey.surveyId },
-                ) { currentIndex, survey ->
-                    ManagementSurveyItem(
-                        item = survey,
-                        cardColor = ManagementCardColor(currentIndex = currentIndex),
-                        onCardClicked = { surveyId -> onCardClicked(surveyId) },
+            when (surveysState) {
+                is ManagementViewModel.SurveysState.Loading -> CircleLoader(
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                is ManagementViewModel.SurveysState.Success -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        itemsIndexed(
+                            items = surveysState.surveys.takeLast(2),
+                            key = { index, survey -> survey.surveyId },
+                        ) { currentIndex, survey ->
+                            ManagementSurveyItem(
+                                item = survey,
+                                cardColor = ManagementCardColor(currentIndex = currentIndex),
+                                onCardClicked = { surveyId -> onCardClicked(surveyId) },
+                            )
+                        }
+                    }
+
+                    WappButton(
+                        textRes = string.add_survey,
+                        onClick = { onAddSurveyButtonClicked() },
                     )
                 }
-            }
 
-            WappButton(
-                textRes = string.add_survey,
-                onClick = { onAddSurveyButtonClicked() },
-            )
+                is ManagementViewModel.SurveysState.Failure -> {}
+            }
         }
     }
 }
