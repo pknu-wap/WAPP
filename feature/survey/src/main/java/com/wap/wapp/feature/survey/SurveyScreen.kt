@@ -65,7 +65,10 @@ internal fun SurveyScreen(
         }
 
         when (surveyFormListUiState) {
-            is SurveyViewModel.SurveyFormListUiState.Init -> CircleLoader()
+            is SurveyViewModel.SurveyFormListUiState.Init -> CircleLoader(
+                modifier = Modifier.fillMaxSize(),
+            )
+
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
