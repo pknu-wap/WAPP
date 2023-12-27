@@ -81,8 +81,7 @@ private fun CalendarHeader(
     bottomSheetState: SheetState,
     date: String,
     modifier: Modifier,
-) = Row(
-    verticalAlignment = Alignment.CenterVertically,
+) = Box(
     modifier = modifier,
 ) {
     Image(
@@ -90,6 +89,7 @@ private fun CalendarHeader(
         contentDescription =
         stringResource(R.string.calendarToggleImageContextDescription),
         modifier = Modifier
+            .align(Alignment.CenterStart)
             .clickable {
                 toggleBottomSheetState(
                     coroutineScope,
@@ -98,15 +98,23 @@ private fun CalendarHeader(
             }
             .padding(start = 16.dp),
     )
-    Text(
-        text = date.substring(
-            YEAR_MONTH_START_INDEX,
-            YEAR_MONTH_END_INDEX,
-        ),
-        style = WappTheme.typography.titleBold,
-        color = WappTheme.colors.white,
-        modifier = Modifier.padding(start = 10.dp),
-    )
+
+    Row(modifier = Modifier.align(Alignment.Center)) {
+        Image(
+            painter = painterResource(id = com.wap.wapp.core.designsystem.R.drawable.ic_back),
+            contentDescription = null,
+        )
+
+        Text(
+            text = date.substring(
+                YEAR_MONTH_START_INDEX,
+                YEAR_MONTH_END_INDEX,
+            ),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(start = 10.dp),
+        )
+    }
 }
 
 @Composable
