@@ -60,7 +60,7 @@ class ManagementViewModel @Inject constructor(
     }
 
     fun getEventSurveyList() = viewModelScope.launch {
-        getMonthEventList()
+        launch { getMonthEventList() }
         getSurveyList()
     }
 
