@@ -99,10 +99,16 @@ private fun CalendarHeader(
             .padding(start = 16.dp),
     )
 
-    Row(modifier = Modifier.align(Alignment.Center)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.align(Alignment.Center),
+    ) {
         Image(
             painter = painterResource(id = com.wap.wapp.core.designsystem.R.drawable.ic_back),
             contentDescription = null,
+            modifier = Modifier
+                .padding(end = 20.dp)
+                .clickable { },
         )
 
         Text(
@@ -112,7 +118,14 @@ private fun CalendarHeader(
             ),
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
-            modifier = Modifier.padding(start = 10.dp),
+        )
+
+        Image(
+            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_forward),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .clickable { },
         )
     }
 }
