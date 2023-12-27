@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
@@ -29,13 +30,15 @@ internal fun WappAttendacneRow(
                 text = "프로젝트 세미나",
                 style = WappTheme.typography.labelRegular,
                 color = WappTheme.colors.white,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(start = 10.dp),
             )
         }
         Text(
             text = "09월 04일",
             style = WappTheme.typography.labelRegular,
-            color = WappTheme.colors.white,
+            color = WappTheme.colors.gray95,
         )
     }
 }

@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -35,6 +34,7 @@ import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.profile.component.WappAttendacneRow
 import com.wap.wapp.feature.profile.component.WappProfileCard
+import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 
 @Composable
 internal fun ProfileRoute(
@@ -249,7 +249,14 @@ private fun MySurveyHistory(modifier: Modifier = Modifier) {
                 .wrapContentHeight()
                 .padding(top = 10.dp),
         ) {
-            LazyColumn() {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(vertical = 10.dp),
+            ) {
+                WappSurveyHistoryRow()
+                WappSurveyHistoryRow()
+                WappSurveyHistoryRow()
+                WappSurveyHistoryRow()
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 val White = Color(0xFFFFFFFF)
 val GrayF4 = Color(0xFFF4F4F4)
 val GrayBD = Color(0xFFBDBDBD)
+val Gray95 = Color(0xFF959595)
 val Gray82 = Color(0xFF828282)
 val Gray7C = Color(0xFF7C7C7C)
 val Gray4A = Color(0xFF49494A)
@@ -36,6 +37,7 @@ class WappColor(
     backgroundBlack: Color = Color(0xFF131313),
     black25: Color = Color(0xFF252424),
     black42: Color = Color(0xFF424242),
+    gray95: Color = Color(0xFF959595),
     black82: Color = Color(0xFF828282),
     grayA2: Color = Color(0xFFA2A2A2),
     grayF4: Color = Color(0xFFF4F4F4),
@@ -61,6 +63,8 @@ class WappColor(
     var black25 by mutableStateOf(black25)
         private set
     var black42 by mutableStateOf(black42)
+        private set
+    var gray95 by mutableStateOf(gray95)
         private set
     var black82 by mutableStateOf(black82)
         private set
