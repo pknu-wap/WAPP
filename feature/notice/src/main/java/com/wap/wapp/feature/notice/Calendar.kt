@@ -106,7 +106,7 @@ private fun CalendarHeader(
         modifier = Modifier.align(Alignment.Center),
     ) {
         Image(
-            painter = painterResource(id = com.wap.wapp.core.designsystem.R.drawable.ic_back),
+            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_back),
             contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
             modifier = Modifier
                 .padding(end = 20.dp)
