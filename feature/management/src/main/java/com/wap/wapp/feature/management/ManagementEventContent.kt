@@ -52,7 +52,10 @@ internal fun ManagementEventContent(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                itemsIndexed(eventList.takeLast(2)) { currentIndex, event ->
+                itemsIndexed(
+                    items = eventList.takeLast(2),
+                    key = { index, event -> event.eventId },
+                ) { currentIndex, event ->
                     ManagementEventItem(
                         item = event,
                         cardColor = ManagementCardColor(currentIndex = currentIndex),

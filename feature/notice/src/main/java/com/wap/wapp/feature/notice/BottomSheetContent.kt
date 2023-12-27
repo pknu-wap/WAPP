@@ -79,7 +79,7 @@ private fun EventsList(events: List<Event>) {
         ) {
             itemsIndexed(
                 items = events,
-                key = { _, event -> event.title },
+                key = { _, event -> event.eventId },
             ) { _, event ->
                 EventItem(event = event)
             }
