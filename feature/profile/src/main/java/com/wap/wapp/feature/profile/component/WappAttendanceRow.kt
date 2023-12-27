@@ -1,13 +1,16 @@
 package com.wap.wapp.feature.profile.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.designresource.R
 
 @Composable
 internal fun WappAttendacneRow() {
@@ -33,4 +36,7 @@ internal fun WappAttendacneRow() {
 }
 
 @Composable
-private fun WappAttendanceBadge() {}
+private fun WappAttendanceBadge(isAttendance: Boolean = true) {
+    val drawableId = if (isAttendance) R.drawable.ic_attendance else R.drawable.ic_absent
+    Image(painter = painterResource(id = drawableId), contentDescription = "")
+}
