@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
+import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.feature.profile.R.string
 
 @Composable
 internal fun ProfileSettingRoute(
@@ -45,6 +47,13 @@ internal fun ProfileSettingScreen(
             .fillMaxSize()
             .background(color = WappTheme.colors.backgroundBlack),
     ) {
+        WappTopBar(
+            titleRes = string.more,
+            showLeftButton = true,
+            onClickLeftButton = {},
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             modifier = Modifier.padding(start = 15.dp, top = 20.dp, bottom = 25.dp),
