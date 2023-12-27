@@ -24,13 +24,15 @@ import com.wap.wapp.feature.profile.R.string
 
 @Composable
 internal fun ProfileSettingRoute(
+    navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    ProfileSettingScreen()
+    ProfileSettingScreen(navigateToProfile)
 }
 
 @Composable
 internal fun ProfileSettingScreen(
+    navigateToProfile: () -> Unit,
     onClickedAlarmSetting: () -> Unit = {},
     onClickedSignout: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
@@ -50,7 +52,7 @@ internal fun ProfileSettingScreen(
         WappTopBar(
             titleRes = string.more,
             showLeftButton = true,
-            onClickLeftButton = {},
+            onClickLeftButton = navigateToProfile,
             modifier = Modifier.padding(top = 20.dp),
         )
 
@@ -159,5 +161,5 @@ internal fun ProfileSettingScreen(
 @Preview
 @Composable
 fun PreviewProfileMoreScreen() {
-    ProfileSettingScreen()
+    ProfileSettingScreen(navigateToProfile = {})
 }

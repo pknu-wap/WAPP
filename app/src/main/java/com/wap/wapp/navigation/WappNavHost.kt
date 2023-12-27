@@ -22,9 +22,11 @@ import com.wap.wapp.feature.management.registration.survey.navigation.navigateTo
 import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationScreen
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
+import com.wap.wapp.feature.profile.navigation.navigateToProfile
 import com.wap.wapp.feature.profile.navigation.profileNavigationRoute
 import com.wap.wapp.feature.profile.navigation.profileScreen
 import com.wap.wapp.feature.profile.profilesetting.navigation.navigateToProfileSetting
+import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
@@ -86,7 +88,15 @@ fun WappNavHost(
                 )
             },
         )
-        profileSettingScreen()
+        profileSettingScreen(
+            navigateToProfile = {
+                navController.navigateToProfile(
+                    navOptions {
+                        popUpTo(profileSettingNavigationRoute) { inclusive = true }
+                    },
+                )
+            },
+        )
         managementScreen(
             navigateToSurveyRegistration = navController::navigateToSurveyRegistration,
             navigateToEventRegistration = navController::navigateToEventRegistration,
