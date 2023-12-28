@@ -37,7 +37,7 @@ internal fun UserProfile(eventsState: ProfileViewModel.EventsState) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         handleMonthEventsState(eventsState = eventsState)
 
-        ProfileAttendanceCard(modifier = Modifier.padding(top = 20.dp))
+        MyAttendanceStatus(modifier = Modifier.padding(top = 20.dp))
 
         MySurveyHistory(modifier = Modifier.padding(top = 20.dp))
     }
@@ -49,7 +49,7 @@ private fun handleMonthEventsState(
 ) = when (eventsState) {
     is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is ProfileViewModel.EventsState.Success -> {
-        WapAttendance(
+        ProfileAttendanceCard(
             events = eventsState.events,
             modifier = Modifier.padding(top = 20.dp),
         )
@@ -59,7 +59,7 @@ private fun handleMonthEventsState(
 }
 
 @Composable
-private fun WapAttendance(
+private fun ProfileAttendanceCard(
     events: List<Event>,
     modifier: Modifier,
 ) {
@@ -114,7 +114,7 @@ private fun WapAttendance(
 }
 
 @Composable
-private fun ProfileAttendanceCard(modifier: Modifier = Modifier) {
+private fun MyAttendanceStatus(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.my_attendance),
