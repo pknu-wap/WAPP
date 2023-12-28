@@ -20,9 +20,11 @@ internal fun DeadlineCard(
     title: String,
     hint: String,
     onCardClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
     ) {
         Text(
             text = title,

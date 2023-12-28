@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.registration.survey.deadline
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
@@ -61,20 +62,22 @@ internal fun SurveyDeadlineContent(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
     ) {
-        WappTitle(
-            title = stringResource(R.string.survey_deadline_title),
-            content = stringResource(R.string.survey_deadline_content),
-        )
-
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier.weight(1f),
         ) {
+            WappTitle(
+                title = stringResource(R.string.survey_deadline_title),
+                content = stringResource(R.string.survey_deadline_content),
+            )
+
             DeadlineCard(
                 title = stringResource(R.string.date),
                 hint = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
                     onDatePickerStateChanged(true)
                 },
+                modifier = Modifier.padding(top = 40.dp),
             )
 
             DeadlineCard(
@@ -83,12 +86,14 @@ internal fun SurveyDeadlineContent(
                 onCardClicked = {
                     onTimePickerStateChanged(true)
                 },
+                modifier = Modifier.padding(top = 20.dp),
             )
         }
 
         WappButton(
             textRes = R.string.register_survey,
             onClick = onRegisterButtonClicked,
+            modifier = Modifier.padding(bottom = 20.dp),
         )
     }
 }
