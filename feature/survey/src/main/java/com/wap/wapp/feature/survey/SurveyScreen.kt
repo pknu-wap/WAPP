@@ -157,7 +157,7 @@ private fun SurveyFormItemCard(
 }
 
 private fun calculateDeadline(deadline: LocalDateTime): String {
-    val currentDateTime = DateUtil.generateNowDate()
+    val currentDateTime = DateUtil.generateNowDateTime()
     val duration = Duration.between(currentDateTime, deadline)
 
     if (duration.toMinutes() < 60) {

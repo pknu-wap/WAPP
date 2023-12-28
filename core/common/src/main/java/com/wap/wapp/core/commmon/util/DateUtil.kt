@@ -1,12 +1,16 @@
 package com.wap.wapp.core.commmon.util
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object DateUtil {
 
     fun generateNowDate(zoneId: ZoneId = ZoneId.of("Asia/Seoul")): LocalDate = LocalDate.now(zoneId)
+
+    fun generateNowDateTime(zoneId: ZoneId = ZoneId.of("Asia/Seoul")): LocalDateTime =
+        LocalDateTime.now(zoneId)
 
     const val YEAR_MONTH_START_INDEX = 0
     const val YEAR_MONTH_END_INDEX = 7
