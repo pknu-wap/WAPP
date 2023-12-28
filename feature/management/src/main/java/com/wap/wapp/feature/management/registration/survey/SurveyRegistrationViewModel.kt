@@ -209,6 +209,6 @@ class SurveyRegistrationViewModel @Inject constructor(
 
     companion object {
         const val EMPTY = ""
-        val EVENT_SELECTION_INIT: Event = Event("", -1, "", "", DateUtil.generateNowDateTime())
+        val EVENT_SELECTION_INIT: Event = Event("", "", "", "", DateUtil.generateNowDateTime())
     }
 }

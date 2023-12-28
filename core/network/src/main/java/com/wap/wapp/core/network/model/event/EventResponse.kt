@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 
 data class EventResponse(
     val content: String = "",
-    val eventId: Int = 0,
+    val eventId: String = "",
     val location: String = "",
     val title: String = "",
     val dateTime: String = "",

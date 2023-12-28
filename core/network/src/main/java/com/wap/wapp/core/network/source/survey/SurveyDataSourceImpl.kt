@@ -44,7 +44,7 @@ class SurveyDataSourceImpl @Inject constructor(
     }
 
     override suspend fun postSurvey(
-        eventId: Int,
+        eventId: String,
         userId: String,
         title: String,
         content: String,
@@ -72,7 +72,10 @@ class SurveyDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean> {
+    override suspend fun isSubmittedSurvey(
+        eventId: String,
+        userId: String,
+    ): Result<Boolean> {
         return runCatching {
             val result = firebaseFirestore.collection(SURVEY_COLLECTION)
                 .whereEqualTo("eventId", eventId)

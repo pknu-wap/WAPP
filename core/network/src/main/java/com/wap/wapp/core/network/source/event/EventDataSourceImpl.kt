@@ -3,6 +3,7 @@ package com.wap.wapp.core.network.source.event
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
+import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
@@ -32,12 +33,28 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
-    override suspend fun postEvent(date: LocalDate, eventRequest: EventRequest): Result<Unit> =
+    override suspend fun postEvent(
+        date: LocalDate,
+        title: String,
+        content: String,
+        location: String,
+        dateTime: String,
+    ): Result<Unit> =
         runCatching {
+            val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
+
+            val eventRequest = EventRequest(
+                title = title,
+                content = content,
+                location = location,
+                dateTime = dateTime,
+                eventId = documentId,
+            )
+
             firebaseFirestore.collection(EVENT_COLLECTION)
                 .document(getMonth(date))
                 .collection(EVENT_COLLECTION)
-                .document()
+                .document(documentId)
                 .set(eventRequest)
                 .await()
         }

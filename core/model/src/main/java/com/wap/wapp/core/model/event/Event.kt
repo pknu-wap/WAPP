@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class Event(
     val content: String,
-    val eventId: Int,
+    val eventId: String,
     val location: String,
     val title: String,
     val dateTime: LocalDateTime,

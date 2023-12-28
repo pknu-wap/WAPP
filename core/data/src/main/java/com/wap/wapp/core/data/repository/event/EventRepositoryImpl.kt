@@ -1,7 +1,6 @@
 package com.wap.wapp.core.data.repository.event
 
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.source.event.EventDataSource
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -27,11 +26,9 @@ class EventRepositoryImpl @Inject constructor(
     ): Result<Unit> =
         eventDataSource.postEvent(
             date = date,
-            EventRequest(
-                title = eventTitle,
-                content = eventContent,
-                location = eventLocation,
-                dateTime = eventDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-            ),
+            title = eventTitle,
+            content = eventContent,
+            location = eventLocation,
+            dateTime = eventDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
         )
 }

@@ -31,7 +31,7 @@ import com.wap.wapp.core.model.event.Event
 @Composable
 internal fun ManagementEventContent(
     eventsState: ManagementViewModel.EventsState,
-    onCardClicked: (Int) -> Unit,
+    onCardClicked: (String) -> Unit,
     onAddEventButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -91,7 +91,7 @@ internal fun ManagementEventContent(
 private fun ManagementEventItem(
     item: Event,
     cardColor: Color,
-    onCardClicked: (Int) -> Unit,
+    onCardClicked: (String) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),

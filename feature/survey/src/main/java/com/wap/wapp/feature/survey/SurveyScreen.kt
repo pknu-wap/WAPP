@@ -38,7 +38,7 @@ import java.time.LocalDateTime
 @Composable
 internal fun SurveyScreen(
     viewModel: SurveyViewModel,
-    navigateToSurveyAnswer: (Int) -> Unit,
+    navigateToSurveyAnswer: (String) -> Unit,
 ) {
     val context = LocalContext.current
     val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
@@ -86,7 +86,7 @@ internal fun SurveyScreen(
 private fun SurveyContent(
     surveyFormList: List<SurveyForm>,
     paddingValues: PaddingValues,
-    selectedSurveyForm: (Int) -> Unit,
+    selectedSurveyForm: (String) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -115,7 +115,7 @@ private fun SurveyContent(
 @Composable
 private fun SurveyFormItemCard(
     surveyForm: SurveyForm,
-    selectedSurveyForm: (Int) -> Unit,
+    selectedSurveyForm: (String) -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(
