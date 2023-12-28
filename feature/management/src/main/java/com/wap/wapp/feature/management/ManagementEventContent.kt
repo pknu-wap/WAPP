@@ -94,6 +94,7 @@ private fun ManagementEventItem(
     onCardClicked: (Int) -> Unit,
 ) {
     Card(
+        shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxSize()
             .clickable { onCardClicked(item.eventId) },
