@@ -22,8 +22,12 @@ import com.wap.wapp.feature.management.registration.survey.navigation.navigateTo
 import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationScreen
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
+import com.wap.wapp.feature.profile.navigation.navigateToProfile
+import com.wap.wapp.feature.profile.navigation.profileNavigationRoute
 import com.wap.wapp.feature.profile.navigation.profileScreen
 import com.wap.wapp.feature.profile.profilesetting.navigation.navigateToProfileSetting
+import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
+import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
 import com.wap.wapp.feature.survey.navigation.navigateToSurvey
@@ -53,12 +57,12 @@ fun WappNavHost(
         )
         signInScreen(
             signInUseCase = signInUseCase,
-            navigateToNotice = { navController.navigateToNotice() },
-            navigateToSignUp = { navController.navigateToSignUp() },
+            navigateToNotice = navController::navigateToNotice,
+            navigateToSignUp = navController::navigateToSignUp,
         )
         signUpScreen(
-            navigateToNotice = { navController.navigateToNotice() },
-            navigateToSignIn = { navController.navigateToSignIn() },
+            navigateToNotice = navController::navigateToNotice,
+            navigateToSignIn = navController::navigateToSignIn,
         )
         noticeScreen()
         surveyNavGraph(
@@ -66,16 +70,32 @@ fun WappNavHost(
             navigateToSurveyAnswer = navController::navigateToSurveyAnswer,
         )
         surveyCheckScreen(
-            navigateToManagement = { navController.navigateToManagement() },
+            navigateToManagement = navController::navigateToManagement,
         )
         surveyRegistrationScreen(
-            navigateToManagement = { navController.navigateToManagement() },
+            navigateToManagement = navController::navigateToManagement,
         )
         eventRegistrationScreen(
-            navigateToManagement = { navController.navigateToManagement() },
+            navigateToManagement = navController::navigateToManagement,
         )
         profileScreen(
-            navigateToProfileSetting = { navController.navigateToProfileSetting() },
+            navigateToProfileSetting = navController::navigateToProfileSetting,
+            navigateToSignInScreen = {
+                navController.navigateToSignIn(
+                    navOptions {
+                        popUpTo(profileNavigationRoute)
+                    },
+                )
+            },
+        )
+        profileSettingScreen(
+            navigateToProfile = {
+                navController.navigateToProfile(
+                    navOptions {
+                        popUpTo(profileSettingNavigationRoute) { inclusive = true }
+                    },
+                )
+            },
         )
         managementScreen(
             navigateToSurveyRegistration = navController::navigateToSurveyRegistration,

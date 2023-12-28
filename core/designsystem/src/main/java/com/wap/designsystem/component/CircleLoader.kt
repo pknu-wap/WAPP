@@ -12,11 +12,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun CircleLoader(modifier: Modifier = Modifier) {
+fun CircleLoader(
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.Center,
+) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.raw_loading))
     Box(
         modifier = modifier,
-        contentAlignment = Alignment.TopCenter,
+        contentAlignment = contentAlignment,
     ) {
         LottieAnimation(
             composition = composition,

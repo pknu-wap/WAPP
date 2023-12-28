@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
@@ -60,10 +59,6 @@ internal fun ManagementRoute(
     }
 }
 
-private fun showToast(text: String, context: Context) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManagementScreen(
@@ -74,23 +69,15 @@ internal fun ManagementScreen(
     navigateToSurveyCheck: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val surveyList = viewModel.surveyList.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
+    val surveysState by viewModel.surveyList.collectAsState()
+    val eventsState by viewModel.eventList.collectAsState()
 
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
             when (managerState) {
-                ManagerState.NonManager -> {
-                    showManageCodeDialog()
-                }
-
                 ManagerState.Init -> {}
-                ManagerState.Manager -> {
-                    viewModel.apply {
-                        getSurveyList()
-                        getMonthEventList()
-                    }
-                }
+                ManagerState.NonManager -> showManageCodeDialog()
+                ManagerState.Manager -> viewModel.getEventSurveyList()
             }
         }
 
@@ -119,19 +106,20 @@ internal fun ManagementScreen(
             )
         },
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
             ManagementEventContent(
-                eventList = eventList,
+                eventsState = eventsState,
                 onCardClicked = {},
                 onAddEventButtonClicked = navigateToEventRegistration,
             )
 
             ManagementSurveyContent(
-                surveyList = surveyList,
+                surveysState = surveysState,
                 modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = navigateToSurveyCheck,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
@@ -149,10 +137,6 @@ internal fun ManagementCardColor(currentIndex: Int): Color {
     }
 }
 
-@Preview
-@Composable
-fun previewManagementScreen() {
-    WappTheme {
-        // ManageScreen()
-    }
+private fun showToast(text: String, context: Context) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }

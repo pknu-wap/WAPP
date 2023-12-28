@@ -43,6 +43,7 @@ fun WappTopBar(
                 contentDescription = stringResource(leftButtonDescriptionRes),
                 tint = WappTheme.colors.white,
                 modifier = Modifier
+                    .padding(start = 10.dp)
                     .size(20.dp)
                     .clickable { onClickLeftButton() }
                     .align(Alignment.CenterStart),
@@ -63,6 +64,7 @@ fun WappTopBar(
                 contentDescription = stringResource(rightButtonDescriptionRes),
                 tint = WappTheme.colors.white,
                 modifier = Modifier
+                    .padding(end = 10.dp)
                     .size(20.dp)
                     .clickable { onClickRightButton() }
                     .align(Alignment.CenterEnd),

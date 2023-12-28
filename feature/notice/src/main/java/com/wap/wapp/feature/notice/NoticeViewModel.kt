@@ -3,7 +3,7 @@ package com.wap.wapp.feature.notice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetEventsUseCase
+import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
 import com.wap.wapp.core.model.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,14 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
-    private val getEventsUseCase: GetEventsUseCase,
+    private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
 
     private val _monthEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val monthEvents: StateFlow<EventsState> = _monthEvents.asStateFlow()
 
     private val _selectedDateEvents = MutableStateFlow<EventsState>(EventsState.Loading)
-    val selectedDateEvent: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
+    val selectedDateEvents: StateFlow<EventsState> = _selectedDateEvents.asStateFlow()
 
     private val _selectedDate = MutableStateFlow<LocalDate>(DateUtil.generateNowDate())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
@@ -35,7 +35,7 @@ class NoticeViewModel @Inject constructor(
     private fun getMonthEvents() {
         _monthEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventsUseCase(_selectedDate.value).fold(
+            getEventListUseCase(_selectedDate.value).fold(
                 onSuccess = { _monthEvents.value = EventsState.Success(it) },
                 onFailure = { _monthEvents.value = EventsState.Failure(it) },
             )
@@ -45,7 +45,7 @@ class NoticeViewModel @Inject constructor(
     fun getSelectedDateEvents() {
         _selectedDateEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventsUseCase(_selectedDate.value).fold(
+            getEventListUseCase(_selectedDate.value).fold(
                 onSuccess = {
                     _selectedDateEvents.value =
                         EventsState.Success(it.filter { it.period == _selectedDate.value })
@@ -55,7 +55,7 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedDate(newSelectedDate: LocalDate) {
+    fun updateSelectedDate(newSelectedDate: LocalDate) {
         _selectedDate.value = newSelectedDate
         getSelectedDateEvents()
     }

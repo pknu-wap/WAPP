@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,8 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
 import com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek
+import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX
+import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -49,24 +52,23 @@ internal fun Calendar(
     monthEventsState: NoticeViewModel.EventsState,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
-    val date = selectedDate.format(yyyyMMddFormatter)
-
     Column(
         modifier = measureDefaultModifier,
     ) {
         CalendarHeader(
             coroutineScope = coroutineScope,
             bottomSheetState = bottomSheetState,
-            date = date,
+            selectedDate = selectedDate,
+            onDateSelected = onDateSelected,
             modifier = measureExpandableModifier,
         )
 
         handleMonthEventsState(
             eventsState = monthEventsState,
             selectedDate = selectedDate,
-            selectNewDateCallback = selectNewDateCallback,
+            onDateSelected = onDateSelected,
         )
     }
 }
@@ -76,17 +78,20 @@ internal fun Calendar(
 private fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
-    date: String,
+    selectedDate: LocalDate,
+    onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier,
-) = Row(
-    verticalAlignment = Alignment.CenterVertically,
+) = Box(
     modifier = modifier,
 ) {
+    val date = selectedDate.format(yyyyMMddFormatter)
+
     Image(
         painter = painterResource(id = R.drawable.ic_threelines),
         contentDescription =
         stringResource(R.string.calendarToggleImageContextDescription),
         modifier = Modifier
+            .align(Alignment.CenterStart)
             .clickable {
                 toggleBottomSheetState(
                     coroutineScope,
@@ -95,22 +100,43 @@ private fun CalendarHeader(
             }
             .padding(start = 16.dp),
     )
-    Text(
-        text = date.substring(
-            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX,
-            com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX,
-        ),
-        style = WappTheme.typography.titleBold,
-        color = WappTheme.colors.white,
-        modifier = Modifier.padding(start = 10.dp),
-    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.align(Alignment.Center),
+    ) {
+        Image(
+            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_back),
+            contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
+            modifier = Modifier
+                .padding(end = 20.dp)
+                .clickable { onDateSelected(selectedDate.minusMonths(1)) },
+        )
+
+        Text(
+            text = date.substring(
+                YEAR_MONTH_START_INDEX,
+                YEAR_MONTH_END_INDEX,
+            ),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+        )
+
+        Image(
+            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_forward),
+            contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .clickable { onDateSelected(selectedDate.plusMonths(1)) },
+        )
+    }
 }
 
 @Composable
 private fun handleMonthEventsState(
     eventsState: NoticeViewModel.EventsState,
     selectedDate: LocalDate,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) = when (eventsState) {
     is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is NoticeViewModel.EventsState.Success -> {
@@ -120,7 +146,7 @@ private fun handleMonthEventsState(
         CalendarBody(
             selectedDate = selectedDate,
             eventsDate = eventDates,
-            selectNewDateCallback = selectNewDateCallback,
+            onDateSelected = onDateSelected,
         )
     }
 
@@ -131,13 +157,13 @@ private fun handleMonthEventsState(
 private fun CalendarBody(
     selectedDate: LocalDate,
     eventsDate: List<LocalDate>,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     DayOfWeek()
     CalendarMonthItem(
         eventDates = eventsDate,
         selectedDate = selectedDate,
-        selectNewDateCallback = selectNewDateCallback,
+        onDateSelected = onDateSelected,
     )
 }
 
@@ -167,7 +193,7 @@ private fun DayOfWeek(modifier: Modifier = Modifier) {
 private fun CalendarMonthItem(
     selectedDate: LocalDate,
     eventDates: List<LocalDate>,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
@@ -178,10 +204,10 @@ private fun CalendarMonthItem(
             visibleDaysFromLastMonth,
             selectedDate,
         )
-        items(beforeMonthDaysToShow) { day ->
+        itemsIndexed(beforeMonthDaysToShow) { index, day ->
             CalendarDayText(
                 text = day.toString(),
-                color = getDayColor(day).copy(alpha = ALPHA_DIM),
+                color = getDayColor(index + 1).copy(alpha = ALPHA_DIM),
             )
         }
 
@@ -191,8 +217,8 @@ private fun CalendarMonthItem(
         items(thisMonthDaysToShow) { day ->
             val date = selectedDate.withDayOfMonth(day)
             val currentLocalDate = LocalDate.of(
-                LocalDate.now().year,
-                LocalDate.now().month,
+                selectedDate.year,
+                selectedDate.month,
                 day,
             )
 
@@ -203,7 +229,7 @@ private fun CalendarMonthItem(
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value),
                 isEvent = isEvent,
                 isSelected = isSelected,
-                modifier = Modifier.clickable { selectNewDateCallback(currentLocalDate) },
+                modifier = Modifier.clickable { onDateSelected(currentLocalDate) },
             )
         }
 

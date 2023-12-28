@@ -5,8 +5,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.with
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -34,9 +32,6 @@ internal fun WappBottomBar(
             slideInVertically { height -> height } with
                 slideOutVertically { height -> height }
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(WappTheme.colors.backgroundBlack),
     ) { isVisible ->
         if (isVisible) {
             BottomNavigation(

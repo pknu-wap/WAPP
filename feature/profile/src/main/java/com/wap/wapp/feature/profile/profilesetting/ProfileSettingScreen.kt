@@ -18,18 +18,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
+import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.core.designresource.R
-import com.wap.wapp.feature.profile.ProfileScreen
+import com.wap.wapp.feature.profile.R.string
 
 @Composable
 internal fun ProfileSettingRoute(
+    navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    ProfileScreen()
+    ProfileSettingScreen(navigateToProfile)
 }
 
 @Composable
 internal fun ProfileSettingScreen(
+    navigateToProfile: () -> Unit,
     onClickedAlarmSetting: () -> Unit = {},
     onClickedSignout: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
@@ -46,6 +49,13 @@ internal fun ProfileSettingScreen(
             .fillMaxSize()
             .background(color = WappTheme.colors.backgroundBlack),
     ) {
+        WappTopBar(
+            titleRes = string.more,
+            showLeftButton = true,
+            onClickLeftButton = navigateToProfile,
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             modifier = Modifier.padding(start = 15.dp, top = 20.dp, bottom = 25.dp),
@@ -107,7 +117,7 @@ internal fun ProfileSettingScreen(
         }
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquriy),
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
             onClicked = onClickedInquriy,
         )
 
@@ -151,5 +161,5 @@ internal fun ProfileSettingScreen(
 @Preview
 @Composable
 fun PreviewProfileMoreScreen() {
-    ProfileSettingScreen()
+    ProfileSettingScreen(navigateToProfile = {})
 }
