@@ -3,7 +3,7 @@ package com.wap.wapp.feature.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetEventsUseCase
+import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
 import com.wap.wapp.core.model.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getEventsUseCase: GetEventsUseCase,
+    private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
 
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
@@ -27,7 +27,7 @@ class ProfileViewModel @Inject constructor(
     private fun getTodayDateEvents() {
         _todayEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventsUseCase(DateUtil.generateNowDate()).fold(
+            getEventListUseCase(DateUtil.generateNowDate()).fold(
                 onSuccess = {
                     _todayEvents.value =
                         EventsState.Success(it.filter { it.period == DateUtil.generateNowDate() })

@@ -5,7 +5,7 @@ import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetEventsUseCase @Inject constructor(
+class GetEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(date: LocalDate): Result<List<Event>> = runCatching {
