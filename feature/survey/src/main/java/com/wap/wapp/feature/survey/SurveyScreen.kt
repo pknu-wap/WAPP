@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.survey.SurveyForm
 import kotlinx.coroutines.flow.collectLatest
@@ -156,7 +157,7 @@ private fun SurveyFormItemCard(
 }
 
 private fun calculateDeadline(deadline: LocalDateTime): String {
-    val currentDateTime = LocalDateTime.now()
+    val currentDateTime = DateUtil.generateNowDate()
     val duration = Duration.between(currentDateTime, deadline)
 
     if (duration.toMinutes() < 60) {
