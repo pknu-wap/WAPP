@@ -22,7 +22,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.feature.profile.R
 
 @Composable
-internal fun GuestScreen(navigateToSignInScreen: () -> Unit) {
+internal fun GuestProfile(navigateToSignInScreen: () -> Unit) {
     Text(
         text = SpannableGuestText(),
         color = WappTheme.colors.white,

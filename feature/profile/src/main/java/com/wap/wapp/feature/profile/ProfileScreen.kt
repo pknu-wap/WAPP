@@ -24,8 +24,8 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.profile.component.WappProfileCard
-import com.wap.wapp.feature.profile.screen.GuestScreen
-import com.wap.wapp.feature.profile.screen.UserScreen
+import com.wap.wapp.feature.profile.screen.GuestProfile
+import com.wap.wapp.feature.profile.screen.UserProfile
 
 @Composable
 internal fun ProfileRoute(
@@ -95,7 +95,7 @@ internal fun ProfileScreen(
                     userName = "$userName 님",
                 )
 
-                UserScreen(eventsState = eventsState)
+                UserProfile(eventsState = eventsState)
             }
 
             Role.NORMAL -> {
@@ -113,7 +113,7 @@ internal fun ProfileScreen(
                     userName = "$userName 님",
                 )
 
-                UserScreen(eventsState = eventsState)
+                UserProfile(eventsState = eventsState)
             }
 
             Role.GUEST -> {
@@ -131,7 +131,7 @@ internal fun ProfileScreen(
                     userName = stringResource(id = R.string.non_user),
                 )
 
-                GuestScreen(navigateToSignInScreen = navigateToSignInScreen)
+                GuestProfile(navigateToSignInScreen = navigateToSignInScreen)
             }
         }
     }

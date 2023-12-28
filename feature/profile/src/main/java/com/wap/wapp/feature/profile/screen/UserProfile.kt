@@ -33,7 +33,7 @@ import com.wap.wapp.feature.profile.component.WappAttendacneRow
 import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 
 @Composable
-internal fun UserScreen(eventsState: ProfileViewModel.EventsState) {
+internal fun UserProfile(eventsState: ProfileViewModel.EventsState) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         handleMonthEventsState(eventsState = eventsState)
 
