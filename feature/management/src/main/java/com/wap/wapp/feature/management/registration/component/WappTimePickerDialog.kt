@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -34,7 +35,7 @@ internal fun WappTimePickerDialog(
     Dialog(
         onDismissRequest = onDismissRequest,
     ) {
-        Card {
+        Card(shape = RoundedCornerShape(10.dp)) {
             Column(modifier = Modifier.background(WappTheme.colors.black25)) {
                 TimePicker(
                     state = state,

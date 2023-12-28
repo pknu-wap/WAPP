@@ -3,16 +3,19 @@ package com.wap.wapp.feature.management.registration.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.feature.management.R
@@ -32,18 +36,56 @@ import java.util.Locale
 
 @Composable
 internal fun WappDatePickerDialog(
-    selectedDate: LocalDate,
+    selectedDate: LocalDate = DateUtil.generateNowDate(),
     onDateSelected: (LocalDate) -> Unit,
+    onDismissRequest: () -> Unit,
+    onConfirmButtonClicked: () -> Unit,
 ) {
-    Column {
-        CalendarHeader(
-            selectedDate = selectedDate,
-            onDateSelected = onDateSelected,
-        )
-        CalendarBody(
-            selectedDate = selectedDate,
-            onDateSelected = onDateSelected,
-        )
+    Dialog(
+        onDismissRequest = onDismissRequest,
+    ) {
+        Card(shape = RoundedCornerShape(10.dp)) {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .background(color = WappTheme.colors.black25)
+                    .padding(10.dp),
+            ) {
+                CalendarHeader(
+                    selectedDate = selectedDate,
+                    onDateSelected = onDateSelected,
+                )
+                CalendarBody(
+                    selectedDate = selectedDate,
+                    onDateSelected = onDateSelected,
+                )
+
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp),
+                ) {
+                    Text(
+                        text = stringResource(R.string.cancel),
+                        color = WappTheme.colors.grayBD,
+                        style = WappTheme.typography.contentBold,
+                        modifier = Modifier
+                            .padding(end = 30.dp)
+                            .clickable { onDismissRequest() },
+                    )
+
+                    Text(
+                        stringResource(R.string.select),
+                        color = WappTheme.colors.grayBD,
+                        style = WappTheme.typography.contentBold,
+                        modifier = Modifier
+                            .padding(end = 20.dp)
+                            .clickable { onConfirmButtonClicked() },
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -51,7 +93,7 @@ internal fun WappDatePickerDialog(
 private fun CalendarHeader(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
-) = Box {
+) = Box(modifier = Modifier.fillMaxWidth()) {
     val date = selectedDate.format(DateUtil.yyyyMMddFormatter)
 
     Row(
@@ -182,11 +224,7 @@ private fun CalendarDayText(
     isSelected: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
-    var columnModifier = modifier
-        .padding(
-            horizontal = 10.dp,
-            vertical = 5.dp,
-        )
+    var columnModifier = modifier.padding(5.dp)
 
     if (isSelected) {
         columnModifier = columnModifier.background(
@@ -195,7 +233,7 @@ private fun CalendarDayText(
         )
     }
 
-    columnModifier = columnModifier.padding(vertical = 5.dp)
+    columnModifier = columnModifier.padding(5.dp)
 
     Column(
         modifier = columnModifier,

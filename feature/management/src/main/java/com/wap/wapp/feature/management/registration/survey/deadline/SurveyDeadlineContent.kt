@@ -9,12 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +23,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.registration.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
 import java.time.Instant
 import java.time.LocalDate
@@ -49,29 +47,11 @@ internal fun SurveyDeadlineContent(
     onRegisterButtonClicked: () -> Unit,
 ) {
     if (showDatePicker) {
-        DatePickerDialog(
+        WappDatePickerDialog(
             onDismissRequest = { onDatePickerStateChanged(false) },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        val selectedDateMillis = datePickerState.selectedDateMillis
-                        if (selectedDateMillis != null) {
-                            onDateChanged(
-                                selectedDateMillis.toLocalDate(),
-                            )
-                        }
-                        onDatePickerStateChanged(false)
-                    },
-                ) { Text(stringResource(id = R.string.select)) }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = { onDatePickerStateChanged(false) },
-                ) { Text(stringResource(id = R.string.cancel)) }
-            },
-        ) {
-            DatePicker(state = datePickerState)
-        }
+            onConfirmButtonClicked = {},
+            onDateSelected = {},
+        )
     }
 
     if (showTimePicker) {
