@@ -2,17 +2,20 @@ package com.wap.wapp.feature.management.registration.event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
-import com.wap.wapp.core.domain.usecase.event.PostEventUseCase
+import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
 class EventRegistrationViewModel @Inject constructor(
-    private val postEventUseCase: PostEventUseCase,
+    private val registerEventUseCase: RegisterEventUseCase,
 ) : ViewModel() {
     private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
@@ -27,10 +30,12 @@ class EventRegistrationViewModel @Inject constructor(
     private val _eventLocation: MutableStateFlow<String> = MutableStateFlow("")
     val eventLocation = _eventLocation.asStateFlow()
 
-    private val _eventDate: MutableStateFlow<String> = MutableStateFlow("")
+    private val _eventDate: MutableStateFlow<LocalDate> =
+        MutableStateFlow(DateUtil.generateNowDate())
     val eventDate = _eventDate.asStateFlow()
 
-    private val _eventTime: MutableStateFlow<String> = MutableStateFlow("")
+    private val _eventTime: MutableStateFlow<LocalTime> =
+        MutableStateFlow(DateUtil.generateNowTime())
     val eventTime = _eventTime.asStateFlow()
 
     fun setEventTitle(eventTitle: String) {
@@ -45,11 +50,11 @@ class EventRegistrationViewModel @Inject constructor(
         _eventLocation.value = eventLocation
     }
 
-    fun setEventDate(eventDate: String) {
+    fun setEventDate(eventDate: LocalDate) {
         _eventDate.value = eventDate
     }
 
-    fun setEventTime(eventTime: String) {
+    fun setEventTime(eventTime: LocalTime) {
         _eventTime.value = eventTime
     }
 
@@ -59,7 +64,7 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun registerEvent() {
         viewModelScope.launch {
-            postEventUseCase(
+            registerEventUseCase(
                 date = generateNowDate(),
                 eventTitle = _eventTitle.value,
                 eventContent = _eventContent.value,

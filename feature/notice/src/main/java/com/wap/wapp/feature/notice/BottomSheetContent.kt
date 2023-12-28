@@ -119,7 +119,7 @@ private fun EventItem(event: Event) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = event.time,
+                text = event.dateTime.toString(),
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
@@ -140,7 +140,7 @@ private fun EventItem(event: Event) {
                     color = WappTheme.colors.white,
                 )
                 Text(
-                    text = event.time,
+                    text = event.dateTime.toString(),
                     style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.grayBD,
                 )

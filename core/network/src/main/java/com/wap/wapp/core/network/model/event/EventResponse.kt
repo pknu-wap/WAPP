@@ -1,16 +1,15 @@
 package com.wap.wapp.core.network.model.event
 
 import com.wap.wapp.core.model.event.Event
-import java.time.LocalDate
+import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class EventResponse(
     val content: String = "",
     val eventId: Int = 0,
     val location: String = "",
-    val period: String = "",
     val title: String = "",
-    val time: String = "",
+    val dateTime: String = "",
 ) {
     private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
@@ -19,7 +18,6 @@ data class EventResponse(
         eventId = eventId,
         location = location,
         title = title,
-        period = LocalDate.parse(this.period, formatter),
-        time = time,
+        dateTime = dateTime.toISOLocalDateTime(),
     )
 }

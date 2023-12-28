@@ -48,7 +48,11 @@ class NoticeViewModel @Inject constructor(
             getEventListUseCase(_selectedDate.value).fold(
                 onSuccess = {
                     _selectedDateEvents.value =
-                        EventsState.Success(it.filter { it.period == _selectedDate.value })
+                        EventsState.Success(
+                            it.filter {
+                                it.dateTime.toLocalDate() == _selectedDate.value
+                            },
+                        )
                 },
                 onFailure = { _selectedDateEvents.value = EventsState.Failure(it) },
             )

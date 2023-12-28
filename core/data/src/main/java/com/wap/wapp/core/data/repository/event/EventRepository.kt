@@ -2,6 +2,7 @@ package com.wap.wapp.core.data.repository.event
 
 import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface EventRepository {
     suspend fun getMonthEvents(date: LocalDate): Result<List<Event>>
@@ -11,7 +12,6 @@ interface EventRepository {
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDate: String,
-        eventTime: String,
+        eventDateTime: LocalDateTime,
     ): Result<Unit>
 }

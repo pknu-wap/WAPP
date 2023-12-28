@@ -2,9 +2,11 @@ package com.wap.wapp.core.domain.usecase.event
 
 import com.wap.wapp.core.data.repository.event.EventRepository
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
-class PostEventUseCase @Inject constructor(
+class RegisterEventUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(
@@ -12,16 +14,15 @@ class PostEventUseCase @Inject constructor(
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDate: String,
-        eventTime: String,
+        eventDate: LocalDate,
+        eventTime: LocalTime,
     ): Result<Unit> = runCatching {
         eventRepository.postEvent(
             date = date,
             eventTitle = eventTitle,
             eventContent = eventContent,
             eventLocation = eventLocation,
-            eventDate = eventDate,
-            eventTime = eventTime,
+            eventDateTime = LocalDateTime.of(eventDate, eventTime),
         )
     }
 }
