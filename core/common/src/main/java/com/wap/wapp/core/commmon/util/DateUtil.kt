@@ -2,10 +2,13 @@ package com.wap.wapp.core.commmon.util
 
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object DateUtil {
+
+    fun generateNowTime(zoneId: ZoneId = ZoneId.of("Asia/Seoul")): LocalTime = LocalTime.now(zoneId)
 
     fun generateNowDate(zoneId: ZoneId = ZoneId.of("Asia/Seoul")): LocalDate = LocalDate.now(zoneId)
 

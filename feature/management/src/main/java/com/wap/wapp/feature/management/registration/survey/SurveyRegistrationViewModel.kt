@@ -55,10 +55,12 @@ class SurveyRegistrationViewModel @Inject constructor(
         MutableStateFlow(mutableListOf())
     val surveyQuestionList = _surveyQuestionList.asStateFlow()
 
-    private val _surveyTimeDeadline: MutableStateFlow<LocalTime> = MutableStateFlow(LOCAL_TIME_INIT)
+    private val _surveyTimeDeadline: MutableStateFlow<LocalTime> =
+        MutableStateFlow(DateUtil.generateNowTime())
     val surveyTimeDeadline = _surveyTimeDeadline.asStateFlow()
 
-    private val _surveyDateDeadline: MutableStateFlow<LocalDate> = MutableStateFlow(LOCAL_DATE_INIT)
+    private val _surveyDateDeadline: MutableStateFlow<LocalDate> =
+        MutableStateFlow(DateUtil.generateNowDate())
     val surveyDateDeadline = _surveyDateDeadline.asStateFlow()
 
     // Content 전환 함수, 전환 전 내용 검증
@@ -207,8 +209,6 @@ class SurveyRegistrationViewModel @Inject constructor(
 
     companion object {
         const val EMPTY = ""
-        val LOCAL_TIME_INIT: LocalTime = LocalTime.now()
-        val LOCAL_DATE_INIT: LocalDate = LocalDate.now()
         val EVENT_SELECTION_INIT: Event = Event("", -1, "", LocalDate.now(), "")
     }
 }

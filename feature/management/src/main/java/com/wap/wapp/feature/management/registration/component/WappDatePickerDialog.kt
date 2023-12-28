@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -18,6 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,10 +39,9 @@ import java.util.Locale
 
 @Composable
 internal fun WappDatePickerDialog(
-    selectedDate: LocalDate = DateUtil.generateNowDate(),
-    onDateSelected: (LocalDate) -> Unit,
+    date: LocalDate,
+    onDateChanged: (LocalDate) -> Unit,
     onDismissRequest: () -> Unit,
-    onConfirmButtonClicked: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -47,17 +49,19 @@ internal fun WappDatePickerDialog(
         Card(shape = RoundedCornerShape(10.dp)) {
             Column(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .fillMaxWidth()
                     .background(color = WappTheme.colors.black25)
                     .padding(10.dp),
             ) {
+                var selectedDate by remember { mutableStateOf(date) }
+
                 CalendarHeader(
                     selectedDate = selectedDate,
-                    onDateSelected = onDateSelected,
+                    onDateSelected = { date -> selectedDate = date },
                 )
                 CalendarBody(
                     selectedDate = selectedDate,
-                    onDateSelected = onDateSelected,
+                    onDateSelected = { date -> selectedDate = date },
                 )
 
                 Row(
@@ -81,7 +85,10 @@ internal fun WappDatePickerDialog(
                         style = WappTheme.typography.contentBold,
                         modifier = Modifier
                             .padding(end = 20.dp)
-                            .clickable { onConfirmButtonClicked() },
+                            .clickable {
+                                onDateChanged(selectedDate)
+                                onDismissRequest()
+                            },
                     )
                 }
             }
