@@ -52,7 +52,7 @@ internal fun Calendar(
     monthEventsState: NoticeViewModel.EventsState,
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     Column(
         modifier = measureDefaultModifier,
@@ -61,14 +61,14 @@ internal fun Calendar(
             coroutineScope = coroutineScope,
             bottomSheetState = bottomSheetState,
             selectedDate = selectedDate,
-            selectNewDateCallback = selectNewDateCallback,
+            onDateSelected = onDateSelected,
             modifier = measureExpandableModifier,
         )
 
         handleMonthEventsState(
             eventsState = monthEventsState,
             selectedDate = selectedDate,
-            selectNewDateCallback = selectNewDateCallback,
+            onDateSelected = onDateSelected,
         )
     }
 }
@@ -79,7 +79,7 @@ private fun CalendarHeader(
     coroutineScope: CoroutineScope,
     bottomSheetState: SheetState,
     selectedDate: LocalDate,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier,
 ) = Box(
     modifier = modifier,
@@ -110,7 +110,7 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
             modifier = Modifier
                 .padding(end = 20.dp)
-                .clickable { selectNewDateCallback(selectedDate.minusMonths(1)) },
+                .clickable { onDateSelected(selectedDate.minusMonths(1)) },
         )
 
         Text(
@@ -127,7 +127,7 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
             modifier = Modifier
                 .padding(start = 20.dp)
-                .clickable { selectNewDateCallback(selectedDate.plusMonths(1)) },
+                .clickable { onDateSelected(selectedDate.plusMonths(1)) },
         )
     }
 }
@@ -136,7 +136,7 @@ private fun CalendarHeader(
 private fun handleMonthEventsState(
     eventsState: NoticeViewModel.EventsState,
     selectedDate: LocalDate,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) = when (eventsState) {
     is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is NoticeViewModel.EventsState.Success -> {
@@ -146,7 +146,7 @@ private fun handleMonthEventsState(
         CalendarBody(
             selectedDate = selectedDate,
             eventsDate = eventDates,
-            selectNewDateCallback = selectNewDateCallback,
+            onDateSelected = onDateSelected,
         )
     }
 
@@ -157,13 +157,13 @@ private fun handleMonthEventsState(
 private fun CalendarBody(
     selectedDate: LocalDate,
     eventsDate: List<LocalDate>,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     DayOfWeek()
     CalendarMonthItem(
         eventDates = eventsDate,
         selectedDate = selectedDate,
-        selectNewDateCallback = selectNewDateCallback,
+        onDateSelected = onDateSelected,
     )
 }
 
@@ -193,7 +193,7 @@ private fun DayOfWeek(modifier: Modifier = Modifier) {
 private fun CalendarMonthItem(
     selectedDate: LocalDate,
     eventDates: List<LocalDate>,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(DAYS_IN_WEEK),
@@ -229,7 +229,7 @@ private fun CalendarMonthItem(
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value),
                 isEvent = isEvent,
                 isSelected = isSelected,
-                modifier = Modifier.clickable { selectNewDateCallback(currentLocalDate) },
+                modifier = Modifier.clickable { onDateSelected(currentLocalDate) },
             )
         }
 

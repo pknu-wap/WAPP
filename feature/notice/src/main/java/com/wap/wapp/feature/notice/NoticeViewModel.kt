@@ -55,7 +55,7 @@ class NoticeViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedDate(newSelectedDate: LocalDate) {
+    fun updateSelectedDate(newSelectedDate: LocalDate) {
         _selectedDate.value = newSelectedDate
         getSelectedDateEvents()
     }
