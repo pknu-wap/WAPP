@@ -6,7 +6,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 
 @Composable
@@ -19,7 +21,11 @@ internal fun RegistrationTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier,
+        singleLine = true,
+        shape = RoundedCornerShape(10.dp),
+        textStyle = WappTheme.typography.contentMedium.copy(
+            textAlign = TextAlign.Center,
+        ),
         colors = TextFieldDefaults.colors(
             focusedTextColor = WappTheme.colors.white,
             unfocusedTextColor = WappTheme.colors.white,
@@ -33,8 +39,9 @@ internal fun RegistrationTextField(
             Text(
                 text = placeholder,
                 color = WappTheme.colors.gray82,
+                style = WappTheme.typography.contentMedium.copy(fontSize = 15.sp),
             )
         },
-        shape = RoundedCornerShape(10.dp),
+        modifier = modifier,
     )
 }

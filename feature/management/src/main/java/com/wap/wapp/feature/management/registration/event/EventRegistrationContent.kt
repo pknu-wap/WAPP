@@ -189,7 +189,9 @@ private fun EventScheduleContent(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(40.dp),
+                modifier = Modifier
+                    .padding(top = 40.dp)
+                    .fillMaxWidth(),
             ) {
                 Text(
                     text = stringResource(R.string.event_location),
@@ -203,7 +205,7 @@ private fun EventScheduleContent(
                     value = location,
                     onValueChange = onLocationChanged,
                     placeholder = stringResource(R.string.event_location_hint),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.weight(3f),
                 )
             }
 
@@ -213,7 +215,7 @@ private fun EventScheduleContent(
                 onCardClicked = {
                     onDatePickerStateChanged(true)
                 },
-                modifier = Modifier.padding(top = 40.dp),
+                modifier = Modifier.padding(top = 20.dp),
             )
 
             DeadlineCard(
