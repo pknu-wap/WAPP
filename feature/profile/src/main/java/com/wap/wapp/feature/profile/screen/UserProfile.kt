@@ -33,7 +33,7 @@ import com.wap.wapp.feature.profile.component.WappAttendacneRow
 import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 
 @Composable
-internal fun UserScreen(eventsState: ProfileViewModel.EventsState) {
+internal fun UserProfile(eventsState: ProfileViewModel.EventsState) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         handleMonthEventsState(eventsState = eventsState)
 
@@ -49,7 +49,7 @@ private fun handleMonthEventsState(
 ) = when (eventsState) {
     is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is ProfileViewModel.EventsState.Success -> {
-        WapAttendance(
+        ProfileAttendanceCard(
             events = eventsState.events,
             modifier = Modifier.padding(top = 20.dp),
         )
@@ -59,7 +59,7 @@ private fun handleMonthEventsState(
 }
 
 @Composable
-private fun WapAttendance(
+private fun ProfileAttendanceCard(
     events: List<Event>,
     modifier: Modifier,
 ) {

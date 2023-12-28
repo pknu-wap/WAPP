@@ -33,9 +33,9 @@ internal fun NoticeRoute(
     val MonthEvents by viewModel.monthEvents.collectAsStateWithLifecycle()
     val selectedDateEvents by viewModel.selectedDateEvents.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
-    val selectNewDateCallback = viewModel::setSelectedDate
+    val onDateSelected = viewModel::updateSelectedDate
 
-    NoticeScreen(MonthEvents, selectedDateEvents, selectedDate, selectNewDateCallback)
+    NoticeScreen(MonthEvents, selectedDateEvents, selectedDate, onDateSelected)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +44,7 @@ internal fun NoticeScreen(
     monthEvents: EventsState,
     selectedDateEvents: EventsState,
     selectedDate: LocalDate,
-    selectNewDateCallback: (LocalDate) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
@@ -79,7 +79,7 @@ internal fun NoticeScreen(
                 bottomSheetState = scaffoldState.bottomSheetState,
                 selectedDate = selectedDate,
                 monthEventsState = monthEvents,
-                selectNewDateCallback = selectNewDateCallback,
+                onDateSelected = onDateSelected,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)

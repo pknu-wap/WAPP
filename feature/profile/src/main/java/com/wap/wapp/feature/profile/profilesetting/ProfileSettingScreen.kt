@@ -117,7 +117,7 @@ internal fun ProfileSettingScreen(
         }
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquriy),
+            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
             onClicked = onClickedInquriy,
         )
 

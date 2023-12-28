@@ -92,7 +92,7 @@ private fun EventsList(events: List<Event>) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_cat),
-                contentDescription = stringResource(id = R.string.bottomSheetCatContextDescription),
+                contentDescription = stringResource(id = R.string.bottomSheetCatContentDescription),
             )
 
             Text(

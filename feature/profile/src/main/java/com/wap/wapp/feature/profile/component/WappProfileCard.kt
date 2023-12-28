@@ -17,66 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.designresource.R.drawable
-import com.wap.wapp.feature.profile.R
-import com.wap.wapp.feature.profile.Role
 
 @Composable
 internal fun WappProfileCard(
-    role: Role,
-    userName: String? = null,
+    position: String,
+    githubImage: Int,
+    catImage: Int,
+    brush: Brush,
+    userName: String,
 ) {
-    var position: String? = null
-    var githubImage: Int? = null
-    var catImage: Int? = null
-    var brush: Brush? = null
-
-    when (role) {
-        Role.MANAGER -> {
-            position = stringResource(R.string.manager)
-            githubImage = drawable.ic_manager_github
-            catImage = drawable.ic_manager_cat
-            brush = Brush.horizontalGradient(
-                listOf(
-                    WappTheme.colors.blue2FF,
-                    WappTheme.colors.blue4FF,
-                    WappTheme.colors.blue1FF,
-                ),
-            )
-        }
-
-        Role.NORMAL -> {
-            position = stringResource(R.string.normal)
-            githubImage = drawable.ic_normal_github
-            catImage = drawable.ic_normal_cat
-            brush = Brush.horizontalGradient(
-                listOf(
-                    WappTheme.colors.yellow3C,
-                    WappTheme.colors.yellow34,
-                    WappTheme.colors.yellowA4,
-                ),
-            )
-        }
-
-        Role.GUEST -> {
-            position = stringResource(R.string.guest)
-            githubImage = drawable.ic_guest_github
-            catImage = drawable.ic_guest_cat
-            brush = Brush.horizontalGradient(
-                listOf(
-                    WappTheme.colors.grayA2,
-                    WappTheme.colors.gray7C,
-                    WappTheme.colors.gray4A,
-                ),
-            )
-        }
-    }
-
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -104,7 +56,7 @@ internal fun WappProfileCard(
                     modifier = Modifier.padding(start = 5.dp),
                 ) {
                     Text(
-                        text = if (role == Role.GUEST) "비회원" else "$userName 님",
+                        text = userName,
                         style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
                         color = WappTheme.colors.white,
                     )
@@ -126,16 +78,4 @@ internal fun WappProfileCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun NormalProfileCard() {
-    WappProfileCard(role = Role.NORMAL, userName = "WAPP")
-}
-
-@Preview
-@Composable
-private fun ManagerProfileCard() {
-    WappProfileCard(role = Role.MANAGER, userName = "WAPP")
 }
