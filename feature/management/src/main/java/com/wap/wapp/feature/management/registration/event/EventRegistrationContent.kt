@@ -205,6 +205,8 @@ private fun EventScheduleContent(
                     value = location,
                     onValueChange = onLocationChanged,
                     placeholder = stringResource(R.string.event_location_hint),
+                    textAlign = TextAlign.Center,
+                    isSingline = true,
                     modifier = Modifier.weight(3f),
                 )
             }

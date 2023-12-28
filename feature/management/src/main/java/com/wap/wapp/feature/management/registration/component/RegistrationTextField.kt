@@ -16,15 +16,15 @@ internal fun RegistrationTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
     placeholder: String,
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        singleLine = true,
         shape = RoundedCornerShape(10.dp),
         textStyle = WappTheme.typography.contentMedium.copy(
-            textAlign = TextAlign.Center,
+            textAlign = textAlign,
         ),
         colors = TextFieldDefaults.colors(
             focusedTextColor = WappTheme.colors.white,
