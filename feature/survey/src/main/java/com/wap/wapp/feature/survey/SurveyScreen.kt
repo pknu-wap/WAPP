@@ -3,6 +3,7 @@ package com.wap.wapp.feature.survey
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
@@ -39,40 +39,41 @@ internal fun SurveyScreen(
     viewModel: SurveyViewModel,
     navigateToSurveyAnswer: (Int) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        val context = LocalContext.current
-        val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
-        val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
+    val snackBarHostState = remember { SnackbarHostState() }
 
-        LaunchedEffect(true) {
-            viewModel.surveyEvent.collectLatest {
-                when (it) {
-                    is SurveyViewModel.SurveyUiEvent.Failure -> {
-                        snackBarHostState.showSnackbar(it.throwable.toSupportingText())
-                    }
+    LaunchedEffect(true) {
+        viewModel.surveyEvent.collectLatest {
+            when (it) {
+                is SurveyViewModel.SurveyUiEvent.Failure -> {
+                    snackBarHostState.showSnackbar(it.throwable.toSupportingText())
+                }
 
-                    is SurveyViewModel.SurveyUiEvent.AlreadySubmitted -> {
-                        snackBarHostState.showSnackbar(
-                            context.getString(R.string.alreay_submitted_description),
-                        )
-                    }
+                is SurveyViewModel.SurveyUiEvent.AlreadySubmitted -> {
+                    snackBarHostState.showSnackbar(
+                        context.getString(R.string.alreay_submitted_description),
+                    )
+                }
 
-                    is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
-                        navigateToSurveyAnswer(it.eventId)
-                    }
+                is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
+                    navigateToSurveyAnswer(it.eventId)
                 }
             }
         }
+    }
 
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = WappTheme.colors.backgroundBlack,
+        snackbarHost = { SnackbarHost(snackBarHostState) },
+    ) { paddingValues ->
         when (surveyFormListUiState) {
-            is SurveyViewModel.SurveyFormListUiState.Init -> CircleLoader(
-                modifier = Modifier.fillMaxSize(),
-            )
-
+            is SurveyViewModel.SurveyFormListUiState.Init -> { }
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
-                    snackBarHostState = snackBarHostState,
+                    paddingValues = paddingValues,
                     selectedSurveyForm = viewModel::isSubmittedSurvey,
                 )
             }
@@ -83,34 +84,28 @@ internal fun SurveyScreen(
 @Composable
 private fun SurveyContent(
     surveyFormList: List<SurveyForm>,
-    snackBarHostState: SnackbarHostState,
+    paddingValues: PaddingValues,
     selectedSurveyForm: (Int) -> Unit,
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = WappTheme.colors.backgroundBlack,
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-    ) { paddingValues ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(vertical = 16.dp, horizontal = 8.dp),
-        ) {
-            WappTitle(
-                title = stringResource(R.string.survey_title),
-                content = stringResource(R.string.survey_content),
-            )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(vertical = 16.dp, horizontal = 8.dp),
+    ) {
+        WappTitle(
+            title = stringResource(R.string.survey_title),
+            content = stringResource(R.string.survey_content),
+        )
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                items(surveyFormList) { surveyForm ->
-                    SurveyFormItemCard(
-                        surveyForm = surveyForm,
-                        selectedSurveyForm = selectedSurveyForm,
-                    )
-                }
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(surveyFormList) { surveyForm ->
+                SurveyFormItemCard(
+                    surveyForm = surveyForm,
+                    selectedSurveyForm = selectedSurveyForm,
+                )
             }
         }
     }

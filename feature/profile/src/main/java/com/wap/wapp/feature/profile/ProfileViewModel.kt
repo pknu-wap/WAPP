@@ -16,7 +16,6 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
-
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 

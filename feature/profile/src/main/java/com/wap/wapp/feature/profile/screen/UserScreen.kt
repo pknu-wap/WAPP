@@ -37,7 +37,7 @@ internal fun UserScreen(eventsState: ProfileViewModel.EventsState) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         handleMonthEventsState(eventsState = eventsState)
 
-        MyAttendanceStatus(modifier = Modifier.padding(top = 20.dp))
+        ProfileAttendanceCard(modifier = Modifier.padding(top = 20.dp))
 
         MySurveyHistory(modifier = Modifier.padding(top = 20.dp))
     }
@@ -114,7 +114,7 @@ private fun WapAttendance(
 }
 
 @Composable
-private fun MyAttendanceStatus(modifier: Modifier = Modifier) {
+private fun ProfileAttendanceCard(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.my_attendance),
