@@ -61,4 +61,6 @@
     <string name="check_survey">설문 확인</string>
     <string name="name">이름</string>
     <string name="next">다음</string>
+    <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
+    <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
 </resources>

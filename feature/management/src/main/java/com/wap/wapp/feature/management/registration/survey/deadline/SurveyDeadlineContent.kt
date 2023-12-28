@@ -26,7 +26,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.component.TimePickerDialog
+import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -75,7 +75,7 @@ internal fun SurveyDeadlineContent(
     }
 
     if (showTimePicker) {
-        TimePickerDialog(
+        WappTimePickerDialog(
             state = timePickerState,
             onDismissRequest = { onTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->

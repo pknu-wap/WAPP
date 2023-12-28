@@ -25,7 +25,7 @@ import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TimePickerDialog(
+internal fun WappTimePickerDialog(
     state: TimePickerState,
     onDismissRequest: () -> Unit,
     onConfirmButtonClicked: (LocalTime) -> Unit,
