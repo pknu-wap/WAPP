@@ -7,7 +7,9 @@ import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
 import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
 import com.wap.wapp.feature.management.registration.event.EventRegistrationState.EVENT_DETAILS
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -21,6 +23,10 @@ class EventRegistrationViewModel @Inject constructor(
     private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EVENT_DETAILS)
     val currentRegistrationState = _currentRegistrationState.asStateFlow()
+
+    private val _eventRegistrationEvent: MutableSharedFlow<EventRegistrationEvent> =
+        MutableSharedFlow()
+    val eventRegistrationEvent = _eventRegistrationEvent.asSharedFlow()
 
     private val _eventTitle: MutableStateFlow<String> = MutableStateFlow("")
     val eventTitle = _eventTitle.asStateFlow()
@@ -62,9 +68,11 @@ class EventRegistrationViewModel @Inject constructor(
     fun setEventRegistrationState() {
         if (_currentRegistrationState.value == EVENT_DETAILS) {
             if (_eventLocation.value.isEmpty()) {
+                emitValidationErrorMessage("장소를 입력하세요.")
                 return
             }
             if (_eventContent.value.isEmpty()) {
+                emitValidationErrorMessage("내용을 입력하세요.")
                 return
             }
             _currentRegistrationState.value = EVENT_DETAILS
@@ -73,10 +81,12 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun registerEvent() {
         if (_eventLocation.value.isEmpty()) {
+            emitValidationErrorMessage("장소를 입력하세요.")
             return
         }
 
         if (_eventDate.value <= generateNowDate()) {
+            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
         }
 
@@ -88,6 +98,14 @@ class EventRegistrationViewModel @Inject constructor(
                 eventLocation = _eventLocation.value,
                 eventDate = _eventDate.value,
                 eventTime = _eventTime.value,
+            )
+        }
+    }
+
+    private fun emitValidationErrorMessage(message: String) {
+        viewModelScope.launch {
+            _eventRegistrationEvent.emit(
+                EventRegistrationEvent.ValidationError(message),
             )
         }
     }
