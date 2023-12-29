@@ -48,7 +48,7 @@ internal fun EventRegistrationContent(
     onTimeChanged: (LocalTime) -> Unit,
     onDatePickerStateChanged: (Boolean) -> Unit,
     onTimePickerStateChanged: (Boolean) -> Unit,
-    onNextButtonClicked: (EventRegistrationState) -> Unit,
+    onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     Column(modifier = modifier) {
@@ -58,8 +58,7 @@ internal fun EventRegistrationContent(
                 eventContent = eventContent,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
-                onNextButtonClicked =
-                { onNextButtonClicked(EventRegistrationState.EVENT_SCHEDULE) },
+                onNextButtonClicked = onNextButtonClicked,
             )
 
             EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
@@ -74,7 +73,7 @@ internal fun EventRegistrationContent(
                 showTimePicker = showTimePicker,
                 onDatePickerStateChanged = onDatePickerStateChanged,
                 onTimePickerStateChanged = onTimePickerStateChanged,
-                onNextButtonClicked = onRegisterButtonClicked,
+                onRegisterButtonClicked = onRegisterButtonClicked,
             )
         }
     }
@@ -152,7 +151,7 @@ private fun EventScheduleContent(
     onLocationChanged: (String) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: () -> Unit,
+    onRegisterButtonClicked: () -> Unit,
 ) {
     if (showDatePicker) {
         WappDatePickerDialog(
@@ -206,7 +205,6 @@ private fun EventScheduleContent(
                     onValueChange = onLocationChanged,
                     placeholder = stringResource(R.string.event_location_hint),
                     textAlign = TextAlign.Center,
-                    isSingline = true,
                     modifier = Modifier.weight(3f),
                 )
             }
@@ -231,7 +229,7 @@ private fun EventScheduleContent(
         }
 
         WappButton(
-            onClick = onNextButtonClicked,
+            onClick = onRegisterButtonClicked,
             textRes = R.string.register_event,
             modifier = Modifier.padding(bottom = 20.dp),
         )

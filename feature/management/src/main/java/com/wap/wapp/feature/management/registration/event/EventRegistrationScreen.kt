@@ -89,7 +89,7 @@ internal fun EventRegistrationScreen(
     onLocationChanged: (String) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: (EventRegistrationState) -> Unit,
+    onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {

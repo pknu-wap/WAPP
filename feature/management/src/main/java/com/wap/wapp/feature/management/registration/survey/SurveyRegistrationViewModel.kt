@@ -191,7 +191,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     private fun isNotValidInformation() =
         _surveyTitle.value.isBlank() || _surveyContent.value.isBlank()
 
-    private fun isValidDeadline() = _surveyDateDeadline.value > LocalDate.now()
+    private fun isValidDeadline() = _surveyDateDeadline.value > DateUtil.generateNowDate()
 
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
