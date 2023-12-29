@@ -6,6 +6,7 @@ import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
 import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
 import com.wap.wapp.feature.management.registration.event.EventRegistrationState.EVENT_DETAILS
+import com.wap.wapp.feature.management.registration.event.EventRegistrationState.EVENT_SCHEDULE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,15 +68,15 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun setEventRegistrationState() {
         if (_currentRegistrationState.value == EVENT_DETAILS) {
-            if (_eventLocation.value.isEmpty()) {
-                emitValidationErrorMessage("장소를 입력하세요.")
+            if (_eventTitle.value.isEmpty()) {
+                emitValidationErrorMessage("행사 이름을 입력하세요.")
                 return
             }
             if (_eventContent.value.isEmpty()) {
-                emitValidationErrorMessage("내용을 입력하세요.")
+                emitValidationErrorMessage("행사 내용을 입력하세요.")
                 return
             }
-            _currentRegistrationState.value = EVENT_DETAILS
+            _currentRegistrationState.value = EVENT_SCHEDULE
         }
     }
 
@@ -98,6 +99,11 @@ class EventRegistrationViewModel @Inject constructor(
                 eventLocation = _eventLocation.value,
                 eventDate = _eventDate.value,
                 eventTime = _eventTime.value,
+            ).fold(
+                onSuccess = { _eventRegistrationEvent.emit(EventRegistrationEvent.Success) },
+                onFailure = { throwable ->
+                    _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
+                },
             )
         }
     }

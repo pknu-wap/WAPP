@@ -15,6 +15,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTopBar
+import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
+import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -38,6 +41,7 @@ internal fun EventRegistrationRoute(
     viewModel: EventRegistrationViewModel = hiltViewModel(),
     navigateToManagement: () -> Unit,
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
     val currentRegistrationState
         by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
     val title by viewModel.eventTitle.collectAsStateWithLifecycle()
@@ -54,6 +58,24 @@ internal fun EventRegistrationRoute(
         viewModel::setEventRegistrationState
     val onRegisterButtonClicked = viewModel::registerEvent
 
+    LaunchedEffect(true) {
+        viewModel.eventRegistrationEvent.collectLatest {
+            when (it) {
+                is EventRegistrationEvent.Failure -> {
+                    snackBarHostState.showSnackbar(it.error.toSupportingText())
+                }
+
+                is EventRegistrationEvent.ValidationError -> {
+                    snackBarHostState.showSnackbar(it.message)
+                }
+
+                is EventRegistrationEvent.Success -> {
+                    navigateToManagement()
+                }
+            }
+        }
+    }
+
     EventRegistrationScreen(
         currentRegistrationState = currentRegistrationState,
         title = title,
@@ -61,17 +83,15 @@ internal fun EventRegistrationRoute(
         location = location,
         date = date,
         time = time,
+        snackBarHostState = snackBarHostState,
         onTitleChanged = onTitleChanged,
         onContentChanged = onContentChanged,
         onLocationChanged = onLocationChanged,
         onDateChanged = onDateChanged,
         onTimeChanged = onTimeChanged,
         onNextButtonClicked = onNextButtonClicked,
-        onRegisterButtonClicked = {
-            onRegisterButtonClicked()
-            navigateToManagement()
-        },
-        onBackButtonClicked = { navigateToManagement() },
+        onRegisterButtonClicked = onRegisterButtonClicked,
+        onBackButtonClicked = navigateToManagement,
     )
 }
 
@@ -84,6 +104,7 @@ internal fun EventRegistrationScreen(
     location: String,
     date: LocalDate,
     time: LocalTime,
+    snackBarHostState: SnackbarHostState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onLocationChanged: (String) -> Unit,
@@ -93,7 +114,6 @@ internal fun EventRegistrationScreen(
     onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
