@@ -40,8 +40,10 @@ internal fun EventRegistrationContent(
     startTime: LocalTime,
     endDate: LocalDate,
     endTime: LocalTime,
-    showDatePicker: Boolean,
-    showTimePicker: Boolean,
+    showStartDatePicker: Boolean,
+    showStartTimePicker: Boolean,
+    showEndDatePicker: Boolean,
+    showEndTimePicker: Boolean,
     timePickerState: TimePickerState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
@@ -77,8 +79,10 @@ internal fun EventRegistrationContent(
                 onEndTimeChanged = onEndTimeChanged,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
-                showDatePicker = showDatePicker,
-                showTimePicker = showTimePicker,
+                showStartDatePicker = showStartDatePicker,
+                showStartTimePicker = showStartTimePicker,
+                showEndDatePicker = showEndDatePicker,
+                showEndTimePicker = showEndTimePicker,
                 onDatePickerStateChanged = onDatePickerStateChanged,
                 onTimePickerStateChanged = onTimePickerStateChanged,
                 onRegisterButtonClicked = onRegisterButtonClicked,
@@ -154,8 +158,10 @@ private fun EventScheduleContent(
     endDate: LocalDate,
     endTime: LocalTime,
     timePickerState: TimePickerState,
-    showDatePicker: Boolean,
-    showTimePicker: Boolean,
+    showStartDatePicker: Boolean,
+    showStartTimePicker: Boolean,
+    showEndDatePicker: Boolean,
+    showEndTimePicker: Boolean,
     onDatePickerStateChanged: (Boolean) -> Unit,
     onTimePickerStateChanged: (Boolean) -> Unit,
     onLocationChanged: (String) -> Unit,
@@ -165,7 +171,7 @@ private fun EventScheduleContent(
     onEndTimeChanged: (LocalTime) -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
-    if (showDatePicker) {
+    if (showEndDatePicker) {
         WappDatePickerDialog(
             date = endDate,
             onDismissRequest = { onDatePickerStateChanged(false) },
@@ -173,12 +179,34 @@ private fun EventScheduleContent(
         )
     }
 
-    if (showTimePicker) {
+    if (showEndTimePicker) {
         WappTimePickerDialog(
             state = timePickerState,
             onDismissRequest = { onTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onEndTimeChanged(localTime)
+                onTimePickerStateChanged(false)
+            },
+            onDismissButtonClicked = {
+                onTimePickerStateChanged(false)
+            },
+        )
+    }
+
+    if (showStartDatePicker) {
+        WappDatePickerDialog(
+            date = startDate,
+            onDismissRequest = { onDatePickerStateChanged(false) },
+            onDateChanged = onStartDateChanged,
+        )
+    }
+
+    if (showStartTimePicker) {
+        WappTimePickerDialog(
+            state = timePickerState,
+            onDismissRequest = { onTimePickerStateChanged(false) },
+            onConfirmButtonClicked = { localTime ->
+                onStartTimeChanged(localTime)
                 onTimePickerStateChanged(false)
             },
             onDismissButtonClicked = {
@@ -222,7 +250,25 @@ private fun EventScheduleContent(
             }
 
             DeadlineCard(
-                title = stringResource(R.string.date),
+                title = stringResource(R.string.start_date),
+                hint = startDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                onCardClicked = {
+                    onDatePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
+            )
+
+            DeadlineCard(
+                title = stringResource(R.string.start_time),
+                hint = startTime.format(DateTimeFormatter.ofPattern("HH.mm")),
+                onCardClicked = {
+                    onTimePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
+            )
+
+            DeadlineCard(
+                title = stringResource(R.string.end_date),
                 hint = endDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
                     onDatePickerStateChanged(true)
@@ -231,7 +277,7 @@ private fun EventScheduleContent(
             )
 
             DeadlineCard(
-                title = stringResource(R.string.time),
+                title = stringResource(R.string.end_time),
                 hint = endTime.format(DateTimeFormatter.ofPattern("HH.mm")),
                 onCardClicked = {
                     onTimePickerStateChanged(true)

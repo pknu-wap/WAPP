@@ -126,8 +126,10 @@ internal fun EventRegistrationScreen(
     onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
-    var showDatePicker by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
+    var showStartDatePicker by remember { mutableStateOf(false) }
+    var showStartTimePicker by remember { mutableStateOf(false) }
+    var showEndDatePicker by remember { mutableStateOf(false) }
+    var showEndTimePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
 
     Scaffold(
@@ -162,18 +164,20 @@ internal fun EventRegistrationScreen(
                 startTime = startTime,
                 endDate = endDate,
                 endTime = endTime,
-                showDatePicker = showDatePicker,
-                showTimePicker = showTimePicker,
+                showStartDatePicker = showStartDatePicker,
+                showStartTimePicker = showStartTimePicker,
+                showEndDatePicker = showEndDatePicker,
+                showEndTimePicker = showEndTimePicker,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
                 timePickerState = timePickerState,
-                onEndDateChanged = onEndDateChanged,
-                onEndTimeChanged = onEndTimeChanged,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
-                onDatePickerStateChanged = { state -> showDatePicker = state },
-                onTimePickerStateChanged = { state -> showTimePicker = state },
+                onEndDateChanged = onEndDateChanged,
+                onEndTimeChanged = onEndTimeChanged,
+                onDatePickerStateChanged = { state -> showEndDatePicker = state },
+                onTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
                 onRegisterButtonClicked = onRegisterButtonClicked,
             )
