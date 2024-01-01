@@ -36,16 +36,20 @@ internal fun EventRegistrationContent(
     eventTitle: String,
     eventContent: String,
     location: String,
-    date: LocalDate,
-    time: LocalTime,
+    startDate: LocalDate,
+    startTime: LocalTime,
+    endDate: LocalDate,
+    endTime: LocalTime,
     showDatePicker: Boolean,
     showTimePicker: Boolean,
     timePickerState: TimePickerState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onLocationChanged: (String) -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
-    onTimeChanged: (LocalTime) -> Unit,
+    onEndDateChanged: (LocalDate) -> Unit,
+    onEndTimeChanged: (LocalTime) -> Unit,
+    onStartDateChanged: (LocalDate) -> Unit,
+    onStartTimeChanged: (LocalTime) -> Unit,
     onDatePickerStateChanged: (Boolean) -> Unit,
     onTimePickerStateChanged: (Boolean) -> Unit,
     onNextButtonClicked: () -> Unit,
@@ -63,12 +67,16 @@ internal fun EventRegistrationContent(
 
             EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
                 location = location,
-                date = date,
-                time = time,
+                startDate = startDate,
+                startTime = startTime,
+                endDate = endDate,
+                endTime = endTime,
                 timePickerState = timePickerState,
                 onLocationChanged = onLocationChanged,
-                onDateChanged = onDateChanged,
-                onTimeChanged = onTimeChanged,
+                onEndDateChanged = onEndDateChanged,
+                onEndTimeChanged = onEndTimeChanged,
+                onStartDateChanged = onStartDateChanged,
+                onStartTimeChanged = onStartTimeChanged,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
                 onDatePickerStateChanged = onDatePickerStateChanged,
@@ -141,23 +149,27 @@ private fun EventDetailsContent(
 @Composable
 private fun EventScheduleContent(
     location: String,
-    date: LocalDate,
-    time: LocalTime,
+    startDate: LocalDate,
+    startTime: LocalTime,
+    endDate: LocalDate,
+    endTime: LocalTime,
     timePickerState: TimePickerState,
     showDatePicker: Boolean,
     showTimePicker: Boolean,
     onDatePickerStateChanged: (Boolean) -> Unit,
     onTimePickerStateChanged: (Boolean) -> Unit,
     onLocationChanged: (String) -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
-    onTimeChanged: (LocalTime) -> Unit,
+    onStartDateChanged: (LocalDate) -> Unit,
+    onStartTimeChanged: (LocalTime) -> Unit,
+    onEndDateChanged: (LocalDate) -> Unit,
+    onEndTimeChanged: (LocalTime) -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     if (showDatePicker) {
         WappDatePickerDialog(
-            date = date,
+            date = endDate,
             onDismissRequest = { onDatePickerStateChanged(false) },
-            onDateChanged = onDateChanged,
+            onDateChanged = onEndDateChanged,
         )
     }
 
@@ -166,7 +178,7 @@ private fun EventScheduleContent(
             state = timePickerState,
             onDismissRequest = { onTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
-                onTimeChanged(localTime)
+                onEndTimeChanged(localTime)
                 onTimePickerStateChanged(false)
             },
             onDismissButtonClicked = {
@@ -211,7 +223,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.date),
-                hint = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                hint = endDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
                     onDatePickerStateChanged(true)
                 },
@@ -220,7 +232,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.time),
-                hint = time.format(DateTimeFormatter.ofPattern("HH.mm")),
+                hint = endTime.format(DateTimeFormatter.ofPattern("HH.mm")),
                 onCardClicked = {
                     onTimePickerStateChanged(true)
                 },

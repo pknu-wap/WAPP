@@ -47,13 +47,17 @@ internal fun EventRegistrationRoute(
     val title by viewModel.eventTitle.collectAsStateWithLifecycle()
     val content by viewModel.eventContent.collectAsStateWithLifecycle()
     val location by viewModel.eventLocation.collectAsStateWithLifecycle()
-    val date by viewModel.eventEndDate.collectAsStateWithLifecycle()
-    val time by viewModel.eventEndTime.collectAsStateWithLifecycle()
+    val startDate by viewModel.eventStartDate.collectAsStateWithLifecycle()
+    val startTime by viewModel.eventStartTime.collectAsStateWithLifecycle()
+    val endDate by viewModel.eventEndDate.collectAsStateWithLifecycle()
+    val endTime by viewModel.eventEndTime.collectAsStateWithLifecycle()
     val onTitleChanged = viewModel::setEventTitle
     val onContentChanged = viewModel::setEventContent
     val onLocationChanged = viewModel::setEventLocation
-    val onDateChanged = viewModel::setEventEndDate
-    val onTimeChanged = viewModel::setEventEndTime
+    val onStartDateChanged = viewModel::setEventStartDate
+    val onStartTimeChanged = viewModel::setEventStartTime
+    val onEndDateChanged = viewModel::setEventEndDate
+    val onEndTimeChanged = viewModel::setEventEndTime
     val onNextButtonClicked =
         viewModel::setEventRegistrationState
     val onRegisterButtonClicked = viewModel::registerEvent
@@ -81,14 +85,18 @@ internal fun EventRegistrationRoute(
         title = title,
         content = content,
         location = location,
-        date = date,
-        time = time,
+        startDate = startDate,
+        startTime = startTime,
+        endDate = endDate,
+        endTime = endTime,
         snackBarHostState = snackBarHostState,
         onTitleChanged = onTitleChanged,
         onContentChanged = onContentChanged,
         onLocationChanged = onLocationChanged,
-        onDateChanged = onDateChanged,
-        onTimeChanged = onTimeChanged,
+        onStartDateChanged = onStartDateChanged,
+        onStartTimeChanged = onStartTimeChanged,
+        onEndDateChanged = onEndDateChanged,
+        onEndTimeChanged = onEndTimeChanged,
         onNextButtonClicked = onNextButtonClicked,
         onRegisterButtonClicked = onRegisterButtonClicked,
         onBackButtonClicked = navigateToManagement,
@@ -102,14 +110,18 @@ internal fun EventRegistrationScreen(
     title: String,
     content: String,
     location: String,
-    date: LocalDate,
-    time: LocalTime,
+    startDate: LocalDate,
+    startTime: LocalTime,
+    endDate: LocalDate,
+    endTime: LocalTime,
     snackBarHostState: SnackbarHostState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onLocationChanged: (String) -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
-    onTimeChanged: (LocalTime) -> Unit,
+    onStartDateChanged: (LocalDate) -> Unit,
+    onStartTimeChanged: (LocalTime) -> Unit,
+    onEndDateChanged: (LocalDate) -> Unit,
+    onEndTimeChanged: (LocalTime) -> Unit,
     onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
@@ -146,16 +158,20 @@ internal fun EventRegistrationScreen(
                 eventTitle = title,
                 eventContent = content,
                 location = location,
-                date = date,
-                time = time,
+                startDate = startDate,
+                startTime = startTime,
+                endDate = endDate,
+                endTime = endTime,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
                 timePickerState = timePickerState,
-                onDateChanged = onDateChanged,
-                onTimeChanged = onTimeChanged,
+                onEndDateChanged = onEndDateChanged,
+                onEndTimeChanged = onEndTimeChanged,
+                onStartDateChanged = onStartDateChanged,
+                onStartTimeChanged = onStartTimeChanged,
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
