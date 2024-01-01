@@ -35,7 +35,6 @@ import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EventRegistrationRoute(
     viewModel: EventRegistrationViewModel = hiltViewModel(),

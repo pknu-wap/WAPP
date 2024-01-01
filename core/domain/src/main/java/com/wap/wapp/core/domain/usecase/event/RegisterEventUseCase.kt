@@ -10,19 +10,20 @@ class RegisterEventUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(
-        date: LocalDate,
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDate: LocalDate,
-        eventTime: LocalTime,
+        eventStartDate: LocalDate,
+        eventStartTime: LocalTime,
+        eventEndDate: LocalDate,
+        eventEndTime: LocalTime,
     ): Result<Unit> = runCatching {
         eventRepository.postEvent(
-            date = date,
             eventTitle = eventTitle,
             eventContent = eventContent,
             eventLocation = eventLocation,
-            eventDateTime = LocalDateTime.of(eventDate, eventTime),
+            eventStartDateTime = LocalDateTime.of(eventStartDate, eventStartTime),
+            eventEndDateTime = LocalDateTime.of(eventEndDate, eventEndTime),
         )
     }
 }

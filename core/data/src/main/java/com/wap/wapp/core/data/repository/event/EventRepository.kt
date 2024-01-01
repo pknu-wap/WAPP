@@ -8,10 +8,10 @@ interface EventRepository {
     suspend fun getMonthEvents(date: LocalDate): Result<List<Event>>
 
     suspend fun postEvent(
-        date: LocalDate,
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDateTime: LocalDateTime,
+        eventStartDateTime: LocalDateTime,
+        eventEndDateTime: LocalDateTime,
     ): Result<Unit>
 }

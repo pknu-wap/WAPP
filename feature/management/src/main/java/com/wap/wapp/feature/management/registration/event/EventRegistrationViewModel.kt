@@ -102,6 +102,19 @@ class EventRegistrationViewModel @Inject constructor(
             return
         }
 
+        if (_eventEndDate.value < _eventStartDate.value) {
+            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
+            return
+        }
+
+        if (
+            (_eventEndDate.value == _eventStartDate.value) &&
+            (_eventEndTime.value <= _eventStartTime.value)
+        ) {
+            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
+            return
+        }
+
         if (_eventEndDate.value <= generateNowDate()) {
             emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
@@ -109,12 +122,13 @@ class EventRegistrationViewModel @Inject constructor(
 
         viewModelScope.launch {
             registerEventUseCase(
-                date = _eventEndDate.value,
                 eventTitle = _eventTitle.value,
                 eventContent = _eventContent.value,
                 eventLocation = _eventLocation.value,
-                eventDate = _eventEndDate.value,
-                eventTime = _eventEndTime.value,
+                eventStartDate = _eventStartDate.value,
+                eventStartTime = _eventStartTime.value,
+                eventEndDate = _eventEndDate.value,
+                eventEndTime = _eventEndTime.value,
             ).fold(
                 onSuccess = { _eventRegistrationEvent.emit(EventRegistrationEvent.Success) },
                 onFailure = { throwable ->

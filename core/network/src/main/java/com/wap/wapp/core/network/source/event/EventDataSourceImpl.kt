@@ -7,6 +7,7 @@ import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
+import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -34,11 +35,11 @@ class EventDataSourceImpl @Inject constructor(
         }
 
     override suspend fun postEvent(
-        date: LocalDate,
         title: String,
         content: String,
         location: String,
-        dateTime: String,
+        startDateTime: String,
+        endDateTime: String,
     ): Result<Unit> =
         runCatching {
             val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
@@ -47,12 +48,13 @@ class EventDataSourceImpl @Inject constructor(
                 title = title,
                 content = content,
                 location = location,
-                dateTime = dateTime,
+                startDateTime = startDateTime,
+                endDateTime = endDateTime,
                 eventId = documentId,
             )
 
             firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date))
+                .document(getMonth(startDateTime.toISOLocalDateTime().toLocalDate()))
                 .collection(EVENT_COLLECTION)
                 .document(documentId)
                 .set(eventRequest)

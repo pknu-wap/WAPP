@@ -18,17 +18,17 @@ class EventRepositoryImpl @Inject constructor(
         }
 
     override suspend fun postEvent(
-        date: LocalDate,
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDateTime: LocalDateTime,
+        eventStartDateTime: LocalDateTime,
+        eventEndDateTime: LocalDateTime,
     ): Result<Unit> =
         eventDataSource.postEvent(
-            date = date,
             title = eventTitle,
             content = eventContent,
             location = eventLocation,
-            dateTime = eventDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            startDateTime = eventStartDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            endDateTime = eventEndDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
         )
 }
