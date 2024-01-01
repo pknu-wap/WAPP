@@ -38,13 +38,21 @@ class EventRegistrationViewModel @Inject constructor(
     private val _eventLocation: MutableStateFlow<String> = MutableStateFlow("")
     val eventLocation = _eventLocation.asStateFlow()
 
-    private val _eventDate: MutableStateFlow<LocalDate> =
+    private val _eventStartDate: MutableStateFlow<LocalDate> =
         MutableStateFlow(DateUtil.generateNowDate())
-    val eventDate = _eventDate.asStateFlow()
+    val eventStartDate = _eventStartDate.asStateFlow()
 
-    private val _eventTime: MutableStateFlow<LocalTime> =
+    private val _eventStartTime: MutableStateFlow<LocalTime> =
         MutableStateFlow(DateUtil.generateNowTime())
-    val eventTime = _eventTime.asStateFlow()
+    val eventStartTime = _eventStartTime.asStateFlow()
+
+    private val _eventEndDate: MutableStateFlow<LocalDate> =
+        MutableStateFlow(DateUtil.generateNowDate())
+    val eventEndDate = _eventEndDate.asStateFlow()
+
+    private val _eventEndTime: MutableStateFlow<LocalTime> =
+        MutableStateFlow(DateUtil.generateNowTime())
+    val eventEndTime = _eventEndTime.asStateFlow()
 
     fun setEventTitle(eventTitle: String) {
         _eventTitle.value = eventTitle
@@ -58,12 +66,20 @@ class EventRegistrationViewModel @Inject constructor(
         _eventLocation.value = eventLocation
     }
 
-    fun setEventDate(eventDate: LocalDate) {
-        _eventDate.value = eventDate
+    fun setEventStartDate(eventDate: LocalDate) {
+        _eventStartDate.value = eventDate
     }
 
-    fun setEventTime(eventTime: LocalTime) {
-        _eventTime.value = eventTime
+    fun setEventStartTime(eventTime: LocalTime) {
+        _eventStartTime.value = eventTime
+    }
+
+    fun setEventEndDate(eventDate: LocalDate) {
+        _eventEndDate.value = eventDate
+    }
+
+    fun setEventEndTime(eventTime: LocalTime) {
+        _eventEndTime.value = eventTime
     }
 
     fun setEventRegistrationState() {
@@ -86,19 +102,19 @@ class EventRegistrationViewModel @Inject constructor(
             return
         }
 
-        if (_eventDate.value <= generateNowDate()) {
+        if (_eventEndDate.value <= generateNowDate()) {
             emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
         }
 
         viewModelScope.launch {
             registerEventUseCase(
-                date = generateNowDate(),
+                date = _eventEndDate.value,
                 eventTitle = _eventTitle.value,
                 eventContent = _eventContent.value,
                 eventLocation = _eventLocation.value,
-                eventDate = _eventDate.value,
-                eventTime = _eventTime.value,
+                eventDate = _eventEndDate.value,
+                eventTime = _eventEndTime.value,
             ).fold(
                 onSuccess = { _eventRegistrationEvent.emit(EventRegistrationEvent.Success) },
                 onFailure = { throwable ->

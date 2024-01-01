@@ -47,13 +47,13 @@ internal fun EventRegistrationRoute(
     val title by viewModel.eventTitle.collectAsStateWithLifecycle()
     val content by viewModel.eventContent.collectAsStateWithLifecycle()
     val location by viewModel.eventLocation.collectAsStateWithLifecycle()
-    val date by viewModel.eventDate.collectAsStateWithLifecycle()
-    val time by viewModel.eventTime.collectAsStateWithLifecycle()
+    val date by viewModel.eventEndDate.collectAsStateWithLifecycle()
+    val time by viewModel.eventEndTime.collectAsStateWithLifecycle()
     val onTitleChanged = viewModel::setEventTitle
     val onContentChanged = viewModel::setEventContent
     val onLocationChanged = viewModel::setEventLocation
-    val onDateChanged = viewModel::setEventDate
-    val onTimeChanged = viewModel::setEventTime
+    val onDateChanged = viewModel::setEventEndDate
+    val onTimeChanged = viewModel::setEventEndTime
     val onNextButtonClicked =
         viewModel::setEventRegistrationState
     val onRegisterButtonClicked = viewModel::registerEvent
