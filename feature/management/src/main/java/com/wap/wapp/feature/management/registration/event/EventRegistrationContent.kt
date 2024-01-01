@@ -52,8 +52,10 @@ internal fun EventRegistrationContent(
     onEndTimeChanged: (LocalTime) -> Unit,
     onStartDateChanged: (LocalDate) -> Unit,
     onStartTimeChanged: (LocalTime) -> Unit,
-    onDatePickerStateChanged: (Boolean) -> Unit,
-    onTimePickerStateChanged: (Boolean) -> Unit,
+    onStartDatePickerStateChanged: (Boolean) -> Unit,
+    onStartTimePickerStateChanged: (Boolean) -> Unit,
+    onEndDatePickerStateChanged: (Boolean) -> Unit,
+    onEndTimePickerStateChanged: (Boolean) -> Unit,
     onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
@@ -83,8 +85,10 @@ internal fun EventRegistrationContent(
                 showStartTimePicker = showStartTimePicker,
                 showEndDatePicker = showEndDatePicker,
                 showEndTimePicker = showEndTimePicker,
-                onDatePickerStateChanged = onDatePickerStateChanged,
-                onTimePickerStateChanged = onTimePickerStateChanged,
+                onStartDatePickerStateChanged = onStartDatePickerStateChanged,
+                onStartTimePickerStateChanged = onStartTimePickerStateChanged,
+                onEndDatePickerStateChanged = onEndDatePickerStateChanged,
+                onEndTimePickerStateChanged = onEndTimePickerStateChanged,
                 onRegisterButtonClicked = onRegisterButtonClicked,
             )
         }
@@ -162,8 +166,10 @@ private fun EventScheduleContent(
     showStartTimePicker: Boolean,
     showEndDatePicker: Boolean,
     showEndTimePicker: Boolean,
-    onDatePickerStateChanged: (Boolean) -> Unit,
-    onTimePickerStateChanged: (Boolean) -> Unit,
+    onStartDatePickerStateChanged: (Boolean) -> Unit,
+    onStartTimePickerStateChanged: (Boolean) -> Unit,
+    onEndDatePickerStateChanged: (Boolean) -> Unit,
+    onEndTimePickerStateChanged: (Boolean) -> Unit,
     onLocationChanged: (String) -> Unit,
     onStartDateChanged: (LocalDate) -> Unit,
     onStartTimeChanged: (LocalTime) -> Unit,
@@ -174,7 +180,7 @@ private fun EventScheduleContent(
     if (showEndDatePicker) {
         WappDatePickerDialog(
             date = endDate,
-            onDismissRequest = { onDatePickerStateChanged(false) },
+            onDismissRequest = { onEndDatePickerStateChanged(false) },
             onDateChanged = onEndDateChanged,
         )
     }
@@ -182,13 +188,13 @@ private fun EventScheduleContent(
     if (showEndTimePicker) {
         WappTimePickerDialog(
             state = timePickerState,
-            onDismissRequest = { onTimePickerStateChanged(false) },
+            onDismissRequest = { onEndTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onEndTimeChanged(localTime)
-                onTimePickerStateChanged(false)
+                onEndTimePickerStateChanged(false)
             },
             onDismissButtonClicked = {
-                onTimePickerStateChanged(false)
+                onEndTimePickerStateChanged(false)
             },
         )
     }
@@ -196,7 +202,7 @@ private fun EventScheduleContent(
     if (showStartDatePicker) {
         WappDatePickerDialog(
             date = startDate,
-            onDismissRequest = { onDatePickerStateChanged(false) },
+            onDismissRequest = { onStartDatePickerStateChanged(false) },
             onDateChanged = onStartDateChanged,
         )
     }
@@ -204,13 +210,13 @@ private fun EventScheduleContent(
     if (showStartTimePicker) {
         WappTimePickerDialog(
             state = timePickerState,
-            onDismissRequest = { onTimePickerStateChanged(false) },
+            onDismissRequest = { onStartTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onStartTimeChanged(localTime)
-                onTimePickerStateChanged(false)
+                onStartTimePickerStateChanged(false)
             },
             onDismissButtonClicked = {
-                onTimePickerStateChanged(false)
+                onStartTimePickerStateChanged(false)
             },
         )
     }
@@ -253,7 +259,7 @@ private fun EventScheduleContent(
                 title = stringResource(R.string.start_date),
                 hint = startDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
-                    onDatePickerStateChanged(true)
+                    onStartDatePickerStateChanged(true)
                 },
                 modifier = Modifier.padding(top = 20.dp),
             )
@@ -262,7 +268,7 @@ private fun EventScheduleContent(
                 title = stringResource(R.string.start_time),
                 hint = startTime.format(DateTimeFormatter.ofPattern("HH.mm")),
                 onCardClicked = {
-                    onTimePickerStateChanged(true)
+                    onStartTimePickerStateChanged(true)
                 },
                 modifier = Modifier.padding(top = 20.dp),
             )
@@ -271,7 +277,7 @@ private fun EventScheduleContent(
                 title = stringResource(R.string.end_date),
                 hint = endDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                 onCardClicked = {
-                    onDatePickerStateChanged(true)
+                    onEndDatePickerStateChanged(true)
                 },
                 modifier = Modifier.padding(top = 20.dp),
             )
@@ -280,7 +286,7 @@ private fun EventScheduleContent(
                 title = stringResource(R.string.end_time),
                 hint = endTime.format(DateTimeFormatter.ofPattern("HH.mm")),
                 onCardClicked = {
-                    onTimePickerStateChanged(true)
+                    onEndTimePickerStateChanged(true)
                 },
                 modifier = Modifier.padding(top = 20.dp),
             )

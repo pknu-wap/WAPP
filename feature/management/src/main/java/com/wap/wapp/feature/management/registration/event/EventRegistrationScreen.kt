@@ -176,8 +176,10 @@ internal fun EventRegistrationScreen(
                 onStartTimeChanged = onStartTimeChanged,
                 onEndDateChanged = onEndDateChanged,
                 onEndTimeChanged = onEndTimeChanged,
-                onDatePickerStateChanged = { state -> showEndDatePicker = state },
-                onTimePickerStateChanged = { state -> showEndTimePicker = state },
+                onStartDatePickerStateChanged = { state -> showStartDatePicker = state },
+                onStartTimePickerStateChanged = { state -> showStartTimePicker = state },
+                onEndDatePickerStateChanged = { state -> showEndDatePicker = state },
+                onEndTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
                 onRegisterButtonClicked = onRegisterButtonClicked,
             )

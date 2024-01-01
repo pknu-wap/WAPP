@@ -38,6 +38,8 @@
     <string name="start_time">시작 시간</string>
     <string name="end_date">종료 날짜</string>
     <string name="end_time">종료 시간</string>
+    <string name="date">날짜</string>
+    <string name="time">시간</string>
     <string name="survey_information_title">설문 제목 입력</string>
     <string name="survey_information_content">설문을 이해하기 쉽도록 제목과 소개를 입력해주세요.</string>
     <string name="survey_title">설문 제목</string>
