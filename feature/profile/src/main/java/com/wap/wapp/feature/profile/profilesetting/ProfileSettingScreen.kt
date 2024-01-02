@@ -1,5 +1,7 @@
 package com.wap.wapp.feature.profile.profilesetting
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +13,12 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
@@ -27,8 +31,44 @@ internal fun ProfileSettingRoute(
     navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    ProfileSettingScreen(navigateToProfile)
+    val context = LocalContext.current
+
+    ProfileSettingScreen(
+        navigateToProfile = navigateToProfile,
+        onClickedPrivacyPolicy = {
+            navigateToUri(
+                context,
+                "https://www.notion.so/46beb7c4f3c2417bbec20eafd610d580?pvs=11",
+            )
+        },
+        onClickedFAQ = {
+            navigateToUri(
+                context,
+                "https://www.notion.so/FAQ-5832683da65048549e6a976b54d62875",
+            )
+        },
+        onClickedInquiry = {
+            navigateToUri(
+                context,
+                "https://www.notion.so/4fcb60f346c041248fd0d97d202a8a9a",
+            )
+        },
+        onClickedTermsAndPolicies = {
+            navigateToUri(
+                context,
+                "https://www.notion.so/042dc914a6a34093a51658693e009411",
+            )
+        },
+    )
 }
+
+private fun navigateToUri(context: Context, url: String) = startActivity(
+    context,
+    generateUriIntent(url),
+    null,
+)
+
+private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
 
 @Composable
 internal fun ProfileSettingScreen(
@@ -36,10 +76,10 @@ internal fun ProfileSettingScreen(
     onClickedAlarmSetting: () -> Unit = {},
     onClickedSignOut: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
-    onClickedInquiry: () -> Unit = {},
-    onClickedFAQ: () -> Unit = {},
-    onClickedTermsAndPolicies: () -> Unit = {},
-    onClickedPrivacyPolicy: () -> Unit = {},
+    onClickedInquiry: () -> Unit,
+    onClickedFAQ: () -> Unit,
+    onClickedTermsAndPolicies: () -> Unit,
+    onClickedPrivacyPolicy: () -> Unit,
 ) {
     val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
@@ -156,10 +196,4 @@ internal fun ProfileSettingScreen(
             thickness = dividerThickness,
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewProfileMoreScreen() {
-    ProfileSettingScreen(navigateToProfile = {})
 }
