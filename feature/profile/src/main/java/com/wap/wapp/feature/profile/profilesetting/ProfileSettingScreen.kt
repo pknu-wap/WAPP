@@ -34,9 +34,9 @@ internal fun ProfileSettingRoute(
 internal fun ProfileSettingScreen(
     navigateToProfile: () -> Unit,
     onClickedAlarmSetting: () -> Unit = {},
-    onClickedSignout: () -> Unit = {},
+    onClickedSignOut: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
-    onClickedInquriy: () -> Unit = {},
+    onClickedInquiry: () -> Unit = {},
     onClickedFAQ: () -> Unit = {},
     onClickedTermsAndPolicies: () -> Unit = {},
     onClickedPrivacyPolicy: () -> Unit = {},
@@ -83,7 +83,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.sign_out),
-            onClicked = onClickedSignout,
+            onClicked = onClickedSignOut,
         )
 
         Divider(
@@ -118,7 +118,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
-            onClicked = onClickedInquriy,
+            onClicked = onClickedInquiry,
         )
 
         Divider(

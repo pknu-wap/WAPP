@@ -68,6 +68,11 @@ internal fun ProfileScreen(
                     .align(Alignment.CenterStart)
                     .padding(start = 25.dp),
             )
+
+            if (role == Role.GUEST) {
+                return@Box
+            }
+
             Image(
                 painter =
                 painterResource(id = drawable.ic_subtract),
