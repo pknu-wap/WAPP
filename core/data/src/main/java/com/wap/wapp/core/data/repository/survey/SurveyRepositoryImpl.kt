@@ -1,11 +1,11 @@
 package com.wap.wapp.core.data.repository.survey
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.network.source.survey.SurveyDataSource
 import com.wap.wapp.core.network.source.user.UserDataSource
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SurveyRepositoryImpl @Inject constructor(
@@ -55,7 +55,7 @@ class SurveyRepositoryImpl @Inject constructor(
         title = title,
         content = content,
         surveyAnswerList = surveyAnswerList,
-        surveyedAt = surveyedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+        surveyedAt = surveyedAt.toISOLocalDateTimeString(),
     )
 
     override suspend fun isSubmittedSurvey(eventId: String, userId: String): Result<Boolean> =

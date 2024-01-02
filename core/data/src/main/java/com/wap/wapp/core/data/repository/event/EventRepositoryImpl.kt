@@ -1,10 +1,10 @@
 package com.wap.wapp.core.data.repository.event
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.network.source.event.EventDataSource
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(
@@ -28,7 +28,7 @@ class EventRepositoryImpl @Inject constructor(
             title = eventTitle,
             content = eventContent,
             location = eventLocation,
-            startDateTime = eventStartDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-            endDateTime = eventEndDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+            startDateTime = eventStartDateTime.toISOLocalDateTimeString(),
+            endDateTime = eventEndDateTime.toISOLocalDateTimeString(),
         )
 }

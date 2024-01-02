@@ -1,9 +1,9 @@
 package com.wap.wapp.core.data.repository.survey
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.network.model.survey.form.SurveyFormRequest
 import com.wap.wapp.core.network.source.survey.SurveyFormDataSource
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SurveyFormRepositoryImpl @Inject constructor(
@@ -28,7 +28,7 @@ class SurveyFormRepositoryImpl @Inject constructor(
                 title = surveyForm.title,
                 content = surveyForm.content,
                 surveyQuestionList = surveyForm.surveyQuestionList,
-                deadline = surveyForm.deadline.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                deadline = surveyForm.deadline.toISOLocalDateTimeString(),
             ),
         )
 }
