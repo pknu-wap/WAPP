@@ -20,6 +20,9 @@ object DateUtil {
     const val MONTH_DATE_START_INDEX = 5
     const val DAYS_IN_WEEK = 7
 
+    // 현재 날짜에서 시간, 분만 반환해주는 포맷 ex 19:00
+    val HHmmFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
     // 현재 날짜에서 일만 반환해주는 포맷 ex 2023-11-20 -> 20
     val ddFormatter = DateTimeFormatter.ofPattern("dd")
 

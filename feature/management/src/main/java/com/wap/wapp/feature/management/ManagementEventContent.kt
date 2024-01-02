@@ -120,7 +120,7 @@ private fun ManagementEventItem(
                 )
 
                 Text(
-                    text = item.endDateTime.toString(),
+                    text = item.startDateTime.toLocalDate().toString(),
                     style = WappTheme.typography.captionMedium,
                     color = WappTheme.colors.white,
                     maxLines = 1,
