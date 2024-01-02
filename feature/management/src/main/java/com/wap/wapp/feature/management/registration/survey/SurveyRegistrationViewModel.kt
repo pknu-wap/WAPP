@@ -95,41 +95,35 @@ class SurveyRegistrationViewModel @Inject constructor(
         _currentRegistrationState.value = surveyRegistrationState
     }
 
-    fun getEventList() {
-        viewModelScope.launch {
-            getEventListUseCase(DateUtil.generateNowDate()).fold(
-                onSuccess = { eventList ->
-                    _eventList.value = eventList
-                },
-                onFailure = { throwable ->
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-                },
-            )
-        }
+    fun getEventList() = viewModelScope.launch {
+        getEventListUseCase(DateUtil.generateNowDate())
+            .onSuccess { eventList ->
+                _eventList.value = eventList
+            }.onFailure { throwable ->
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
+            }
     }
 
-    fun registerSurvey() {
-        viewModelScope.launch {
-            if (isValidDeadline()) {
-                registerSurveyUseCase(
-                    event = surveyEventSelection.value,
-                    title = _surveyTitle.value,
-                    content = _surveyContent.value,
-                    surveyQuestionList = _surveyQuestionList.value,
-                    deadlineDate = _surveyDateDeadline.value,
-                    deadlineTime = _surveyTimeDeadline.value,
-                ).onSuccess {
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
-                }.onFailure { throwable ->
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-                }
-            } else {
-                _surveyRegistrationEvent.emit(
-                    SurveyRegistrationEvent.ValidationError(
-                        "최소 하루 이상 설문 날짜를 지정하세요.",
-                    ),
-                )
+    fun registerSurvey() = viewModelScope.launch {
+        if (isValidDeadline()) {
+            registerSurveyUseCase(
+                event = surveyEventSelection.value,
+                title = _surveyTitle.value,
+                content = _surveyContent.value,
+                surveyQuestionList = _surveyQuestionList.value,
+                deadlineDate = _surveyDateDeadline.value,
+                deadlineTime = _surveyTimeDeadline.value,
+            ).onSuccess {
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
+            }.onFailure { throwable ->
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
             }
+        } else {
+            _surveyRegistrationEvent.emit(
+                SurveyRegistrationEvent.ValidationError(
+                    "최소 하루 이상 설문 날짜를 지정하세요.",
+                ),
+            )
         }
     }
 

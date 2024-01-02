@@ -2,8 +2,8 @@ package com.wap.wapp.feature.management.registration.event
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
+import com.wap.wapp.core.commmon.util.DateUtil.generateNowTime
 import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
 import com.wap.wapp.feature.management.registration.event.EventRegistrationState.EVENT_DETAILS
 import com.wap.wapp.feature.management.registration.event.EventRegistrationState.EVENT_SCHEDULE
@@ -39,19 +39,19 @@ class EventRegistrationViewModel @Inject constructor(
     val eventLocation = _eventLocation.asStateFlow()
 
     private val _eventStartDate: MutableStateFlow<LocalDate> =
-        MutableStateFlow(DateUtil.generateNowDate())
+        MutableStateFlow(generateNowDate())
     val eventStartDate = _eventStartDate.asStateFlow()
 
     private val _eventStartTime: MutableStateFlow<LocalTime> =
-        MutableStateFlow(DateUtil.generateNowTime())
+        MutableStateFlow(generateNowTime())
     val eventStartTime = _eventStartTime.asStateFlow()
 
     private val _eventEndDate: MutableStateFlow<LocalDate> =
-        MutableStateFlow(DateUtil.generateNowDate())
+        MutableStateFlow(generateNowDate())
     val eventEndDate = _eventEndDate.asStateFlow()
 
     private val _eventEndTime: MutableStateFlow<LocalTime> =
-        MutableStateFlow(DateUtil.generateNowTime().plusHours(1))
+        MutableStateFlow(generateNowTime().plusHours(1))
     val eventEndTime = _eventEndTime.asStateFlow()
 
     fun setEventTitle(eventTitle: String) {
@@ -87,10 +87,7 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventEndTime(eventTime: LocalTime) {
-        if (
-            (_eventEndDate.value == _eventStartDate.value) &&
-            (eventTime <= _eventStartTime.value)
-        ) {
+        if (_eventEndDate.value == _eventStartDate.value && eventTime <= _eventStartTime.value) {
             emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
             return
         }
@@ -116,7 +113,6 @@ class EventRegistrationViewModel @Inject constructor(
             emitValidationErrorMessage("장소를 입력하세요.")
             return
         }
-
         viewModelScope.launch {
             registerEventUseCase(
                 eventTitle = _eventTitle.value,
@@ -126,12 +122,11 @@ class EventRegistrationViewModel @Inject constructor(
                 eventStartTime = _eventStartTime.value,
                 eventEndDate = _eventEndDate.value,
                 eventEndTime = _eventEndTime.value,
-            ).fold(
-                onSuccess = { _eventRegistrationEvent.emit(EventRegistrationEvent.Success) },
-                onFailure = { throwable ->
-                    _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
-                },
-            )
+            ).onSuccess {
+                _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
+            }.onFailure { throwable ->
+                _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
+            }
         }
     }
 

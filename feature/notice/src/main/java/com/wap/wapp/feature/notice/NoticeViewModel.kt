@@ -35,27 +35,24 @@ class NoticeViewModel @Inject constructor(
     private fun getMonthEvents() {
         _monthEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventListUseCase(_selectedDate.value).fold(
-                onSuccess = { _monthEvents.value = EventsState.Success(it) },
-                onFailure = { _monthEvents.value = EventsState.Failure(it) },
-            )
+            getEventListUseCase(_selectedDate.value)
+                .onSuccess { _monthEvents.value = EventsState.Success(it) }
+                .onFailure { _monthEvents.value = EventsState.Failure(it) }
         }
     }
 
     fun getSelectedDateEvents() {
         _selectedDateEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventListUseCase(_selectedDate.value).fold(
-                onSuccess = {
+            getEventListUseCase(_selectedDate.value)
+                .onSuccess {
                     _selectedDateEvents.value =
                         EventsState.Success(
                             it.filter {
                                 it.endDateTime.toLocalDate() == _selectedDate.value
                             },
                         )
-                },
-                onFailure = { _selectedDateEvents.value = EventsState.Failure(it) },
-            )
+                }.onFailure { _selectedDateEvents.value = EventsState.Failure(it) }
         }
     }
 
