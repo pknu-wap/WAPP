@@ -55,10 +55,14 @@ internal fun WappDatePickerDialog(
             ) {
                 var selectedDate by remember { mutableStateOf(date) }
 
+//                CalendarHeader는 2024-01과 같이 년 - 달을 표시해주고,
+//                달을 이동할 수 있도록 해줍니다.
                 CalendarHeader(
                     selectedDate = selectedDate,
                     onDateSelected = { date -> selectedDate = date },
                 )
+
+//                CalendarBody는 월,화,수,목,금,토,일의 상단 요일들을 포함한 캘린더가 들어가는 부분입니다.
                 CalendarBody(
                     selectedDate = selectedDate,
                     onDateSelected = { date -> selectedDate = date },
@@ -139,7 +143,10 @@ private fun CalendarBody(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
 ) {
+//    DayOfWeek는 일,월,화,수,목,금,토일과 같은 요일을 나타내주는 Composable입니다.
     DayOfWeek()
+
+//    실질적인 동적인 달력 데이터가 들어가는 부분입니다.
     CalendarMonthItem(
         selectedDate = selectedDate,
         onDateSelected = onDateSelected,
@@ -177,6 +184,7 @@ private fun CalendarMonthItem(
         columns = GridCells.Fixed(DateUtil.DAYS_IN_WEEK),
         modifier = Modifier.fillMaxWidth(),
     ) {
+//        이번 달 달력에 약간 보여지는 지난 달 데이터를 보여줍니다.
         val visibleDaysFromLastMonth = calculateVisibleDaysFromLastMonth(selectedDate)
         val beforeMonthDaysToShow = generateBeforeMonthDaysToShow(
             visibleDaysFromLastMonth,
@@ -189,6 +197,7 @@ private fun CalendarMonthItem(
             )
         }
 
+//        이번 달 달력을 보여줍니다.
         val thisMonthLastDate = selectedDate.lengthOfMonth()
         val thisMonthFirstDayOfWeek = selectedDate.withDayOfMonth(1).dayOfWeek
         val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
@@ -209,6 +218,7 @@ private fun CalendarMonthItem(
             )
         }
 
+//        이번 달 달력에 약간 보여지는 다음 달 데이터를 보여줍니다.
         val remainingDays =
             DateUtil.DAYS_IN_WEEK - (visibleDaysFromLastMonth + thisMonthDaysToShow.size) %
                 DateUtil.DAYS_IN_WEEK
