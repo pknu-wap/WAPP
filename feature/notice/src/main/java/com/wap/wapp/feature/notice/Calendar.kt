@@ -159,7 +159,7 @@ private fun CalendarBody(
     eventsDate: List<LocalDate>,
     onDateSelected: (LocalDate) -> Unit,
 ) {
-    DayOfWeek()
+    CalendarWeekDays()
     CalendarMonthItem(
         eventDates = eventsDate,
         selectedDate = selectedDate,
@@ -168,7 +168,7 @@ private fun CalendarBody(
 }
 
 @Composable
-private fun DayOfWeek(modifier: Modifier = Modifier) {
+private fun CalendarWeekDays(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         DaysOfWeek.values().forEach { dayOfWeek ->
             val textColor = when (dayOfWeek) {

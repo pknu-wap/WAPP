@@ -143,8 +143,8 @@ private fun CalendarBody(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
 ) {
-//    DayOfWeek는 일,월,화,수,목,금,토일과 같은 요일을 나타내주는 Composable입니다.
-    DayOfWeek()
+//    CalendarWeekDays는 일,월,화,수,목,금,토일과 같은 요일을 나타내주는 Composable입니다.
+    CalendarWeekDays()
 
 //    실질적인 동적인 달력 데이터가 들어가는 부분입니다.
     CalendarMonthItem(
@@ -154,7 +154,7 @@ private fun CalendarBody(
 }
 
 @Composable
-private fun DayOfWeek(modifier: Modifier = Modifier) {
+private fun CalendarWeekDays(modifier: Modifier = Modifier) {
     Row(modifier = modifier) {
         DateUtil.DaysOfWeek.values().forEach { dayOfWeek ->
             val textColor = when (dayOfWeek) {
