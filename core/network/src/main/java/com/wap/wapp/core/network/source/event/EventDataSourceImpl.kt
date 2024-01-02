@@ -53,8 +53,10 @@ class EventDataSourceImpl @Inject constructor(
                 eventId = documentId,
             )
 
+            val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+
             firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(startDateTime.toISOLocalDateTime().toLocalDate()))
+                .document(getMonth(startDate))
                 .collection(EVENT_COLLECTION)
                 .document(documentId)
                 .set(eventRequest)
