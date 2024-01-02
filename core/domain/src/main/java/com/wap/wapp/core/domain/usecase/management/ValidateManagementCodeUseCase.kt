@@ -22,14 +22,9 @@ class ValidateManagementCodeUseCase @Inject constructor(
 
             // 운영진 등록
             val userId = userRepository.getUserId().getOrThrow()
-            managementRepository.postManager(userId)
-                .fold(
-                    onSuccess = {
-                        CodeValidation.VALID
-                    },
-                    onFailure = { exception ->
-                        throw(exception)
-                    },
+            managementRepository.postManager(userId).fold(
+                    onSuccess = { CodeValidation.VALID },
+                    onFailure = { exception -> throw(exception) },
                 )
         }
     }

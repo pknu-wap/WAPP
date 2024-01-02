@@ -12,10 +12,7 @@ class IsSubmittedSurveyUseCase @Inject constructor(
         return runCatching {
             val userId = userRepository.getUserId().getOrThrow()
 
-            surveyRepository.isSubmittedSurvey(
-                userId = userId,
-                eventId = eventId,
-            ).getOrThrow()
+            surveyRepository.isSubmittedSurvey(userId = userId, eventId = eventId).getOrThrow()
         }
     }
 }
