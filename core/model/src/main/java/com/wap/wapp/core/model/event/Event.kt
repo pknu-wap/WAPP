@@ -7,5 +7,6 @@ data class Event(
     val eventId: String,
     val location: String,
     val title: String,
-    val dateTime: LocalDateTime,
+    val startDateTime: LocalDateTime,
+    val endDateTime: LocalDateTime,
 )

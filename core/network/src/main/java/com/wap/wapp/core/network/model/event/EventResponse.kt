@@ -9,7 +9,8 @@ data class EventResponse(
     val eventId: String = "",
     val location: String = "",
     val title: String = "",
-    val dateTime: String = "",
+    val startDateTime: String = "",
+    val endDateTime: String = "",
 ) {
     private val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
@@ -18,6 +19,7 @@ data class EventResponse(
         eventId = eventId,
         location = location,
         title = title,
-        dateTime = dateTime.toISOLocalDateTime(),
+        startDateTime = startDateTime.toISOLocalDateTime(),
+        endDateTime = endDateTime.toISOLocalDateTime(),
     )
 }

@@ -64,9 +64,7 @@ class SurveyViewModel @Inject constructor(
 
     sealed class SurveyUiEvent {
         data class Failure(val throwable: Throwable) : SurveyUiEvent()
-
         data object AlreadySubmitted : SurveyUiEvent()
-
         data class NotSubmitted(val eventId: String) : SurveyUiEvent()
     }
 }

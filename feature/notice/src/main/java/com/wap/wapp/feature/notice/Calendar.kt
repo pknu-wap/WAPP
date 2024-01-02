@@ -141,7 +141,7 @@ private fun handleMonthEventsState(
     is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
     is NoticeViewModel.EventsState.Success -> {
         val eventDates = eventsState.events.map {
-            it.dateTime.toLocalDate()
+            it.endDateTime.toLocalDate()
         }
         CalendarBody(
             selectedDate = selectedDate,

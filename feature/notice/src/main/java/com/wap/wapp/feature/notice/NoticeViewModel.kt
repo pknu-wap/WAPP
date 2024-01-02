@@ -50,7 +50,7 @@ class NoticeViewModel @Inject constructor(
                     _selectedDateEvents.value =
                         EventsState.Success(
                             it.filter {
-                                it.dateTime.toLocalDate() == _selectedDate.value
+                                it.endDateTime.toLocalDate() == _selectedDate.value
                             },
                         )
                 },

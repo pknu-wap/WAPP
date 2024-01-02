@@ -51,7 +51,7 @@ class EventRegistrationViewModel @Inject constructor(
     val eventEndDate = _eventEndDate.asStateFlow()
 
     private val _eventEndTime: MutableStateFlow<LocalTime> =
-        MutableStateFlow(DateUtil.generateNowTime())
+        MutableStateFlow(DateUtil.generateNowTime().plusHours(1))
     val eventEndTime = _eventEndTime.asStateFlow()
 
     fun setEventTitle(eventTitle: String) {
@@ -67,6 +67,10 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventStartDate(eventDate: LocalDate) {
+        if (eventDate <= generateNowDate()) {
+            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
+            return
+        }
         _eventStartDate.value = eventDate
     }
 
@@ -75,10 +79,21 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventEndDate(eventDate: LocalDate) {
+        if (eventDate < _eventStartDate.value) {
+            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
+            return
+        }
         _eventEndDate.value = eventDate
     }
 
     fun setEventEndTime(eventTime: LocalTime) {
+        if (
+            (_eventEndDate.value == _eventStartDate.value) &&
+            (eventTime <= _eventStartTime.value)
+        ) {
+            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
+            return
+        }
         _eventEndTime.value = eventTime
     }
 
@@ -99,24 +114,6 @@ class EventRegistrationViewModel @Inject constructor(
     fun registerEvent() {
         if (_eventLocation.value.isEmpty()) {
             emitValidationErrorMessage("장소를 입력하세요.")
-            return
-        }
-
-        if (_eventEndDate.value < _eventStartDate.value) {
-            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
-            return
-        }
-
-        if (
-            (_eventEndDate.value == _eventStartDate.value) &&
-            (_eventEndTime.value <= _eventStartTime.value)
-        ) {
-            emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
-            return
-        }
-
-        if (_eventEndDate.value <= generateNowDate()) {
-            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
         }
 

@@ -31,7 +31,7 @@ class ProfileViewModel @Inject constructor(
                     _todayEvents.value =
                         EventsState.Success(
                             it.filter {
-                                it.dateTime == DateUtil.generateNowDateTime()
+                                it.endDateTime == DateUtil.generateNowDateTime()
                             },
                         )
                 },
