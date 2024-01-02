@@ -11,21 +11,19 @@ class ValidateManagementCodeUseCase @Inject constructor(
     private val managementRepository: ManagementRepository,
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(code: String): Result<CodeValidation> {
-        return runCatching {
-            managementRepository.getManagementCode(code)
-                .onSuccess { isValid ->
-                    if (isValid.not()) { // 코드가 틀렸을 경우
-                        return@runCatching CodeValidation.INVALID
-                    }
+    suspend operator fun invoke(code: String): Result<CodeValidation> = runCatching {
+        managementRepository.getManagementCode(code)
+            .onSuccess { isValid ->
+                if (isValid.not()) { // 코드가 틀렸을 경우
+                    return@runCatching CodeValidation.INVALID
                 }
+            }
 
-            // 운영진 등록
-            val userId = userRepository.getUserId().getOrThrow()
-            managementRepository.postManager(userId).fold(
-                    onSuccess = { CodeValidation.VALID },
-                    onFailure = { exception -> throw(exception) },
-                )
-        }
+        // 운영진 등록
+        val userId = userRepository.getUserId().getOrThrow()
+        managementRepository.postManager(userId).fold(
+            onSuccess = { CodeValidation.VALID },
+            onFailure = { exception -> throw (exception) },
+        )
     }
 }

@@ -14,16 +14,15 @@ class SurveyFormRepositoryImpl @Inject constructor(
             surveyFormResponse.toDomain()
         }
 
-    override suspend fun getSurveyFormList(): Result<List<SurveyForm>> {
-        return surveyFormDataSource.getSurveyFormList().mapCatching { surveyFormResponseList ->
+    override suspend fun getSurveyFormList(): Result<List<SurveyForm>> =
+        surveyFormDataSource.getSurveyFormList().mapCatching { surveyFormResponseList ->
             surveyFormResponseList.map { surveyFormResponse ->
                 surveyFormResponse.toDomain()
             }
         }
-    }
 
-    override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> {
-        return surveyFormDataSource.postSurveyForm(
+    override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> =
+        surveyFormDataSource.postSurveyForm(
             surveyFormRequest = SurveyFormRequest(
                 eventId = surveyForm.eventId,
                 title = surveyForm.title,
@@ -32,5 +31,4 @@ class SurveyFormRepositoryImpl @Inject constructor(
                 deadline = surveyForm.deadline.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
             ),
         )
-    }
 }

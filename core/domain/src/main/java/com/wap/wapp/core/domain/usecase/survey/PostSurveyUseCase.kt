@@ -15,18 +15,16 @@ class PostSurveyUseCase @Inject constructor(
         title: String,
         content: String,
         surveyAnswerList: List<SurveyAnswer>,
-    ): Result<Unit> {
-        return runCatching {
-            val userId = userRepository.getUserId().getOrThrow()
+    ): Result<Unit> = runCatching {
+        val userId = userRepository.getUserId().getOrThrow()
 
-            surveyRepository.postSurvey(
-                userId = userId,
-                eventId = eventId,
-                title = title,
-                content = content,
-                surveyAnswerList = surveyAnswerList,
-                surveyedAt = LocalDateTime.now(),
-            )
-        }
+        surveyRepository.postSurvey(
+            userId = userId,
+            eventId = eventId,
+            title = title,
+            content = content,
+            surveyAnswerList = surveyAnswerList,
+            surveyedAt = LocalDateTime.now(),
+        )
     }
 }

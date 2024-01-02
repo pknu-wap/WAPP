@@ -12,16 +12,14 @@ class PostUserProfileUseCase @Inject constructor(
         userName: String,
         studentId: String,
         registeredAt: String,
-    ): Result<Unit> {
-        return runCatching {
-            val userId = userRepository.getUserId().getOrThrow()
+    ): Result<Unit> = runCatching {
+        val userId = userRepository.getUserId().getOrThrow()
 
-            userRepository.postUserProfile(
-                userId = userId,
-                userName = userName,
-                studentId = studentId,
-                registeredAt = registeredAt,
-            )
-        }
+        userRepository.postUserProfile(
+            userId = userId,
+            userName = userName,
+            studentId = studentId,
+            registeredAt = registeredAt,
+        )
     }
 }

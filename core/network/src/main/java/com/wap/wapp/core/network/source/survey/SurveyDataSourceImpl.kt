@@ -12,35 +12,31 @@ import javax.inject.Inject
 class SurveyDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : SurveyDataSource {
-    override suspend fun getSurveyList(): Result<List<SurveyResponse>> {
-        return runCatching {
-            val result: MutableList<SurveyResponse> = mutableListOf()
+    override suspend fun getSurveyList(): Result<List<SurveyResponse>> = runCatching {
+        val result: MutableList<SurveyResponse> = mutableListOf()
 
-            val task = firebaseFirestore.collection(SURVEY_COLLECTION)
-                .get()
-                .await()
+        val task = firebaseFirestore.collection(SURVEY_COLLECTION)
+            .get()
+            .await()
 
-            for (document in task.documents) {
-                val surveyResponse = document.toObject(SurveyResponse::class.java)
-                checkNotNull(surveyResponse)
+        for (document in task.documents) {
+            val surveyResponse = document.toObject(SurveyResponse::class.java)
+            checkNotNull(surveyResponse)
 
-                result.add(surveyResponse)
-            }
-
-            result
+            result.add(surveyResponse)
         }
+
+        result
     }
 
-    override suspend fun getSurvey(surveyId: String): Result<SurveyResponse> {
-        return runCatching {
-            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
-                .document(surveyId)
-                .get()
-                .await()
+    override suspend fun getSurvey(surveyId: String): Result<SurveyResponse> = runCatching {
+        val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+            .document(surveyId)
+            .get()
+            .await()
 
-            val surveyResponse = result.toObject(SurveyResponse::class.java)
-            checkNotNull(surveyResponse)
-        }
+        val surveyResponse = result.toObject(SurveyResponse::class.java)
+        checkNotNull(surveyResponse)
     }
 
     override suspend fun postSurvey(
@@ -50,40 +46,36 @@ class SurveyDataSourceImpl @Inject constructor(
         content: String,
         surveyAnswerList: List<SurveyAnswer>,
         surveyedAt: String,
-    ): Result<Unit> {
-        return runCatching {
-            val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
+    ): Result<Unit> = runCatching {
+        val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
 
-            val surveyRequest = SurveyRequest(
-                surveyId = documentId,
-                eventId = eventId,
-                userId = userId,
-                title = title,
-                content = content,
-                surveyAnswerList = surveyAnswerList,
-                surveyedAt = surveyedAt,
-            )
-            val setOption = SetOptions.merge()
+        val surveyRequest = SurveyRequest(
+            surveyId = documentId,
+            eventId = eventId,
+            userId = userId,
+            title = title,
+            content = content,
+            surveyAnswerList = surveyAnswerList,
+            surveyedAt = surveyedAt,
+        )
+        val setOption = SetOptions.merge()
 
-            firebaseFirestore.collection(SURVEY_COLLECTION)
-                .document(documentId)
-                .set(surveyRequest, setOption)
-                .await()
-        }
+        firebaseFirestore.collection(SURVEY_COLLECTION)
+            .document(documentId)
+            .set(surveyRequest, setOption)
+            .await()
     }
 
     override suspend fun isSubmittedSurvey(
         eventId: String,
         userId: String,
-    ): Result<Boolean> {
-        return runCatching {
-            val result = firebaseFirestore.collection(SURVEY_COLLECTION)
-                .whereEqualTo("eventId", eventId)
-                .whereEqualTo("userId", userId)
-                .get()
-                .await()
+    ): Result<Boolean> = runCatching {
+        val result = firebaseFirestore.collection(SURVEY_COLLECTION)
+            .whereEqualTo("eventId", eventId)
+            .whereEqualTo("userId", userId)
+            .get()
+            .await()
 
-            result.isEmpty.not()
-        }
+        result.isEmpty.not()
     }
 }
