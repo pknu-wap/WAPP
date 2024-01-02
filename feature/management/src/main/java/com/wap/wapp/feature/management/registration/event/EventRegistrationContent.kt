@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.feature.management.R
 import com.wap.wapp.feature.management.registration.component.DeadlineCard
 import com.wap.wapp.feature.management.registration.component.RegistrationTextField
@@ -26,7 +27,6 @@ import com.wap.wapp.feature.management.registration.component.WappDatePickerDial
 import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -257,7 +257,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.start_date),
-                hint = startDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                hint = startDate.format(DateUtil.yyyyMMddFormatter),
                 onCardClicked = {
                     onStartDatePickerStateChanged(true)
                 },
@@ -266,7 +266,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.start_time),
-                hint = startTime.format(DateTimeFormatter.ofPattern("HH.mm")),
+                hint = startTime.format(DateUtil.HHmmFormatter),
                 onCardClicked = {
                     onStartTimePickerStateChanged(true)
                 },
@@ -275,7 +275,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.end_date),
-                hint = endDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                hint = endDate.format(DateUtil.yyyyMMddFormatter),
                 onCardClicked = {
                     onEndDatePickerStateChanged(true)
                 },
@@ -284,7 +284,7 @@ private fun EventScheduleContent(
 
             DeadlineCard(
                 title = stringResource(R.string.end_time),
-                hint = endTime.format(DateTimeFormatter.ofPattern("HH.mm")),
+                hint = endTime.format(DateUtil.HHmmFormatter),
                 onCardClicked = {
                     onEndTimePickerStateChanged(true)
                 },

@@ -12,15 +12,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.feature.management.R
 import com.wap.wapp.feature.management.registration.component.DeadlineCard
 import com.wap.wapp.feature.management.registration.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +71,7 @@ internal fun SurveyDeadlineContent(
 
             DeadlineCard(
                 title = stringResource(R.string.date),
-                hint = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                hint = date.format(DateUtil.yyyyMMddFormatter),
                 onCardClicked = {
                     onDatePickerStateChanged(true)
                 },
@@ -82,7 +80,7 @@ internal fun SurveyDeadlineContent(
 
             DeadlineCard(
                 title = stringResource(R.string.time),
-                hint = time.format(DateTimeFormatter.ofPattern("HH.mm")),
+                hint = time.format(DateUtil.HHmmFormatter),
                 onCardClicked = {
                     onTimePickerStateChanged(true)
                 },
@@ -96,10 +94,4 @@ internal fun SurveyDeadlineContent(
             modifier = Modifier.padding(bottom = 20.dp),
         )
     }
-}
-
-private fun Long.toLocalDate(): LocalDate {
-    val instant = Instant.ofEpochMilli(this)
-    val instantAtSeoul = instant.atZone(ZoneId.of("Asia/Seoul"))
-    return instantAtSeoul.toLocalDate()
 }
