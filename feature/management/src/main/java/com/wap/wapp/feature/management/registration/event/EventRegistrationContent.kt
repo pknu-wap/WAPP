@@ -294,7 +294,7 @@ private fun EventScheduleContent(
 
         WappButton(
             onClick = onRegisterButtonClicked,
-            textRes = R.string.register_event,
+            textRes = R.string.edit_complete,
             modifier = Modifier.padding(bottom = 20.dp),
         )
     }

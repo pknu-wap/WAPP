@@ -150,7 +150,7 @@ internal fun EventEditScreen(
                 .padding(16.dp),
         ) {
             WappTopBar(
-                titleRes = R.string.event_registration,
+                titleRes = R.string.event_edit,
                 showLeftButton = true,
                 onClickLeftButton = onBackButtonClicked,
             )

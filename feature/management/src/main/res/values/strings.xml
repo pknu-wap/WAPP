@@ -10,6 +10,7 @@
     <string name="survey">설문</string>
     <string name="event">일정</string>
     <string name="event_registration">일정 추가</string>
+    <string name="event_edit">일정 수정</string>
     <string name="event_registration_total_page">/ 2</string>
     <string name="event_details_title">행사 내용 작성</string>
     <string name="event_details_content">부원들이 알아보기 쉽도록 자세하게 작성해주세요.</string>
@@ -26,6 +27,7 @@
     <string name="event_date_hint">언제 진행되는 일정인가요?</string>
     <string name="event_time_hint">몇시부터 몇시까지 진행되는 일정인가요?</string>
     <string name="register_event">일정 등록</string>
+    <string name="edit_complete">수정 완료</string>
     <string name="survey_registeration">설문 등록</string>
     <string name="survey_registration_total_page">/ 4</string>
     <string name="add_survey_question">문항 추가</string>
