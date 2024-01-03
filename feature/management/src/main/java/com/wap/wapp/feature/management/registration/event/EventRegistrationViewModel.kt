@@ -67,7 +67,7 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventStartDate(eventDate: LocalDate) {
-        if (eventDate <= generateNowDate()) {
+        if (!isValidStartDate(eventDate)) {
             emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
         }
@@ -79,7 +79,7 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventEndDate(eventDate: LocalDate) {
-        if (eventDate < _eventStartDate.value) {
+        if (!isValidEndDate(eventDate)) {
             emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
             return
         }
@@ -87,7 +87,7 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun setEventEndTime(eventTime: LocalTime) {
-        if (_eventEndDate.value == _eventStartDate.value && eventTime <= _eventStartTime.value) {
+        if (!isValidEndTime(eventTime)) {
             emitValidationErrorMessage("종료 날짜는 시작 날짜와 같거나 더 늦어야 합니다.")
             return
         }
@@ -96,11 +96,11 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun setEventRegistrationState() {
         if (_currentRegistrationState.value == EVENT_DETAILS) {
-            if (_eventTitle.value.isEmpty()) {
+            if (!isValidTitle()) {
                 emitValidationErrorMessage("행사 이름을 입력하세요.")
                 return
             }
-            if (_eventContent.value.isEmpty()) {
+            if (!isValidContent()) {
                 emitValidationErrorMessage("행사 내용을 입력하세요.")
                 return
             }
@@ -109,7 +109,7 @@ class EventRegistrationViewModel @Inject constructor(
     }
 
     fun registerEvent() {
-        if (_eventLocation.value.isEmpty()) {
+        if (!isValidLocation()) {
             emitValidationErrorMessage("장소를 입력하세요.")
             return
         }
@@ -129,6 +129,19 @@ class EventRegistrationViewModel @Inject constructor(
             }
         }
     }
+
+    private fun isValidEndTime(eventTime: LocalTime): Boolean =
+        _eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value
+
+    private fun isValidEndDate(eventDate: LocalDate): Boolean = eventDate >= _eventStartDate.value
+
+    private fun isValidStartDate(eventDate: LocalDate): Boolean = eventDate > generateNowDate()
+
+    private fun isValidContent(): Boolean = _eventContent.value.isNotEmpty()
+
+    private fun isValidTitle(): Boolean = _eventTitle.value.isNotEmpty()
+
+    private fun isValidLocation(): Boolean = _eventLocation.value.isNotEmpty()
 
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
