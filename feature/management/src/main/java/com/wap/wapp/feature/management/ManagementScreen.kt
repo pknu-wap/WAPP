@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -103,10 +104,10 @@ internal fun ManagementScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = WappTheme.colors.black25,
                 ),
+                windowInsets = WindowInsets(0.dp),
             )
         },
     ) { paddingValues ->
-
         Column(
             modifier = Modifier
                 .padding(top = paddingValues.calculateTopPadding())
