@@ -75,6 +75,32 @@ class EventDataSourceImpl @Inject constructor(
             .await()
     }
 
+    override suspend fun updateEvent(
+        eventId: String,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: String,
+        endDateTime: String,
+    ): Result<Unit> = runCatching {
+        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(getMonth(startDate))
+            .collection(EVENT_COLLECTION)
+            .document(eventId)
+            .update(
+                mapOf(
+                    "title" to title,
+                    "content" to content,
+                    "location" to location,
+                    "startDateTime" to startDateTime,
+                    "endDateTime" to endDateTime,
+                ),
+            )
+            .await()
+    }
+
     private fun getMonth(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
 

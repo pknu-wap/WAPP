@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
-import com.wap.wapp.core.domain.usecase.management.RegisterSurveyUseCase
+import com.wap.wapp.core.domain.usecase.survey.RegisterSurveyUseCase
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyQuestion

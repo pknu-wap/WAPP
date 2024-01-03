@@ -36,4 +36,21 @@ class EventRepositoryImpl @Inject constructor(
             startDateTime = eventStartDateTime.toISOLocalDateTimeString(),
             endDateTime = eventEndDateTime.toISOLocalDateTimeString(),
         )
+
+    override suspend fun updateEvent(
+        eventId: String,
+        eventTitle: String,
+        eventContent: String,
+        eventLocation: String,
+        eventStartDateTime: LocalDateTime,
+        eventEndDateTime: LocalDateTime,
+    ): Result<Unit> =
+        eventDataSource.updateEvent(
+            eventId = eventId,
+            title = eventTitle,
+            content = eventContent,
+            location = eventLocation,
+            startDateTime = eventStartDateTime.toISOLocalDateTimeString(),
+            endDateTime = eventEndDateTime.toISOLocalDateTimeString(),
+        )
 }

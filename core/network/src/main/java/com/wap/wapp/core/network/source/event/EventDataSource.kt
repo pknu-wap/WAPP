@@ -16,4 +16,13 @@ interface EventDataSource {
         startDateTime: String,
         endDateTime: String,
     ): Result<Unit>
+
+    suspend fun updateEvent(
+        eventId: String,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: String,
+        endDateTime: String,
+    ): Result<Unit>
 }

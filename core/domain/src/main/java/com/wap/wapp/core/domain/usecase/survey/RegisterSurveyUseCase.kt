@@ -1,4 +1,4 @@
-package com.wap.wapp.core.domain.usecase.management
+package com.wap.wapp.core.domain.usecase.survey
 
 import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
 import com.wap.wapp.core.model.event.Event

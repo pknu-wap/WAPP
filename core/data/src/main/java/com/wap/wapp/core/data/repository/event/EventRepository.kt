@@ -16,4 +16,13 @@ interface EventRepository {
         eventStartDateTime: LocalDateTime,
         eventEndDateTime: LocalDateTime,
     ): Result<Unit>
+
+    suspend fun updateEvent(
+        eventId: String,
+        eventTitle: String,
+        eventContent: String,
+        eventLocation: String,
+        eventStartDateTime: LocalDateTime,
+        eventEndDateTime: LocalDateTime,
+    ): Result<Unit>
 }
