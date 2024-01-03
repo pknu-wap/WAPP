@@ -40,13 +40,7 @@ class MainActivity : ComponentActivity() {
     lateinit var signInUseCase: SignInUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.light(
-                getColor(R.color.yellow34),
-                getColor(R.color.yellow34),
-            ),
-            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-        )
+        setStautsBarColor()
         super.onCreate(savedInstanceState)
         setContent {
             WappTheme {
@@ -92,6 +86,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun ComponentActivity.setStautsBarColor() = enableEdgeToEdge(
+    statusBarStyle = SystemBarStyle.light(
+        getColor(R.color.yellow34),
+        getColor(R.color.yellow34),
+    ),
+    navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+)
 
 private fun handleBottomBarState(
     currentRoute: String?,

@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.registration.event
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -134,6 +135,7 @@ internal fun EventRegistrationScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
+        contentWindowInsets = WindowInsets(0.dp),
         modifier = Modifier.fillMaxSize(),
     ) { paddingValues ->
         Column(
@@ -228,6 +230,7 @@ private fun EventRegistrationStateProgressBar(
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
+        trackColor = WappTheme.colors.white,
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )

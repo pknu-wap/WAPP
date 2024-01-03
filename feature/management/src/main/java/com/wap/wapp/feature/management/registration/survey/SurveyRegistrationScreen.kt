@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.registration.survey
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -116,6 +117,7 @@ internal fun SurveyRegistrationScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -215,6 +217,7 @@ private fun SurveyRegistrationStateProgressBar(
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
+        trackColor = WappTheme.colors.white,
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )
