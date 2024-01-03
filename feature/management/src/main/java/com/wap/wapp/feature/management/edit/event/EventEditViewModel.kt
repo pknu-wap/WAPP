@@ -72,10 +72,6 @@ class EventEditViewModel @Inject constructor(
     }
 
     fun setEventStartDate(eventDate: LocalDate) {
-        if (eventDate <= DateUtil.generateNowDate()) {
-            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
-            return
-        }
         _eventStartDate.value = eventDate
     }
 

@@ -67,6 +67,8 @@ internal fun EventEditRoute(
     val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
+        viewModel.getEvent(date = date, eventId = eventId)
+
         viewModel.eventEditEvent.collectLatest {
             when (it) {
                 is EventRegistrationEvent.Failure -> {
@@ -83,8 +85,6 @@ internal fun EventEditRoute(
             }
         }
     }
-
-    viewModel.getEvent(date = date, eventId = eventId)
 
     EventEditScreen(
         currentEditState = currentRegistrationState,
