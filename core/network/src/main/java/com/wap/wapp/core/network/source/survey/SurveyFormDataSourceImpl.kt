@@ -11,7 +11,7 @@ import javax.inject.Inject
 class SurveyFormDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : SurveyFormDataSource {
-    override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> = runCatching {
+    override suspend fun getSurveyForm(eventId: String): Result<SurveyFormResponse> = runCatching {
         val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
             .document(eventId.toString())
             .get()

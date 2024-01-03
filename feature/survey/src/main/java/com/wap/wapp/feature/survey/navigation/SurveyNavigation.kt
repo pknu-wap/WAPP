@@ -45,7 +45,7 @@ fun NavGraphBuilder.surveyNavGraph(
             viewModel = hiltViewModel(),
             onSubmitButtonClicked = navigateToSurvey,
             onBackButtonClicked = navigateToSurvey,
-            eventId = eventId.toInt(),
+            eventId = eventId,
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -68,9 +69,10 @@ internal fun SurveyScreen(
         modifier = Modifier.fillMaxSize(),
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
+        contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
         when (surveyFormListUiState) {
-            is SurveyViewModel.SurveyFormListUiState.Init -> { }
+            is SurveyViewModel.SurveyFormListUiState.Init -> {}
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
