@@ -19,11 +19,11 @@ class RegisterEventUseCase @Inject constructor(
         eventEndTime: LocalTime,
     ): Result<Unit> = runCatching {
         eventRepository.postEvent(
-            eventTitle = eventTitle,
-            eventContent = eventContent,
-            eventLocation = eventLocation,
-            eventStartDateTime = LocalDateTime.of(eventStartDate, eventStartTime),
-            eventEndDateTime = LocalDateTime.of(eventEndDate, eventEndTime),
+            title = eventTitle,
+            content = eventContent,
+            location = eventLocation,
+            startDateTime = LocalDateTime.of(eventStartDate, eventStartTime),
+            endDateTime = LocalDateTime.of(eventEndDate, eventEndTime),
         )
     }
 }

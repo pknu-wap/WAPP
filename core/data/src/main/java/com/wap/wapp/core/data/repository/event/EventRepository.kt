@@ -10,19 +10,19 @@ interface EventRepository {
     suspend fun getEvent(date: LocalDateTime, eventId: String): Result<Event>
 
     suspend fun postEvent(
-        eventTitle: String,
-        eventContent: String,
-        eventLocation: String,
-        eventStartDateTime: LocalDateTime,
-        eventEndDateTime: LocalDateTime,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
     ): Result<Unit>
 
     suspend fun updateEvent(
         eventId: String,
-        eventTitle: String,
-        eventContent: String,
-        eventLocation: String,
-        eventStartDateTime: LocalDateTime,
-        eventEndDateTime: LocalDateTime,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
     ): Result<Unit>
 }
