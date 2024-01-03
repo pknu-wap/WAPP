@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
-import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
+import com.wap.wapp.core.domain.usecase.event.UpdateEventUseCase
 import com.wap.wapp.feature.management.registration.event.EventRegistrationEvent
 import com.wap.wapp.feature.management.registration.event.EventRegistrationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventEditViewModel @Inject constructor(
     private val getEventUseCase: GetEventUseCase,
-    private val registerEventUseCase: RegisterEventUseCase,
+    private val updateEventUseCase: UpdateEventUseCase,
 ) : ViewModel() {
     private val _currentEditState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
@@ -119,7 +119,7 @@ class EventEditViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            registerEventUseCase(
+            updateEventUseCase(
                 eventTitle = _eventTitle.value,
                 eventContent = _eventContent.value,
                 eventLocation = _eventLocation.value,
@@ -127,6 +127,7 @@ class EventEditViewModel @Inject constructor(
                 eventStartTime = _eventStartTime.value,
                 eventEndDate = _eventEndDate.value,
                 eventEndTime = _eventEndTime.value,
+                eventId = _eventId.value,
             ).onSuccess {
                 _eventEditEvent.emit(EventRegistrationEvent.Success)
             }.onFailure { throwable ->
@@ -147,7 +148,7 @@ class EventEditViewModel @Inject constructor(
             _eventLocation.value = it.location
             _eventId.value = it.eventId
         }
-            .onFailure { emitValidationErrorMessage("이벤트를 불러오는 데 실패하였습니다.") }
+            .onFailure { emitValidationErrorMessage("이벤트를 불러오는데 실패하였습니다.") }
     }
 
     private fun emitValidationErrorMessage(message: String) {
