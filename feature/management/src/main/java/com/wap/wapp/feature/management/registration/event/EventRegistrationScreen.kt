@@ -7,14 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -24,68 +29,107 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTopBar
+import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
+import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 internal fun EventRegistrationRoute(
     viewModel: EventRegistrationViewModel = hiltViewModel(),
     navigateToManagement: () -> Unit,
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
     val currentRegistrationState
         by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
-    val eventTitle by viewModel.eventTitle.collectAsStateWithLifecycle()
-    val eventContent by viewModel.eventContent.collectAsStateWithLifecycle()
-    val eventLocation by viewModel.eventLocation.collectAsStateWithLifecycle()
-    val eventDate by viewModel.eventDate.collectAsStateWithLifecycle()
-    val eventTime by viewModel.eventTime.collectAsStateWithLifecycle()
+    val title by viewModel.eventTitle.collectAsStateWithLifecycle()
+    val content by viewModel.eventContent.collectAsStateWithLifecycle()
+    val location by viewModel.eventLocation.collectAsStateWithLifecycle()
+    val startDate by viewModel.eventStartDate.collectAsStateWithLifecycle()
+    val startTime by viewModel.eventStartTime.collectAsStateWithLifecycle()
+    val endDate by viewModel.eventEndDate.collectAsStateWithLifecycle()
+    val endTime by viewModel.eventEndTime.collectAsStateWithLifecycle()
     val onTitleChanged = viewModel::setEventTitle
     val onContentChanged = viewModel::setEventContent
     val onLocationChanged = viewModel::setEventLocation
-    val onDateChanged = viewModel::setEventDate
-    val onTimeChanged = viewModel::setEventTime
+    val onStartDateChanged = viewModel::setEventStartDate
+    val onStartTimeChanged = viewModel::setEventStartTime
+    val onEndDateChanged = viewModel::setEventEndDate
+    val onEndTimeChanged = viewModel::setEventEndTime
     val onNextButtonClicked =
         viewModel::setEventRegistrationState
     val onRegisterButtonClicked = viewModel::registerEvent
 
+    LaunchedEffect(true) {
+        viewModel.eventRegistrationEvent.collectLatest {
+            when (it) {
+                is EventRegistrationEvent.Failure -> {
+                    snackBarHostState.showSnackbar(it.error.toSupportingText())
+                }
+
+                is EventRegistrationEvent.ValidationError -> {
+                    snackBarHostState.showSnackbar(it.message)
+                }
+
+                is EventRegistrationEvent.Success -> {
+                    navigateToManagement()
+                }
+            }
+        }
+    }
+
     EventRegistrationScreen(
         currentRegistrationState = currentRegistrationState,
-        eventTitle = eventTitle,
-        eventContent = eventContent,
-        eventLocation = eventLocation,
-        eventDate = eventDate,
-        eventTime = eventTime,
+        title = title,
+        content = content,
+        location = location,
+        startDate = startDate,
+        startTime = startTime,
+        endDate = endDate,
+        endTime = endTime,
+        snackBarHostState = snackBarHostState,
         onTitleChanged = onTitleChanged,
         onContentChanged = onContentChanged,
         onLocationChanged = onLocationChanged,
-        onDateChanged = onDateChanged,
-        onTimeChanged = onTimeChanged,
+        onStartDateChanged = onStartDateChanged,
+        onStartTimeChanged = onStartTimeChanged,
+        onEndDateChanged = onEndDateChanged,
+        onEndTimeChanged = onEndTimeChanged,
         onNextButtonClicked = onNextButtonClicked,
-        onRegisterButtonClicked = {
-            onRegisterButtonClicked()
-            navigateToManagement()
-        },
-        onBackButtonClicked = { navigateToManagement() },
+        onRegisterButtonClicked = onRegisterButtonClicked,
+        onBackButtonClicked = navigateToManagement,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EventRegistrationScreen(
     currentRegistrationState: EventRegistrationState,
-    eventTitle: String,
-    eventContent: String,
-    eventLocation: String,
-    eventDate: String,
-    eventTime: String,
+    title: String,
+    content: String,
+    location: String,
+    startDate: LocalDate,
+    startTime: LocalTime,
+    endDate: LocalDate,
+    endTime: LocalTime,
+    snackBarHostState: SnackbarHostState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onLocationChanged: (String) -> Unit,
-    onDateChanged: (String) -> Unit,
-    onTimeChanged: (String) -> Unit,
-    onNextButtonClicked: (EventRegistrationState) -> Unit,
+    onStartDateChanged: (LocalDate) -> Unit,
+    onStartTimeChanged: (LocalTime) -> Unit,
+    onEndDateChanged: (LocalDate) -> Unit,
+    onEndTimeChanged: (LocalTime) -> Unit,
+    onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
+    var showStartDatePicker by remember { mutableStateOf(false) }
+    var showStartTimePicker by remember { mutableStateOf(false) }
+    var showEndDatePicker by remember { mutableStateOf(false) }
+    var showEndTimePicker by remember { mutableStateOf(false) }
+    val timePickerState = rememberTimePickerState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -112,16 +156,29 @@ internal fun EventRegistrationScreen(
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
                 modifier = Modifier.padding(top = 50.dp),
-                eventTitle = eventTitle,
-                eventContent = eventContent,
-                eventLocation = eventLocation,
-                eventDate = eventDate,
-                eventTime = eventTime,
+                eventTitle = title,
+                eventContent = content,
+                location = location,
+                startDate = startDate,
+                startTime = startTime,
+                endDate = endDate,
+                endTime = endTime,
+                showStartDatePicker = showStartDatePicker,
+                showStartTimePicker = showStartTimePicker,
+                showEndDatePicker = showEndDatePicker,
+                showEndTimePicker = showEndTimePicker,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
-                onDateChanged = onDateChanged,
-                onTimeChanged = onTimeChanged,
+                timePickerState = timePickerState,
+                onStartDateChanged = onStartDateChanged,
+                onStartTimeChanged = onStartTimeChanged,
+                onEndDateChanged = onEndDateChanged,
+                onEndTimeChanged = onEndTimeChanged,
+                onStartDatePickerStateChanged = { state -> showStartDatePicker = state },
+                onStartTimePickerStateChanged = { state -> showStartTimePicker = state },
+                onEndDatePickerStateChanged = { state -> showEndDatePicker = state },
+                onEndTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
                 onRegisterButtonClicked = onRegisterButtonClicked,
             )

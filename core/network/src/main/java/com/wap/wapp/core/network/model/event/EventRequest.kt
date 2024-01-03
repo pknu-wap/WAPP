@@ -4,7 +4,7 @@ data class EventRequest(
     val title: String = "",
     val content: String = "",
     val location: String = "",
-    val period: String = "",
-    val time: String = "",
-    val eventId: Int = 0,
+    val startDateTime: String = "",
+    val endDateTime: String = "",
+    val eventId: String = "",
 )

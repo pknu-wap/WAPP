@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -48,7 +49,9 @@ internal fun SurveyInformationContent(
                 value = title,
                 onValueChange = onTitleChanged,
                 placeholder = stringResource(R.string.survey_title_hint),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .fillMaxWidth(),
             )
         }
 
@@ -65,6 +68,7 @@ internal fun SurveyInformationContent(
                 onValueChange = onContentChanged,
                 placeholder = stringResource(R.string.survey_introduce_hint),
                 modifier = Modifier
+                    .padding(top = 10.dp)
                     .fillMaxWidth()
                     .height(200.dp),
             )

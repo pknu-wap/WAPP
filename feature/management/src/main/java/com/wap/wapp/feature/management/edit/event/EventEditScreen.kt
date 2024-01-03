@@ -3,7 +3,11 @@ package com.wap.wapp.feature.management.edit.event
 import androidx.compose.runtime.Composable
 
 @Composable
-internal fun EventEditRoute(eventId: String, navigateToManagement: () -> Unit) {
+internal fun EventEditRoute(
+    date: String,
+    eventId: String,
+    navigateToManagement: () -> Unit,
+) {
 }
 
 @Composable

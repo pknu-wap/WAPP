@@ -55,10 +55,12 @@ class SurveyRegistrationViewModel @Inject constructor(
         MutableStateFlow(mutableListOf())
     val surveyQuestionList = _surveyQuestionList.asStateFlow()
 
-    private val _surveyTimeDeadline: MutableStateFlow<LocalTime> = MutableStateFlow(LOCAL_TIME_INIT)
+    private val _surveyTimeDeadline: MutableStateFlow<LocalTime> =
+        MutableStateFlow(DateUtil.generateNowTime())
     val surveyTimeDeadline = _surveyTimeDeadline.asStateFlow()
 
-    private val _surveyDateDeadline: MutableStateFlow<LocalDate> = MutableStateFlow(LOCAL_DATE_INIT)
+    private val _surveyDateDeadline: MutableStateFlow<LocalDate> =
+        MutableStateFlow(DateUtil.generateNowDate())
     val surveyDateDeadline = _surveyDateDeadline.asStateFlow()
 
     // Content 전환 함수, 전환 전 내용 검증
@@ -93,41 +95,35 @@ class SurveyRegistrationViewModel @Inject constructor(
         _currentRegistrationState.value = surveyRegistrationState
     }
 
-    fun getEventList() {
-        viewModelScope.launch {
-            getEventListUseCase(DateUtil.generateNowDate()).fold(
-                onSuccess = { eventList ->
-                    _eventList.value = eventList
-                },
-                onFailure = { throwable ->
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-                },
-            )
-        }
+    fun getEventList() = viewModelScope.launch {
+        getEventListUseCase(DateUtil.generateNowDate())
+            .onSuccess { eventList ->
+                _eventList.value = eventList
+            }.onFailure { throwable ->
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
+            }
     }
 
-    fun registerSurvey() {
-        viewModelScope.launch {
-            if (isValidDeadline()) {
-                registerSurveyUseCase(
-                    event = surveyEventSelection.value,
-                    title = _surveyTitle.value,
-                    content = _surveyContent.value,
-                    surveyQuestionList = _surveyQuestionList.value,
-                    deadlineDate = _surveyDateDeadline.value,
-                    deadlineTime = _surveyTimeDeadline.value,
-                ).onSuccess {
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
-                }.onFailure { throwable ->
-                    _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-                }
-            } else {
-                _surveyRegistrationEvent.emit(
-                    SurveyRegistrationEvent.ValidationError(
-                        "최소 하루 이상 설문 날짜를 지정하세요.",
-                    ),
-                )
+    fun registerSurvey() = viewModelScope.launch {
+        if (isValidDeadline()) {
+            registerSurveyUseCase(
+                event = surveyEventSelection.value,
+                title = _surveyTitle.value,
+                content = _surveyContent.value,
+                surveyQuestionList = _surveyQuestionList.value,
+                deadlineDate = _surveyDateDeadline.value,
+                deadlineTime = _surveyTimeDeadline.value,
+            ).onSuccess {
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
+            }.onFailure { throwable ->
+                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
             }
+        } else {
+            _surveyRegistrationEvent.emit(
+                SurveyRegistrationEvent.ValidationError(
+                    "최소 하루 이상 설문 날짜를 지정하세요.",
+                ),
+            )
         }
     }
 
@@ -189,7 +185,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     private fun isNotValidInformation() =
         _surveyTitle.value.isBlank() || _surveyContent.value.isBlank()
 
-    private fun isValidDeadline() = _surveyDateDeadline.value > LocalDate.now()
+    private fun isValidDeadline() = _surveyDateDeadline.value > DateUtil.generateNowDate()
 
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
@@ -207,8 +203,7 @@ class SurveyRegistrationViewModel @Inject constructor(
 
     companion object {
         const val EMPTY = ""
-        val LOCAL_TIME_INIT: LocalTime = LocalTime.now()
-        val LOCAL_DATE_INIT: LocalDate = LocalDate.now()
-        val EVENT_SELECTION_INIT: Event = Event("", -1, "", LocalDate.now(), "")
+        val EVENT_SELECTION_INIT: Event =
+            Event("", "", "", "", DateUtil.generateNowDateTime(), DateUtil.generateNowDateTime())
     }
 }

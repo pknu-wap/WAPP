@@ -3,9 +3,11 @@ package com.wap.wapp.core.network.source.event
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
+import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
+import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -44,15 +46,33 @@ class EventDataSourceImpl @Inject constructor(
             checkNotNull(document.toObject<EventResponse>())
         }
 
-    override suspend fun postEvent(date: LocalDate, eventRequest: EventRequest): Result<Unit> =
-        runCatching {
-            firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date))
-                .collection(EVENT_COLLECTION)
-                .document()
-                .set(eventRequest)
-                .await()
-        }
+    override suspend fun postEvent(
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: String,
+        endDateTime: String,
+    ): Result<Unit> = runCatching {
+        val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
+
+        val eventRequest = EventRequest(
+            title = title,
+            content = content,
+            location = location,
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+            eventId = documentId,
+        )
+
+        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(getMonth(startDate))
+            .collection(EVENT_COLLECTION)
+            .document(documentId)
+            .set(eventRequest)
+            .await()
+    }
 
     private fun getMonth(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM")

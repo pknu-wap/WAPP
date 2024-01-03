@@ -12,10 +12,11 @@ import com.wap.wapp.feature.management.edit.event.EventEditRoute
 const val eventEditNavigationRoute = "event/edit/{eventId}"
 
 fun NavController.navigateToEventEdit(
+    date: String,
     eventId: String,
     navOptions: NavOptions? = navOptions {},
 ) {
-    this.navigate("event/edit/$eventId", navOptions)
+    this.navigate("event/edit/$date/$eventId", navOptions)
 }
 
 fun NavGraphBuilder.eventEditScreen(
@@ -24,13 +25,14 @@ fun NavGraphBuilder.eventEditScreen(
     composable(
         route = eventEditNavigationRoute,
         arguments = listOf(
-            navArgument("eventId") {
-                type = NavType.StringType
-            },
+            navArgument("date") { type = NavType.StringType },
+            navArgument("eventId") { type = NavType.StringType },
         ),
     ) { navBackStackEntry ->
+        val date = navBackStackEntry.arguments?.getString("date") ?: ""
         val eventId = navBackStackEntry.arguments?.getString("eventId") ?: ""
         EventEditRoute(
+            date = date,
             eventId = eventId,
             navigateToManagement = navigateToManagement,
         )

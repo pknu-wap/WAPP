@@ -8,29 +8,24 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource,
 ) : UserRepository {
-    override suspend fun getUserProfile(userId: String): Result<UserProfile> {
-        return userDataSource.getUserProfile(userId).mapCatching { response ->
+    override suspend fun getUserProfile(userId: String): Result<UserProfile> =
+        userDataSource.getUserProfile(userId).mapCatching { response ->
             response.toDomain()
         }
-    }
 
-    override suspend fun getUserId(): Result<String> {
-        return userDataSource.getUserId()
-    }
+    override suspend fun getUserId(): Result<String> = userDataSource.getUserId()
 
     override suspend fun postUserProfile(
         userId: String,
         userName: String,
         studentId: String,
         registeredAt: String,
-    ): Result<Unit> {
-        return userDataSource.postUserProfile(
-            UserProfileRequest(
-                userId = userId,
-                userName = userName,
-                studentId = studentId,
-                registeredAt = registeredAt,
-            ),
-        )
-    }
+    ): Result<Unit> = userDataSource.postUserProfile(
+        UserProfileRequest(
+            userId = userId,
+            userName = userName,
+            studentId = studentId,
+            registeredAt = registeredAt,
+        ),
+    )
 }

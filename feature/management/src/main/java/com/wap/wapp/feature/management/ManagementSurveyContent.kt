@@ -100,6 +100,7 @@ private fun ManagementSurveyItem(
     onCardClicked: (String) -> Unit,
 ) {
     Card(
+        shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxSize()
             .clickable { onCardClicked(item.surveyId) },
@@ -108,14 +109,16 @@ private fun ManagementSurveyItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(
-                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 10.dp),
             ) {
                 Text(
                     text = item.surveyAnswerList.first().questionAnswer,
@@ -125,8 +128,9 @@ private fun ManagementSurveyItem(
                 )
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     SurveyCaption(item.eventName, WappTheme.colors.white)
 
