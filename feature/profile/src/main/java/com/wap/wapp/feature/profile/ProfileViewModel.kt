@@ -29,7 +29,11 @@ class ProfileViewModel @Inject constructor(
             getEventListUseCase(DateUtil.generateNowDate()).fold(
                 onSuccess = {
                     _todayEvents.value =
-                        EventsState.Success(it.filter { it.period == DateUtil.generateNowDate() })
+                        EventsState.Success(
+                            it.filter {
+                                it.endDateTime == DateUtil.generateNowDateTime()
+                            },
+                        )
                 },
                 onFailure = { _todayEvents.value = EventsState.Failure(it) },
             )

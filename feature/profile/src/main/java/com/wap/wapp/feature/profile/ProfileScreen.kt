@@ -44,7 +44,7 @@ internal fun ProfileRoute(
 
 @Composable
 internal fun ProfileScreen(
-    role: Role = Role.GUEST,
+    role: Role = Role.MANAGER,
     userName: String = "",
     eventsState: ProfileViewModel.EventsState,
     navigateToProfileSetting: () -> Unit,

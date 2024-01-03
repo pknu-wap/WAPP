@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.management.registration.survey
 
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
@@ -27,10 +26,10 @@ internal fun SurveyRegistrationContent(
     date: LocalDate,
     currentQuestionIndex: Int,
     totalQuestionSize: Int,
-    datePickerState: DatePickerState,
     timePickerState: TimePickerState,
     showDatePicker: Boolean,
     showTimePicker: Boolean,
+    onDateChanged: (LocalDate) -> Unit,
     onDatePickerStateChanged: (Boolean) -> Unit,
     onTimePickerStateChanged: (Boolean) -> Unit,
     onEventListChanged: () -> Unit,
@@ -39,7 +38,6 @@ internal fun SurveyRegistrationContent(
     onContentChanged: (String) -> Unit,
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
-    onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
     onNextButtonClicked: (SurveyRegistrationState) -> Unit,
     onAddQuestionButtonClicked: () -> Unit,
@@ -86,15 +84,14 @@ internal fun SurveyRegistrationContent(
             SurveyDeadlineContent(
                 time = time,
                 date = date,
-                datePickerState = datePickerState,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
-                onDatePickerStateChanged = onDatePickerStateChanged,
-                onTimePickerStateChanged = onTimePickerStateChanged,
                 onDateChanged = onDateChanged,
+                onTimePickerStateChanged = onTimePickerStateChanged,
                 onTimeChanged = onTimeChanged,
                 onRegisterButtonClicked = onRegisterButtonClicked,
+                onDatePickerStateChanged = onDatePickerStateChanged,
             )
         }
     }

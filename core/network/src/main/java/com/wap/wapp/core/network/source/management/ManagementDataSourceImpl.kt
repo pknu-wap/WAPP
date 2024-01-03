@@ -10,37 +10,31 @@ import javax.inject.Inject
 class ManagementDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : ManagementDataSource {
-    override suspend fun getManager(userId: String): Result<Boolean> {
-        return runCatching {
-            val result = firebaseFirestore.collection(MANAGER_COLLECTION)
-                .whereEqualTo("userId", userId)
-                .get()
-                .await()
+    override suspend fun getManager(userId: String): Result<Boolean> = runCatching {
+        val result = firebaseFirestore.collection(MANAGER_COLLECTION)
+            .whereEqualTo("userId", userId)
+            .get()
+            .await()
 
-            result.isEmpty.not()
-        }
+        result.isEmpty.not()
     }
 
-    override suspend fun postManager(userId: String): Result<Unit> {
-        return runCatching {
-            val userIdMap = mapOf("userId" to userId)
-            val setOption = SetOptions.merge()
+    override suspend fun postManager(userId: String): Result<Unit> = runCatching {
+        val userIdMap = mapOf("userId" to userId)
+        val setOption = SetOptions.merge()
 
-            firebaseFirestore.collection(MANAGER_COLLECTION)
-                .document(userId)
-                .set(userIdMap, setOption)
-                .await()
-        }
+        firebaseFirestore.collection(MANAGER_COLLECTION)
+            .document(userId)
+            .set(userIdMap, setOption)
+            .await()
     }
 
-    override suspend fun getManagementCode(code: String): Result<Boolean> {
-        return runCatching {
-            val result = firebaseFirestore.collection(CODES_COLLECTION)
-                .whereEqualTo("management", code)
-                .get()
-                .await()
+    override suspend fun getManagementCode(code: String): Result<Boolean> = runCatching {
+        val result = firebaseFirestore.collection(CODES_COLLECTION)
+            .whereEqualTo("management", code)
+            .get()
+            .await()
 
-            result.isEmpty.not()
-        }
+        result.isEmpty.not()
     }
 }

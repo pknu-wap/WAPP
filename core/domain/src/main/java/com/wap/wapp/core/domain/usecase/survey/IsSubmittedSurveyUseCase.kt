@@ -8,14 +8,9 @@ class IsSubmittedSurveyUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val surveyRepository: SurveyRepository,
 ) {
-    suspend operator fun invoke(eventId: Int): Result<Boolean> {
-        return runCatching {
-            val userId = userRepository.getUserId().getOrThrow()
+    suspend operator fun invoke(eventId: String): Result<Boolean> = runCatching {
+        val userId = userRepository.getUserId().getOrThrow()
 
-            surveyRepository.isSubmittedSurvey(
-                userId = userId,
-                eventId = eventId,
-            ).getOrThrow()
-        }
+        surveyRepository.isSubmittedSurvey(userId = userId, eventId = eventId).getOrThrow()
     }
 }

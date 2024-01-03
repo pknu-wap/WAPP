@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -84,6 +85,7 @@ internal fun SurveyQuestionContent(
                 value = question,
                 onValueChange = onQuestionChanged,
                 modifier = Modifier
+                    .padding(top = 10.dp)
                     .fillMaxWidth()
                     .height(200.dp),
                 placeholder = stringResource(R.string.suvey_question_hint),
@@ -145,7 +147,9 @@ private fun SurveyQuestionTypeDescription(
         QuestionType.OBJECTIVE -> {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth(),
             ) {
                 SurveyQuestionTypeCard(
                     title = stringResource(R.string.good),
@@ -200,8 +204,8 @@ private fun SurveyQuestionTypeCard(
     content: String,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),

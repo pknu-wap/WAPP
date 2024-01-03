@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -91,7 +90,6 @@ internal fun SurveyRegistrationScreen(
     onBackButtonClicked: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -150,7 +148,6 @@ internal fun SurveyRegistrationScreen(
                 questionType = questionType,
                 date = date,
                 time = time,
-                datePickerState = datePickerState,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
@@ -166,7 +163,7 @@ internal fun SurveyRegistrationScreen(
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },
-                onDateChanged = { localDate -> viewModel.setSurveyDateDeadline(localDate) },
+                onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
                 onNextButtonClicked = { surveyRegistrationState ->
                     viewModel.setSurveyRegistrationState(surveyRegistrationState)

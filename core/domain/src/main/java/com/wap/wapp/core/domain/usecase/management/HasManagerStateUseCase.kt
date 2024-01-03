@@ -10,14 +10,12 @@ class HasManagerStateUseCase @Inject constructor(
     private val managementRepository: ManagementRepository,
     private val userRepository: UserRepository,
 ) {
-    suspend operator fun invoke(): Result<Boolean> {
-        return runCatching {
-            val userId = userRepository.getUserId().getOrThrow()
+    suspend operator fun invoke(): Result<Boolean> = runCatching {
+        val userId = userRepository.getUserId().getOrThrow()
 
-            managementRepository.getManager(userId).fold(
-                onSuccess = { hasManagerState -> hasManagerState },
-                onFailure = { throw(it) },
-            )
-        }
+        managementRepository.getManager(userId).fold(
+            onSuccess = { hasManagerState -> hasManagerState },
+            onFailure = { throw (it) },
+        )
     }
 }

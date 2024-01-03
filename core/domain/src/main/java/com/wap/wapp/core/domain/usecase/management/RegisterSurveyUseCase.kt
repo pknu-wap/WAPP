@@ -19,17 +19,15 @@ class RegisterSurveyUseCase @Inject constructor(
         surveyQuestionList: List<SurveyQuestion>,
         deadlineDate: LocalDate,
         deadlineTime: LocalTime,
-    ): Result<Unit> {
-        return runCatching {
-            surveyFormRepository.postSurveyForm(
-                SurveyForm(
-                    eventId = event.eventId,
-                    title = title,
-                    content = content,
-                    surveyQuestionList = surveyQuestionList,
-                    deadline = LocalDateTime.of(deadlineDate, deadlineTime),
-                ),
-            )
-        }
+    ): Result<Unit> = runCatching {
+        surveyFormRepository.postSurveyForm(
+            SurveyForm(
+                eventId = event.eventId,
+                title = title,
+                content = content,
+                surveyQuestionList = surveyQuestionList,
+                deadline = LocalDateTime.of(deadlineDate, deadlineTime),
+            ),
+        )
     }
 }

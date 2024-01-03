@@ -15,12 +15,12 @@ fun NavController.navigateToSurvey(navOptions: NavOptions? = navOptions {}) {
     this.navigate(SurveyRoute.route, navOptions)
 }
 
-fun NavController.navigateToSurveyAnswer(eventId: Int, navOptions: NavOptions? = navOptions {}) {
-    navigate(SurveyRoute.answerRoute(eventId.toString()), navOptions)
+fun NavController.navigateToSurveyAnswer(eventId: String, navOptions: NavOptions? = navOptions {}) {
+    navigate(SurveyRoute.answerRoute(eventId), navOptions)
 }
 
 fun NavGraphBuilder.surveyNavGraph(
-    navigateToSurveyAnswer: (Int) -> Unit,
+    navigateToSurveyAnswer: (String) -> Unit,
     navigateToSurvey: () -> Unit,
 ) {
     composable(route = SurveyRoute.route) {

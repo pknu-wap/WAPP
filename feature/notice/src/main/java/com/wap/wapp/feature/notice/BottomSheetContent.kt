@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
+import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.commmon.util.DateUtil.HHmmFormatter
 import com.wap.wapp.core.commmon.util.DateUtil.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.event.Event
@@ -119,7 +121,7 @@ private fun EventItem(event: Event) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = event.time,
+                text = event.startDateTime.toLocalTime().format(DateUtil.HHmmFormatter),
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
@@ -140,7 +142,8 @@ private fun EventItem(event: Event) {
                     color = WappTheme.colors.white,
                 )
                 Text(
-                    text = event.time,
+                    text = event.startDateTime.format(HHmmFormatter) + " ~ " +
+                        event.endDateTime.format(HHmmFormatter),
                     style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.grayBD,
                 )
@@ -148,7 +151,7 @@ private fun EventItem(event: Event) {
         }
         Divider(
             color = WappTheme.colors.gray82,
-            thickness = (0.5).dp,
+            thickness = 1.dp,
             modifier = Modifier.padding(top = 15.dp),
         )
     }

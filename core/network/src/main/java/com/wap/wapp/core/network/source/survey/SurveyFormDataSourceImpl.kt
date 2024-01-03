@@ -11,46 +11,40 @@ import javax.inject.Inject
 class SurveyFormDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : SurveyFormDataSource {
-    override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> {
-        return runCatching {
-            val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(eventId.toString())
-                .get()
-                .await()
+    override suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse> = runCatching {
+        val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+            .document(eventId.toString())
+            .get()
+            .await()
 
-            val surveyFormResponse = result.toObject(SurveyFormResponse::class.java)
-            checkNotNull(surveyFormResponse)
-        }
+        val surveyFormResponse = result.toObject(SurveyFormResponse::class.java)
+        checkNotNull(surveyFormResponse)
     }
 
-    override suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>> {
-        return runCatching {
-            val result: MutableList<SurveyFormResponse> = mutableListOf()
+    override suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>> = runCatching {
+        val result: MutableList<SurveyFormResponse> = mutableListOf()
 
-            val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .get()
-                .await()
+        val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+            .get()
+            .await()
 
-            for (document in task.documents) {
-                val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
-                checkNotNull(surveyFormResponse)
+        for (document in task.documents) {
+            val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
+            checkNotNull(surveyFormResponse)
 
-                result.add(surveyFormResponse)
-            }
-
-            result
+            result.add(surveyFormResponse)
         }
+
+        result
     }
 
     override suspend fun postSurveyForm(
         surveyFormRequest: SurveyFormRequest,
-    ): Result<Unit> {
-        return runCatching {
-            val setOption = SetOptions.merge()
-            firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .document(surveyFormRequest.eventId.toString())
-                .set(surveyFormRequest, setOption)
-                .await()
-        }
+    ): Result<Unit> = runCatching {
+        val setOption = SetOptions.merge()
+        firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+            .document(surveyFormRequest.eventId.toString())
+            .set(surveyFormRequest, setOption)
+            .await()
     }
 }

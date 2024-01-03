@@ -41,7 +41,7 @@ class SurveyViewModel @Inject constructor(
         }
     }
 
-    fun isSubmittedSurvey(eventId: Int) {
+    fun isSubmittedSurvey(eventId: String) {
         viewModelScope.launch {
             isSubmittedSurveyUseCase(eventId)
                 .onSuccess { isSubmittedSurvey ->
@@ -64,9 +64,7 @@ class SurveyViewModel @Inject constructor(
 
     sealed class SurveyUiEvent {
         data class Failure(val throwable: Throwable) : SurveyUiEvent()
-
         data object AlreadySubmitted : SurveyUiEvent()
-
-        data class NotSubmitted(val eventId: Int) : SurveyUiEvent()
+        data class NotSubmitted(val eventId: String) : SurveyUiEvent()
     }
 }

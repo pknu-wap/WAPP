@@ -1,9 +1,9 @@
 package com.wap.wapp.core.data.repository.survey
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.network.model.survey.form.SurveyFormRequest
 import com.wap.wapp.core.network.source.survey.SurveyFormDataSource
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SurveyFormRepositoryImpl @Inject constructor(
@@ -14,23 +14,21 @@ class SurveyFormRepositoryImpl @Inject constructor(
             surveyFormResponse.toDomain()
         }
 
-    override suspend fun getSurveyFormList(): Result<List<SurveyForm>> {
-        return surveyFormDataSource.getSurveyFormList().mapCatching { surveyFormResponseList ->
+    override suspend fun getSurveyFormList(): Result<List<SurveyForm>> =
+        surveyFormDataSource.getSurveyFormList().mapCatching { surveyFormResponseList ->
             surveyFormResponseList.map { surveyFormResponse ->
                 surveyFormResponse.toDomain()
             }
         }
-    }
 
-    override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> {
-        return surveyFormDataSource.postSurveyForm(
+    override suspend fun postSurveyForm(surveyForm: SurveyForm): Result<Unit> =
+        surveyFormDataSource.postSurveyForm(
             surveyFormRequest = SurveyFormRequest(
                 eventId = surveyForm.eventId,
                 title = surveyForm.title,
                 content = surveyForm.content,
                 surveyQuestionList = surveyForm.surveyQuestionList,
-                deadline = surveyForm.deadline.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                deadline = surveyForm.deadline.toISOLocalDateTimeString(),
             ),
         )
-    }
 }

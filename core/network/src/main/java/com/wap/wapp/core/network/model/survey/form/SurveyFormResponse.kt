@@ -4,7 +4,7 @@ import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.network.utils.toISOLocalDateTime
 
 data class SurveyFormResponse(
-    val eventId: Int,
+    val eventId: String,
     val userId: String,
     val title: String,
     val content: String,
@@ -12,7 +12,7 @@ data class SurveyFormResponse(
     val deadline: String,
 ) {
     constructor() : this(
-        -1,
+        "",
         "",
         "",
         "",

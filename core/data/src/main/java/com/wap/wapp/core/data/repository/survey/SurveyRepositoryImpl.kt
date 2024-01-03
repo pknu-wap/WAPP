@@ -1,19 +1,19 @@
 package com.wap.wapp.core.data.repository.survey
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.network.source.survey.SurveyDataSource
 import com.wap.wapp.core.network.source.user.UserDataSource
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class SurveyRepositoryImpl @Inject constructor(
     private val surveyDataSource: SurveyDataSource,
     private val userDataSource: UserDataSource,
 ) : SurveyRepository {
-    override suspend fun getSurveyList(): Result<List<Survey>> {
-        return surveyDataSource.getSurveyList().mapCatching { surveyList ->
+    override suspend fun getSurveyList(): Result<List<Survey>> =
+        surveyDataSource.getSurveyList().mapCatching { surveyList ->
             surveyList.map { surveyResponse ->
                 userDataSource.getUserProfile(userId = surveyResponse.userId)
                     .mapCatching { userProfileResponse ->
@@ -27,10 +27,9 @@ class SurveyRepositoryImpl @Inject constructor(
                     }.getOrThrow()
             }
         }
-    }
 
-    override suspend fun getSurvey(surveyId: String): Result<Survey> {
-        return surveyDataSource.getSurvey(surveyId).mapCatching { surveyResponse ->
+    override suspend fun getSurvey(surveyId: String): Result<Survey> =
+        surveyDataSource.getSurvey(surveyId).mapCatching { surveyResponse ->
             userDataSource.getUserProfile(userId = surveyResponse.userId)
                 .mapCatching { userProfileResponse ->
                     val userName = userProfileResponse.toDomain().userName
@@ -42,29 +41,25 @@ class SurveyRepositoryImpl @Inject constructor(
                     }.getOrThrow()
                 }.getOrThrow()
         }
-    }
 
     override suspend fun postSurvey(
-        eventId: Int,
+        eventId: String,
         userId: String,
         title: String,
         content: String,
         surveyAnswerList: List<SurveyAnswer>,
         surveyedAt: LocalDateTime,
-    ): Result<Unit> {
-        return surveyDataSource.postSurvey(
-            eventId = eventId,
-            userId = userId,
-            title = title,
-            content = content,
-            surveyAnswerList = surveyAnswerList,
-            surveyedAt = surveyedAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-        )
-    }
+    ): Result<Unit> = surveyDataSource.postSurvey(
+        eventId = eventId,
+        userId = userId,
+        title = title,
+        content = content,
+        surveyAnswerList = surveyAnswerList,
+        surveyedAt = surveyedAt.toISOLocalDateTimeString(),
+    )
 
-    override suspend fun isSubmittedSurvey(eventId: Int, userId: String): Result<Boolean> {
-        return surveyDataSource.isSubmittedSurvey(eventId, userId)
-    }
+    override suspend fun isSubmittedSurvey(eventId: String, userId: String): Result<Boolean> =
+        surveyDataSource.isSubmittedSurvey(eventId, userId)
 
     private val noticeNameResponse: Result<String> = Result.success("notice datasource dummy data")
 

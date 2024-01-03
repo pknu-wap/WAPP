@@ -1,9 +1,10 @@
 package com.wap.wapp.core.data.repository.event
 
+import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.source.event.EventDataSource
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(
@@ -17,21 +18,17 @@ class EventRepositoryImpl @Inject constructor(
         }
 
     override suspend fun postEvent(
-        date: LocalDate,
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
-        eventDate: String,
-        eventTime: String,
+        eventStartDateTime: LocalDateTime,
+        eventEndDateTime: LocalDateTime,
     ): Result<Unit> =
         eventDataSource.postEvent(
-            date = date,
-            EventRequest(
-                title = eventTitle,
-                content = eventContent,
-                location = eventLocation,
-                period = eventDate,
-                time = eventTime,
-            ),
+            title = eventTitle,
+            content = eventContent,
+            location = eventLocation,
+            startDateTime = eventStartDateTime.toISOLocalDateTimeString(),
+            endDateTime = eventEndDateTime.toISOLocalDateTimeString(),
         )
 }
