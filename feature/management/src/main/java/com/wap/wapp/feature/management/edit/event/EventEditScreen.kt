@@ -47,7 +47,7 @@ internal fun EventEditRoute(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val currentRegistrationState
-        by viewModel.currentRegistrationState.collectAsStateWithLifecycle()
+        by viewModel.currentEditState.collectAsStateWithLifecycle()
     val title by viewModel.eventTitle.collectAsStateWithLifecycle()
     val content by viewModel.eventContent.collectAsStateWithLifecycle()
     val location by viewModel.eventLocation.collectAsStateWithLifecycle()
@@ -64,10 +64,10 @@ internal fun EventEditRoute(
     val onEndTimeChanged = viewModel::setEventEndTime
     val onNextButtonClicked =
         viewModel::setEventRegistrationState
-    val onRegisterButtonClicked = viewModel::registerEvent
+    val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
-        viewModel.eventRegistrationEvent.collectLatest {
+        viewModel.eventEditEvent.collectLatest {
             when (it) {
                 is EventRegistrationEvent.Failure -> {
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
@@ -83,6 +83,8 @@ internal fun EventEditRoute(
             }
         }
     }
+
+    viewModel.getEvent(date = date, eventId = eventId)
 
     EventEditScreen(
         currentEditState = currentRegistrationState,

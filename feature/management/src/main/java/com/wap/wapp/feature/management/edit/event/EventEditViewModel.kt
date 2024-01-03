@@ -24,13 +24,13 @@ class EventEditViewModel @Inject constructor(
     private val getEventUseCase: GetEventUseCase,
     private val registerEventUseCase: RegisterEventUseCase,
 ) : ViewModel() {
-    private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
+    private val _currentEditState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
-    val currentRegistrationState = _currentRegistrationState.asStateFlow()
+    val currentEditState = _currentEditState.asStateFlow()
 
-    private val _eventRegistrationEvent: MutableSharedFlow<EventRegistrationEvent> =
+    private val _eventEditEvent: MutableSharedFlow<EventRegistrationEvent> =
         MutableSharedFlow()
-    val eventRegistrationEvent = _eventRegistrationEvent.asSharedFlow()
+    val eventEditEvent = _eventEditEvent.asSharedFlow()
 
     private val _eventTitle: MutableStateFlow<String> = MutableStateFlow("")
     val eventTitle = _eventTitle.asStateFlow()
@@ -56,6 +56,8 @@ class EventEditViewModel @Inject constructor(
     private val _eventEndTime: MutableStateFlow<LocalTime> =
         MutableStateFlow(DateUtil.generateNowTime().plusHours(1))
     val eventEndTime = _eventEndTime.asStateFlow()
+
+    private val _eventId: MutableStateFlow<String> = MutableStateFlow("")
 
     fun setEventTitle(eventTitle: String) {
         _eventTitle.value = eventTitle
@@ -98,7 +100,7 @@ class EventEditViewModel @Inject constructor(
     }
 
     fun setEventRegistrationState() {
-        if (_currentRegistrationState.value == EventRegistrationState.EVENT_DETAILS) {
+        if (_currentEditState.value == EventRegistrationState.EVENT_DETAILS) {
             if (_eventTitle.value.isEmpty()) {
                 emitValidationErrorMessage("행사 이름을 입력하세요.")
                 return
@@ -107,11 +109,11 @@ class EventEditViewModel @Inject constructor(
                 emitValidationErrorMessage("행사 내용을 입력하세요.")
                 return
             }
-            _currentRegistrationState.value = EventRegistrationState.EVENT_SCHEDULE
+            _currentEditState.value = EventRegistrationState.EVENT_SCHEDULE
         }
     }
 
-    fun registerEvent() {
+    fun updateEvent() {
         if (_eventLocation.value.isEmpty()) {
             emitValidationErrorMessage("장소를 입력하세요.")
             return
@@ -126,21 +128,31 @@ class EventEditViewModel @Inject constructor(
                 eventEndDate = _eventEndDate.value,
                 eventEndTime = _eventEndTime.value,
             ).onSuccess {
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
+                _eventEditEvent.emit(EventRegistrationEvent.Success)
             }.onFailure { throwable ->
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
+                _eventEditEvent.emit(EventRegistrationEvent.Failure(throwable))
             }
         }
     }
 
     fun getEvent(date: String, eventId: String) = viewModelScope.launch {
         val date = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        getEventUseCase(date, eventId)
+        getEventUseCase(date, eventId).onSuccess {
+            _eventContent.value = it.content
+            _eventTitle.value = it.title
+            _eventStartDate.value = it.startDateTime.toLocalDate()
+            _eventStartTime.value = it.startDateTime.toLocalTime()
+            _eventEndDate.value = it.endDateTime.toLocalDate()
+            _eventEndTime.value = it.endDateTime.toLocalTime()
+            _eventLocation.value = it.location
+            _eventId.value = it.eventId
+        }
+            .onFailure { emitValidationErrorMessage("이벤트를 불러오는 데 실패하였습니다.") }
     }
 
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
-            _eventRegistrationEvent.emit(
+            _eventEditEvent.emit(
                 EventRegistrationEvent.ValidationError(message),
             )
         }
