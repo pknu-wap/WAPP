@@ -32,6 +32,18 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
+    override suspend fun getEvent(date: LocalDate, eventId: String): Result<EventResponse> =
+        runCatching {
+            val document = firebaseFirestore.collection(EVENT_COLLECTION)
+                .document(getMonth(date))
+                .collection(EVENT_COLLECTION)
+                .document(eventId)
+                .get()
+                .await()
+
+            checkNotNull(document.toObject<EventResponse>())
+        }
+
     override suspend fun postEvent(date: LocalDate, eventRequest: EventRequest): Result<Unit> =
         runCatching {
             firebaseFirestore.collection(EVENT_COLLECTION)

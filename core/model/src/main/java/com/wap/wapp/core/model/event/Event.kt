@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 data class Event(
     val content: String,
-    val eventId: Int,
+    val eventId: String,
     val location: String,
     val period: LocalDate,
     val title: String,

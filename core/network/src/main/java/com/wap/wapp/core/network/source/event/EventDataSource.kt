@@ -6,5 +6,6 @@ import java.time.LocalDate
 
 interface EventDataSource {
     suspend fun getMonthEvents(date: LocalDate): Result<List<EventResponse>>
+    suspend fun getEvent(date: LocalDate, eventId: String): Result<EventResponse>
     suspend fun postEvent(date: LocalDate, eventRequest: EventRequest): Result<Unit>
 }
