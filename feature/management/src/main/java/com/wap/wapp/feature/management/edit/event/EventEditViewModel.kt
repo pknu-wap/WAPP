@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -129,6 +131,11 @@ class EventEditViewModel @Inject constructor(
                 _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
             }
         }
+    }
+
+    fun getEvent(date: String, eventId: String) = viewModelScope.launch {
+        val date = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        getEventUseCase(date, eventId)
     }
 
     private fun emitValidationErrorMessage(message: String) {

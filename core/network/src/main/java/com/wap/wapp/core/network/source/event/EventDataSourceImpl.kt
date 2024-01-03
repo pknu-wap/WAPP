@@ -9,6 +9,7 @@ import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
 import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -34,10 +35,10 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
-    override suspend fun getEvent(date: LocalDate, eventId: String): Result<EventResponse> =
+    override suspend fun getEvent(date: LocalDateTime, eventId: String): Result<EventResponse> =
         runCatching {
             val document = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date))
+                .document(getMonth(date.toLocalDate()))
                 .collection(EVENT_COLLECTION)
                 .document(eventId)
                 .get()

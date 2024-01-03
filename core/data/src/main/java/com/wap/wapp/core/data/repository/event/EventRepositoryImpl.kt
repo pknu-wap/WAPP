@@ -17,7 +17,7 @@ class EventRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getEvent(date: LocalDate, eventId: String): Result<Event> =
+    override suspend fun getEvent(date: LocalDateTime, eventId: String): Result<Event> =
         eventDataSource.getEvent(date, eventId).mapCatching { eventResponse ->
             eventResponse.toDomain()
         }
