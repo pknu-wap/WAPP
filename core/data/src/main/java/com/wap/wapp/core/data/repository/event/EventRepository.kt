@@ -7,11 +7,22 @@ import java.time.LocalDateTime
 interface EventRepository {
     suspend fun getMonthEvents(date: LocalDate): Result<List<Event>>
 
+    suspend fun getEvent(date: LocalDateTime, eventId: String): Result<Event>
+
     suspend fun postEvent(
-        eventTitle: String,
-        eventContent: String,
-        eventLocation: String,
-        eventStartDateTime: LocalDateTime,
-        eventEndDateTime: LocalDateTime,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
+    ): Result<Unit>
+
+    suspend fun updateEvent(
+        eventId: String,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
     ): Result<Unit>
 }

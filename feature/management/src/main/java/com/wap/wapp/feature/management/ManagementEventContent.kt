@@ -31,7 +31,7 @@ import com.wap.wapp.core.model.event.Event
 @Composable
 internal fun ManagementEventContent(
     eventsState: ManagementViewModel.EventsState,
-    onCardClicked: (String) -> Unit,
+    onCardClicked: (String, String) -> Unit,
     onAddEventButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -70,7 +70,7 @@ internal fun ManagementEventContent(
                             ManagementEventItem(
                                 item = event,
                                 cardColor = ManagementCardColor(currentIndex = currentIndex),
-                                onCardClicked = { eventId -> onCardClicked(eventId) },
+                                onCardClicked = onCardClicked,
                             )
                         }
                     }
@@ -91,13 +91,13 @@ internal fun ManagementEventContent(
 private fun ManagementEventItem(
     item: Event,
     cardColor: Color,
-    onCardClicked: (String) -> Unit,
+    onCardClicked: (String, String) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onCardClicked(item.eventId) },
+            .clickable { onCardClicked(item.startDateTime.toString(), item.eventId) },
         colors = CardDefaults.cardColors(containerColor = cardColor),
     ) {
         Row(
@@ -131,9 +131,7 @@ private fun ManagementEventItem(
                 painter = painterResource(com.wap.wapp.core.designresource.R.drawable.ic_forward),
                 contentDescription = stringResource(R.string.detail_icon_description),
                 tint = WappTheme.colors.yellow34,
-                modifier = Modifier
-                    .clickable { onCardClicked(item.eventId) }
-                    .size(20.dp),
+                modifier = Modifier.size(20.dp),
             )
         }
     }

@@ -33,20 +33,22 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun ManagementRoute(
-    viewModel: ManagementViewModel = hiltViewModel(),
+    navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyCheck: (String) -> Unit,
+    viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     var isShowDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
     ManagementScreen(
-        showManageCodeDialog = { isShowDialog = true },
         viewModel = viewModel,
+        showManageCodeDialog = { isShowDialog = true },
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
         navigateToSurveyCheck = navigateToSurveyCheck,
+        navigateToEventEdit = navigateToEventEdit,
     )
 
     if (isShowDialog) {
@@ -62,8 +64,9 @@ internal fun ManagementRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManagementScreen(
-    showManageCodeDialog: () -> Unit,
     viewModel: ManagementViewModel,
+    showManageCodeDialog: () -> Unit,
+    navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyCheck: (String) -> Unit,
@@ -114,7 +117,7 @@ internal fun ManagementScreen(
         ) {
             ManagementEventContent(
                 eventsState = eventsState,
-                onCardClicked = {},
+                onCardClicked = navigateToEventEdit,
                 onAddEventButtonClicked = navigateToEventRegistration,
             )
 

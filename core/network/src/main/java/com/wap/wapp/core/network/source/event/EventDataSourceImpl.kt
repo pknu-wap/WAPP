@@ -9,6 +9,7 @@ import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
 import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -34,34 +35,70 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
+    override suspend fun getEvent(date: LocalDateTime, eventId: String): Result<EventResponse> =
+        runCatching {
+            val document = firebaseFirestore.collection(EVENT_COLLECTION)
+                .document(getMonth(date.toLocalDate()))
+                .collection(EVENT_COLLECTION)
+                .document(eventId)
+                .get()
+                .await()
+
+            checkNotNull(document.toObject<EventResponse>())
+        }
+
     override suspend fun postEvent(
         title: String,
         content: String,
         location: String,
         startDateTime: String,
         endDateTime: String,
-    ): Result<Unit> =
-        runCatching {
-            val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
+    ): Result<Unit> = runCatching {
+        val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
 
-            val eventRequest = EventRequest(
-                title = title,
-                content = content,
-                location = location,
-                startDateTime = startDateTime,
-                endDateTime = endDateTime,
-                eventId = documentId,
-            )
+        val eventRequest = EventRequest(
+            title = title,
+            content = content,
+            location = location,
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+            eventId = documentId,
+        )
 
-            val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
 
-            firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(startDate))
-                .collection(EVENT_COLLECTION)
-                .document(documentId)
-                .set(eventRequest)
-                .await()
-        }
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(getMonth(startDate))
+            .collection(EVENT_COLLECTION)
+            .document(documentId)
+            .set(eventRequest)
+            .await()
+    }
+
+    override suspend fun updateEvent(
+        eventId: String,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: String,
+        endDateTime: String,
+    ): Result<Unit> = runCatching {
+        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+        val updateData = mapOf(
+            "title" to title,
+            "content" to content,
+            "location" to location,
+            "startDateTime" to startDateTime,
+            "endDateTime" to endDateTime,
+        )
+
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(getMonth(startDate))
+            .collection(EVENT_COLLECTION)
+            .document(eventId)
+            .update(updateData)
+            .await()
+    }
 
     private fun getMonth(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
