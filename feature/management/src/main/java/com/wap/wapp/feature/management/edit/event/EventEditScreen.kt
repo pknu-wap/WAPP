@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.edit.event
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -142,6 +143,7 @@ internal fun EventEditScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -235,6 +237,7 @@ private fun EventEditStateProgressBar(
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
+        trackColor = WappTheme.colors.white,
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )

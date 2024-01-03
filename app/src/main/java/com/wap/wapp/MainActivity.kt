@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
     lateinit var signInUseCase: SignInUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setStautsBarColor()
+        setSystemBarStyle()
         super.onCreate(savedInstanceState)
         setContent {
             WappTheme {
@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun ComponentActivity.setStautsBarColor() = enableEdgeToEdge(
+private fun ComponentActivity.setSystemBarStyle() = enableEdgeToEdge(
     statusBarStyle = SystemBarStyle.light(
         getColor(R.color.yellow34),
         getColor(R.color.yellow34),

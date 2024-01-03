@@ -73,6 +73,9 @@ internal fun SignInContent(
                 onClick = {
                     openSignInSheet()
                 },
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = WappTheme.colors.white,
+                ),
                 shape = RoundedCornerShape(10.dp),
             ) {
                 Icon(
@@ -123,13 +126,3 @@ internal fun SignInContent(
         }
     }
 }
-
-/*@Preview
-@Composable
-fun previewSignInScreen() {
-    SignInScreen(
-
-        navigateToSignUp = { },
-        navigateToNotice = { },
-    )
-}*/
