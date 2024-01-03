@@ -84,20 +84,19 @@ class EventDataSourceImpl @Inject constructor(
         endDateTime: String,
     ): Result<Unit> = runCatching {
         val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
+        val updateData = mapOf(
+            "title" to title,
+            "content" to content,
+            "location" to location,
+            "startDateTime" to startDateTime,
+            "endDateTime" to endDateTime,
+        )
 
         firebaseFirestore.collection(EVENT_COLLECTION)
             .document(getMonth(startDate))
             .collection(EVENT_COLLECTION)
             .document(eventId)
-            .update(
-                mapOf(
-                    "title" to title,
-                    "content" to content,
-                    "location" to location,
-                    "startDateTime" to startDateTime,
-                    "endDateTime" to endDateTime,
-                ),
-            )
+            .update(updateData)
             .await()
     }
 
