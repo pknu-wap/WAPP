@@ -1,5 +1,7 @@
 package com.wap.wapp.feature.profile.profilesetting
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +13,12 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
@@ -27,19 +31,55 @@ internal fun ProfileSettingRoute(
     navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    ProfileSettingScreen(navigateToProfile)
+    val context = LocalContext.current
+
+    ProfileSettingScreen(
+        navigateToProfile = navigateToProfile,
+        onClickedPrivacyPolicy = {
+            navigateToUri(
+                context,
+                PRIVACY_POLICY_URL,
+            )
+        },
+        onClickedFAQ = {
+            navigateToUri(
+                context,
+                FAQ_URL,
+            )
+        },
+        onClickedInquiry = {
+            navigateToUri(
+                context,
+                INQUIRY_URL,
+            )
+        },
+        onClickedTermsAndPolicies = {
+            navigateToUri(
+                context,
+                TERMS_AND_POLICIES_URL,
+            )
+        },
+    )
 }
+
+private fun navigateToUri(context: Context, url: String) = startActivity(
+    context,
+    generateUriIntent(url),
+    null,
+)
+
+private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
 
 @Composable
 internal fun ProfileSettingScreen(
     navigateToProfile: () -> Unit,
     onClickedAlarmSetting: () -> Unit = {},
-    onClickedSignout: () -> Unit = {},
+    onClickedSignOut: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
-    onClickedInquriy: () -> Unit = {},
-    onClickedFAQ: () -> Unit = {},
-    onClickedTermsAndPolicies: () -> Unit = {},
-    onClickedPrivacyPolicy: () -> Unit = {},
+    onClickedInquiry: () -> Unit,
+    onClickedFAQ: () -> Unit,
+    onClickedTermsAndPolicies: () -> Unit,
+    onClickedPrivacyPolicy: () -> Unit,
 ) {
     val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
@@ -83,7 +123,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.sign_out),
-            onClicked = onClickedSignout,
+            onClicked = onClickedSignOut,
         )
 
         Divider(
@@ -118,7 +158,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
-            onClicked = onClickedInquriy,
+            onClicked = onClickedInquiry,
         )
 
         Divider(
@@ -156,10 +196,4 @@ internal fun ProfileSettingScreen(
             thickness = dividerThickness,
         )
     }
-}
-
-@Preview
-@Composable
-fun PreviewProfileMoreScreen() {
-    ProfileSettingScreen(navigateToProfile = {})
 }

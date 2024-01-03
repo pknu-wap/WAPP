@@ -17,18 +17,40 @@ class EventRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getEvent(date: LocalDateTime, eventId: String): Result<Event> =
+        eventDataSource.getEvent(date, eventId).mapCatching { eventResponse ->
+            eventResponse.toDomain()
+        }
+
     override suspend fun postEvent(
-        eventTitle: String,
-        eventContent: String,
-        eventLocation: String,
-        eventStartDateTime: LocalDateTime,
-        eventEndDateTime: LocalDateTime,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
     ): Result<Unit> =
         eventDataSource.postEvent(
-            title = eventTitle,
-            content = eventContent,
-            location = eventLocation,
-            startDateTime = eventStartDateTime.toISOLocalDateTimeString(),
-            endDateTime = eventEndDateTime.toISOLocalDateTimeString(),
+            title = title,
+            content = content,
+            location = location,
+            startDateTime = startDateTime.toISOLocalDateTimeString(),
+            endDateTime = endDateTime.toISOLocalDateTimeString(),
+        )
+
+    override suspend fun updateEvent(
+        eventId: String,
+        title: String,
+        content: String,
+        location: String,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
+    ): Result<Unit> =
+        eventDataSource.updateEvent(
+            eventId = eventId,
+            title = title,
+            content = content,
+            location = location,
+            startDateTime = startDateTime.toISOLocalDateTimeString(),
+            endDateTime = endDateTime.toISOLocalDateTimeString(),
         )
 }

@@ -6,10 +6,11 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
-class RegisterEventUseCase @Inject constructor(
+class UpdateEventUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(
+        eventId: String,
         eventTitle: String,
         eventContent: String,
         eventLocation: String,
@@ -18,7 +19,8 @@ class RegisterEventUseCase @Inject constructor(
         eventEndDate: LocalDate,
         eventEndTime: LocalTime,
     ): Result<Unit> = runCatching {
-        eventRepository.postEvent(
+        eventRepository.updateEvent(
+            eventId = eventId,
             title = eventTitle,
             content = eventContent,
             location = eventLocation,
