@@ -38,25 +38,25 @@ internal fun ProfileSettingRoute(
         onClickedPrivacyPolicy = {
             navigateToUri(
                 context,
-                "https://www.notion.so/46beb7c4f3c2417bbec20eafd610d580?pvs=11",
+                PRIVACY_POLICY_URL,
             )
         },
         onClickedFAQ = {
             navigateToUri(
                 context,
-                "https://www.notion.so/FAQ-5832683da65048549e6a976b54d62875",
+                FAQ_URL,
             )
         },
         onClickedInquiry = {
             navigateToUri(
                 context,
-                "https://www.notion.so/4fcb60f346c041248fd0d97d202a8a9a",
+                INQUIRY_URL,
             )
         },
         onClickedTermsAndPolicies = {
             navigateToUri(
                 context,
-                "https://www.notion.so/042dc914a6a34093a51658693e009411",
+                TERMS_AND_POLICIES_URL,
             )
         },
     )
