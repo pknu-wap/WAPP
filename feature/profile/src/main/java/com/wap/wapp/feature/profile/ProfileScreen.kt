@@ -69,19 +69,17 @@ internal fun ProfileScreen(
                     .padding(start = 25.dp),
             )
 
-            if (role == Role.GUEST) {
-                return@Box
+            if (role != Role.GUEST) {
+                Image(
+                    painter =
+                    painterResource(id = drawable.ic_subtract),
+                    contentDescription = stringResource(id = R.string.profile_setting_description),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 20.dp)
+                        .clickable { navigateToProfileSetting() },
+                )
             }
-
-            Image(
-                painter =
-                painterResource(id = drawable.ic_subtract),
-                contentDescription = stringResource(id = R.string.profile_setting_description),
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 20.dp)
-                    .clickable { navigateToProfileSetting() },
-            )
         }
 
         when (role) {
