@@ -5,7 +5,7 @@ import com.wap.wapp.core.network.utils.toISOLocalDateTime
 
 data class SurveyResponse(
     val surveyId: String,
-    val eventId: Int,
+    val eventId: String,
     val userId: String,
     val title: String,
     val content: String,
@@ -14,7 +14,7 @@ data class SurveyResponse(
 ) {
     constructor() : this(
         "",
-        -1,
+        "",
         "",
         "",
         "",
