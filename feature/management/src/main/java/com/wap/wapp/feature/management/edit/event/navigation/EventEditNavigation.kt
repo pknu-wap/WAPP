@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navOptions
 import com.wap.wapp.feature.management.edit.event.EventEditRoute
 
-const val eventEditNavigationRoute = "event/edit/{eventId}"
+const val eventEditNavigationRoute = "event/edit/{date}/{eventId}"
 
 fun NavController.navigateToEventEdit(
     date: String,
