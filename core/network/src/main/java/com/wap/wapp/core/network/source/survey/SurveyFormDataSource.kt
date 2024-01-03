@@ -6,7 +6,7 @@ import com.wap.wapp.core.network.model.survey.form.SurveyFormResponse
 interface SurveyFormDataSource {
     suspend fun postSurveyForm(surveyFormRequest: SurveyFormRequest): Result<Unit>
 
-    suspend fun getSurveyForm(eventId: Int): Result<SurveyFormResponse>
+    suspend fun getSurveyForm(eventId: String): Result<SurveyFormResponse>
 
     suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>>
 }

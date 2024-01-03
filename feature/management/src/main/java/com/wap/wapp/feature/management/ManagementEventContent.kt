@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -62,9 +63,10 @@ internal fun ManagementEventContent(
                 is ManagementViewModel.EventsState.Success -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.heightIn(max = 166.dp),
                     ) {
                         itemsIndexed(
-                            items = eventsState.events.takeLast(2),
+                            items = eventsState.events,
                             key = { index, event -> event.eventId },
                         ) { currentIndex, event ->
                             ManagementEventItem(

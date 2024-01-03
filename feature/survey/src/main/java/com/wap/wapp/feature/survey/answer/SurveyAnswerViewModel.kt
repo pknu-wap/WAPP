@@ -43,7 +43,7 @@ class SurveyAnswerViewModel @Inject constructor(
     private val _objectiveAnswer: MutableStateFlow<Rating> = MutableStateFlow(Rating.GOOD)
     val objectiveAnswer = _objectiveAnswer.asStateFlow()
 
-    fun getSurveyForm(eventId: Int) {
+    fun getSurveyForm(eventId: String) {
         viewModelScope.launch {
             getSurveyFormUseCase(eventId = eventId)
                 .onSuccess { surveyForm ->

@@ -39,7 +39,7 @@ internal fun SurveyAnswerScreen(
     viewModel: SurveyAnswerViewModel,
     onSubmitButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
-    eventId: Int,
+    eventId: String,
 ) {
     val surveyFormUiState = viewModel.surveyFormUiState.collectAsStateWithLifecycle().value
     val questionNumber = viewModel.questionNumber.collectAsStateWithLifecycle().value

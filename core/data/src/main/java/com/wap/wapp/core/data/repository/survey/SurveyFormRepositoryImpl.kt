@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SurveyFormRepositoryImpl @Inject constructor(
     private val surveyFormDataSource: SurveyFormDataSource,
 ) : SurveyFormRepository {
-    override suspend fun getSurveyForm(eventId: Int): Result<SurveyForm> =
+    override suspend fun getSurveyForm(eventId: String): Result<SurveyForm> =
         surveyFormDataSource.getSurveyForm(eventId).mapCatching { surveyFormResponse ->
             surveyFormResponse.toDomain()
         }

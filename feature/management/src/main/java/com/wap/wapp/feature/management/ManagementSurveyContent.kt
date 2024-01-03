@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -68,9 +69,10 @@ internal fun ManagementSurveyContent(
                 is ManagementViewModel.SurveysState.Success -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.heightIn(max = 166.dp),
                     ) {
                         itemsIndexed(
-                            items = surveysState.surveys.takeLast(2),
+                            items = surveysState.surveys,
                             key = { index, survey -> survey.surveyId },
                         ) { currentIndex, survey ->
                             ManagementSurveyItem(
