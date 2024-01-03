@@ -146,8 +146,8 @@ internal fun EventEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
+                .padding(paddingValues)
+                .padding(16.dp),
         ) {
             WappTopBar(
                 titleRes = R.string.event_registration,

@@ -15,6 +15,7 @@ import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
 import com.wap.wapp.feature.management.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.management.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.edit.event.navigation.eventEditScreen
+import com.wap.wapp.feature.management.edit.event.navigation.navigateToEventEdit
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
 import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
@@ -104,6 +105,7 @@ fun WappNavHost(
         managementScreen(
             navigateToSurveyRegistration = navController::navigateToSurveyRegistration,
             navigateToEventRegistration = navController::navigateToEventRegistration,
+            navigateToEventEdit = navController::navigateToEventEdit,
             navigateToSurveyCheck = navController::navigateToSurveyCheck,
         )
     }
