@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTopBar
+import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
@@ -144,7 +144,7 @@ internal fun EventRegistrationScreen(
                 .padding(paddingValues) // paddingValue padding
                 .padding(16.dp), // dp value padding
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
                 onClickLeftButton = onBackButtonClicked,

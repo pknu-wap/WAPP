@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTopBar
+import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.drawable.ic_card
@@ -85,7 +85,7 @@ internal fun SignUpScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),

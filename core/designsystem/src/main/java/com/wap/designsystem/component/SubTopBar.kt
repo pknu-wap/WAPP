@@ -22,7 +22,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun WappTopBar(
+fun WappSubTopBar(
     @StringRes titleRes: Int,
     modifier: Modifier = Modifier,
     showLeftButton: Boolean = false,
@@ -80,7 +80,7 @@ fun WappTopBarWithoutButton() {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -97,7 +97,7 @@ fun WappTopBarWithRightButton() {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -115,7 +115,7 @@ fun WappTopBarWithLeftButton() {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -133,7 +133,7 @@ fun WappTopBarWithBothButton() {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
