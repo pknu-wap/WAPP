@@ -70,6 +70,7 @@ fun WappNavHost(
         surveyNavGraph(
             navigateToSurvey = navController::navigateToSurvey,
             navigateToSurveyAnswer = navController::navigateToSurveyAnswer,
+            navigateToSignIn = navController::navigateToSignIn,
         )
         surveyCheckScreen(
             navigateToManagement = navController::navigateToManagement,
