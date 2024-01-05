@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey.deadline
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.component.DeadlineCard
-import com.wap.wapp.feature.management.registration.component.WappDatePickerDialog
-import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
+import com.wap.wapp.feature.management.survey.R
+import com.wap.wapp.feature.management.survey.component.DeadlineCard
+import com.wap.wapp.feature.management.survey.component.WappDatePickerDialog
+import com.wap.wapp.feature.management.survey.component.WappTimePickerDialog
 import java.time.LocalDate
 import java.time.LocalTime
 

@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +33,7 @@ import com.wap.designsystem.component.WappTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
-import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.survey.R
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime

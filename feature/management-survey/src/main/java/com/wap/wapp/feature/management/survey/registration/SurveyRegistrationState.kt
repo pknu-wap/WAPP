@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey
+package com.wap.wapp.feature.management.survey.registration
 
 enum class SurveyRegistrationState(
     val page: String,

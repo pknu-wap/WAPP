@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey.question
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,10 +26,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappRoundedTextField
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.survey.QuestionType
-import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTextField
+import com.wap.wapp.feature.management.survey.R
 
 @Composable
 internal fun SurveyQuestionContent(
@@ -81,14 +81,14 @@ internal fun SurveyQuestionContent(
                 )
             }
 
-            SurveyRegistrationTextField(
+            WappRoundedTextField(
                 value = question,
                 onValueChange = onQuestionChanged,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth()
                     .height(200.dp),
-                placeholder = stringResource(R.string.suvey_question_hint),
+                placeholder = R.string.suvey_question_hint,
             )
         }
 

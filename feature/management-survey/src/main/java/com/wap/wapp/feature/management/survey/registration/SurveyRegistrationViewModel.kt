@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

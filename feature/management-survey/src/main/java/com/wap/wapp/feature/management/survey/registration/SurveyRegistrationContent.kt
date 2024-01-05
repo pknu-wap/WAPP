@@ -1,14 +1,10 @@
-package com.wap.wapp.feature.management.registration.survey
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
-import com.wap.wapp.feature.management.registration.survey.deadline.SurveyDeadlineContent
-import com.wap.wapp.feature.management.registration.survey.event.SurveyEventSelectionContent
-import com.wap.wapp.feature.management.registration.survey.information.SurveyInformationContent
-import com.wap.wapp.feature.management.registration.survey.question.SurveyQuestionContent
 import java.time.LocalDate
 import java.time.LocalTime
 

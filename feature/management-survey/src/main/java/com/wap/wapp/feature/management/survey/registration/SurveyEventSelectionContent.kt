@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey.event
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.survey.R
 
 @Composable
 internal fun SurveyEventSelectionContent(

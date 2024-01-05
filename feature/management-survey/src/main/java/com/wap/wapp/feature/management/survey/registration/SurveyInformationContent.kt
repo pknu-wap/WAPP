@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.survey.information
+package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,9 +14,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.WappRoundedTextField
 import com.wap.designsystem.component.WappTitle
-import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.component.SurveyRegistrationTextField
+import com.wap.wapp.feature.management.survey.R
 
 @Composable
 internal fun SurveyInformationContent(
@@ -45,10 +45,10 @@ internal fun SurveyInformationContent(
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
-            SurveyRegistrationTextField(
+            WappRoundedTextField(
                 value = title,
                 onValueChange = onTitleChanged,
-                placeholder = stringResource(R.string.survey_title_hint),
+                placeholder = R.string.survey_title_hint,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth(),
@@ -63,10 +63,10 @@ internal fun SurveyInformationContent(
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
-            SurveyRegistrationTextField(
+            WappRoundedTextField(
                 value = content,
                 onValueChange = onContentChanged,
-                placeholder = stringResource(R.string.survey_introduce_hint),
+                placeholder = R.string.survey_introduce_hint,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth()
