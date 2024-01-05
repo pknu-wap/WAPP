@@ -29,6 +29,7 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:notice"))
     implementation(project(":feature:survey"))
+    implementation(project(":feature:survey-check"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:management"))
     implementation(project(":feature:management-survey"))

@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.check.navigation
+package com.wap.wapp.feature.survey.check.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
-import com.wap.wapp.feature.management.survey.check.SurveyCheckRoute
+import com.wap.wapp.feature.survey.check.SurveyCheckRoute
 
 const val SURVEY_CHECK_ROUTE = "survey/check/{surveyId}"
 

@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.check
+package com.wap.wapp.feature.survey.check
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.feature.management.survey.R
 
 @Composable
 internal fun SurveyInformationCard(

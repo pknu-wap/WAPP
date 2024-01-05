@@ -12,8 +12,6 @@ import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
-import com.wap.wapp.feature.management.survey.check.navigation.navigateToSurveyCheck
-import com.wap.wapp.feature.management.survey.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.edit.event.navigation.eventEditScreen
 import com.wap.wapp.feature.management.edit.event.navigation.navigateToEventEdit
 import com.wap.wapp.feature.management.navigation.managementScreen
@@ -32,6 +30,8 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavi
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
+import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
+import com.wap.wapp.feature.survey.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.survey.navigation.navigateToSurvey
 import com.wap.wapp.feature.survey.navigation.navigateToSurveyAnswer
 import com.wap.wapp.feature.survey.navigation.surveyNavGraph
