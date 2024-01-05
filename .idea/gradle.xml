@@ -41,6 +41,7 @@
             <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/survey" />
+            <option value="$PROJECT_DIR$/feature/survey-check" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
