@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.check
+package com.wap.wapp.feature.management.survey.check
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
