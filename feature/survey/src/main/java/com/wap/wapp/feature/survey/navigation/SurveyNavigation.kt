@@ -22,10 +22,12 @@ fun NavController.navigateToSurveyAnswer(eventId: String, navOptions: NavOptions
 fun NavGraphBuilder.surveyNavGraph(
     navigateToSurveyAnswer: (String) -> Unit,
     navigateToSurvey: () -> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
     composable(route = SurveyRoute.route) {
         SurveyScreen(
             viewModel = hiltViewModel(),
+            navigateToSignIn = navigateToSignIn,
             navigateToSurveyAnswer = { eventId ->
                 navigateToSurveyAnswer(eventId)
             },
