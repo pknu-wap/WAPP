@@ -26,8 +26,8 @@ fun WappMainTopBar(
     @StringRes titleRes: Int,
     @StringRes contentRes: Int,
     showSettingButton: Boolean = false,
-    onClickSettingButton: () -> Unit = {},
-    @StringRes settingButtonDescriptionRes: Int = R.string.back_button,
+    onClickSettingButton: () -> Unit,
+    @StringRes settingButtonDescriptionRes: Int = R.string.setting_button,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
