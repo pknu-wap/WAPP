@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.dialog
+package com.wap.wapp.feature.management.validation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTextField
 import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.dialog.ManagementCodeValidationViewModel.ManagementCodeUiState
+import com.wap.wapp.feature.management.validation.ManagementCodeValidationViewModel.ManagementCodeUiState
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)

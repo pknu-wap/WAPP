@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.dialog
+package com.wap.wapp.feature.management.validation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
