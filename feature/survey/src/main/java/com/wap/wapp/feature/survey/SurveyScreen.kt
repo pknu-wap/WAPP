@@ -13,37 +13,43 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.survey.SurveyForm
+import com.wap.wapp.core.model.user.UserRole
 import kotlinx.coroutines.flow.collectLatest
-import java.time.Duration
-import java.time.LocalDateTime
 
 @Composable
 internal fun SurveyScreen(
     viewModel: SurveyViewModel,
+    navigateToSignIn: () -> Unit,
     navigateToSurveyAnswer: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
+    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
+    var isShowGuestDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.surveyEvent.collectLatest {
@@ -65,14 +71,31 @@ internal fun SurveyScreen(
         }
     }
 
+    LaunchedEffect(true) {
+        viewModel.userRoleUiState.collectLatest { userRoleUiState ->
+            when (userRoleUiState) {
+                is SurveyViewModel.UserRoleUiState.Init -> { }
+                is SurveyViewModel.UserRoleUiState.Success -> {
+                    when (userRoleUiState.userRole) {
+                        UserRole.GUEST -> { isShowGuestDialog = true }
+
+                        // 비회원이 아닌 경우, 목록 호출
+                        UserRole.MEMBER, UserRole.MANAGER -> { viewModel.getSurveyFormList() }
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         contentWindowInsets = WindowInsets(0.dp),
+        topBar = { SurveyTopBar() },
     ) { paddingValues ->
         when (surveyFormListUiState) {
-            is SurveyViewModel.SurveyFormListUiState.Init -> {}
+            is SurveyViewModel.SurveyFormListUiState.Init -> { }
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
@@ -82,6 +105,30 @@ internal fun SurveyScreen(
             }
         }
     }
+
+    if (isShowGuestDialog) {
+        SurveyGuestDialog(
+            onDismissRequest = { isShowGuestDialog = false },
+            onButtonClicked = navigateToSignIn,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SurveyTopBar() {
+    CenterAlignedTopAppBar(
+        title = {
+            WappTitle(
+                title = stringResource(id = R.string.survey),
+                content = stringResource(id = R.string.survey_content),
+            )
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = WappTheme.colors.backgroundBlack,
+        ),
+        modifier = Modifier.padding(8.dp),
+    )
 }
 
 @Composable
@@ -90,21 +137,14 @@ private fun SurveyContent(
     paddingValues: PaddingValues,
     selectedSurveyForm: (String) -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
             .padding(paddingValues)
             .padding(vertical = 16.dp, horizontal = 8.dp),
     ) {
-        WappTitle(
-            title = stringResource(R.string.survey_title),
-            content = stringResource(R.string.survey_content),
-        )
-
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(surveyFormList) { surveyForm ->
+        items(surveyFormList) { surveyForm ->
+            if (surveyForm.isAfterDeadline()) { // 마감기한과 현재 날짜 비교
                 SurveyFormItemCard(
                     surveyForm = surveyForm,
                     selectedSurveyForm = selectedSurveyForm,
@@ -141,7 +181,7 @@ private fun SurveyFormItemCard(
                     style = WappTheme.typography.titleBold,
                 )
                 Text(
-                    text = calculateDeadline(surveyForm.deadline),
+                    text = surveyForm.calculateDeadline(),
                     color = WappTheme.colors.yellow34,
                     style = WappTheme.typography.captionMedium,
                     modifier = Modifier.fillMaxWidth(),
@@ -156,26 +196,4 @@ private fun SurveyFormItemCard(
             )
         }
     }
-}
-
-private fun calculateDeadline(deadline: LocalDateTime): String {
-    val currentDateTime = DateUtil.generateNowDateTime()
-    val duration = Duration.between(currentDateTime, deadline)
-
-    if (duration.toMinutes() < 60) {
-        val leftMinutes = duration.toMinutes().toString()
-        return leftMinutes + "분 후 마감"
-    }
-
-    if (duration.toHours() < 24) {
-        val leftHours = duration.toHours().toString()
-        return leftHours + "시간 후 마감"
-    }
-
-    if (duration.toDays() < 31) {
-        val leftDays = duration.toDays().toString()
-        return leftDays + "일 후 마감"
-    }
-
-    return deadline.format(yyyyMMddFormatter) + " 마감"
 }
