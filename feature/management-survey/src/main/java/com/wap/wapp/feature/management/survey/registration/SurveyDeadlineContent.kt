@@ -1,20 +1,29 @@
 package com.wap.wapp.feature.management.survey.registration
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.feature.management.survey.R
-import com.wap.wapp.feature.management.survey.component.DeadlineCard
 import com.wap.wapp.feature.management.survey.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.survey.component.WappTimePickerDialog
 import java.time.LocalDate
@@ -93,5 +102,46 @@ internal fun SurveyDeadlineContent(
             onClick = onRegisterButtonClicked,
             modifier = Modifier.padding(bottom = 20.dp),
         )
+    }
+}
+
+@Composable
+private fun DeadlineCard(
+    title: String,
+    hint: String,
+    onCardClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
+    ) {
+        Text(
+            text = title,
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.weight(2f),
+        )
+
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .weight(3f)
+                .clickable { onCardClicked() },
+            colors = CardDefaults.cardColors(
+                containerColor = WappTheme.colors.black25,
+            ),
+        ) {
+            Text(
+                text = hint,
+                style = WappTheme.typography.contentMedium,
+                color = WappTheme.colors.white,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxWidth(),
+            )
+        }
     }
 }
