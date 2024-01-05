@@ -6,8 +6,8 @@ import javax.inject.Inject
 class ManagementRepositoryImpl @Inject constructor(
     private val managementDataSource: ManagementDataSource,
 ) : ManagementRepository {
-    override suspend fun getManager(userId: String): Result<Boolean> =
-        managementDataSource.getManager(userId)
+    override suspend fun isManager(userId: String): Result<Boolean> =
+        managementDataSource.isManager(userId)
 
     override suspend fun postManager(userId: String): Result<Unit> =
         managementDataSource.postManager(userId)
