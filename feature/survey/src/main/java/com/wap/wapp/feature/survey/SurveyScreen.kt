@@ -100,7 +100,7 @@ private fun SurveyContent(
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(horizontal = 15.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             items(surveyFormList) { surveyForm ->
                 SurveyFormItemCard(
