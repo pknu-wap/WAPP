@@ -75,7 +75,7 @@ fun WappSubTopBar(
 
 @Preview("without Button TopBar")
 @Composable
-fun WappTopBarWithoutButton() {
+fun WappSubTopBarWithoutButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
@@ -92,7 +92,7 @@ fun WappTopBarWithoutButton() {
 
 @Preview("with Right Button TopBar")
 @Composable
-fun WappTopBarWithRightButton() {
+fun WappSubTopBarWithRightButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
@@ -110,7 +110,7 @@ fun WappTopBarWithRightButton() {
 
 @Preview("with Left Button TopBar")
 @Composable
-fun WappTopBarWithLeftButton() {
+fun WappSubTopBarWithLeftButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
@@ -128,7 +128,7 @@ fun WappTopBarWithLeftButton() {
 
 @Preview("with Both Button TopBar")
 @Composable
-fun WappTopBarWithBothButton() {
+fun WappSubTopBarWithBothButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
