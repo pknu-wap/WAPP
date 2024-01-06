@@ -19,30 +19,33 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.survey.SurveyForm
+import com.wap.wapp.core.model.user.UserRole
 import kotlinx.coroutines.flow.collectLatest
-import java.time.Duration
-import java.time.LocalDateTime
 
 @Composable
 internal fun SurveyScreen(
     viewModel: SurveyViewModel,
+    navigateToSignIn: () -> Unit,
     navigateToSurveyAnswer: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsState().value
+    val surveyFormListUiState = viewModel.surveyFormListUiState.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
+    var isShowGuestDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.surveyEvent.collectLatest {
@@ -64,10 +67,36 @@ internal fun SurveyScreen(
         }
     }
 
+    LaunchedEffect(true) {
+        viewModel.userRoleUiState.collectLatest { userRoleUiState ->
+            when (userRoleUiState) {
+                is SurveyViewModel.UserRoleUiState.Init -> {}
+                is SurveyViewModel.UserRoleUiState.Success -> {
+                    when (userRoleUiState.userRole) {
+                        UserRole.GUEST -> {
+                            isShowGuestDialog = true
+                        }
+
+                        // 비회원이 아닌 경우, 목록 호출
+                        UserRole.MEMBER, UserRole.MANAGER -> {
+                            viewModel.getSurveyFormList()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
+        topBar = {
+            WappMainTopBar(
+                titleRes = R.string.survey,
+                contentRes = R.string.survey_content,
+            )
+        },
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
         when (surveyFormListUiState) {
@@ -81,6 +110,13 @@ internal fun SurveyScreen(
             }
         }
     }
+
+    if (isShowGuestDialog) {
+        SurveyGuestDialog(
+            onDismissRequest = { isShowGuestDialog = false },
+            onButtonClicked = navigateToSignIn,
+        )
+    }
 }
 
 @Composable
@@ -93,11 +129,6 @@ private fun SurveyContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(paddingValues),
     ) {
-        WappMainTopBar(
-            titleRes = R.string.survey,
-            contentRes = R.string.survey_content,
-        )
-
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -138,14 +169,13 @@ private fun SurveyFormItemCard(
                     style = WappTheme.typography.titleBold,
                 )
                 Text(
-                    text = calculateDeadline(surveyForm.deadline),
+                    text = surveyForm.calculateDeadline(),
                     color = WappTheme.colors.yellow34,
                     style = WappTheme.typography.captionMedium,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                 )
             }
-
             Text(
                 text = surveyForm.content,
                 color = WappTheme.colors.grayBD,
@@ -153,26 +183,4 @@ private fun SurveyFormItemCard(
             )
         }
     }
-}
-
-private fun calculateDeadline(deadline: LocalDateTime): String {
-    val currentDateTime = DateUtil.generateNowDateTime()
-    val duration = Duration.between(currentDateTime, deadline)
-
-    if (duration.toMinutes() < 60) {
-        val leftMinutes = duration.toMinutes().toString()
-        return leftMinutes + "분 후 마감"
-    }
-
-    if (duration.toHours() < 24) {
-        val leftHours = duration.toHours().toString()
-        return leftHours + "시간 후 마감"
-    }
-
-    if (duration.toDays() < 31) {
-        val leftDays = duration.toDays().toString()
-        return leftDays + "일 후 마감"
-    }
-
-    return deadline.format(yyyyMMddFormatter) + " 마감"
 }

@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormListUseCase
 import com.wap.wapp.core.domain.usecase.survey.IsSubmittedSurveyUseCase
+import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.survey.SurveyForm
+import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SurveyViewModel @Inject constructor(
+    private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getSurveyFormListUseCase: GetSurveyFormListUseCase,
     private val isSubmittedSurveyUseCase: IsSubmittedSurveyUseCase,
 ) : ViewModel() {
@@ -25,11 +28,27 @@ class SurveyViewModel @Inject constructor(
     private val _surveyEvent: MutableSharedFlow<SurveyUiEvent> = MutableSharedFlow()
     val surveyEvent = _surveyEvent.asSharedFlow()
 
+    private val _userRoleUiState: MutableStateFlow<UserRoleUiState> =
+        MutableStateFlow(UserRoleUiState.Init)
+    val userRoleUiState = _userRoleUiState.asStateFlow()
+
     init {
-        getSurveyFormList()
+        getUserRole()
     }
 
-    private fun getSurveyFormList() {
+    private fun getUserRole() {
+        viewModelScope.launch {
+            getUserRoleUseCase()
+                .onSuccess { userRole ->
+                    _userRoleUiState.value = UserRoleUiState.Success(userRole)
+                }
+                .onFailure { throwable ->
+                    _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
+                }
+        }
+    }
+
+    fun getSurveyFormList() {
         viewModelScope.launch {
             getSurveyFormListUseCase()
                 .onSuccess { surveyFormList ->
@@ -55,6 +74,11 @@ class SurveyViewModel @Inject constructor(
                     _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
                 }
         }
+    }
+
+    sealed class UserRoleUiState {
+        data object Init : UserRoleUiState()
+        data class Success(val userRole: UserRole) : UserRoleUiState()
     }
 
     sealed class SurveyFormListUiState {

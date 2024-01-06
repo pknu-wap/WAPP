@@ -10,7 +10,7 @@ import javax.inject.Inject
 class ManagementDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : ManagementDataSource {
-    override suspend fun getManager(userId: String): Result<Boolean> = runCatching {
+    override suspend fun isManager(userId: String): Result<Boolean> = runCatching {
         val result = firebaseFirestore.collection(MANAGER_COLLECTION)
             .whereEqualTo("userId", userId)
             .get()
