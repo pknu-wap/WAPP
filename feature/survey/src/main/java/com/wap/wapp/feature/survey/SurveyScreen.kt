@@ -96,7 +96,7 @@ private fun SurveyContent(
     ) {
         WappMainTopBar(
             titleRes = R.string.survey,
-            contentRes = R.string.survey_content,
+            contentRes = R.string.management_content,
         )
 
         LazyColumn(

@@ -35,7 +35,7 @@ fun WappMainTopBar(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.Start,
         modifier = modifier
-            .padding(top = 40.dp, start = 25.dp, end = 25.dp, bottom = 20.dp)
+            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
