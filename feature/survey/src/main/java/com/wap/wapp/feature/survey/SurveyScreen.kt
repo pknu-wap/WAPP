@@ -91,12 +91,11 @@ private fun SurveyContent(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .padding(paddingValues),
+        modifier = Modifier.padding(paddingValues),
     ) {
         WappMainTopBar(
             titleRes = R.string.survey,
-            contentRes = R.string.management_content,
+            contentRes = R.string.survey_content,
         )
 
         LazyColumn(

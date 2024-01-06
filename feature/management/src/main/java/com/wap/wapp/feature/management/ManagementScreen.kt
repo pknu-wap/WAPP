@@ -3,8 +3,8 @@ package com.wap.wapp.feature.management
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -58,7 +58,6 @@ internal fun ManagementRoute(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManagementScreen(
     viewModel: ManagementViewModel,
@@ -87,32 +86,33 @@ internal fun ManagementScreen(
             )
         }
     }
-
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
+        contentWindowInsets = WindowInsets(0.dp),
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = 8.dp),
+            modifier = Modifier.padding(paddingValues),
         ) {
             WappMainTopBar(
                 titleRes = R.string.management,
-                contentRes = R.string.survey_content,
+                contentRes = R.string.management_content,
             )
 
             ManagementEventContent(
                 eventsState = eventsState,
                 onCardClicked = navigateToEventEdit,
                 onAddEventButtonClicked = navigateToEventRegistration,
+                modifier = Modifier.padding(horizontal = 8.dp),
             )
 
             ManagementSurveyContent(
                 surveysState = surveysState,
-                modifier = Modifier.padding(top = 20.dp),
                 onCardClicked = navigateToSurveyCheck,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .padding(horizontal = 8.dp),
             )
         }
     }
