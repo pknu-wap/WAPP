@@ -23,11 +23,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTitle
+import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
@@ -93,16 +92,16 @@ private fun SurveyContent(
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
-            .padding(paddingValues)
-            .padding(vertical = 16.dp, horizontal = 8.dp),
+            .padding(paddingValues),
     ) {
-        WappTitle(
-            title = stringResource(R.string.survey_title),
-            content = stringResource(R.string.survey_content),
+        WappMainTopBar(
+            titleRes = R.string.survey,
+            contentRes = R.string.survey_content,
         )
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(horizontal = 15.dp),
         ) {
             items(surveyFormList) { surveyForm ->
                 SurveyFormItemCard(
@@ -129,8 +128,7 @@ private fun SurveyFormItemCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
