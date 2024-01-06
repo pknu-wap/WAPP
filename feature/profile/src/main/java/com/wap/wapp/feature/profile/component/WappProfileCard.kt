@@ -34,7 +34,7 @@ internal fun WappProfileCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
-            .padding(start = 10.dp, end = 10.dp),
+            .padding(horizontal = 10.dp),
     ) {
         Box(
             modifier = Modifier.background(
