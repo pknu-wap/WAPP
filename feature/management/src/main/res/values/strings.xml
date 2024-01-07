@@ -1,5 +1,6 @@
 <resources>
     <string name="management">관리</string>
+    <string name="management_content">일정 및 설문을 추가하거나 수정해요!</string>
     <string name="management_dialog_title">운영진 코드를 입력하세요</string>
     <string name="management_dialog_content">운영진만 해당 내용을 확인할 수 있어요</string>
     <string name="code">code</string>

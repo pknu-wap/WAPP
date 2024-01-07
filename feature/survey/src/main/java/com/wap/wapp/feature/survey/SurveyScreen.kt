@@ -13,13 +13,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,12 +26,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTitle
+import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.user.UserRole
@@ -74,13 +70,17 @@ internal fun SurveyScreen(
     LaunchedEffect(true) {
         viewModel.userRoleUiState.collectLatest { userRoleUiState ->
             when (userRoleUiState) {
-                is SurveyViewModel.UserRoleUiState.Init -> { }
+                is SurveyViewModel.UserRoleUiState.Init -> {}
                 is SurveyViewModel.UserRoleUiState.Success -> {
                     when (userRoleUiState.userRole) {
-                        UserRole.GUEST -> { isShowGuestDialog = true }
+                        UserRole.GUEST -> {
+                            isShowGuestDialog = true
+                        }
 
                         // 비회원이 아닌 경우, 목록 호출
-                        UserRole.MEMBER, UserRole.MANAGER -> { viewModel.getSurveyFormList() }
+                        UserRole.MEMBER, UserRole.MANAGER -> {
+                            viewModel.getSurveyFormList()
+                        }
                     }
                 }
             }
@@ -91,11 +91,16 @@ internal fun SurveyScreen(
         modifier = Modifier.fillMaxSize(),
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
+        topBar = {
+            WappMainTopBar(
+                titleRes = R.string.survey,
+                contentRes = R.string.survey_content,
+            )
+        },
         contentWindowInsets = WindowInsets(0.dp),
-        topBar = { SurveyTopBar() },
     ) { paddingValues ->
         when (surveyFormListUiState) {
-            is SurveyViewModel.SurveyFormListUiState.Init -> { }
+            is SurveyViewModel.SurveyFormListUiState.Init -> {}
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
@@ -114,23 +119,6 @@ internal fun SurveyScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SurveyTopBar() {
-    CenterAlignedTopAppBar(
-        title = {
-            WappTitle(
-                title = stringResource(id = R.string.survey),
-                content = stringResource(id = R.string.survey_content),
-            )
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = WappTheme.colors.backgroundBlack,
-        ),
-        modifier = Modifier.padding(8.dp),
-    )
-}
-
 @Composable
 private fun SurveyContent(
     surveyFormList: List<SurveyForm>,
@@ -141,15 +129,13 @@ private fun SurveyContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
             .padding(paddingValues)
-            .padding(vertical = 16.dp, horizontal = 8.dp),
+            .padding(horizontal = 16.dp),
     ) {
         items(surveyFormList) { surveyForm ->
-            if (surveyForm.isAfterDeadline()) { // 마감기한과 현재 날짜 비교
-                SurveyFormItemCard(
-                    surveyForm = surveyForm,
-                    selectedSurveyForm = selectedSurveyForm,
-                )
-            }
+            SurveyFormItemCard(
+                surveyForm = surveyForm,
+                selectedSurveyForm = selectedSurveyForm,
+            )
         }
     }
 }
@@ -169,8 +155,7 @@ private fun SurveyFormItemCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -188,7 +173,6 @@ private fun SurveyFormItemCard(
                     textAlign = TextAlign.End,
                 )
             }
-
             Text(
                 text = surveyForm.content,
                 color = WappTheme.colors.grayBD,

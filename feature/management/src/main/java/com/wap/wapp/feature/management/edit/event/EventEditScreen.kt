@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTopBar
+import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
 import com.wap.wapp.feature.management.registration.event.EventRegistrationContent
@@ -151,7 +151,7 @@ internal fun EventEditScreen(
                 .padding(paddingValues)
                 .padding(16.dp),
         ) {
-            WappTopBar(
+            WappSubTopBar(
                 titleRes = R.string.event_edit,
                 showLeftButton = true,
                 onClickLeftButton = onBackButtonClicked,
