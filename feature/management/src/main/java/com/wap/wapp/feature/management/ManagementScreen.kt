@@ -14,7 +14,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.ManagementViewModel.ManagerState
@@ -41,11 +41,33 @@ internal fun ManagementRoute(
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     var isShowDialog by rememberSaveable { mutableStateOf(false) }
+    val snackBarHostState = remember { SnackbarHostState() }
+    val surveyFormsState by viewModel.surveyFormList.collectAsStateWithLifecycle()
+    val eventsState by viewModel.eventList.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    LaunchedEffect(true) {
+        viewModel.errorFlow.collectLatest { throwable ->
+            snackBarHostState.showSnackbar(
+                message = throwable.toSupportingText(),
+            )
+        }
+    }
+
+    LaunchedEffect(true) {
+        viewModel.managerState.collectLatest { managerState ->
+            when (managerState) {
+                ManagerState.Init -> {}
+                ManagerState.NonManager -> { isShowDialog = true }
+                ManagerState.Manager -> viewModel.getEventSurveyList()
+            }
+        }
+    }
+
     ManagementScreen(
-        viewModel = viewModel,
-        showManageCodeDialog = { isShowDialog = true },
+        snackBarHostState = snackBarHostState,
+        surveyFormsState = surveyFormsState,
+        eventsState = eventsState,
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
         navigateToSurveyCheck = navigateToSurveyCheck,
@@ -65,33 +87,14 @@ internal fun ManagementRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManagementScreen(
-    viewModel: ManagementViewModel,
-    showManageCodeDialog: () -> Unit,
+    snackBarHostState: SnackbarHostState,
+    surveyFormsState: ManagementViewModel.SurveyFormsState,
+    eventsState: ManagementViewModel.EventsState,
     navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyCheck: (String) -> Unit,
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
-    val surveysState by viewModel.surveyList.collectAsState()
-    val eventsState by viewModel.eventList.collectAsState()
-
-    LaunchedEffect(true) {
-        viewModel.managerState.collectLatest { managerState ->
-            when (managerState) {
-                ManagerState.Init -> {}
-                ManagerState.NonManager -> showManageCodeDialog()
-                ManagerState.Manager -> viewModel.getEventSurveyList()
-            }
-        }
-
-        viewModel.errorFlow.collectLatest { throwable ->
-            snackBarHostState.showSnackbar(
-                message = throwable.toSupportingText(),
-            )
-        }
-    }
-
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -116,15 +119,14 @@ internal fun ManagementScreen(
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(vertical = 16.dp, horizontal = 8.dp),
         ) {
-            ManagementEventContent(
+            ManagementEventCard(
                 eventsState = eventsState,
                 onCardClicked = navigateToEventEdit,
                 onAddEventButtonClicked = navigateToEventRegistration,
             )
 
-            ManagementSurveyContent(
-                surveysState = surveysState,
-                modifier = Modifier.padding(top = 20.dp),
+            ManagementSurveyCard(
+                surveyFormsState = surveyFormsState,
                 onCardClicked = navigateToSurveyCheck,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
