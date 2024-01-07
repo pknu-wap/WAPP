@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
 import com.wap.wapp.core.domain.usecase.management.HasManagerStateUseCase
-import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
+import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormListUseCase
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.Survey
+import com.wap.wapp.core.model.survey.SurveyForm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ManagementViewModel @Inject constructor(
     private val hasManagerStateUseCase: HasManagerStateUseCase,
-    private val getSurveyListUseCase: GetSurveyListUseCase,
+    private val getSurveyFormListUseCase: GetSurveyFormListUseCase,
     private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
 
@@ -32,8 +32,9 @@ class ManagementViewModel @Inject constructor(
         MutableStateFlow(ManagerState.Init)
     val managerState: StateFlow<ManagerState> = _managerState.asStateFlow()
 
-    private val _surveyList: MutableStateFlow<SurveysState> = MutableStateFlow(SurveysState.Loading)
-    val surveyList: StateFlow<SurveysState> = _surveyList.asStateFlow()
+    private val _surveyFormList: MutableStateFlow<SurveyFormsState> =
+        MutableStateFlow(SurveyFormsState.Loading)
+    val surveyFormList: StateFlow<SurveyFormsState> = _surveyFormList.asStateFlow()
 
     private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Loading)
     val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
@@ -61,7 +62,7 @@ class ManagementViewModel @Inject constructor(
 
     fun getEventSurveyList() = viewModelScope.launch {
         launch { getMonthEventList() }
-        getSurveyList()
+        getSurveyFormList()
     }
 
     private suspend fun getMonthEventList() {
@@ -75,11 +76,11 @@ class ManagementViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getSurveyList() {
-        _surveyList.value = SurveysState.Loading
+    private suspend fun getSurveyFormList() {
+        _surveyFormList.value = SurveyFormsState.Loading
 
-        getSurveyListUseCase().onSuccess { surveys ->
-            _surveyList.value = SurveysState.Success(surveys)
+        getSurveyFormListUseCase().onSuccess { surveyForms ->
+            _surveyFormList.value = SurveyFormsState.Success(surveyForms)
         }.onFailure { exception ->
             _errorFlow.emit(exception)
             _eventList.value = EventsState.Failure(exception)
@@ -98,9 +99,9 @@ class ManagementViewModel @Inject constructor(
         data class Failure(val throwable: Throwable) : EventsState()
     }
 
-    sealed class SurveysState {
-        data object Loading : SurveysState()
-        data class Success(val surveys: List<Survey>) : SurveysState()
-        data class Failure(val throwable: Throwable) : SurveysState()
+    sealed class SurveyFormsState {
+        data object Loading : SurveyFormsState()
+        data class Success(val surveyForms: List<SurveyForm>) : SurveyFormsState()
+        data class Failure(val throwable: Throwable) : SurveyFormsState()
     }
 }
