@@ -125,20 +125,17 @@ private fun SurveyContent(
     paddingValues: PaddingValues,
     selectedSurveyForm: (String) -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(paddingValues),
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(horizontal = 16.dp),
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(horizontal = 16.dp),
-        ) {
-            items(surveyFormList) { surveyForm ->
-                SurveyFormItemCard(
-                    surveyForm = surveyForm,
-                    selectedSurveyForm = selectedSurveyForm,
-                )
-            }
+        items(surveyFormList) { surveyForm ->
+            SurveyFormItemCard(
+                surveyForm = surveyForm,
+                selectedSurveyForm = selectedSurveyForm,
+            )
         }
     }
 }
