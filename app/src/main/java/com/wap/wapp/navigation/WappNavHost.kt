@@ -12,16 +12,14 @@ import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
-import com.wap.wapp.feature.management.check.navigation.navigateToSurveyCheck
-import com.wap.wapp.feature.management.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.management.edit.event.navigation.eventEditScreen
 import com.wap.wapp.feature.management.edit.event.navigation.navigateToEventEdit
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
 import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
 import com.wap.wapp.feature.management.registration.event.navigation.navigateToEventRegistration
-import com.wap.wapp.feature.management.registration.survey.navigation.navigateToSurveyRegistration
-import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationScreen
+import com.wap.wapp.feature.management.survey.registration.navigation.navigateToSurveyRegistration
+import com.wap.wapp.feature.management.survey.registration.navigation.surveyRegistrationScreen
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.navigateToProfile
@@ -32,6 +30,8 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavi
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
+import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
+import com.wap.wapp.feature.survey.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.survey.navigation.navigateToSurvey
 import com.wap.wapp.feature.survey.navigation.navigateToSurveyAnswer
 import com.wap.wapp.feature.survey.navigation.surveyNavGraph

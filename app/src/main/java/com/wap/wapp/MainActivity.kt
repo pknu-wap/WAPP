@@ -26,7 +26,7 @@ import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signup.navigation.signUpNavigationRoute
 import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationNavigationRoute
-import com.wap.wapp.feature.management.registration.survey.navigation.surveyRegistrationNavigationRoute
+import com.wap.wapp.feature.management.survey.registration.navigation.surveyRegistrationNavigationRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.navigation.TopLevelDestination

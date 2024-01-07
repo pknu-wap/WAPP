@@ -9,8 +9,8 @@ class GetUserRoleUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val managementRepository: ManagementRepository,
 ) {
-    suspend operator fun invoke(): Result<UserRole> {
-        return runCatching {
+    suspend operator fun invoke(): Result<UserRole> =
+        runCatching {
             val userId = userRepository.getUserId()
                 .getOrElse { exception ->
                     if (exception is IllegalStateException) { // 회원이 아닌 경우
@@ -32,5 +32,4 @@ class GetUserRoleUseCase @Inject constructor(
                     },
                 )
         }
-    }
 }
