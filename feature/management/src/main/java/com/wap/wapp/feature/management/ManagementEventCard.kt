@@ -27,21 +27,20 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.model.event.Event
 
 @Composable
-internal fun ManagementEventContent(
+internal fun ManagementEventCard(
     eventsState: ManagementViewModel.EventsState,
     onCardClicked: (String, String) -> Unit,
     onAddEventButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),
-        modifier = modifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -53,39 +52,52 @@ internal fun ManagementEventContent(
                 color = WappTheme.colors.white,
             )
 
-            when (eventsState) {
-                is ManagementViewModel.EventsState.Loading -> CircleLoader(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                )
+            ManagementEventContent(
+                eventsState = eventsState,
+                onCardClicked = onCardClicked,
+                onAddEventButtonClicked = onAddEventButtonClicked,
+            )
+        }
+    }
+}
 
-                is ManagementViewModel.EventsState.Success -> {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.heightIn(max = 166.dp),
-                    ) {
-                        itemsIndexed(
-                            items = eventsState.events,
-                            key = { index, event -> event.eventId },
-                        ) { currentIndex, event ->
-                            ManagementEventItem(
-                                item = event,
-                                cardColor = ManagementCardColor(currentIndex = currentIndex),
-                                onCardClicked = onCardClicked,
-                            )
-                        }
-                    }
+@Composable
+private fun ManagementEventContent(
+    eventsState: ManagementViewModel.EventsState,
+    onCardClicked: (String, String) -> Unit,
+    onAddEventButtonClicked: () -> Unit,
+) {
+    when (eventsState) {
+        is ManagementViewModel.EventsState.Loading -> CircleLoader(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+        )
 
-                    WappButton(
-                        textRes = R.string.event_registration,
-                        onClick = { onAddEventButtonClicked() },
+        is ManagementViewModel.EventsState.Success -> {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.heightIn(max = 166.dp),
+            ) {
+                itemsIndexed(
+                    items = eventsState.events,
+                    key = { index, event -> event.eventId },
+                ) { currentIndex, event ->
+                    ManagementEventItem(
+                        item = event,
+                        cardColor = ManagementCardColor(currentIndex = currentIndex),
+                        onCardClicked = onCardClicked,
                     )
                 }
-
-                is ManagementViewModel.EventsState.Failure -> {}
             }
+
+            WappButton(
+                textRes = R.string.event_registration,
+                onClick = { onAddEventButtonClicked() },
+            )
         }
+
+        is ManagementViewModel.EventsState.Failure -> {}
     }
 }
 
@@ -110,22 +122,34 @@ private fun ManagementEventItem(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(5.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .weight(1f),
             ) {
-                Text(
-                    text = item.title,
-                    style = WappTheme.typography.contentMedium,
-                    color = WappTheme.colors.white,
-                    maxLines = 1,
-                )
+                Column {
+                    Text(
+                        text = item.title,
+                        style = WappTheme.typography.titleBold,
+                        color = WappTheme.colors.white,
+                        maxLines = 1,
+                    )
+
+                    Text(
+                        text = item.content,
+                        style = WappTheme.typography.labelRegular,
+                        color = WappTheme.colors.white,
+                        maxLines = 1,
+                    )
+                }
 
                 Text(
-                    text = item.startDateTime.toLocalDate().toString(),
-                    style = WappTheme.typography.captionMedium,
+                    text = stringResource(
+                        id = R.string.event_duration,
+                        item.startDateTime.format(DateUtil.yyyyMMddFormatter),
+                    ),
+                    style = WappTheme.typography.captionRegular,
                     color = WappTheme.colors.white,
-                    maxLines = 1,
                 )
             }
 
