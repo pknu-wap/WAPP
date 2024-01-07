@@ -30,30 +30,13 @@ internal fun SurveyCheckRoute(
     navigateToManagement: () -> Unit,
 ) {
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
-
-    SurveyCheckScreen(
-        viewModel = viewModel,
-        surveyId = surveyId,
-        surveyUiState = surveyUiState,
-        onDoneButtonClicked = { navigateToManagement() },
-        onBackButtonClicked = { navigateToManagement() },
-    )
-}
-
-@Composable
-internal fun SurveyCheckScreen(
-    viewModel: SurveyCheckViewModel,
-    surveyId: String,
-    surveyUiState: SurveyCheckViewModel.SurveyUiState,
-    onDoneButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
-) {
     val snackBarHostState = remember { SnackbarHostState() }
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(true) {
         viewModel.getSurvey(surveyId)
+    }
 
+    LaunchedEffect(true) {
         viewModel.surveyCheckUiEvent.collectLatest {
             when (it) {
                 is SurveyCheckViewModel.SurveyUiEvent.Failure -> {
@@ -62,6 +45,23 @@ internal fun SurveyCheckScreen(
             }
         }
     }
+
+    SurveyCheckScreen(
+        snackBarHostState = snackBarHostState,
+        surveyUiState = surveyUiState,
+        onDoneButtonClicked = { navigateToManagement() },
+        onBackButtonClicked = { navigateToManagement() },
+    )
+}
+
+@Composable
+internal fun SurveyCheckScreen(
+    snackBarHostState: SnackbarHostState,
+    surveyUiState: SurveyCheckViewModel.SurveyUiState,
+    onDoneButtonClicked: () -> Unit,
+    onBackButtonClicked: () -> Unit,
+) {
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
