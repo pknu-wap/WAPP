@@ -1,6 +1,7 @@
 package com.wap.wapp.feature.survey.check
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -23,6 +24,7 @@ internal fun SurveyCheckTopBar(
     onBackButtonClicked: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
+        windowInsets = WindowInsets(0.dp),
         title = {
             Text(
                 text = stringResource(R.string.check_survey),

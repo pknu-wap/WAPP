@@ -65,7 +65,9 @@ internal fun SurveyCheckScreen(
 
     Scaffold(
         topBar = {
-            SurveyCheckTopBar(onBackButtonClicked = onBackButtonClicked)
+            SurveyCheckTopBar(
+                onBackButtonClicked = onBackButtonClicked,
+            )
         },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
