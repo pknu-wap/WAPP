@@ -41,6 +41,7 @@ internal fun ManagementEventCard(
         colors = CardDefaults.cardColors(
             containerColor = WappTheme.colors.black25,
         ),
+        modifier = Modifier.padding(horizontal = 8.dp),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
