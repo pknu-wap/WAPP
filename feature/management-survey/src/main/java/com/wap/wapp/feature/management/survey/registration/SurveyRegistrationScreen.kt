@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappTopBar
+import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
@@ -129,7 +129,7 @@ internal fun SurveyRegistrationScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                WappTopBar(
+                WappSubTopBar(
                     titleRes = R.string.survey_registeration,
                     showLeftButton = true,
                     onClickLeftButton = onBackButtonClicked,

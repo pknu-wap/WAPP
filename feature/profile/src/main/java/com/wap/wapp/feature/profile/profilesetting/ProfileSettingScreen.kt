@@ -22,7 +22,7 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
-import com.wap.designsystem.component.WappTopBar
+import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.profile.R.string
 
@@ -89,7 +89,7 @@ internal fun ProfileSettingScreen(
             .fillMaxSize()
             .background(color = WappTheme.colors.backgroundBlack),
     ) {
-        WappTopBar(
+        WappSubTopBar(
             titleRes = string.more,
             showLeftButton = true,
             onClickLeftButton = navigateToProfile,
