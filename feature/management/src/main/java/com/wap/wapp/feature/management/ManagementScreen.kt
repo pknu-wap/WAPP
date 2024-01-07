@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.ManagementViewModel.ManagerState
-import com.wap.wapp.feature.management.dialog.ManagementCodeValidationDialog
+import com.wap.wapp.feature.management.validation.ManagementCodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

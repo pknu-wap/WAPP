@@ -2,6 +2,7 @@ package com.wap.wapp.core.model.survey
 
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 // 운영진이 등록하는 설문 모델
@@ -21,7 +22,8 @@ data class SurveyForm(
     )
 
     fun calculateDeadline(): String {
-        val currentDateTime = LocalDateTime.now()
+        val zoneId = ZoneId.of("Asia/Seoul")
+        val currentDateTime = LocalDateTime.now(zoneId)
         val duration = Duration.between(currentDateTime, deadline)
 
         if (duration.toMinutes() < 60) {
@@ -43,7 +45,8 @@ data class SurveyForm(
     }
 
     fun isAfterDeadline(): Boolean {
-        val currentDateTime = LocalDateTime.now()
+        val zoneId = ZoneId.of("Asia/Seoul")
+        val currentDateTime = LocalDateTime.now(zoneId)
         return deadline.isAfter(currentDateTime)
     }
 }

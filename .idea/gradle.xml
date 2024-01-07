@@ -36,10 +36,12 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/auth" />
             <option value="$PROJECT_DIR$/feature/management" />
+            <option value="$PROJECT_DIR$/feature/management-survey" />
             <option value="$PROJECT_DIR$/feature/notice" />
             <option value="$PROJECT_DIR$/feature/profile" />
             <option value="$PROJECT_DIR$/feature/splash" />
             <option value="$PROJECT_DIR$/feature/survey" />
+            <option value="$PROJECT_DIR$/feature/survey-check" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
