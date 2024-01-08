@@ -2,7 +2,6 @@ package com.wap.wapp.core.domain.usecase.survey
 
 import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.survey.SurveyQuestion
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -21,13 +20,11 @@ class RegisterSurveyUseCase @Inject constructor(
         deadlineTime: LocalTime,
     ): Result<Unit> = runCatching {
         surveyFormRepository.postSurveyForm(
-            SurveyForm(
-                eventId = event.eventId,
-                title = title,
-                content = content,
-                surveyQuestionList = surveyQuestionList,
-                deadline = LocalDateTime.of(deadlineDate, deadlineTime),
-            ),
+            eventId = event.eventId,
+            title = title,
+            content = content,
+            surveyQuestionList = surveyQuestionList,
+            deadline = LocalDateTime.of(deadlineDate, deadlineTime),
         )
     }
 }
