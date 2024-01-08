@@ -5,6 +5,7 @@ import com.wap.wapp.core.network.utils.toISOLocalDateTime
 
 data class SurveyResponse(
     val surveyId: String,
+    val surveyFormId: String,
     val eventId: String,
     val userId: String,
     val title: String,
@@ -18,12 +19,14 @@ data class SurveyResponse(
         "",
         "",
         "",
+        "",
         emptyList<SurveyAnswerResponse>(),
         "",
     )
 
     fun toDomain(eventName: String, userName: String): Survey = Survey(
         surveyId = surveyId,
+        surveyFormId = surveyFormId,
         eventName = eventName,
         userName = userName,
         title = this.title,

@@ -4,6 +4,7 @@ import com.wap.wapp.core.model.survey.SurveyAnswer
 
 data class SurveyRequest(
     val surveyId: String,
+    val surveyFormId: String,
     val eventId: String,
     val userId: String,
     val title: String,

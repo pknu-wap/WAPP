@@ -10,6 +10,7 @@ interface SurveyRepository {
     suspend fun getSurvey(surveyId: String): Result<Survey>
 
     suspend fun postSurvey(
+        surveyFormId: String,
         eventId: String,
         userId: String,
         title: String,
@@ -18,5 +19,5 @@ interface SurveyRepository {
         surveyedAt: LocalDateTime,
     ): Result<Unit>
 
-    suspend fun isSubmittedSurvey(eventId: String, userId: String): Result<Boolean>
+    suspend fun isSubmittedSurvey(surveyFormId: String, userId: String): Result<Boolean>
 }
