@@ -77,6 +77,7 @@ internal fun SurveyInformationContent(
         WappButton(
             onClick = onNextButtonClicked,
             textRes = R.string.next,
+            modifier = Modifier.padding(bottom = 16.dp),
         )
     }
 }

@@ -100,7 +100,7 @@ internal fun SurveyDeadlineContent(
         WappButton(
             textRes = R.string.register_survey,
             onClick = onRegisterButtonClicked,
-            modifier = Modifier.padding(bottom = 20.dp),
+            modifier = Modifier.padding(bottom = 16.dp),
         )
     }
 }

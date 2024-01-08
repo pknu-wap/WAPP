@@ -243,6 +243,7 @@ private fun SurveyQuestionButton(
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 16.dp),
     ) {
         WappButton(
             onClick = onAddSurveyQuestionButtonClicked,

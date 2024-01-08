@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,7 +26,7 @@ import com.wap.wapp.feature.management.survey.R
 @Composable
 internal fun SurveyEventSelectionContent(
     eventList: List<Event>,
-    eventSelection: Event,
+    selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
@@ -40,47 +41,62 @@ internal fun SurveyEventSelectionContent(
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.heightIn(max = 400.dp),
         ) {
             items(eventList) { event ->
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = WappTheme.colors.black25,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onEventSelected(event) },
-                    border = BorderStroke(
-                        color = if (event.eventId == eventSelection.eventId) {
-                            WappTheme.colors.yellow34
-                        } else {
-                            WappTheme.colors.black25
-                        },
-                        width = 1.dp,
-                    ),
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(16.dp),
-                    ) {
-                        Text(
-                            text = event.title,
-                            style = WappTheme.typography.titleBold,
-                            color = WappTheme.colors.white,
-                        )
-
-                        Text(
-                            text = event.content,
-                            style = WappTheme.typography.captionMedium,
-                            color = WappTheme.colors.yellow34,
-                        )
-                    }
-                }
+                EventCard(
+                    event = event,
+                    selectedEvent = selectedEvent,
+                    onEventSelected = onEventSelected,
+                )
             }
         }
 
         WappButton(
             textRes = R.string.next,
             onClick = onNextButtonClicked,
+            modifier = Modifier.padding(bottom = 16.dp),
         )
+    }
+}
+
+@Composable
+private fun EventCard(
+    event: Event,
+    selectedEvent: Event,
+    onEventSelected: (Event) -> Unit,
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = WappTheme.colors.black25,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onEventSelected(event) },
+        border = BorderStroke(
+            color = if (event.eventId == selectedEvent.eventId) {
+                WappTheme.colors.yellow34
+            } else {
+                WappTheme.colors.black25
+            },
+            width = 1.dp,
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Text(
+                text = event.title,
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+            )
+
+            Text(
+                text = event.content,
+                style = WappTheme.typography.captionMedium,
+                color = WappTheme.colors.yellow34,
+            )
+        }
     }
 }

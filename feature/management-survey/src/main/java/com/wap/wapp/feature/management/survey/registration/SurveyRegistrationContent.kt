@@ -44,7 +44,7 @@ internal fun SurveyRegistrationContent(
             onEventListChanged()
             SurveyEventSelectionContent(
                 eventList = eventList,
-                eventSelection = eventSelection,
+                selectedEvent = eventSelection,
                 // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
                 onEventSelected = onEventSelected,
                 onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.INFORMATION) },
