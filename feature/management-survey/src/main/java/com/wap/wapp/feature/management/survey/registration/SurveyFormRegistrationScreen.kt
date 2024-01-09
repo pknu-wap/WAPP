@@ -25,6 +25,7 @@ import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.survey.R
 import com.wap.wapp.feature.management.survey.SurveyFormContent
+import com.wap.wapp.feature.management.survey.SurveyFormState
 import com.wap.wapp.feature.management.survey.SurveyFormStateIndicator
 import kotlinx.coroutines.flow.collectLatest
 
@@ -34,7 +35,7 @@ internal fun SurveyRegistrationScreen(
     viewModel: SurveyFormRegistrationViewModel = hiltViewModel(),
     navigateToManagement: () -> Unit,
 ) {
-    val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
+    val currentRegistrationState = viewModel.currentSurveyFormState.collectAsState().value
     val eventList = viewModel.eventList.collectAsState().value
     val eventSelection = viewModel.surveyEventSelection.collectAsState().value
     val title = viewModel.surveyTitle.collectAsState().value
@@ -119,11 +120,27 @@ internal fun SurveyRegistrationScreen(
                 },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
-                onNextButtonClicked = { surveyRegistrationState ->
-                    viewModel.setSurveyRegistrationState(surveyRegistrationState)
+                onNextButtonClicked = { currentState, nextState ->
+                    if (viewModel.validateSurveyForm(currentState).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    if (currentState == SurveyFormState.QUESTION) {
+                        viewModel.addSurveyQuestion()
+                    }
+
+                    viewModel.setSurveyFormState(nextState)
                 },
-                onAddQuestionButtonClicked = { viewModel.addSurveyQuestion() },
-                onRegisterButtonClicked = { viewModel.registerSurvey() },
+                onAddQuestionButtonClicked = {
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION)) {
+                        viewModel.addSurveyQuestion()
+                    }
+                },
+                onRegisterButtonClicked = {
+                    if (viewModel.validateSurveyForm(SurveyFormState.DEADLINE)) {
+                        viewModel.registerSurvey()
+                    }
+                },
             )
         }
     }

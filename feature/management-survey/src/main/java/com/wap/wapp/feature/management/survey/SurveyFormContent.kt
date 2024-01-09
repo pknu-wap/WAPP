@@ -35,7 +35,7 @@ internal fun SurveyFormContent(
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: (SurveyFormState) -> Unit,
+    onNextButtonClicked: (SurveyFormState, SurveyFormState) -> Unit, // (currentState, nextState)
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
@@ -45,9 +45,13 @@ internal fun SurveyFormContent(
             SurveyEventContent(
                 eventList = eventList,
                 selectedEvent = eventSelection,
-                // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
                 onEventSelected = onEventSelected,
-                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.INFORMATION) },
+                onNextButtonClicked = {
+                    onNextButtonClicked(
+                        SurveyFormState.EVENT_SELECTION,
+                        SurveyFormState.INFORMATION,
+                    )
+                },
             )
         }
 
@@ -57,7 +61,12 @@ internal fun SurveyFormContent(
                 onTitleChanged = onTitleChanged,
                 content = content,
                 onContentChanged = onContentChanged,
-                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.QUESTION) },
+                onNextButtonClicked = {
+                    onNextButtonClicked(
+                        SurveyFormState.INFORMATION,
+                        SurveyFormState.QUESTION,
+                    )
+                },
             )
         }
 
@@ -72,7 +81,12 @@ internal fun SurveyFormContent(
                 onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
                 currentQuestionIndex = currentQuestionIndex,
                 totalQuestionIndex = totalQuestionSize,
-                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.DEADLINE) },
+                onNextButtonClicked = {
+                    onNextButtonClicked(
+                        SurveyFormState.QUESTION,
+                        SurveyFormState.DEADLINE,
+                    )
+                },
             )
         }
 
