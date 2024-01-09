@@ -3,6 +3,8 @@ package com.wap.wapp.feature.management.survey.registration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -46,7 +48,9 @@ internal fun SurveyQuestionContent(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.verticalScroll(scrollState),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
     ) {
         WappTitle(
             title = stringResource(R.string.survey_question_title),
@@ -114,6 +118,8 @@ internal fun SurveyQuestionContent(
         SurveyQuestionTypeDescription(
             type = questionType,
         )
+
+        Spacer(modifier = Modifier.weight(1f))
 
         SurveyQuestionButton(
             onAddSurveyQuestionButtonClicked = {
