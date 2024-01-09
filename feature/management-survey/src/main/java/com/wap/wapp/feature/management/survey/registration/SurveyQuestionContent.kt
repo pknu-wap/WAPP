@@ -87,42 +87,42 @@ internal fun SurveyQuestionContent(
                 .height(200.dp),
             placeholder = R.string.suvey_question_hint,
         )
-    }
 
-    Text(
-        text = stringResource(R.string.survey_question_type),
-        style = WappTheme.typography.titleBold,
-        color = WappTheme.colors.white,
-        modifier = Modifier.padding(top = 20.dp),
-    )
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        SurveyQuestionTypeChip(
-            selected = (questionType == QuestionType.SUBJECTIVE),
-            onSelected = { onQuestionTypeChanged(QuestionType.SUBJECTIVE) },
-            label = stringResource(R.string.essay),
+        Text(
+            text = stringResource(R.string.survey_question_type),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(top = 10.dp),
         )
 
-        SurveyQuestionTypeChip(
-            selected = (questionType == QuestionType.OBJECTIVE),
-            onSelected = { onQuestionTypeChanged(QuestionType.OBJECTIVE) },
-            label = stringResource(R.string.multie_choice),
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            SurveyQuestionTypeChip(
+                selected = (questionType == QuestionType.SUBJECTIVE),
+                onSelected = { onQuestionTypeChanged(QuestionType.SUBJECTIVE) },
+                label = stringResource(R.string.essay),
+            )
+
+            SurveyQuestionTypeChip(
+                selected = (questionType == QuestionType.OBJECTIVE),
+                onSelected = { onQuestionTypeChanged(QuestionType.OBJECTIVE) },
+                label = stringResource(R.string.multie_choice),
+            )
+        }
+
+        SurveyQuestionTypeDescription(
+            type = questionType,
+        )
+
+        SurveyQuestionButton(
+            onAddSurveyQuestionButtonClicked = {
+                onAddSurveyQuestionButtonClicked()
+            },
+            onNextButtonClicked = onNextButtonClicked,
+            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
         )
     }
-
-    SurveyQuestionTypeDescription(
-        type = questionType,
-    )
-
-    SurveyQuestionButton(
-        onAddSurveyQuestionButtonClicked = {
-            onAddSurveyQuestionButtonClicked()
-        },
-        onNextButtonClicked = onNextButtonClicked,
-        modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-    )
 }
 
 @Composable
