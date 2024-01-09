@@ -85,7 +85,7 @@ internal fun SurveyEventSelectionContent(
                 WappButton(
                     textRes = R.string.next,
                     onClick = onNextButtonClicked,
-                    modifier = Modifier.padding(vertical = 20.dp),
+                    modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
                 )
             }
         }
