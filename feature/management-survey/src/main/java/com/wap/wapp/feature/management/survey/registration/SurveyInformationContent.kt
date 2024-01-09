@@ -1,9 +1,7 @@
 package com.wap.wapp.feature.management.survey.registration
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
@@ -37,8 +34,7 @@ internal fun SurveyInformationContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-            .height(IntrinsicSize.Max),
+            .verticalScroll(scrollState),
     ) {
         WappTitle(
             title = stringResource(R.string.survey_information_title),
@@ -74,7 +70,7 @@ internal fun SurveyInformationContent(
                 .fillMaxWidth()
                 .height(200.dp),
         )
-        Spacer(modifier = Modifier.weight(1f).background(Color.Cyan))
+        Spacer(modifier = Modifier.weight(1f))
 
         WappButton(
             onClick = onNextButtonClicked,
