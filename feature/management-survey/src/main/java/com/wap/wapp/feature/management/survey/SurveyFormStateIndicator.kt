@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,11 +14,10 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.feature.management.survey.R
 
 @Composable
-internal fun SurveyRegistrationStateIndicator(
-    surveyRegistrationState: SurveyRegistrationState,
+internal fun SurveyFormStateIndicator(
+    surveyRegistrationState: SurveyFormState,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

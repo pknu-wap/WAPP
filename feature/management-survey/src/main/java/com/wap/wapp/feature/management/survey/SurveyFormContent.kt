@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
@@ -10,8 +10,8 @@ import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyRegistrationContent(
-    surveyRegistrationState: SurveyRegistrationState,
+internal fun SurveyFormContent(
+    surveyRegistrationState: SurveyFormState,
     eventList: List<Event>,
     eventSelection: Event,
     title: String,
@@ -35,33 +35,33 @@ internal fun SurveyRegistrationContent(
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: (SurveyRegistrationState) -> Unit,
+    onNextButtonClicked: (SurveyFormState) -> Unit,
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     when (surveyRegistrationState) {
-        SurveyRegistrationState.EVENT_SELECTION -> {
+        SurveyFormState.EVENT_SELECTION -> {
             onEventListChanged()
-            SurveyEventSelectionContent(
+            SurveyEventContent(
                 eventList = eventList,
                 selectedEvent = eventSelection,
                 // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
                 onEventSelected = onEventSelected,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.INFORMATION) },
+                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.INFORMATION) },
             )
         }
 
-        SurveyRegistrationState.INFORMATION -> {
+        SurveyFormState.INFORMATION -> {
             SurveyInformationContent(
                 title = title,
                 onTitleChanged = onTitleChanged,
                 content = content,
                 onContentChanged = onContentChanged,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
+                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.QUESTION) },
             )
         }
 
-        SurveyRegistrationState.QUESTION -> {
+        SurveyFormState.QUESTION -> {
             SurveyQuestionContent(
                 question = question,
                 questionType = questionType,
@@ -72,11 +72,11 @@ internal fun SurveyRegistrationContent(
                 onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
                 currentQuestionIndex = currentQuestionIndex,
                 totalQuestionIndex = totalQuestionSize,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },
+                onNextButtonClicked = { onNextButtonClicked(SurveyFormState.DEADLINE) },
             )
         }
 
-        SurveyRegistrationState.DEADLINE -> {
+        SurveyFormState.DEADLINE -> {
             SurveyDeadlineContent(
                 time = time,
                 date = date,

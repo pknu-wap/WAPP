@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,17 +20,16 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.management.survey.R
 
 @Composable
-internal fun SurveyEventSelectionContent(
+internal fun SurveyEventContent(
     eventList: List<Event>,
     selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier.fillMaxSize(),
     ) {
         WappTitle(
@@ -41,7 +39,7 @@ internal fun SurveyEventSelectionContent(
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.heightIn(max = 400.dp),
+            modifier = Modifier.weight(1f),
         ) {
             items(eventList) { event ->
                 EventCard(
@@ -55,7 +53,6 @@ internal fun SurveyEventSelectionContent(
         WappButton(
             textRes = R.string.next,
             onClick = onNextButtonClicked,
-            modifier = Modifier.padding(bottom = 16.dp),
         )
     }
 }
