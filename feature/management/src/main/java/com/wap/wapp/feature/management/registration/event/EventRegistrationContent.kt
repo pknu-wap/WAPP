@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.registration.event
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -111,44 +112,44 @@ private fun EventDetailsContent(
         title = stringResource(id = R.string.event_details_title),
         content = stringResource(id = R.string.event_details_content),
     )
-    Column(modifier = Modifier.fillMaxSize()) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 50.dp)
+            .verticalScroll(scrollState),
+    ) {
+        Text(
+            text = stringResource(R.string.event_title),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+        )
+
+        RegistrationTextField(
+            value = eventTitle,
+            onValueChange = onTitleChanged,
+            placeholder = stringResource(R.string.event_title_hint),
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Text(
+            text = stringResource(R.string.event_schedule_title),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(top = 30.dp),
+        )
+
+        RegistrationTextField(
+            value = eventContent,
+            onValueChange = onContentChanged,
+            placeholder = stringResource(R.string.event_content_hint),
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 50.dp)
-                .verticalScroll(scrollState)
-                .weight(weight = 1f, fill = false),
-        ) {
-            Text(
-                text = stringResource(R.string.event_title),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-            )
+                .fillMaxWidth()
+                .height(200.dp),
+        )
 
-            RegistrationTextField(
-                value = eventTitle,
-                onValueChange = onTitleChanged,
-                placeholder = stringResource(R.string.event_title_hint),
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            Text(
-                text = stringResource(R.string.event_schedule_title),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 30.dp),
-            )
-
-            RegistrationTextField(
-                value = eventContent,
-                onValueChange = onContentChanged,
-                placeholder = stringResource(R.string.event_content_hint),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-            )
-        }
+        Spacer(modifier = Modifier.weight(1f))
 
         WappButton(
             onClick = onNextButtonClicked,
