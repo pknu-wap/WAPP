@@ -70,4 +70,6 @@
     <string name="next">다음</string>
     <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
     <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
+    <string name="surveyForm_deadline">%s 마감</string>
+    <string name="event_duration">%s 시작</string>
 </resources>
