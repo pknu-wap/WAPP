@@ -7,7 +7,8 @@ import javax.inject.Inject
 class IsSubmittedSurveyUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val surveyRepository: SurveyRepository,
-) {suspend operator fun invoke(surveyFormId: String): Result<Boolean> = runCatching {
+) {
+    suspend operator fun invoke(surveyFormId: String): Result<Boolean> = runCatching {
         val userId = userRepository.getUserId().getOrThrow()
 
         surveyRepository.isSubmittedSurvey(
