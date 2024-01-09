@@ -32,7 +32,7 @@ internal fun ManagementRoute(
     navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    navigateToSurveyCheck: (String) -> Unit,
+    navigateToSurveyFormEdit: (String) -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     var isShowDialog by rememberSaveable { mutableStateOf(false) }
@@ -65,7 +65,7 @@ internal fun ManagementRoute(
         eventsState = eventsState,
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
-        navigateToSurveyCheck = navigateToSurveyCheck,
+        navigateToSurveyFormEdit = navigateToSurveyFormEdit,
         navigateToEventEdit = navigateToEventEdit,
     )
 
@@ -87,7 +87,7 @@ internal fun ManagementScreen(
     navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    navigateToSurveyCheck: (String) -> Unit,
+    navigateToSurveyFormEdit: (String) -> Unit,
 ) {
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
@@ -109,7 +109,7 @@ internal fun ManagementScreen(
 
             ManagementSurveyCard(
                 surveyFormsState = surveyFormsState,
-                onCardClicked = navigateToSurveyCheck,
+                onCardClicked = navigateToSurveyFormEdit,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
         }
