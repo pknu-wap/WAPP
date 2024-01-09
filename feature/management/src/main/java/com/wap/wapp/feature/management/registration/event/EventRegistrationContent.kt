@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
@@ -103,6 +105,8 @@ private fun EventDetailsContent(
     onContentChanged: (String) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     RegistrationTitle(
         title = stringResource(id = R.string.event_details_title),
         content = stringResource(id = R.string.event_details_content),
@@ -113,7 +117,8 @@ private fun EventDetailsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 50.dp)
-                .weight(1f),
+                .verticalScroll(scrollState)
+                .weight(weight = 1f, fill = false),
         ) {
             Text(
                 text = stringResource(R.string.event_title),
@@ -148,7 +153,7 @@ private fun EventDetailsContent(
         WappButton(
             onClick = onNextButtonClicked,
             textRes = R.string.next,
-            modifier = Modifier.padding(bottom = 20.dp),
+            modifier = Modifier.padding(vertical = 20.dp),
         )
     }
 }

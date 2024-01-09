@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -132,7 +130,6 @@ internal fun EventRegistrationScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
     val timePickerState = rememberTimePickerState()
 
     Scaffold(
@@ -140,29 +137,35 @@ internal fun EventRegistrationScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         contentWindowInsets = WindowInsets(0.dp),
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState),
+            .fillMaxSize(),
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
+                .padding(top = 20.dp), // dp value padding
         ) {
             WappSubTopBar(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
                 onClickLeftButton = onBackButtonClicked,
+                modifier = Modifier.padding(start = 10.dp),
             )
 
             EventRegistrationStateIndicator(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
             )
 
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier.padding(top = 50.dp),
+                modifier = Modifier
+                    .padding(
+                        top = 50.dp,
+                        start = 20.dp,
+                        end = 20.dp,
+                        bottom = 20.dp,
+                    ),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
