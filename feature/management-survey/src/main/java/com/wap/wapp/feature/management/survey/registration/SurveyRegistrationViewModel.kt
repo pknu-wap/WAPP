@@ -11,6 +11,7 @@ import com.wap.wapp.core.model.survey.SurveyQuestion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,8 +32,8 @@ class SurveyRegistrationViewModel @Inject constructor(
         MutableStateFlow(SurveyRegistrationState.EVENT_SELECTION)
     val currentRegistrationState = _currentRegistrationState.asStateFlow()
 
-    private val _eventList: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
-    val eventList = _eventList.asStateFlow()
+    private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Loading)
+    val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
 
     private val _surveyEventSelection: MutableStateFlow<Event> =
         MutableStateFlow(EVENT_SELECTION_INIT)
@@ -96,9 +97,10 @@ class SurveyRegistrationViewModel @Inject constructor(
     }
 
     fun getEventList() = viewModelScope.launch {
+        _eventList.value = EventsState.Loading
         getEventListUseCase(DateUtil.generateNowDate())
             .onSuccess { eventList ->
-                _eventList.value = eventList
+                _eventList.value = EventsState.Success(eventList)
             }.onFailure { throwable ->
                 _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
             }
@@ -199,6 +201,12 @@ class SurveyRegistrationViewModel @Inject constructor(
         data class ValidationError(val message: String) : SurveyRegistrationEvent()
         data class Failure(val error: Throwable) : SurveyRegistrationEvent()
         data object Success : SurveyRegistrationEvent()
+    }
+
+    sealed class EventsState {
+        data object Loading : EventsState()
+        data class Success(val events: List<Event>) : EventsState()
+        data class Failure(val throwable: Throwable) : EventsState()
     }
 
     companion object {

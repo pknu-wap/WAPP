@@ -44,7 +44,7 @@ internal fun SurveyRegistrationRoute(
     navigateToManagement: () -> Unit,
 ) {
     val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
+    val eventsState = viewModel.eventList.collectAsState().value
     val eventSelection = viewModel.surveyEventSelection.collectAsState().value
     val title = viewModel.surveyTitle.collectAsState().value
     val content = viewModel.surveyContent.collectAsState().value
@@ -56,7 +56,7 @@ internal fun SurveyRegistrationRoute(
 
     SurveyRegistrationScreen(
         currentRegistrationState = currentRegistrationState,
-        eventList = eventList,
+        eventsState = eventsState,
         eventSelection = eventSelection,
         title = title,
         content = content,
@@ -77,7 +77,7 @@ internal fun SurveyRegistrationRoute(
 @Composable
 internal fun SurveyRegistrationScreen(
     currentRegistrationState: SurveyRegistrationState,
-    eventList: List<Event>,
+    eventsState: SurveyRegistrationViewModel.EventsState,
     eventSelection: Event,
     title: String,
     content: String,
@@ -138,7 +138,7 @@ internal fun SurveyRegistrationScreen(
 
             SurveyRegistrationContent(
                 surveyRegistrationState = currentRegistrationState,
-                eventList = eventList,
+                eventsState = eventsState,
                 eventSelection = eventSelection,
                 title = title,
                 content = content,

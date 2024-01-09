@@ -15,7 +15,7 @@ import java.time.LocalTime
 @Composable
 internal fun SurveyRegistrationContent(
     surveyRegistrationState: SurveyRegistrationState,
-    eventList: List<Event>,
+    eventsState: SurveyRegistrationViewModel.EventsState,
     eventSelection: Event,
     title: String,
     content: String,
@@ -50,7 +50,7 @@ internal fun SurveyRegistrationContent(
             SurveyRegistrationState.EVENT_SELECTION -> {
                 onEventListChanged()
                 SurveyEventSelectionContent(
-                    eventList = eventList,
+                    eventsState = eventsState,
                     eventSelection = eventSelection,
                     onEventSelected = onEventSelected,
                     onNextButtonClicked = {
