@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.event
+package com.wap.wapp.feature.management.event.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.event.R
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalTime

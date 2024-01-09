@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.event
+package com.wap.wapp.feature.management.event.registration
 
 sealed class EventRegistrationEvent {
     data class ValidationError(val message: String) : EventRegistrationEvent()

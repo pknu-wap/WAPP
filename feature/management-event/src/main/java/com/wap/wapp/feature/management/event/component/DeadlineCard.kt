@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.component
+package com.wap.wapp.feature.management.event.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

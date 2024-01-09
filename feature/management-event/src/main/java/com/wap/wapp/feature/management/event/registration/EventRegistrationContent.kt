@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.event
+package com.wap.wapp.feature.management.event.registration
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.feature.management.R
-import com.wap.wapp.feature.management.registration.component.DeadlineCard
-import com.wap.wapp.feature.management.registration.component.RegistrationTextField
-import com.wap.wapp.feature.management.registration.component.RegistrationTitle
-import com.wap.wapp.feature.management.registration.component.WappDatePickerDialog
-import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
+import com.wap.wapp.feature.management.event.component.DeadlineCard
+import com.wap.wapp.feature.management.event.component.RegistrationTextField
+import com.wap.wapp.feature.management.event.component.RegistrationTitle
+import com.wap.wapp.feature.management.event.component.WappDatePickerDialog
+import com.wap.wapp.feature.management.event.component.WappTimePickerDialog
+import com.wap.wapp.feature.management.event.R
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime

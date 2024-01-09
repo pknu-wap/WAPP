@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.registration.component
+package com.wap.wapp.feature.management.event.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.feature.management.R
+import com.wap.wapp.feature.management.event.R
 import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
