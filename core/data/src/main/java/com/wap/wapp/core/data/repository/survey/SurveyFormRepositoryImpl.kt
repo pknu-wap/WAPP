@@ -3,6 +3,7 @@ package com.wap.wapp.core.data.repository.survey
 import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.survey.SurveyQuestion
+import com.wap.wapp.core.network.model.survey.form.SurveyFormRequest
 import com.wap.wapp.core.network.source.survey.SurveyFormDataSource
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -35,4 +36,16 @@ class SurveyFormRepositoryImpl @Inject constructor(
         surveyQuestionList = surveyQuestionList,
         deadline = deadline.toISOLocalDateTimeString(),
     )
+
+    override suspend fun updateSurveyForm(surveyForm: SurveyForm): Result<Unit> =
+        surveyFormDataSource.updateSurveyForm(
+            surveyFormRequest = SurveyFormRequest(
+                surveyFormId = surveyForm.surveyFormId,
+                eventId = surveyForm.eventId,
+                title = surveyForm.title,
+                content = surveyForm.content,
+                surveyQuestionList = surveyForm.surveyQuestionList,
+                deadline = surveyForm.deadline.toISOLocalDateTimeString(),
+            ),
+        )
 }

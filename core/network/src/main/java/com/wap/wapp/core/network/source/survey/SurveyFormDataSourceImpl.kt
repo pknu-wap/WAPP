@@ -63,4 +63,21 @@ class SurveyFormDataSourceImpl @Inject constructor(
             .set(surveyFormRequest, setOption)
             .await()
     }
+
+    override suspend fun updateSurveyForm(surveyFormRequest: SurveyFormRequest): Result<Unit> =
+        runCatching {
+            val surveyFormMap = mapOf(
+                "surveyFormId" to surveyFormRequest.surveyFormId,
+                "eventId" to surveyFormRequest.eventId,
+                "title" to surveyFormRequest.title,
+                "content" to surveyFormRequest.content,
+                "surveyQuestionList" to surveyFormRequest.surveyQuestionList,
+                "deadline" to surveyFormRequest.deadline,
+            )
+
+            firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+                .document(surveyFormRequest.surveyFormId)
+                .update(surveyFormMap)
+                .await()
+        }
 }

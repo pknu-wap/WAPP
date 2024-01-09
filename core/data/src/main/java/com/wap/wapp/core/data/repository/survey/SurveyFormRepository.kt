@@ -16,4 +16,6 @@ interface SurveyFormRepository {
         surveyQuestionList: List<SurveyQuestion>,
         deadline: LocalDateTime,
     ): Result<Unit>
+
+    suspend fun updateSurveyForm(surveyForm: SurveyForm): Result<Unit>
 }
