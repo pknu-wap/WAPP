@@ -2,6 +2,7 @@ package com.wap.wapp.feature.management.registration.event
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +30,7 @@ import com.wap.wapp.feature.management.registration.component.RegistrationTextFi
 import com.wap.wapp.feature.management.registration.component.RegistrationTitle
 import com.wap.wapp.feature.management.registration.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.registration.component.WappTimePickerDialog
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -62,14 +65,27 @@ internal fun EventRegistrationContent(
     onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
-    Column(modifier = modifier) {
+    val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .height(IntrinsicSize.Max),
+    ) {
         when (eventRegistrationState) {
             EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
                 eventTitle = eventTitle,
                 eventContent = eventContent,
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
-                onNextButtonClicked = onNextButtonClicked,
+                onNextButtonClicked = {
+                    coroutineScope.launch {
+                        scrollState.scrollTo(0)
+                    }
+                    onNextButtonClicked()
+                },
             )
 
             EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
@@ -106,24 +122,20 @@ private fun EventDetailsContent(
     onContentChanged: (String) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
-
-    RegistrationTitle(
-        title = stringResource(id = R.string.event_details_title),
-        content = stringResource(id = R.string.event_details_content),
-    )
-
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 50.dp)
-            .verticalScroll(scrollState),
+        modifier = Modifier.fillMaxSize(),
     ) {
+        RegistrationTitle(
+            title = stringResource(id = R.string.event_details_title),
+            content = stringResource(id = R.string.event_details_content),
+        )
+
         Text(
             text = stringResource(R.string.event_title),
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
+            modifier = Modifier.padding(top = 50.dp),
         )
 
         RegistrationTextField(
@@ -148,8 +160,7 @@ private fun EventDetailsContent(
                 .fillMaxWidth()
                 .height(200.dp),
         )
-
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1.0F))
 
         WappButton(
             onClick = onNextButtonClicked,
@@ -231,76 +242,75 @@ private fun EventScheduleContent(
         title = stringResource(id = R.string.event_schedule_title),
         content = stringResource(id = R.string.event_schedule_content),
     )
-    Column(modifier = Modifier.fillMaxSize()) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.padding(top = 50.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(top = 50.dp)
-                .weight(1f),
+                .padding(top = 40.dp)
+                .fillMaxWidth(),
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(top = 40.dp)
-                    .fillMaxWidth(),
-            ) {
-                Text(
-                    text = stringResource(R.string.event_location),
-                    style = WappTheme.typography.titleBold,
-                    color = WappTheme.colors.white,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier.weight(2f),
-                )
-
-                RegistrationTextField(
-                    value = location,
-                    onValueChange = onLocationChanged,
-                    placeholder = stringResource(R.string.event_location_hint),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(3f),
-                )
-            }
-
-            DeadlineCard(
-                title = stringResource(R.string.start_date),
-                hint = startDate.format(DateUtil.yyyyMMddFormatter),
-                onCardClicked = {
-                    onStartDatePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 20.dp),
+            Text(
+                text = stringResource(R.string.event_location),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.weight(2f),
             )
 
-            DeadlineCard(
-                title = stringResource(R.string.start_time),
-                hint = startTime.format(DateUtil.HHmmFormatter),
-                onCardClicked = {
-                    onStartTimePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 20.dp),
-            )
-
-            DeadlineCard(
-                title = stringResource(R.string.end_date),
-                hint = endDate.format(DateUtil.yyyyMMddFormatter),
-                onCardClicked = {
-                    onEndDatePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 20.dp),
-            )
-
-            DeadlineCard(
-                title = stringResource(R.string.end_time),
-                hint = endTime.format(DateUtil.HHmmFormatter),
-                onCardClicked = {
-                    onEndTimePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 20.dp),
+            RegistrationTextField(
+                value = location,
+                onValueChange = onLocationChanged,
+                placeholder = stringResource(R.string.event_location_hint),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(3f),
             )
         }
 
+        DeadlineCard(
+            title = stringResource(R.string.start_date),
+            hint = startDate.format(DateUtil.yyyyMMddFormatter),
+            onCardClicked = {
+                onStartDatePickerStateChanged(true)
+            },
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
+        DeadlineCard(
+            title = stringResource(R.string.start_time),
+            hint = startTime.format(DateUtil.HHmmFormatter),
+            onCardClicked = {
+                onStartTimePickerStateChanged(true)
+            },
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
+        DeadlineCard(
+            title = stringResource(R.string.end_date),
+            hint = endDate.format(DateUtil.yyyyMMddFormatter),
+            onCardClicked = {
+                onEndDatePickerStateChanged(true)
+            },
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
+        DeadlineCard(
+            title = stringResource(R.string.end_time),
+            hint = endTime.format(DateUtil.HHmmFormatter),
+            onCardClicked = {
+                onEndTimePickerStateChanged(true)
+            },
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
         WappButton(
             onClick = onRegisterButtonClicked,
-            textRes = R.string.edit_complete,
+            textRes = R.string.register_event,
             modifier = Modifier.padding(bottom = 20.dp),
         )
     }
