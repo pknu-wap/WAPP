@@ -23,16 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.survey.R
+import com.wap.wapp.feature.management.survey.SurveyFormContent
+import com.wap.wapp.feature.management.survey.SurveyFormStateIndicator
 import kotlinx.coroutines.flow.collectLatest
-import java.time.LocalDate
-import java.time.LocalTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyRegistrationRoute(
-    viewModel: SurveyRegistrationViewModel = hiltViewModel(),
+internal fun SurveyRegistrationScreen(
+    viewModel: SurveyFormRegistrationViewModel = hiltViewModel(),
     navigateToManagement: () -> Unit,
 ) {
     val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
@@ -45,43 +44,6 @@ internal fun SurveyRegistrationRoute(
     val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
     val time = viewModel.surveyTimeDeadline.collectAsState().value
     val date = viewModel.surveyDateDeadline.collectAsState().value
-
-    SurveyRegistrationScreen(
-        currentRegistrationState = currentRegistrationState,
-        eventList = eventList,
-        eventSelection = eventSelection,
-        title = title,
-        content = content,
-        question = question,
-        questionType = questionType,
-        totalQuestionSize = totalQuestionSize,
-        time = time,
-        date = date,
-        onBackButtonClicked = { navigateToManagement() },
-        viewModel = viewModel,
-        registerSurveyForm = {
-            navigateToManagement()
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun SurveyRegistrationScreen(
-    currentRegistrationState: SurveyRegistrationState,
-    eventList: List<Event>,
-    eventSelection: Event,
-    title: String,
-    content: String,
-    question: String,
-    questionType: QuestionType,
-    totalQuestionSize: Int,
-    time: LocalTime,
-    date: LocalDate,
-    registerSurveyForm: () -> Unit,
-    viewModel: SurveyRegistrationViewModel,
-    onBackButtonClicked: () -> Unit,
-) {
     val snackBarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
@@ -90,16 +52,14 @@ internal fun SurveyRegistrationScreen(
     LaunchedEffect(true) {
         viewModel.surveyRegistrationEvent.collectLatest {
             when (it) {
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.Failure -> {
+                is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.Failure -> {
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
                 }
-
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.ValidationError -> {
+                is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.ValidationError -> {
                     snackBarHostState.showSnackbar(it.message)
                 }
-
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.Success -> {
-                    registerSurveyForm()
+                is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.Success -> {
+                    navigateToManagement()
                 }
             }
         }
@@ -124,15 +84,15 @@ internal fun SurveyRegistrationScreen(
                 WappSubTopBar(
                     titleRes = R.string.survey_registeration,
                     showLeftButton = true,
-                    onClickLeftButton = onBackButtonClicked,
+                    onClickLeftButton = navigateToManagement,
                 )
 
-                SurveyRegistrationStateIndicator(
+                SurveyFormStateIndicator(
                     surveyRegistrationState = currentRegistrationState,
                 )
             }
 
-            SurveyRegistrationContent(
+            SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
                 eventList = eventList,
                 eventSelection = eventSelection,

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
-class RegisterSurveyUseCase @Inject constructor(
+class PostSurveyFormUseCase @Inject constructor(
     private val surveyFormRepository: SurveyFormRepository,
 ) {
     suspend operator fun invoke(
