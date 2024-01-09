@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 
 data class Survey(
     val surveyId: String,
+    val surveyFormId: String,
     val eventName: String,
     val userName: String,
     val title: String,

@@ -5,7 +5,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -33,7 +32,7 @@ internal fun ManagementRoute(
     navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    navigateToSurveyCheck: (String) -> Unit,
+    navigateToSurveyFormEdit: (String) -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     var isShowDialog by rememberSaveable { mutableStateOf(false) }
@@ -66,7 +65,7 @@ internal fun ManagementRoute(
         eventsState = eventsState,
         navigateToEventRegistration = navigateToEventRegistration,
         navigateToSurveyRegistration = navigateToSurveyRegistration,
-        navigateToSurveyCheck = navigateToSurveyCheck,
+        navigateToSurveyFormEdit = navigateToSurveyFormEdit,
         navigateToEventEdit = navigateToEventEdit,
     )
 
@@ -80,7 +79,6 @@ internal fun ManagementRoute(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManagementScreen(
     snackBarHostState: SnackbarHostState,
@@ -89,7 +87,7 @@ internal fun ManagementScreen(
     navigateToEventEdit: (String, String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
-    navigateToSurveyCheck: (String) -> Unit,
+    navigateToSurveyFormEdit: (String) -> Unit,
 ) {
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
@@ -111,7 +109,7 @@ internal fun ManagementScreen(
 
             ManagementSurveyCard(
                 surveyFormsState = surveyFormsState,
-                onCardClicked = navigateToSurveyCheck,
+                onCardClicked = navigateToSurveyFormEdit,
                 onAddSurveyButtonClicked = navigateToSurveyRegistration,
             )
         }

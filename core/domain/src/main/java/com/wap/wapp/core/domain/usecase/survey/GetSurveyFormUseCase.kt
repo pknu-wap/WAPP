@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetSurveyFormUseCase @Inject constructor(
     private val surveyFormRepository: SurveyFormRepository,
 ) {
-    suspend operator fun invoke(eventId: String) = surveyFormRepository.getSurveyForm(eventId)
+    suspend operator fun invoke(surveyFormId: String) =
+        surveyFormRepository.getSurveyForm(surveyFormId)
 }

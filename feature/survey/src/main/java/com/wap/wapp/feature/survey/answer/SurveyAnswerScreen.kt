@@ -39,7 +39,7 @@ internal fun SurveyAnswerScreen(
     viewModel: SurveyAnswerViewModel,
     onSubmitButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
-    eventId: String,
+    surveyFormId: String,
 ) {
     val surveyFormUiState = viewModel.surveyFormUiState.collectAsStateWithLifecycle().value
     val questionNumber = viewModel.questionNumber.collectAsStateWithLifecycle().value
@@ -48,7 +48,7 @@ internal fun SurveyAnswerScreen(
     val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(true) {
-        viewModel.getSurveyForm(eventId)
+        viewModel.getSurveyForm(surveyFormId)
 
         viewModel.surveyAnswerEvent.collectLatest {
             when (it) {

@@ -5,7 +5,7 @@ import com.wap.wapp.core.network.model.survey.SurveyResponse
 
 interface SurveyDataSource {
     suspend fun isSubmittedSurvey(
-        eventId: String,
+        surveyFormId: String,
         userId: String,
     ): Result<Boolean>
 
@@ -14,6 +14,7 @@ interface SurveyDataSource {
     suspend fun getSurvey(surveyId: String): Result<SurveyResponse>
 
     suspend fun postSurvey(
+        surveyFormId: String,
         eventId: String,
         userId: String,
         title: String,

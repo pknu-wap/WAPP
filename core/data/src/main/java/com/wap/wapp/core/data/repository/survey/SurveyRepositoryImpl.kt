@@ -43,6 +43,7 @@ class SurveyRepositoryImpl @Inject constructor(
         }
 
     override suspend fun postSurvey(
+        surveyFormId: String,
         eventId: String,
         userId: String,
         title: String,
@@ -50,6 +51,7 @@ class SurveyRepositoryImpl @Inject constructor(
         surveyAnswerList: List<SurveyAnswer>,
         surveyedAt: LocalDateTime,
     ): Result<Unit> = surveyDataSource.postSurvey(
+        surveyFormId = surveyFormId,
         eventId = eventId,
         userId = userId,
         title = title,
@@ -58,8 +60,8 @@ class SurveyRepositoryImpl @Inject constructor(
         surveyedAt = surveyedAt.toISOLocalDateTimeString(),
     )
 
-    override suspend fun isSubmittedSurvey(eventId: String, userId: String): Result<Boolean> =
-        surveyDataSource.isSubmittedSurvey(eventId, userId)
+    override suspend fun isSubmittedSurvey(surveyFormId: String, userId: String): Result<Boolean> =
+        surveyDataSource.isSubmittedSurvey(surveyFormId, userId)
 
     private val noticeNameResponse: Result<String> = Result.success("notice datasource dummy data")
 

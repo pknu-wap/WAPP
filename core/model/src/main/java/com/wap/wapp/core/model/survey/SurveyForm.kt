@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 
 // 운영진이 등록하는 설문 모델
 data class SurveyForm(
+    val surveyFormId: String,
     val eventId: String,
     val title: String,
     val content: String,
@@ -14,6 +15,7 @@ data class SurveyForm(
     val deadline: LocalDateTime,
 ) {
     constructor() : this(
+        "",
         "",
         "",
         "",

@@ -28,8 +28,8 @@ fun NavGraphBuilder.surveyNavGraph(
         SurveyScreen(
             viewModel = hiltViewModel(),
             navigateToSignIn = navigateToSignIn,
-            navigateToSurveyAnswer = { eventId ->
-                navigateToSurveyAnswer(eventId)
+            navigateToSurveyAnswer = { surveyFormId ->
+                navigateToSurveyAnswer(surveyFormId)
             },
         )
     }
@@ -42,12 +42,12 @@ fun NavGraphBuilder.surveyNavGraph(
             },
         ),
     ) { navBackStackEntry ->
-        val eventId = navBackStackEntry.arguments?.getString("id") ?: ""
+        val surveyFormId = navBackStackEntry.arguments?.getString("id") ?: ""
         SurveyAnswerScreen(
             viewModel = hiltViewModel(),
             onSubmitButtonClicked = navigateToSurvey,
             onBackButtonClicked = navigateToSurvey,
-            eventId = eventId,
+            surveyFormId = surveyFormId,
         )
     }
 }
@@ -55,5 +55,5 @@ fun NavGraphBuilder.surveyNavGraph(
 object SurveyRoute {
     const val route: String = "survey"
 
-    fun answerRoute(eventId: String): String = "$route/$eventId"
+    fun answerRoute(surveyFormId: String): String = "$route/$surveyFormId"
 }

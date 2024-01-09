@@ -61,7 +61,7 @@ internal fun SurveyScreen(
                 }
 
                 is SurveyViewModel.SurveyUiEvent.NotSubmitted -> {
-                    navigateToSurveyAnswer(it.eventId)
+                    navigateToSurveyAnswer(it.surveyFormId)
                 }
             }
         }
@@ -132,10 +132,12 @@ private fun SurveyContent(
             .padding(horizontal = 16.dp),
     ) {
         items(surveyFormList) { surveyForm ->
-            SurveyFormItemCard(
-                surveyForm = surveyForm,
-                selectedSurveyForm = selectedSurveyForm,
-            )
+            if (surveyForm.isAfterDeadline()) {
+                SurveyFormItemCard(
+                    surveyForm = surveyForm,
+                    selectedSurveyForm = selectedSurveyForm,
+                )
+            }
         }
     }
 }
@@ -151,7 +153,7 @@ private fun SurveyFormItemCard(
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { selectedSurveyForm(surveyForm.eventId) },
+            .clickable { selectedSurveyForm(surveyForm.surveyFormId) },
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),

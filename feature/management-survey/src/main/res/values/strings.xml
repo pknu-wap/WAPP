@@ -44,4 +44,5 @@
     <string name="event">일정</string>
     <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
     <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
+    <string name="survey_edit">설문 수정</string>
 </resources>

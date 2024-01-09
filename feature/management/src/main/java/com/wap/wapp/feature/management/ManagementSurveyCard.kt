@@ -86,7 +86,7 @@ private fun ManagementSurveyContent(
             ) {
                 itemsIndexed(
                     items = surveyFormsState.surveyForms,
-                    key = { index, survey -> survey.eventId },
+                    key = { index, survey -> survey.surveyFormId },
                 ) { currentIndex, survey ->
                     ManagementSurveyItemCard(
                         item = survey,
@@ -116,7 +116,7 @@ private fun ManagementSurveyItemCard(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onCardClicked(item.eventId) },
+            .clickable { onCardClicked(item.surveyFormId) },
         colors = CardDefaults.cardColors(containerColor = cardColor),
     ) {
         Row(

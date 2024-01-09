@@ -1,6 +1,6 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
-enum class SurveyRegistrationState(
+enum class SurveyFormState(
     val page: String,
     val progress: Float,
 ) {
