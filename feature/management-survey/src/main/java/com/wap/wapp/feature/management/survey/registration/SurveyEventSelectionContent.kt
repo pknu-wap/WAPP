@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -39,12 +38,17 @@ internal fun SurveyEventSelectionContent(
             WappTitle(
                 title = stringResource(R.string.event_selection_title),
                 content = stringResource(R.string.event_selection_content),
-                modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
+                modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
             )
         }
 
         when (eventsState) {
-            is SurveyRegistrationViewModel.EventsState.Loading -> item { CircleLoader() }
+            is SurveyRegistrationViewModel.EventsState.Loading -> item {
+                CircleLoader(
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+
             is SurveyRegistrationViewModel.EventsState.Success ->
                 items(eventsState.events) { event ->
                     Card(
@@ -81,19 +85,15 @@ internal fun SurveyEventSelectionContent(
                         }
                     }
                 }
+
             is SurveyRegistrationViewModel.EventsState.Failure -> {}
         }
-
         item {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Spacer(modifier = Modifier.weight(weight = 1f, fill = false))
-
-                WappButton(
-                    textRes = R.string.next,
-                    onClick = onNextButtonClicked,
-                    modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
-                )
-            }
+            WappButton(
+                textRes = R.string.next,
+                onClick = onNextButtonClicked,
+                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
+            )
         }
     }
 }

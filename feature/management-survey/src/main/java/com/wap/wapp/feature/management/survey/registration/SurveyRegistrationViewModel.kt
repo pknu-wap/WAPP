@@ -97,7 +97,6 @@ class SurveyRegistrationViewModel @Inject constructor(
     }
 
     fun getEventList() = viewModelScope.launch {
-        _eventList.value = EventsState.Loading
         getEventListUseCase(DateUtil.generateNowDate())
             .onSuccess { eventList ->
                 _eventList.value = EventsState.Success(eventList)
