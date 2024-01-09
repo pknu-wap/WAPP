@@ -117,14 +117,12 @@ internal fun ManagementScreen(
 }
 
 @Composable
-internal fun ManagementCardColor(currentIndex: Int): Color {
-    return if (currentIndex % 2 == 0) {
+internal fun ManagementCardColor(currentIndex: Int): Color =
+    if (currentIndex % 2 == 0) {
         WappTheme.colors.black82
     } else {
         WappTheme.colors.black42
     }
-}
 
-private fun showToast(text: String, context: Context) {
+private fun showToast(text: String, context: Context) =
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-}
