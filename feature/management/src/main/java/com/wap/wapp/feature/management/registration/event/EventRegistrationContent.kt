@@ -135,7 +135,7 @@ private fun EventDetailsContent(
             text = stringResource(R.string.event_title),
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
-            modifier = Modifier.padding(top = 50.dp),
+            modifier = Modifier.padding(top = 40.dp),
         )
 
         RegistrationTextField(
@@ -245,7 +245,7 @@ private fun EventScheduleContent(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.padding(top = 50.dp),
+        modifier = Modifier.padding(top = 40.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
