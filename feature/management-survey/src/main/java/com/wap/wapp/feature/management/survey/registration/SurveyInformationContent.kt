@@ -43,7 +43,7 @@ internal fun SurveyInformationContent(
         WappTitle(
             title = stringResource(R.string.survey_information_title),
             content = stringResource(R.string.survey_information_content),
-            modifier = Modifier.padding(top = 34.dp, bottom = 24.dp),
+            modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
         )
 
         Text(

@@ -45,90 +45,84 @@ internal fun SurveyQuestionContent(
     val scrollState = rememberScrollState()
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.verticalScroll(scrollState),
     ) {
         WappTitle(
             title = stringResource(R.string.survey_question_title),
             content = stringResource(R.string.survey_question_content),
+            modifier = Modifier.padding(top = 10.dp, bottom = 30.dp),
         )
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = stringResource(R.string.survey_question),
-                    style = WappTheme.typography.titleBold,
-                    color = WappTheme.colors.white,
-                )
-
-                Text(
-                    color = WappTheme.colors.white,
-                    style = WappTheme.typography.contentRegular,
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                WappTheme.colors.yellow34,
-                            ),
-                        ) { append(currentQuestionIndex.toString()) }
-                        append(" / $totalQuestionIndex")
-                    },
-                    textAlign = TextAlign.End,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-
-            WappRoundedTextField(
-                value = question,
-                onValueChange = onQuestionChanged,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .fillMaxWidth()
-                    .height(200.dp),
-                placeholder = R.string.suvey_question_hint,
-            )
-        }
-
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
-                text = stringResource(R.string.survey_question_type),
+                text = stringResource(R.string.survey_question),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                SurveyQuestionTypeChip(
-                    selected = (questionType == QuestionType.SUBJECTIVE),
-                    onSelected = { onQuestionTypeChanged(QuestionType.SUBJECTIVE) },
-                    label = stringResource(R.string.essay),
-                )
-
-                SurveyQuestionTypeChip(
-                    selected = (questionType == QuestionType.OBJECTIVE),
-                    onSelected = { onQuestionTypeChanged(QuestionType.OBJECTIVE) },
-                    label = stringResource(R.string.multie_choice),
-                )
-            }
-
-            SurveyQuestionTypeDescription(
-                type = questionType,
+            Text(
+                color = WappTheme.colors.white,
+                style = WappTheme.typography.contentRegular,
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            WappTheme.colors.yellow34,
+                        ),
+                    ) { append(currentQuestionIndex.toString()) }
+                    append(" / $totalQuestionIndex")
+                },
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
 
-        SurveyQuestionButton(
-            onAddSurveyQuestionButtonClicked = {
-                onAddSurveyQuestionButtonClicked()
-            },
-            onNextButtonClicked = onNextButtonClicked,
+        WappRoundedTextField(
+            value = question,
+            onValueChange = onQuestionChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+            placeholder = R.string.suvey_question_hint,
         )
     }
+
+    Text(
+        text = stringResource(R.string.survey_question_type),
+        style = WappTheme.typography.titleBold,
+        color = WappTheme.colors.white,
+        modifier = Modifier.padding(top = 20.dp),
+    )
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        SurveyQuestionTypeChip(
+            selected = (questionType == QuestionType.SUBJECTIVE),
+            onSelected = { onQuestionTypeChanged(QuestionType.SUBJECTIVE) },
+            label = stringResource(R.string.essay),
+        )
+
+        SurveyQuestionTypeChip(
+            selected = (questionType == QuestionType.OBJECTIVE),
+            onSelected = { onQuestionTypeChanged(QuestionType.OBJECTIVE) },
+            label = stringResource(R.string.multie_choice),
+        )
+    }
+
+    SurveyQuestionTypeDescription(
+        type = questionType,
+    )
+
+    SurveyQuestionButton(
+        onAddSurveyQuestionButtonClicked = {
+            onAddSurveyQuestionButtonClicked()
+        },
+        onNextButtonClicked = onNextButtonClicked,
+        modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+    )
 }
 
 @Composable
@@ -141,14 +135,15 @@ private fun SurveyQuestionTypeDescription(
                 text = stringResource(R.string.essay_hint),
                 color = WappTheme.colors.yellow34,
                 style = WappTheme.typography.labelRegular,
+                modifier = Modifier.padding(top = 10.dp),
             )
         }
 
         QuestionType.OBJECTIVE -> {
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
                 modifier = Modifier
-                    .padding(top = 20.dp)
+                    .padding(top = 10.dp)
                     .fillMaxWidth(),
             ) {
                 SurveyQuestionTypeCard(
@@ -240,9 +235,11 @@ private fun SurveyQuestionTypeCard(
 private fun SurveyQuestionButton(
     onAddSurveyQuestionButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
     ) {
         WappButton(
             onClick = onAddSurveyQuestionButtonClicked,

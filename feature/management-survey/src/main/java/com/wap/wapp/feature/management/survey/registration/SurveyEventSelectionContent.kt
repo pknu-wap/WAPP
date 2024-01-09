@@ -38,7 +38,7 @@ internal fun SurveyEventSelectionContent(
             WappTitle(
                 title = stringResource(R.string.event_selection_title),
                 content = stringResource(R.string.event_selection_content),
-                modifier = Modifier.padding(top = 34.dp, bottom = 24.dp),
+                modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
             )
         }
 
