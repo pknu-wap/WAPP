@@ -53,7 +53,7 @@ internal fun SignInContent(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .size(width = 230.dp, height = 230.dp),
-                contentDescription = "WAPP ICON",
+                contentDescription = stringResource(string.wapp_icon_description),
             )
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
