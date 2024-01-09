@@ -1,8 +1,10 @@
 package com.wap.wapp.feature.management.survey.registration
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import java.time.LocalDate
@@ -38,57 +40,61 @@ internal fun SurveyRegistrationContent(
     onNextButtonClicked: (SurveyRegistrationState) -> Unit,
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    when (surveyRegistrationState) {
-        SurveyRegistrationState.EVENT_SELECTION -> {
-            onEventListChanged()
-            SurveyEventSelectionContent(
-                eventList = eventList,
-                eventSelection = eventSelection,
-                // default prefix -> 함수 parameter <-> 콜백 함수 parameter conflict
-                onEventSelected = onEventSelected,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.INFORMATION) },
-            )
-        }
+    Column(modifier = modifier) {
+        when (surveyRegistrationState) {
+            SurveyRegistrationState.EVENT_SELECTION -> {
+                onEventListChanged()
+                SurveyEventSelectionContent(
+                    eventList = eventList,
+                    eventSelection = eventSelection,
+                    onEventSelected = onEventSelected,
+                    onNextButtonClicked = {
+                        onNextButtonClicked(SurveyRegistrationState.INFORMATION)
+                    },
+                )
+            }
 
-        SurveyRegistrationState.INFORMATION -> {
-            SurveyInformationContent(
-                title = title,
-                onTitleChanged = onTitleChanged,
-                content = content,
-                onContentChanged = onContentChanged,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
-            )
-        }
+            SurveyRegistrationState.INFORMATION -> {
+                SurveyInformationContent(
+                    title = title,
+                    onTitleChanged = onTitleChanged,
+                    content = content,
+                    onContentChanged = onContentChanged,
+                    onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.QUESTION) },
+                )
+            }
 
-        SurveyRegistrationState.QUESTION -> {
-            SurveyQuestionContent(
-                question = question,
-                questionType = questionType,
-                onQuestionTypeChanged = { defaultQuestionType ->
-                    onQuestionTypeChanged(defaultQuestionType)
-                },
-                onQuestionChanged = onQuestionChanged,
-                onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
-                currentQuestionIndex = currentQuestionIndex,
-                totalQuestionIndex = totalQuestionSize,
-                onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },
-            )
-        }
+            SurveyRegistrationState.QUESTION -> {
+                SurveyQuestionContent(
+                    question = question,
+                    questionType = questionType,
+                    onQuestionTypeChanged = { defaultQuestionType ->
+                        onQuestionTypeChanged(defaultQuestionType)
+                    },
+                    onQuestionChanged = onQuestionChanged,
+                    onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
+                    currentQuestionIndex = currentQuestionIndex,
+                    totalQuestionIndex = totalQuestionSize,
+                    onNextButtonClicked = { onNextButtonClicked(SurveyRegistrationState.DEADLINE) },
+                )
+            }
 
-        SurveyRegistrationState.DEADLINE -> {
-            SurveyDeadlineContent(
-                time = time,
-                date = date,
-                timePickerState = timePickerState,
-                showDatePicker = showDatePicker,
-                showTimePicker = showTimePicker,
-                onDateChanged = onDateChanged,
-                onTimePickerStateChanged = onTimePickerStateChanged,
-                onTimeChanged = onTimeChanged,
-                onRegisterButtonClicked = onRegisterButtonClicked,
-                onDatePickerStateChanged = onDatePickerStateChanged,
-            )
+            SurveyRegistrationState.DEADLINE -> {
+                SurveyDeadlineContent(
+                    time = time,
+                    date = date,
+                    timePickerState = timePickerState,
+                    showDatePicker = showDatePicker,
+                    showTimePicker = showTimePicker,
+                    onDateChanged = onDateChanged,
+                    onTimePickerStateChanged = onTimePickerStateChanged,
+                    onTimeChanged = onTimeChanged,
+                    onRegisterButtonClicked = onRegisterButtonClicked,
+                    onDatePickerStateChanged = onDatePickerStateChanged,
+                )
+            }
         }
     }
 }
