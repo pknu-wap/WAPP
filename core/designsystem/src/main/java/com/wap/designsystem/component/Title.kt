@@ -15,10 +15,11 @@ import com.wap.designsystem.WappTheme
 fun WappTitle(
     title: String,
     content: String,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         Text(
             text = title,

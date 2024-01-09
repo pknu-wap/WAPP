@@ -5,6 +5,7 @@
     <string name="back_button_description">Back Icon</string>
     <string name="sign_in">로그인</string>
     <string name="sign_in_email">이메일</string>
+    <string name="wapp_icon_description">WAPP ICON</string>
     <string name="sign_in_email_hint">Github Email</string>
     <string name="sign_in_find_email">이메일을 까먹으셨나요?</string>
     <string name="sign_in_github_content">Github 로그인</string>

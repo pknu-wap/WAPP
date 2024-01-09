@@ -44,7 +44,7 @@ internal fun SurveyRegistrationRoute(
     navigateToManagement: () -> Unit,
 ) {
     val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
+    val eventsState = viewModel.eventList.collectAsState().value
     val eventSelection = viewModel.surveyEventSelection.collectAsState().value
     val title = viewModel.surveyTitle.collectAsState().value
     val content = viewModel.surveyContent.collectAsState().value
@@ -56,7 +56,7 @@ internal fun SurveyRegistrationRoute(
 
     SurveyRegistrationScreen(
         currentRegistrationState = currentRegistrationState,
-        eventList = eventList,
+        eventsState = eventsState,
         eventSelection = eventSelection,
         title = title,
         content = content,
@@ -77,7 +77,7 @@ internal fun SurveyRegistrationRoute(
 @Composable
 internal fun SurveyRegistrationScreen(
     currentRegistrationState: SurveyRegistrationState,
-    eventList: List<Event>,
+    eventsState: SurveyRegistrationViewModel.EventsState,
     eventSelection: Event,
     title: String,
     content: String,
@@ -123,26 +123,22 @@ internal fun SurveyRegistrationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+                .padding(top = 16.dp, start = 20.dp, end = 20.dp), // dp value padding
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                WappSubTopBar(
-                    titleRes = R.string.survey_registeration,
-                    showLeftButton = true,
-                    onClickLeftButton = onBackButtonClicked,
-                )
+            WappSubTopBar(
+                titleRes = R.string.survey_registeration,
+                showLeftButton = true,
+                onClickLeftButton = onBackButtonClicked,
+                modifier = Modifier.padding(bottom = 16.dp),
+            )
 
-                SurveyRegistrationStateIndicator(
-                    surveyRegistrationState = currentRegistrationState,
-                )
-            }
+            SurveyRegistrationStateIndicator(
+                surveyRegistrationState = currentRegistrationState,
+            )
 
             SurveyRegistrationContent(
                 surveyRegistrationState = currentRegistrationState,
-                eventList = eventList,
+                eventsState = eventsState,
                 eventSelection = eventSelection,
                 title = title,
                 content = content,
@@ -172,6 +168,7 @@ internal fun SurveyRegistrationScreen(
                 },
                 onAddQuestionButtonClicked = { viewModel.addSurveyQuestion() },
                 onRegisterButtonClicked = { viewModel.registerSurvey() },
+                modifier = Modifier.padding(top = 50.dp),
             )
         }
     }

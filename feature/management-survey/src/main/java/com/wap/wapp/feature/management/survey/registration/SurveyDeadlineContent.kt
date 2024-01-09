@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -66,41 +67,38 @@ internal fun SurveyDeadlineContent(
     }
 
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier.weight(1f),
-        ) {
-            WappTitle(
-                title = stringResource(R.string.survey_deadline_title),
-                content = stringResource(R.string.survey_deadline_content),
-            )
+        WappTitle(
+            title = stringResource(R.string.survey_deadline_title),
+            content = stringResource(R.string.survey_deadline_content),
+            modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
+        )
 
-            DeadlineCard(
-                title = stringResource(R.string.date),
-                hint = date.format(DateUtil.yyyyMMddFormatter),
-                onCardClicked = {
-                    onDatePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 40.dp),
-            )
+        DeadlineCard(
+            title = stringResource(R.string.date),
+            hint = date.format(DateUtil.yyyyMMddFormatter),
+            onCardClicked = {
+                onDatePickerStateChanged(true)
+            },
+        )
 
-            DeadlineCard(
-                title = stringResource(R.string.time),
-                hint = time.format(DateUtil.HHmmFormatter),
-                onCardClicked = {
-                    onTimePickerStateChanged(true)
-                },
-                modifier = Modifier.padding(top = 20.dp),
-            )
-        }
+        DeadlineCard(
+            title = stringResource(R.string.time),
+            hint = time.format(DateUtil.HHmmFormatter),
+            onCardClicked = {
+                onTimePickerStateChanged(true)
+            },
+            modifier = Modifier.padding(top = 20.dp),
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
 
         WappButton(
             textRes = R.string.register_survey,
             onClick = onRegisterButtonClicked,
-            modifier = Modifier.padding(bottom = 20.dp),
+            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
         )
     }
 }

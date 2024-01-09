@@ -33,6 +33,7 @@ dependencies {
     implementation(project(":feature:profile"))
     implementation(project(":feature:management"))
     implementation(project(":feature:management-survey"))
+    implementation(project(":feature:management-event"))
     implementation(project(":feature:splash"))
     implementation(project(":core:designresource"))
     implementation(project(":core:designsystem"))
