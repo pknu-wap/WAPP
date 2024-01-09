@@ -2,19 +2,12 @@ package com.wap.wapp.feature.management.survey.registration
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -50,25 +43,8 @@ internal fun SurveyRegistrationContent(
     onRegisterButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val scrollState = rememberScrollState()
-    val coroutineScope = rememberCoroutineScope()
-
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(
-                object : NestedScrollConnection {
-                    // 자식 스크롤을 아직 뺏을 수 있을 경우
-                    override fun onPreScroll(
-                        available: Offset,
-                        source: NestedScrollSource,
-                    ): Offset {
-                        val dy = available.y
-
-                        return Offset(x = 0.0f, y = dy)
-                    }
-                },
-            ),
+        modifier = modifier.fillMaxSize(),
     ) {
         when (surveyRegistrationState) {
             SurveyRegistrationState.EVENT_SELECTION -> {
@@ -78,9 +54,6 @@ internal fun SurveyRegistrationContent(
                     eventSelection = eventSelection,
                     onEventSelected = onEventSelected,
                     onNextButtonClicked = {
-                        coroutineScope.launch {
-                            scrollState.scrollTo(0)
-                        }
                         onNextButtonClicked(SurveyRegistrationState.INFORMATION)
                     },
                 )
@@ -93,9 +66,6 @@ internal fun SurveyRegistrationContent(
                     content = content,
                     onContentChanged = onContentChanged,
                     onNextButtonClicked = {
-                        coroutineScope.launch {
-                            scrollState.scrollTo(0)
-                        }
                         onNextButtonClicked(SurveyRegistrationState.QUESTION)
                     },
                 )
@@ -113,9 +83,6 @@ internal fun SurveyRegistrationContent(
                     currentQuestionIndex = currentQuestionIndex,
                     totalQuestionIndex = totalQuestionSize,
                     onNextButtonClicked = {
-                        coroutineScope.launch {
-                            scrollState.scrollTo(0)
-                        }
                         onNextButtonClicked(SurveyRegistrationState.DEADLINE)
                     },
                 )

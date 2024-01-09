@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,62 +29,60 @@ internal fun SurveyEventSelectionContent(
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.SpaceBetween,
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.fillMaxSize(),
     ) {
-        WappTitle(
-            title = stringResource(R.string.event_selection_title),
-            content = stringResource(R.string.event_selection_content),
-        )
+        item {
+            WappTitle(
+                title = stringResource(R.string.event_selection_title),
+                content = stringResource(R.string.event_selection_content),
+                modifier = Modifier.padding(bottom = 34.dp),
+            )
+        }
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(top = 50.dp),
-        ) {
-            items(eventList) { event ->
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = WappTheme.colors.black25,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onEventSelected(event) },
-                    border = BorderStroke(
-                        color = if (event.eventId == eventSelection.eventId) {
-                            WappTheme.colors.yellow34
-                        } else {
-                            WappTheme.colors.black25
-                        },
-                        width = 1.dp,
-                    ),
+        items(eventList) { event ->
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = WappTheme.colors.black25,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onEventSelected(event) },
+                border = BorderStroke(
+                    color = if (event.eventId == eventSelection.eventId) {
+                        WappTheme.colors.yellow34
+                    } else {
+                        WappTheme.colors.black25
+                    },
+                    width = 1.dp,
+                ),
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(16.dp),
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(16.dp),
-                    ) {
-                        Text(
-                            text = event.title,
-                            style = WappTheme.typography.titleBold,
-                            color = WappTheme.colors.white,
-                        )
+                    Text(
+                        text = event.title,
+                        style = WappTheme.typography.titleBold,
+                        color = WappTheme.colors.white,
+                    )
 
-                        Text(
-                            text = event.content,
-                            style = WappTheme.typography.captionMedium,
-                            color = WappTheme.colors.yellow34,
-                        )
-                    }
+                    Text(
+                        text = event.content,
+                        style = WappTheme.typography.captionMedium,
+                        color = WappTheme.colors.yellow34,
+                    )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.weight(1.0F))
-
-        WappButton(
-            textRes = R.string.next,
-            onClick = onNextButtonClicked,
-            modifier = Modifier.padding(vertical = 20.dp),
-        )
+        item {
+            WappButton(
+                textRes = R.string.next,
+                onClick = onNextButtonClicked,
+                modifier = Modifier.padding(vertical = 20.dp),
+            )
+        }
     }
 }
