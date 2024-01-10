@@ -26,7 +26,7 @@ import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signup.navigation.signUpNavigationRoute
 import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigationRoute
-import com.wap.wapp.feature.management.survey.registration.navigation.surveyRegistrationNavigationRoute
+import com.wap.wapp.feature.management.survey.navigation.ManagementSurveyRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.navigation.TopLevelDestination
@@ -105,7 +105,7 @@ private fun handleBottomBarState(
     signUpNavigationRoute -> setBottomBarState(false)
     splashNavigationRoute -> setBottomBarState(false)
     profileSettingNavigationRoute -> setBottomBarState(false)
-    surveyRegistrationNavigationRoute -> setBottomBarState(false)
+    ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
     else -> setBottomBarState(true)
 }

@@ -17,8 +17,9 @@ import com.wap.wapp.feature.management.event.navigation.navigateToEventEdit
 import com.wap.wapp.feature.management.event.navigation.navigateToEventRegistration
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
-import com.wap.wapp.feature.management.survey.registration.navigation.navigateToSurveyRegistration
-import com.wap.wapp.feature.management.survey.registration.navigation.surveyRegistrationScreen
+import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormEdit
+import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormRegistration
+import com.wap.wapp.feature.management.survey.navigation.managementSurveyNavGraph
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.navigateToProfile
@@ -29,7 +30,6 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavi
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
-import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.survey.check.navigation.surveyCheckScreen
 import com.wap.wapp.feature.survey.navigation.navigateToSurvey
 import com.wap.wapp.feature.survey.navigation.navigateToSurveyAnswer
@@ -74,7 +74,7 @@ fun WappNavHost(
         surveyCheckScreen(
             navigateToManagement = navController::navigateToManagement,
         )
-        surveyRegistrationScreen(
+        managementSurveyNavGraph(
             navigateToManagement = navController::navigateToManagement,
         )
         managementEventNavGraph(
@@ -100,10 +100,10 @@ fun WappNavHost(
             },
         )
         managementScreen(
-            navigateToSurveyRegistration = navController::navigateToSurveyRegistration,
+            navigateToSurveyRegistration = navController::navigateToSurveyFormRegistration,
             navigateToEventRegistration = navController::navigateToEventRegistration,
             navigateToEventEdit = navController::navigateToEventEdit,
-            navigateToSurveyCheck = navController::navigateToSurveyCheck,
+            navigateToSurveyFormEdit = navController::navigateToSurveyFormEdit,
         )
     }
 }

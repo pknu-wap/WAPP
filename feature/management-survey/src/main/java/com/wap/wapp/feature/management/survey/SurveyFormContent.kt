@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
+import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyRegistrationContent(
-    surveyRegistrationState: SurveyRegistrationState,
-    eventsState: SurveyRegistrationViewModel.EventsState,
+internal fun SurveyFormContent(
+    surveyRegistrationState: SurveyFormState,
+    eventsState: SurveyFormRegistrationViewModel.EventsState,
     eventSelection: Event,
     title: String,
     content: String,
@@ -38,7 +39,7 @@ internal fun SurveyRegistrationContent(
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: (SurveyRegistrationState) -> Unit,
+    onNextButtonClicked: (SurveyFormState, SurveyFormState) -> Unit, // (currentState, nextState)
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
@@ -47,31 +48,37 @@ internal fun SurveyRegistrationContent(
         modifier = modifier.fillMaxSize(),
     ) {
         when (surveyRegistrationState) {
-            SurveyRegistrationState.EVENT_SELECTION -> {
+            SurveyFormState.EVENT_SELECTION -> {
                 onEventListChanged()
-                SurveyEventSelectionContent(
+                SurveyEventContent(
                     eventsState = eventsState,
-                    eventSelection = eventSelection,
+                    selectedEvent = eventSelection,
                     onEventSelected = onEventSelected,
                     onNextButtonClicked = {
-                        onNextButtonClicked(SurveyRegistrationState.INFORMATION)
+                        onNextButtonClicked(
+                            SurveyFormState.EVENT_SELECTION,
+                            SurveyFormState.INFORMATION,
+                        )
                     },
                 )
             }
 
-            SurveyRegistrationState.INFORMATION -> {
+            SurveyFormState.INFORMATION -> {
                 SurveyInformationContent(
                     title = title,
                     onTitleChanged = onTitleChanged,
                     content = content,
                     onContentChanged = onContentChanged,
                     onNextButtonClicked = {
-                        onNextButtonClicked(SurveyRegistrationState.QUESTION)
+                        onNextButtonClicked(
+                            SurveyFormState.INFORMATION,
+                            SurveyFormState.QUESTION,
+                        )
                     },
                 )
             }
 
-            SurveyRegistrationState.QUESTION -> {
+            SurveyFormState.QUESTION -> {
                 SurveyQuestionContent(
                     question = question,
                     questionType = questionType,
@@ -83,12 +90,15 @@ internal fun SurveyRegistrationContent(
                     currentQuestionIndex = currentQuestionIndex,
                     totalQuestionIndex = totalQuestionSize,
                     onNextButtonClicked = {
-                        onNextButtonClicked(SurveyRegistrationState.DEADLINE)
+                        onNextButtonClicked(
+                            SurveyFormState.QUESTION,
+                            SurveyFormState.DEADLINE,
+                        )
                     },
                 )
             }
 
-            SurveyRegistrationState.DEADLINE -> {
+            SurveyFormState.DEADLINE -> {
                 SurveyDeadlineContent(
                     time = time,
                     date = date,

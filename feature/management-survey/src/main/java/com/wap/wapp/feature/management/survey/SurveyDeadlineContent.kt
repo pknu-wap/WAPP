@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,6 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.feature.management.survey.R
 import com.wap.wapp.feature.management.survey.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.survey.component.WappTimePickerDialog
 import java.time.LocalDate

@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,6 @@ import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappRoundedTextField
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.survey.QuestionType
-import com.wap.wapp.feature.management.survey.R
 
 @Composable
 internal fun SurveyQuestionContent(

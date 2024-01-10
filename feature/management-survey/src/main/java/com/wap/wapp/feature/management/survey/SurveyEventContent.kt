@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -21,12 +21,12 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.management.survey.R
+import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel.EventsState
 
 @Composable
-internal fun SurveyEventSelectionContent(
-    eventsState: SurveyRegistrationViewModel.EventsState,
-    eventSelection: Event,
+internal fun SurveyEventContent(
+    eventsState: EventsState,
+    selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
@@ -43,13 +43,13 @@ internal fun SurveyEventSelectionContent(
         }
 
         when (eventsState) {
-            is SurveyRegistrationViewModel.EventsState.Loading -> item {
+            is EventsState.Loading -> item {
                 CircleLoader(
                     modifier = Modifier.fillMaxSize(),
                 )
             }
 
-            is SurveyRegistrationViewModel.EventsState.Success ->
+            is EventsState.Success ->
                 items(eventsState.events) { event ->
                     Card(
                         colors = CardDefaults.cardColors(
@@ -59,7 +59,7 @@ internal fun SurveyEventSelectionContent(
                             .fillMaxWidth()
                             .clickable { onEventSelected(event) },
                         border = BorderStroke(
-                            color = if (event.eventId == eventSelection.eventId) {
+                            color = if (event.eventId == selectedEvent.eventId) {
                                 WappTheme.colors.yellow34
                             } else {
                                 WappTheme.colors.black25
@@ -86,7 +86,7 @@ internal fun SurveyEventSelectionContent(
                     }
                 }
 
-            is SurveyRegistrationViewModel.EventsState.Failure -> {}
+            is EventsState.Failure -> {}
         }
         item {
             WappButton(
