@@ -11,6 +11,7 @@ class PostSurveyUseCase @Inject constructor(
     private val surveyRepository: SurveyRepository,
 ) {
     suspend operator fun invoke(
+        surveyFormId: String,
         eventId: String,
         title: String,
         content: String,
@@ -19,6 +20,7 @@ class PostSurveyUseCase @Inject constructor(
         val userId = userRepository.getUserId().getOrThrow()
 
         surveyRepository.postSurvey(
+            surveyFormId = surveyFormId,
             userId = userId,
             eventId = eventId,
             title = title,

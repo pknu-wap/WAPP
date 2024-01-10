@@ -1,19 +1,14 @@
-package com.wap.wapp.feature.management.survey.registration
+package com.wap.wapp.feature.management.survey.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,28 +17,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.feature.management.survey.R
+import com.wap.wapp.feature.management.survey.SurveyFormContent
+import com.wap.wapp.feature.management.survey.SurveyFormState
+import com.wap.wapp.feature.management.survey.SurveyFormStateIndicator
 import kotlinx.coroutines.flow.collectLatest
-import java.time.LocalDate
-import java.time.LocalTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyRegistrationRoute(
-    viewModel: SurveyRegistrationViewModel = hiltViewModel(),
+internal fun SurveyFormEditScreen(
+    viewModel: SurveyFormEditViewModel = hiltViewModel(),
+    surveyFormId: String,
     navigateToManagement: () -> Unit,
 ) {
-    val currentRegistrationState = viewModel.currentRegistrationState.collectAsState().value
+    val currentRegistrationState = viewModel.currentSurveyFormState.collectAsState().value
     val eventList = viewModel.eventList.collectAsState().value
     val eventSelection = viewModel.surveyEventSelection.collectAsState().value
     val title = viewModel.surveyTitle.collectAsState().value
@@ -53,61 +46,26 @@ internal fun SurveyRegistrationRoute(
     val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
     val time = viewModel.surveyTimeDeadline.collectAsState().value
     val date = viewModel.surveyDateDeadline.collectAsState().value
-
-    SurveyRegistrationScreen(
-        currentRegistrationState = currentRegistrationState,
-        eventList = eventList,
-        eventSelection = eventSelection,
-        title = title,
-        content = content,
-        question = question,
-        questionType = questionType,
-        totalQuestionSize = totalQuestionSize,
-        time = time,
-        date = date,
-        onBackButtonClicked = { navigateToManagement() },
-        viewModel = viewModel,
-        registerSurveyForm = {
-            navigateToManagement()
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun SurveyRegistrationScreen(
-    currentRegistrationState: SurveyRegistrationState,
-    eventList: List<Event>,
-    eventSelection: Event,
-    title: String,
-    content: String,
-    question: String,
-    questionType: QuestionType,
-    totalQuestionSize: Int,
-    time: LocalTime,
-    date: LocalDate,
-    registerSurveyForm: () -> Unit,
-    viewModel: SurveyRegistrationViewModel,
-    onBackButtonClicked: () -> Unit,
-) {
     val snackBarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
-        viewModel.surveyRegistrationEvent.collectLatest {
-            when (it) {
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.Failure -> {
-                    snackBarHostState.showSnackbar(it.error.toSupportingText())
-                }
+        viewModel.getSurveyForm(surveyFormId)
+    }
 
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.ValidationError -> {
-                    snackBarHostState.showSnackbar(it.message)
+    LaunchedEffect(true) {
+        viewModel.surveyFormEditUiEvent.collectLatest { surveyFormEditEvent ->
+            when (surveyFormEditEvent) {
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.Success -> {
+                    navigateToManagement()
                 }
-
-                is SurveyRegistrationViewModel.SurveyRegistrationEvent.Success -> {
-                    registerSurveyForm()
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.Failure -> {
+                    snackBarHostState.showSnackbar(surveyFormEditEvent.throwable.toSupportingText())
+                }
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.ValidationError -> {
+                    snackBarHostState.showSnackbar(surveyFormEditEvent.message)
                 }
             }
         }
@@ -130,17 +88,17 @@ internal fun SurveyRegistrationScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 WappSubTopBar(
-                    titleRes = R.string.survey_registeration,
+                    titleRes = R.string.survey_edit,
                     showLeftButton = true,
-                    onClickLeftButton = onBackButtonClicked,
+                    onClickLeftButton = navigateToManagement,
                 )
 
-                SurveyRegistrationStateIndicator(
+                SurveyFormStateIndicator(
                     surveyRegistrationState = currentRegistrationState,
                 )
             }
 
-            SurveyRegistrationContent(
+            SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
                 eventList = eventList,
                 eventSelection = eventSelection,
@@ -167,58 +125,28 @@ internal fun SurveyRegistrationScreen(
                 },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
-                onNextButtonClicked = { surveyRegistrationState ->
-                    viewModel.setSurveyRegistrationState(surveyRegistrationState)
+                onNextButtonClicked = { currentState, nextState ->
+                    if (viewModel.validateSurveyForm(currentState).not()) { // 유효성 검증
+                        return@SurveyFormContent
+                    }
+
+                    if (currentState == SurveyFormState.QUESTION) {
+                        viewModel.addSurveyQuestion() // 마지막으로 작성한 질문, 질문 목록에 추가
+                    }
+
+                    viewModel.setSurveyFormState(nextState) // 다음 단계
                 },
-                onAddQuestionButtonClicked = { viewModel.addSurveyQuestion() },
-                onRegisterButtonClicked = { viewModel.registerSurvey() },
+                onAddQuestionButtonClicked = {
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION)) {
+                        viewModel.addSurveyQuestion()
+                    }
+                },
+                onRegisterButtonClicked = {
+                    if (viewModel.validateSurveyForm(SurveyFormState.DEADLINE)) {
+                        viewModel.updateSurveyForm()
+                    }
+                },
             )
         }
     }
-}
-
-@Composable
-private fun SurveyRegistrationStateIndicator(
-    surveyRegistrationState: SurveyRegistrationState,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        SurveyRegistrationStateProgressBar(surveyRegistrationState.progress)
-        SurveyRegistrationStateText(surveyRegistrationState.page)
-    }
-}
-
-@Composable
-private fun SurveyRegistrationStateText(
-    currentRegistrationPage: String,
-) {
-    Row {
-        Text(
-            text = currentRegistrationPage,
-            style = WappTheme.typography.contentMedium,
-            color = WappTheme.colors.yellow34,
-        )
-        Text(
-            text = stringResource(R.string.survey_registration_total_page),
-            style = WappTheme.typography.contentMedium,
-            color = WappTheme.colors.white,
-        )
-    }
-}
-
-@Composable
-private fun SurveyRegistrationStateProgressBar(
-    currentRegistrationProgress: Float,
-) {
-    LinearProgressIndicator(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(10.dp),
-        color = WappTheme.colors.yellow34,
-        trackColor = WappTheme.colors.white,
-        progress = currentRegistrationProgress,
-        strokeCap = StrokeCap.Round,
-    )
 }

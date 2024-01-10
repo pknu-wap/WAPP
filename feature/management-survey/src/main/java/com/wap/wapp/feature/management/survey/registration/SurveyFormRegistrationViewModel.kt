@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
-import com.wap.wapp.core.domain.usecase.survey.RegisterSurveyUseCase
+import com.wap.wapp.core.domain.usecase.survey.PostSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyQuestion
+import com.wap.wapp.feature.management.survey.SurveyFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,17 +20,17 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class SurveyRegistrationViewModel @Inject constructor(
-    private val registerSurveyUseCase: RegisterSurveyUseCase,
+class SurveyFormRegistrationViewModel @Inject constructor(
+    private val registerSurveyUseCase: PostSurveyFormUseCase,
     private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
     private val _surveyRegistrationEvent: MutableSharedFlow<SurveyRegistrationEvent> =
         MutableSharedFlow()
     val surveyRegistrationEvent = _surveyRegistrationEvent.asSharedFlow()
 
-    private val _currentRegistrationState: MutableStateFlow<SurveyRegistrationState> =
-        MutableStateFlow(SurveyRegistrationState.EVENT_SELECTION)
-    val currentRegistrationState = _currentRegistrationState.asStateFlow()
+    private val _currentSurveyFormState: MutableStateFlow<SurveyFormState> =
+        MutableStateFlow(SurveyFormState.EVENT_SELECTION)
+    val currentSurveyFormState = _currentSurveyFormState.asStateFlow()
 
     private val _eventList: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
     val eventList = _eventList.asStateFlow()
@@ -63,38 +64,6 @@ class SurveyRegistrationViewModel @Inject constructor(
         MutableStateFlow(DateUtil.generateNowDate())
     val surveyDateDeadline = _surveyDateDeadline.asStateFlow()
 
-    // Content 전환 함수, 전환 전 내용 검증
-    fun setSurveyRegistrationState(surveyRegistrationState: SurveyRegistrationState) {
-        when (surveyRegistrationState) {
-            SurveyRegistrationState.EVENT_SELECTION -> { /* initial value */
-            }
-
-            SurveyRegistrationState.INFORMATION -> {
-                if (isNotValidEventSelection()) {
-                    emitValidationErrorMessage("행사를 선택해 주세요.")
-                    return
-                }
-            }
-
-            SurveyRegistrationState.QUESTION -> {
-                if (isNotValidInformation()) {
-                    emitValidationErrorMessage("제목과 내용을 확인해 주세요.")
-                    return
-                }
-            }
-
-            SurveyRegistrationState.DEADLINE -> {
-                if (isValidSurveyQuestion()) {
-                    addSurveyQuestion() // 현재 작성한 질문, 질문 리스트에 삽입
-                } else {
-                    emitValidationErrorMessage("질문 내용을 확인해 주세요.")
-                    return
-                }
-            }
-        }
-        _currentRegistrationState.value = surveyRegistrationState
-    }
-
     fun getEventList() = viewModelScope.launch {
         getEventListUseCase(DateUtil.generateNowDate())
             .onSuccess { eventList ->
@@ -105,79 +74,85 @@ class SurveyRegistrationViewModel @Inject constructor(
     }
 
     fun registerSurvey() = viewModelScope.launch {
-        if (isValidDeadline()) {
-            registerSurveyUseCase(
-                event = surveyEventSelection.value,
-                title = _surveyTitle.value,
-                content = _surveyContent.value,
-                surveyQuestionList = _surveyQuestionList.value,
-                deadlineDate = _surveyDateDeadline.value,
-                deadlineTime = _surveyTimeDeadline.value,
-            ).onSuccess {
-                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
-            }.onFailure { throwable ->
-                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-            }
-        } else {
-            _surveyRegistrationEvent.emit(
-                SurveyRegistrationEvent.ValidationError(
-                    "최소 하루 이상 설문 날짜를 지정하세요.",
-                ),
-            )
+        registerSurveyUseCase(
+            event = surveyEventSelection.value,
+            title = _surveyTitle.value,
+            content = _surveyContent.value,
+            surveyQuestionList = _surveyQuestionList.value,
+            deadlineDate = _surveyDateDeadline.value,
+            deadlineTime = _surveyTimeDeadline.value,
+        ).onSuccess {
+            _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Success)
+        }.onFailure { throwable ->
+            _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
         }
     }
 
-    fun setSurveyEventSelection(event: Event) {
-        _surveyEventSelection.value = event
+    fun validateSurveyForm(currentState: SurveyFormState): Boolean {
+        when (currentState) {
+            SurveyFormState.EVENT_SELECTION -> {
+                if (isNotValidEventSelection()) {
+                    emitValidationErrorMessage("행사를 선택해 주세요.")
+                    return false
+                }
+            }
+
+            SurveyFormState.INFORMATION -> {
+                if (isNotValidInformation()) {
+                    emitValidationErrorMessage("제목과 내용을 확인해 주세요.")
+                    return false
+                }
+            }
+
+            SurveyFormState.QUESTION -> {
+                if (isNotValidSurveyQuestion()) {
+                    emitValidationErrorMessage("질문 내용을 확인해 주세요.")
+                    return false
+                }
+            }
+
+            SurveyFormState.DEADLINE -> {
+                if (isNotValidDeadline()) {
+                    emitValidationErrorMessage("최소 하루 이상 설문 날짜를 지정하세요.")
+                    return false
+                }
+            }
+        }
+
+        return true
     }
 
-    fun setSurveyTitle(title: String) {
-        _surveyTitle.value = title
+    fun setSurveyFormState(nextState: SurveyFormState) {
+        _currentSurveyFormState.value = nextState
     }
 
-    fun setSurveyContent(content: String) {
-        _surveyContent.value = content
-    }
+    fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
 
-    fun setSurveyQuestion(question: String) {
-        _surveyQuestion.value = question
-    }
+    fun setSurveyTitle(title: String) { _surveyTitle.value = title }
 
-    fun setSurveyQuestionType(questionType: QuestionType) {
-        _surveyQuestionType.value = questionType
-    }
+    fun setSurveyContent(content: String) { _surveyContent.value = content }
 
-    fun setSurveyTimeDeadline(time: LocalTime) {
-        _surveyTimeDeadline.value = time
-    }
+    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
 
-    fun setSurveyDateDeadline(date: LocalDate) {
-        _surveyDateDeadline.value = date
-    }
+    fun setSurveyQuestionType(type: QuestionType) { _surveyQuestionType.value = type }
+
+    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+
+    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
 
     fun addSurveyQuestion() {
-        if (isValidSurveyQuestion()) {
-            _surveyQuestionList.value.add(
-                SurveyQuestion(
-                    questionTitle = _surveyQuestion.value,
-                    questionType = _surveyQuestionType.value,
-                ),
-            )
-            clearSurveyQuestionState()
-        } else {
-            viewModelScope.launch {
-                _surveyRegistrationEvent.emit(
-                    SurveyRegistrationEvent.ValidationError("질문 내용을 확인해주세요."),
-                )
-            }
-        }
+        _surveyQuestionList.value.add(
+            SurveyQuestion(
+                questionTitle = _surveyQuestion.value,
+                questionType = _surveyQuestionType.value,
+            ),
+        )
+        clearSurveyQuestionState()
     }
 
-    private fun clearSurveyQuestionState() {
-        _surveyQuestion.value = EMPTY
-    }
+    private fun clearSurveyQuestionState() { _surveyQuestion.value = EMPTY }
 
-    private fun isValidSurveyQuestion() = _surveyQuestion.value.isNotBlank()
+    private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 
     private fun isNotValidEventSelection() =
         _surveyEventSelection.value.eventId == EVENT_SELECTION_INIT.eventId
@@ -185,7 +160,7 @@ class SurveyRegistrationViewModel @Inject constructor(
     private fun isNotValidInformation() =
         _surveyTitle.value.isBlank() || _surveyContent.value.isBlank()
 
-    private fun isValidDeadline() = _surveyDateDeadline.value > DateUtil.generateNowDate()
+    private fun isNotValidDeadline() = _surveyDateDeadline.value <= DateUtil.generateNowDate()
 
     private fun emitValidationErrorMessage(message: String) {
         viewModelScope.launch {
