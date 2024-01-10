@@ -32,6 +32,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.event.R
+import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import kotlinx.coroutines.flow.collectLatest
@@ -161,7 +162,7 @@ internal fun EventEditScreen(
                 modifier = Modifier.padding(top = 16.dp),
             )
 
-            com.wap.wapp.feature.management.event.registration.EventRegistrationContent(
+            EventRegistrationContent(
                 eventRegistrationState = currentEditState,
                 modifier = Modifier.padding(top = 50.dp),
                 eventTitle = title,
