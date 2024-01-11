@@ -75,7 +75,7 @@ internal fun ProfileSettingDialog(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             ) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = onConfirmRequest,
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = WappTheme.colors.yellow34,
