@@ -12,8 +12,8 @@ class SignInDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     @ActivityContext private val context: Context,
 ) : SignInDataSource {
-    override suspend fun signIn(email: String): Result<String> {
-        return runCatching {
+    override suspend fun signIn(email: String): Result<String> =
+        runCatching {
             val provider = OAuthProvider.newBuilder("github.com")
             provider.addCustomParameter("login", email)
 
@@ -27,5 +27,4 @@ class SignInDataSourceImpl @Inject constructor(
             val user = checkNotNull(result.user)
             user.uid
         }
-    }
 }
