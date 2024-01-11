@@ -14,6 +14,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -83,9 +86,19 @@ internal fun ProfileSettingScreen(
     onClickedTermsAndPolicies: () -> Unit,
     onClickedPrivacyPolicy: () -> Unit,
 ) {
+    val showWithdrawalDialog by remember { mutableStateOf(false) }
+    val showLogoutDialog by remember { mutableStateOf(false) }
     val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
     val scrollState = rememberScrollState()
+
+    if (showWithdrawalDialog) {
+        // Todo
+    }
+
+    if (showLogoutDialog) {
+        // Todo
+    }
 
     Column(
         modifier = Modifier
