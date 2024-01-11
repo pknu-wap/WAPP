@@ -1,5 +1,7 @@
 package com.wap.wapp.core.data.di
 
+import com.wap.wapp.core.data.repository.auth.AuthRepository
+import com.wap.wapp.core.data.repository.auth.AuthRepositoryImpl
 import com.wap.wapp.core.data.repository.event.EventRepository
 import com.wap.wapp.core.data.repository.event.EventRepositoryImpl
 import com.wap.wapp.core.data.repository.management.ManagementRepository
@@ -19,6 +21,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataModule {
+    @Binds
+    @Singleton
+    abstract fun bindsAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl,
+    ): AuthRepository
+
     @Binds
     @Singleton
     abstract fun bindsUserRepository(
