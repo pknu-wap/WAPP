@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -150,7 +151,7 @@ class SurveyFormRegistrationViewModel @Inject constructor(
         clearSurveyQuestionState()
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = EMPTY }
+    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 
@@ -177,8 +178,6 @@ class SurveyFormRegistrationViewModel @Inject constructor(
     }
 
     companion object {
-        const val EMPTY = ""
-        val EVENT_SELECTION_INIT: Event =
-            Event("", "", "", "", DateUtil.generateNowDateTime(), DateUtil.generateNowDateTime())
+        val EVENT_SELECTION_INIT = Event("", "", "", "", LocalDateTime.MIN, LocalDateTime.MAX)
     }
 }
