@@ -50,7 +50,6 @@ internal fun ProfileSettingScreen(
 ) {
     var showWithdrawalDialog by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
-    val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -102,30 +101,21 @@ internal fun ProfileSettingScreen(
             onClicked = onClickedAlarmSetting,
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         WappRowBar(
             title = stringResource(id = string.logout),
             onClicked = { showLogoutDialog = true },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         WappRowBar(
             title = stringResource(id = string.withdrawal),
             onClicked = { showWithdrawalDialog = true },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -147,40 +137,28 @@ internal fun ProfileSettingScreen(
             onClicked = { navigateToUri(context, INQUIRY_URL) },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         WappRowBar(
             title = stringResource(id = string.faq),
             onClicked = { navigateToUri(context, FAQ_URL) },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         WappRowBar(
             title = stringResource(id = string.terms_and_policies),
             onClicked = { navigateToUri(context, TERMS_AND_POLICIES_URL) },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
 
         WappRowBar(
             title = stringResource(id = string.privacy_policy),
             onClicked = { navigateToUri(context, PRIVACY_POLICY_URL) },
         )
 
-        Divider(
-            color = dividerColor,
-            thickness = dividerThickness,
-        )
+        Divider(color = dividerColor)
     }
 }
 
