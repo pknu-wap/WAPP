@@ -74,9 +74,7 @@ internal fun ProfileSettingDialog(
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .padding(vertical = 16.dp),
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
             ) {
                 Button(
                     onClick = { /*TODO*/ },
