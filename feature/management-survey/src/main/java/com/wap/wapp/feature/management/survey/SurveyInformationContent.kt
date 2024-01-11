@@ -2,6 +2,8 @@ package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,54 +30,51 @@ internal fun SurveyInformationContent(
     val scrollState = rememberScrollState()
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
-        modifier = Modifier.verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
     ) {
         WappTitle(
             title = stringResource(R.string.survey_information_title),
             content = stringResource(R.string.survey_information_content),
+            modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
         )
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.survey_title),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-            )
-            WappRoundedTextField(
-                value = title,
-                onValueChange = onTitleChanged,
-                placeholder = R.string.survey_title_hint,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .fillMaxWidth(),
-            )
-        }
+        Text(
+            text = stringResource(R.string.survey_title),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+        )
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.survey_introduce),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-            )
-            WappRoundedTextField(
-                value = content,
-                onValueChange = onContentChanged,
-                placeholder = R.string.survey_introduce_hint,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .fillMaxWidth()
-                    .height(200.dp),
-            )
-        }
+        WappRoundedTextField(
+            value = title,
+            onValueChange = onTitleChanged,
+            placeholder = R.string.survey_title_hint,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Text(
+            text = stringResource(R.string.survey_introduce),
+            style = WappTheme.typography.titleBold,
+            color = WappTheme.colors.white,
+            modifier = Modifier.padding(top = 14.dp),
+        )
+
+        WappRoundedTextField(
+            value = content,
+            onValueChange = onContentChanged,
+            placeholder = R.string.survey_introduce_hint,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+        )
+        Spacer(modifier = Modifier.weight(1f))
 
         WappButton(
             onClick = onNextButtonClicked,
             textRes = R.string.next,
+            modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
         )
     }
 }

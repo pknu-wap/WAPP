@@ -100,7 +100,7 @@ internal fun SurveyFormEditScreen(
 
             SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
-                eventList = eventList,
+                eventsState = eventList,
                 eventSelection = eventSelection,
                 title = title,
                 content = content,

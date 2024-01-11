@@ -17,44 +17,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel.EventsState
 
 @Composable
 internal fun SurveyEventContent(
-    eventList: List<Event>,
+    eventsState: EventsState,
     selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        WappTitle(
-            title = stringResource(R.string.event_selection_title),
-            content = stringResource(R.string.event_selection_content),
-        )
+    WappTitle(
+        title = stringResource(R.string.event_selection_title),
+        content = stringResource(R.string.event_selection_content),
+        modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
+    )
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.weight(1f),
-        ) {
-            items(eventList) { event ->
-                EventCard(
-                    event = event,
-                    selectedEvent = selectedEvent,
-                    onEventSelected = onEventSelected,
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier,
+    ) {
+        when (eventsState) {
+            is EventsState.Loading -> item {
+                CircleLoader(
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
-        }
 
-        WappButton(
-            textRes = R.string.next,
-            onClick = onNextButtonClicked,
-        )
+            is EventsState.Success ->
+                items(eventsState.events) { event ->
+                    EventCard(
+                        event = event,
+                        selectedEvent = selectedEvent,
+                        onEventSelected = onEventSelected,
+                    )
+                }
+
+            is EventsState.Failure -> {}
+        }
     }
+
+    WappButton(
+        textRes = R.string.next,
+        onClick = onNextButtonClicked,
+        modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
+    )
 }
 
 @Composable

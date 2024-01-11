@@ -39,7 +39,7 @@ internal fun UserProfile(eventsState: ProfileViewModel.EventsState) {
 
         MyAttendanceStatus(modifier = Modifier.padding(top = 20.dp))
 
-        MySurveyHistory(modifier = Modifier.padding(top = 20.dp))
+        MySurveyHistory(modifier = Modifier.padding(vertical = 20.dp))
     }
 }
 

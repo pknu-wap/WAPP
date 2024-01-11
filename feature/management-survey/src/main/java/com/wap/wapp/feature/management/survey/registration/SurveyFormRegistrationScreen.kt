@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.management.survey.registration
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,9 +55,11 @@ internal fun SurveyRegistrationScreen(
                 is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.Failure -> {
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
                 }
+
                 is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.ValidationError -> {
                     snackBarHostState.showSnackbar(it.message)
                 }
+
                 is SurveyFormRegistrationViewModel.SurveyRegistrationEvent.Success -> {
                     navigateToManagement()
                 }
@@ -76,26 +77,22 @@ internal fun SurveyRegistrationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+                .padding(top = 16.dp, start = 20.dp, end = 20.dp), // dp value padding
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                WappSubTopBar(
-                    titleRes = R.string.survey_registeration,
-                    showLeftButton = true,
-                    onClickLeftButton = navigateToManagement,
-                )
+            WappSubTopBar(
+                titleRes = R.string.survey_registeration,
+                showLeftButton = true,
+                onClickLeftButton = navigateToManagement,
+                modifier = Modifier.padding(bottom = 16.dp),
+            )
 
-                SurveyFormStateIndicator(
-                    surveyRegistrationState = currentRegistrationState,
-                )
-            }
+            SurveyFormStateIndicator(
+                surveyRegistrationState = currentRegistrationState,
+            )
 
             SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
-                eventList = eventList,
+                eventsState = eventList,
                 eventSelection = eventSelection,
                 title = title,
                 content = content,

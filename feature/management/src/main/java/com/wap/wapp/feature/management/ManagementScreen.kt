@@ -3,8 +3,8 @@ package com.wap.wapp.feature.management
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -93,25 +93,27 @@ internal fun ManagementScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddingValues ->
-        WappMainTopBar(
-            titleRes = R.string.management,
-            contentRes = R.string.management_content,
-        )
-
-        Column(
+        LazyColumn(
             modifier = Modifier.padding(paddingValues),
         ) {
-            ManagementEventCard(
-                eventsState = eventsState,
-                onCardClicked = navigateToEventEdit,
-                onAddEventButtonClicked = navigateToEventRegistration,
-            )
+            item {
+                WappMainTopBar(
+                    titleRes = R.string.management,
+                    contentRes = R.string.management_content,
+                )
 
-            ManagementSurveyCard(
-                surveyFormsState = surveyFormsState,
-                onCardClicked = navigateToSurveyFormEdit,
-                onAddSurveyButtonClicked = navigateToSurveyRegistration,
-            )
+                ManagementEventCard(
+                    eventsState = eventsState,
+                    onCardClicked = navigateToEventEdit,
+                    onAddEventButtonClicked = navigateToEventRegistration,
+                )
+
+                ManagementSurveyCard(
+                    surveyFormsState = surveyFormsState,
+                    onCardClicked = navigateToSurveyFormEdit,
+                    onAddSurveyButtonClicked = navigateToSurveyRegistration,
+                )
+            }
         }
     }
 }
