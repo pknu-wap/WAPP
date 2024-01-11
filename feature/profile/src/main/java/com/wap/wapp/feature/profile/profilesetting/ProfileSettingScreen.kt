@@ -22,10 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
@@ -71,7 +67,6 @@ internal fun ProfileSettingScreen(
         ProfileSettingDialog(
             onDismissRequest = { showLogoutDialog = false },
             title = string.logout,
-            content = generateLogoutDialogString(),
         )
     }
 
@@ -197,26 +192,3 @@ private fun navigateToUri(context: Context, url: String) = startActivity(
 )
 
 private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
-
-@Composable
-private fun generateLogoutDialogString() = buildAnnotatedString {
-    append("정말로 ")
-    withStyle(
-        style = SpanStyle(
-            textDecoration = TextDecoration.Underline,
-            color = WappTheme.colors.yellow34,
-        ),
-    ) {
-        append("로그아웃")
-    }
-    append("을 원하신다면 ")
-    withStyle(
-        style = SpanStyle(
-            textDecoration = TextDecoration.Underline,
-            color = WappTheme.colors.yellow34,
-        ),
-    ) {
-        append("완료")
-    }
-    append(" 버튼을 눌러주세요.")
-}

@@ -20,7 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -33,7 +36,6 @@ internal fun ProfileSettingDialog(
     onDismissRequest: () -> Unit,
     onConfirmRequest: () -> Unit = {},
     @StringRes title: Int,
-    content: AnnotatedString,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -64,7 +66,7 @@ internal fun ProfileSettingDialog(
             )
 
             Text(
-                text = content,
+                text = generateDialogContentString(title = title),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
             )
@@ -115,4 +117,27 @@ internal fun ProfileSettingDialog(
             }
         }
     }
+}
+
+@Composable
+private fun generateDialogContentString(@StringRes title: Int) = buildAnnotatedString {
+    append("정말로 ")
+    withStyle(
+        style = SpanStyle(
+            textDecoration = TextDecoration.Underline,
+            color = WappTheme.colors.yellow34,
+        ),
+    ) {
+        append(stringResource(title))
+    }
+    append("을 원하신다면 ")
+    withStyle(
+        style = SpanStyle(
+            textDecoration = TextDecoration.Underline,
+            color = WappTheme.colors.yellow34,
+        ),
+    ) {
+        append("완료")
+    }
+    append(" 버튼을 눌러주세요.")
 }
