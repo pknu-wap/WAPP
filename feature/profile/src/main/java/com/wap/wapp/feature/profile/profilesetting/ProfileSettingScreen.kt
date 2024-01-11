@@ -36,44 +36,10 @@ internal fun ProfileSettingRoute(
     navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-
     ProfileSettingScreen(
         navigateToProfile = navigateToProfile,
-        onClickedPrivacyPolicy = {
-            navigateToUri(
-                context,
-                PRIVACY_POLICY_URL,
-            )
-        },
-        onClickedFAQ = {
-            navigateToUri(
-                context,
-                FAQ_URL,
-            )
-        },
-        onClickedInquiry = {
-            navigateToUri(
-                context,
-                INQUIRY_URL,
-            )
-        },
-        onClickedTermsAndPolicies = {
-            navigateToUri(
-                context,
-                TERMS_AND_POLICIES_URL,
-            )
-        },
     )
 }
-
-private fun navigateToUri(context: Context, url: String) = startActivity(
-    context,
-    generateUriIntent(url),
-    null,
-)
-
-private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
 
 @Composable
 internal fun ProfileSettingScreen(
@@ -81,16 +47,13 @@ internal fun ProfileSettingScreen(
     onClickedAlarmSetting: () -> Unit = {},
     onClickedSignOut: () -> Unit = {},
     onClickedWithdrawal: () -> Unit = {},
-    onClickedInquiry: () -> Unit,
-    onClickedFAQ: () -> Unit,
-    onClickedTermsAndPolicies: () -> Unit,
-    onClickedPrivacyPolicy: () -> Unit,
 ) {
     val showWithdrawalDialog by remember { mutableStateOf(false) }
     val showLogoutDialog by remember { mutableStateOf(false) }
     val dividerThickness = 1.dp
     val dividerColor = WappTheme.colors.black42
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     if (showWithdrawalDialog) {
         // Todo
@@ -175,7 +138,12 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
-            onClicked = onClickedInquiry,
+            onClicked = {
+                navigateToUri(
+                    context,
+                    INQUIRY_URL,
+                )
+            },
         )
 
         Divider(
@@ -185,7 +153,12 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.faq),
-            onClicked = onClickedFAQ,
+            onClicked = {
+                navigateToUri(
+                    context,
+                    FAQ_URL,
+                )
+            },
         )
 
         Divider(
@@ -195,7 +168,12 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.terms_and_policies),
-            onClicked = onClickedTermsAndPolicies,
+            onClicked = {
+                navigateToUri(
+                    context,
+                    TERMS_AND_POLICIES_URL,
+                )
+            },
         )
 
         Divider(
@@ -205,7 +183,12 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.privacy_policy),
-            onClicked = onClickedPrivacyPolicy,
+            onClicked = {
+                navigateToUri(
+                    context,
+                    PRIVACY_POLICY_URL,
+                )
+            },
         )
 
         Divider(
@@ -214,3 +197,11 @@ internal fun ProfileSettingScreen(
         )
     }
 }
+
+private fun navigateToUri(context: Context, url: String) = startActivity(
+    context,
+    generateUriIntent(url),
+    null,
+)
+
+private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
