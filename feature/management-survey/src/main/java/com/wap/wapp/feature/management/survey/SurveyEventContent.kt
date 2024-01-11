@@ -29,19 +29,18 @@ internal fun SurveyEventContent(
     selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
+    WappTitle(
+        title = stringResource(R.string.event_selection_title),
+        content = stringResource(R.string.event_selection_content),
+        modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
+    )
+
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
     ) {
-        item {
-            WappTitle(
-                title = stringResource(R.string.event_selection_title),
-                content = stringResource(R.string.event_selection_content),
-                modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
-            )
-        }
-
         when (eventsState) {
             is EventsState.Loading -> item {
                 CircleLoader(
@@ -60,14 +59,13 @@ internal fun SurveyEventContent(
 
             is EventsState.Failure -> {}
         }
-        item {
-            WappButton(
-                textRes = R.string.next,
-                onClick = onNextButtonClicked,
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
-            )
-        }
     }
+
+    WappButton(
+        textRes = R.string.next,
+        onClick = onNextButtonClicked,
+        modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
+    )
 }
 
 @Composable

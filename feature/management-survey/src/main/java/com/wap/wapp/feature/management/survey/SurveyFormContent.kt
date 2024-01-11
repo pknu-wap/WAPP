@@ -60,6 +60,9 @@ internal fun SurveyFormContent(
                             SurveyFormState.INFORMATION,
                         )
                     },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
                 )
             }
 

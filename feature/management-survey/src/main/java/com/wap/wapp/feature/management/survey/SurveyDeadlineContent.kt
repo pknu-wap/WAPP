@@ -67,12 +67,12 @@ internal fun SurveyDeadlineContent(
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         WappTitle(
             title = stringResource(R.string.survey_deadline_title),
             content = stringResource(R.string.survey_deadline_content),
-            modifier = Modifier.padding(top = 10.dp, bottom = 24.dp),
+            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
         )
 
         DeadlineCard(
@@ -89,7 +89,6 @@ internal fun SurveyDeadlineContent(
             onCardClicked = {
                 onTimePickerStateChanged(true)
             },
-            modifier = Modifier.padding(top = 20.dp),
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -97,7 +96,7 @@ internal fun SurveyDeadlineContent(
         WappButton(
             textRes = R.string.register_survey,
             onClick = onRegisterButtonClicked,
-            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+            modifier = Modifier.padding(bottom = 20.dp),
         )
     }
 }
