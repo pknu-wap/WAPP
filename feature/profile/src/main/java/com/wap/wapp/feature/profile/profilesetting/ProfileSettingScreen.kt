@@ -22,6 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
@@ -32,6 +36,7 @@ import com.wap.designsystem.component.WappRowBar
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.profile.R.string
+import com.wap.wapp.feature.profile.profilesetting.component.ProfileSettingDialog
 
 @Composable
 internal fun ProfileSettingRoute(
@@ -63,10 +68,11 @@ internal fun ProfileSettingScreen(
     }
 
     if (showLogoutDialog) {
-        Dialog(
+        ProfileSettingDialog(
             onDismissRequest = { showLogoutDialog = false },
-        ) {
-        }
+            title = string.logout,
+            content = generateLogoutDialogString(),
+        )
     }
 
     Column(
@@ -91,14 +97,14 @@ internal fun ProfileSettingScreen(
                 contentDescription = "",
             )
             Text(
-                text = stringResource(id = com.wap.wapp.feature.profile.R.string.account_setting),
+                text = stringResource(id = string.account_setting),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
         }
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.alarm_setting),
+            title = stringResource(id = string.alarm_setting),
             onClicked = onClickedAlarmSetting,
         )
 
@@ -108,7 +114,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.sign_out),
+            title = stringResource(id = string.logout),
             onClicked = { showLogoutDialog = true },
         )
 
@@ -118,7 +124,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.withdrawal),
+            title = stringResource(id = string.withdrawal),
             onClicked = { showWithdrawalDialog = true },
         )
 
@@ -136,14 +142,14 @@ internal fun ProfileSettingScreen(
                 contentDescription = "",
             )
             Text(
-                text = stringResource(id = com.wap.wapp.feature.profile.R.string.more),
+                text = stringResource(id = string.more),
                 style = WappTheme.typography.titleBold,
                 color = WappTheme.colors.white,
             )
         }
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
+            title = stringResource(id = string.inquiry),
             onClicked = { navigateToUri(context, INQUIRY_URL) },
         )
 
@@ -153,7 +159,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.faq),
+            title = stringResource(id = string.faq),
             onClicked = { navigateToUri(context, FAQ_URL) },
         )
 
@@ -163,7 +169,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.terms_and_policies),
+            title = stringResource(id = string.terms_and_policies),
             onClicked = { navigateToUri(context, TERMS_AND_POLICIES_URL) },
         )
 
@@ -173,7 +179,7 @@ internal fun ProfileSettingScreen(
         )
 
         WappRowBar(
-            title = stringResource(id = com.wap.wapp.feature.profile.R.string.privacy_policy),
+            title = stringResource(id = string.privacy_policy),
             onClicked = { navigateToUri(context, PRIVACY_POLICY_URL) },
         )
 
@@ -191,3 +197,26 @@ private fun navigateToUri(context: Context, url: String) = startActivity(
 )
 
 private fun generateUriIntent(url: String) = Intent(Intent.ACTION_VIEW, url.toUri())
+
+@Composable
+private fun generateLogoutDialogString() = buildAnnotatedString {
+    append("정말로 ")
+    withStyle(
+        style = SpanStyle(
+            textDecoration = TextDecoration.Underline,
+            color = WappTheme.colors.yellow34,
+        ),
+    ) {
+        append("로그아웃")
+    }
+    append("을 원하신다면 ")
+    withStyle(
+        style = SpanStyle(
+            textDecoration = TextDecoration.Underline,
+            color = WappTheme.colors.yellow34,
+        ),
+    ) {
+        append("완료")
+    }
+    append(" 버튼을 눌러주세요.")
+}
