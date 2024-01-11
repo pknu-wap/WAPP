@@ -13,4 +13,6 @@ interface UserRepository {
         studentId: String,
         registeredAt: String,
     ): Result<Unit>
+
+    suspend fun deleteUserProfile(userId: String): Result<Unit>
 }
