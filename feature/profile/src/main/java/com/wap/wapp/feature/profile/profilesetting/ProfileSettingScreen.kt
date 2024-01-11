@@ -138,12 +138,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.inquiry),
-            onClicked = {
-                navigateToUri(
-                    context,
-                    INQUIRY_URL,
-                )
-            },
+            onClicked = { navigateToUri(context, INQUIRY_URL) },
         )
 
         Divider(
@@ -153,12 +148,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.faq),
-            onClicked = {
-                navigateToUri(
-                    context,
-                    FAQ_URL,
-                )
-            },
+            onClicked = { navigateToUri(context, FAQ_URL) },
         )
 
         Divider(
@@ -168,12 +158,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.terms_and_policies),
-            onClicked = {
-                navigateToUri(
-                    context,
-                    TERMS_AND_POLICIES_URL,
-                )
-            },
+            onClicked = { navigateToUri(context, TERMS_AND_POLICIES_URL) },
         )
 
         Divider(
@@ -183,12 +168,7 @@ internal fun ProfileSettingScreen(
 
         WappRowBar(
             title = stringResource(id = com.wap.wapp.feature.profile.R.string.privacy_policy),
-            onClicked = {
-                navigateToUri(
-                    context,
-                    PRIVACY_POLICY_URL,
-                )
-            },
+            onClicked = { navigateToUri(context, PRIVACY_POLICY_URL) },
         )
 
         Divider(
