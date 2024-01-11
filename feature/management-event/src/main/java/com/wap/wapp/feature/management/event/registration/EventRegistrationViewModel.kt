@@ -54,17 +54,11 @@ class EventRegistrationViewModel @Inject constructor(
         MutableStateFlow(generateNowTime().plusHours(1))
     val eventEndTime = _eventEndTime.asStateFlow()
 
-    fun setEventTitle(eventTitle: String) {
-        _eventTitle.value = eventTitle
-    }
+    fun setEventTitle(eventTitle: String) { _eventTitle.value = eventTitle }
 
-    fun setEventContent(eventContent: String) {
-        _eventContent.value = eventContent
-    }
+    fun setEventContent(eventContent: String) { _eventContent.value = eventContent }
 
-    fun setEventLocation(eventLocation: String) {
-        _eventLocation.value = eventLocation
-    }
+    fun setEventLocation(eventLocation: String) { _eventLocation.value = eventLocation }
 
     fun setEventStartDate(eventDate: LocalDate) {
         if (!isValidStartDate(eventDate)) {
@@ -74,9 +68,7 @@ class EventRegistrationViewModel @Inject constructor(
         _eventStartDate.value = eventDate
     }
 
-    fun setEventStartTime(eventTime: LocalTime) {
-        _eventStartTime.value = eventTime
-    }
+    fun setEventStartTime(eventTime: LocalTime) { _eventStartTime.value = eventTime }
 
     fun setEventEndDate(eventDate: LocalDate) {
         if (!isValidEndDate(eventDate)) {

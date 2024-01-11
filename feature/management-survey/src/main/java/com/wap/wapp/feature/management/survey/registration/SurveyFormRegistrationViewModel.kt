@@ -119,13 +119,10 @@ class SurveyFormRegistrationViewModel @Inject constructor(
                 }
             }
         }
-
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) {
-        _currentSurveyFormState.value = nextState
-    }
+    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
 
     fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
 
