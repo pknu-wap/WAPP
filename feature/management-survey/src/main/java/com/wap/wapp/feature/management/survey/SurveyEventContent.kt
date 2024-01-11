@@ -51,39 +51,11 @@ internal fun SurveyEventContent(
 
             is EventsState.Success ->
                 items(eventsState.events) { event ->
-                    Card(
-                        colors = CardDefaults.cardColors(
-                            containerColor = WappTheme.colors.black25,
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onEventSelected(event) },
-                        border = BorderStroke(
-                            color = if (event.eventId == selectedEvent.eventId) {
-                                WappTheme.colors.yellow34
-                            } else {
-                                WappTheme.colors.black25
-                            },
-                            width = 1.dp,
-                        ),
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.padding(16.dp),
-                        ) {
-                            Text(
-                                text = event.title,
-                                style = WappTheme.typography.titleBold,
-                                color = WappTheme.colors.white,
-                            )
-
-                            Text(
-                                text = event.content,
-                                style = WappTheme.typography.captionMedium,
-                                color = WappTheme.colors.yellow34,
-                            )
-                        }
-                    }
+                    EventCard(
+                        event = event,
+                        selectedEvent = selectedEvent,
+                        onEventSelected = onEventSelected,
+                    )
                 }
 
             is EventsState.Failure -> {}
@@ -93,6 +65,47 @@ internal fun SurveyEventContent(
                 textRes = R.string.next,
                 onClick = onNextButtonClicked,
                 modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun EventCard(
+    event: Event,
+    selectedEvent: Event,
+    onEventSelected: (Event) -> Unit,
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = WappTheme.colors.black25,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onEventSelected(event) },
+        border = BorderStroke(
+            color = if (event.eventId == selectedEvent.eventId) {
+                WappTheme.colors.yellow34
+            } else {
+                WappTheme.colors.black25
+            },
+            width = 1.dp,
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Text(
+                text = event.title,
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+            )
+
+            Text(
+                text = event.content,
+                style = WappTheme.typography.captionMedium,
+                color = WappTheme.colors.yellow34,
             )
         }
     }
