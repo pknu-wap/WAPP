@@ -12,10 +12,6 @@ class SignInDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     @ActivityContext private val context: Context,
 ) : SignInDataSource {
-    override suspend fun hasPendingResult(): Boolean {
-        return firebaseAuth.pendingAuthResult != null
-    }
-
     override suspend fun signIn(email: String): Result<String> {
         return runCatching {
             val provider = OAuthProvider.newBuilder("github.com")
