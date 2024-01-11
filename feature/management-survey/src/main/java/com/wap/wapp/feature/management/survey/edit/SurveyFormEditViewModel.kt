@@ -11,9 +11,11 @@ import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.survey.SurveyQuestion
 import com.wap.wapp.feature.management.survey.SurveyFormState
+import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel.EventsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -36,8 +38,8 @@ class SurveyFormEditViewModel @Inject constructor(
         MutableStateFlow(SurveyFormState.EVENT_SELECTION)
     val currentSurveyFormState = _currentSurveyFormState.asStateFlow()
 
-    private val _eventList: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
-    val eventList = _eventList.asStateFlow()
+    private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Loading)
+    val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
 
     private val surveyFormId: MutableStateFlow<String> = MutableStateFlow("")
 
@@ -113,7 +115,7 @@ class SurveyFormEditViewModel @Inject constructor(
     fun getEventList() = viewModelScope.launch {
         getEventListUseCase(DateUtil.generateNowDate())
             .onSuccess { eventList ->
-                _eventList.value = eventList
+                _eventList.value = EventsState.Success(eventList)
             }.onFailure { throwable ->
                 _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
             }
@@ -153,9 +155,7 @@ class SurveyFormEditViewModel @Inject constructor(
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) {
-        _currentSurveyFormState.value = nextState
-    }
+    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
 
     fun addSurveyQuestion() {
         _surveyQuestionList.value.add(

@@ -35,7 +35,6 @@ internal fun SplashRoute(
             }
         }
     }
-
     SplashScreen()
 }
 

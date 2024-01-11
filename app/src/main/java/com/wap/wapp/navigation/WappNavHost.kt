@@ -12,12 +12,11 @@ import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
-import com.wap.wapp.feature.management.edit.event.navigation.eventEditScreen
-import com.wap.wapp.feature.management.edit.event.navigation.navigateToEventEdit
+import com.wap.wapp.feature.management.event.navigation.managementEventNavGraph
+import com.wap.wapp.feature.management.event.navigation.navigateToEventEdit
+import com.wap.wapp.feature.management.event.navigation.navigateToEventRegistration
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
-import com.wap.wapp.feature.management.registration.event.navigation.eventRegistrationScreen
-import com.wap.wapp.feature.management.registration.event.navigation.navigateToEventRegistration
 import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormEdit
 import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormRegistration
 import com.wap.wapp.feature.management.survey.navigation.managementSurveyNavGraph
@@ -85,10 +84,7 @@ fun WappNavHost(
         managementSurveyNavGraph(
             navigateToManagement = navController::navigateToManagement,
         )
-        eventRegistrationScreen(
-            navigateToManagement = navController::navigateToManagement,
-        )
-        eventEditScreen(
+        managementEventNavGraph(
             navigateToManagement = navController::navigateToManagement,
         )
         profileScreen(

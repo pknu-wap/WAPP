@@ -1,10 +1,14 @@
 package com.wap.wapp.feature.management.survey
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
+import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -12,7 +16,7 @@ import java.time.LocalTime
 @Composable
 internal fun SurveyFormContent(
     surveyRegistrationState: SurveyFormState,
-    eventList: List<Event>,
+    eventsState: SurveyFormRegistrationViewModel.EventsState,
     eventSelection: Event,
     title: String,
     content: String,
@@ -38,71 +42,79 @@ internal fun SurveyFormContent(
     onNextButtonClicked: (SurveyFormState, SurveyFormState) -> Unit, // (currentState, nextState)
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    when (surveyRegistrationState) {
-        SurveyFormState.EVENT_SELECTION -> {
-            onEventListChanged()
-            SurveyEventContent(
-                eventList = eventList,
-                selectedEvent = eventSelection,
-                onEventSelected = onEventSelected,
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.EVENT_SELECTION,
-                        SurveyFormState.INFORMATION,
-                    )
-                },
-            )
-        }
+    Column(
+        modifier = modifier.fillMaxSize(),
+    ) {
+        when (surveyRegistrationState) {
+            SurveyFormState.EVENT_SELECTION -> {
+                onEventListChanged()
+                SurveyEventContent(
+                    eventsState = eventsState,
+                    selectedEvent = eventSelection,
+                    onEventSelected = onEventSelected,
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.EVENT_SELECTION,
+                            SurveyFormState.INFORMATION,
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
+                )
+            }
 
-        SurveyFormState.INFORMATION -> {
-            SurveyInformationContent(
-                title = title,
-                onTitleChanged = onTitleChanged,
-                content = content,
-                onContentChanged = onContentChanged,
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.INFORMATION,
-                        SurveyFormState.QUESTION,
-                    )
-                },
-            )
-        }
+            SurveyFormState.INFORMATION -> {
+                SurveyInformationContent(
+                    title = title,
+                    onTitleChanged = onTitleChanged,
+                    content = content,
+                    onContentChanged = onContentChanged,
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.INFORMATION,
+                            SurveyFormState.QUESTION,
+                        )
+                    },
+                )
+            }
 
-        SurveyFormState.QUESTION -> {
-            SurveyQuestionContent(
-                question = question,
-                questionType = questionType,
-                onQuestionTypeChanged = { defaultQuestionType ->
-                    onQuestionTypeChanged(defaultQuestionType)
-                },
-                onQuestionChanged = onQuestionChanged,
-                onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
-                currentQuestionIndex = currentQuestionIndex,
-                totalQuestionIndex = totalQuestionSize,
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.QUESTION,
-                        SurveyFormState.DEADLINE,
-                    )
-                },
-            )
-        }
+            SurveyFormState.QUESTION -> {
+                SurveyQuestionContent(
+                    question = question,
+                    questionType = questionType,
+                    onQuestionTypeChanged = { defaultQuestionType ->
+                        onQuestionTypeChanged(defaultQuestionType)
+                    },
+                    onQuestionChanged = onQuestionChanged,
+                    onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
+                    currentQuestionIndex = currentQuestionIndex,
+                    totalQuestionIndex = totalQuestionSize,
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.QUESTION,
+                            SurveyFormState.DEADLINE,
+                        )
+                    },
+                )
+            }
 
-        SurveyFormState.DEADLINE -> {
-            SurveyDeadlineContent(
-                time = time,
-                date = date,
-                timePickerState = timePickerState,
-                showDatePicker = showDatePicker,
-                showTimePicker = showTimePicker,
-                onDateChanged = onDateChanged,
-                onTimePickerStateChanged = onTimePickerStateChanged,
-                onTimeChanged = onTimeChanged,
-                onRegisterButtonClicked = onRegisterButtonClicked,
-                onDatePickerStateChanged = onDatePickerStateChanged,
-            )
+            SurveyFormState.DEADLINE -> {
+                SurveyDeadlineContent(
+                    time = time,
+                    date = date,
+                    timePickerState = timePickerState,
+                    showDatePicker = showDatePicker,
+                    showTimePicker = showTimePicker,
+                    onDateChanged = onDateChanged,
+                    onTimePickerStateChanged = onTimePickerStateChanged,
+                    onTimeChanged = onTimeChanged,
+                    onRegisterButtonClicked = onRegisterButtonClicked,
+                    onDatePickerStateChanged = onDatePickerStateChanged,
+                )
+            }
         }
     }
 }
