@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,10 +56,10 @@ internal fun ProfileSettingScreen(
     val context = LocalContext.current
 
     if (showWithdrawalDialog) {
-        Dialog(
+        ProfileSettingDialog(
             onDismissRequest = { showWithdrawalDialog = false },
-        ) {
-        }
+            title = string.withdrawal,
+        )
     }
 
     if (showLogoutDialog) {

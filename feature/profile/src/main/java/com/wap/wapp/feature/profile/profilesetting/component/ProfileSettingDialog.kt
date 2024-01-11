@@ -69,6 +69,7 @@ internal fun ProfileSettingDialog(
                 text = generateDialogContentString(title = title),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
+                modifier = Modifier.padding(top = 12.dp),
             )
 
             Row(
