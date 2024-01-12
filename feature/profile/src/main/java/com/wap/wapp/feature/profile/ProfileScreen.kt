@@ -16,6 +16,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
+import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.profile.component.WappProfileCard
 import com.wap.wapp.feature.profile.screen.GuestProfile
 import com.wap.wapp.feature.profile.screen.UserProfile
@@ -37,7 +38,7 @@ internal fun ProfileRoute(
 
 @Composable
 internal fun ProfileScreen(
-    role: Role = Role.MANAGER,
+    role: UserRole = UserRole.MANAGER,
     userName: String = "",
     eventsState: ProfileViewModel.EventsState,
     navigateToProfileSetting: () -> Unit,
@@ -55,12 +56,12 @@ internal fun ProfileScreen(
             titleRes = string.profile,
             contentRes = R.string.profile_content,
             settingButtonDescriptionRes = R.string.profile_setting_description,
-            showSettingButton = role != Role.GUEST,
+            showSettingButton = role != UserRole.GUEST,
             onClickSettingButton = navigateToProfileSetting,
         )
 
         when (role) {
-            Role.MANAGER -> {
+            UserRole.MANAGER -> {
                 WappProfileCard(
                     position = stringResource(R.string.manager),
                     githubImage = drawable.ic_manager_github,
@@ -78,7 +79,7 @@ internal fun ProfileScreen(
                 UserProfile(eventsState = eventsState)
             }
 
-            Role.NORMAL -> {
+            UserRole.MEMBER -> {
                 WappProfileCard(
                     position = stringResource(R.string.normal),
                     githubImage = drawable.ic_normal_github,
@@ -96,7 +97,7 @@ internal fun ProfileScreen(
                 UserProfile(eventsState = eventsState)
             }
 
-            Role.GUEST -> {
+            UserRole.GUEST -> {
                 WappProfileCard(
                     position = stringResource(R.string.guest),
                     githubImage = drawable.ic_guest_github,
