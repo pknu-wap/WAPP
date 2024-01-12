@@ -42,7 +42,7 @@ import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 internal fun UserProfile(
     todayEventsState: ProfileViewModel.EventsState,
     recentEventsState: ProfileViewModel.EventsState,
-    userRespondedSurveyState: ProfileViewModel.SurveysState,
+    userRespondedSurveysState: ProfileViewModel.SurveysState,
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         ProfileAttendanceCard(
@@ -56,7 +56,7 @@ internal fun UserProfile(
         )
 
         MySurveyHistory(
-            userRespondedSurveyState = userRespondedSurveyState,
+            userRespondedSurveysState = userRespondedSurveysState,
             modifier = Modifier.padding(vertical = 20.dp),
         )
     }
@@ -190,7 +190,7 @@ private fun MyAttendanceStatus(
 
 @Composable
 private fun MySurveyHistory(
-    userRespondedSurveyState: ProfileViewModel.SurveysState,
+    userRespondedSurveysState: ProfileViewModel.SurveysState,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -207,14 +207,48 @@ private fun MySurveyHistory(
                 .wrapContentHeight()
                 .padding(top = 10.dp),
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(vertical = 10.dp),
-            ) {
-                WappSurveyHistoryRow()
-                WappSurveyHistoryRow()
-                WappSurveyHistoryRow()
-                WappSurveyHistoryRow()
+            when (userRespondedSurveysState) {
+                is ProfileViewModel.SurveysState.Loading -> CircleLoader(
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .height(130.dp),
+                )
+
+                is ProfileViewModel.SurveysState.Success -> {
+                    if (userRespondedSurveysState.surveys.isEmpty()) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .height(130.dp),
+                        ) {
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = "가입한 이후로 참여한 설문이 없어요!",
+                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.weight(1f),
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                        return@WappCard
+                    }
+
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .height(130.dp),
+                    ) {
+                        items(
+                            items = userRespondedSurveysState.surveys,
+                            key = { survey -> survey.surveyId },
+                        ) { event ->
+                            WappSurveyHistoryRow()
+                        }
+                    }
+                }
             }
         }
     }

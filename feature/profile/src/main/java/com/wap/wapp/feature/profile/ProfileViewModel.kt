@@ -3,7 +3,7 @@ package com.wap.wapp.feature.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val getEventListUseCase: GetEventListUseCase,
+    private val getDateEventListUseCase: GetDateEventListUseCase,
     private val getSurveyListUseCase: GetSurveyListUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -82,7 +82,7 @@ class ProfileViewModel @Inject constructor(
     private fun getTodayDateEvents() {
         _todayEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
+            getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
                 _todayEvents.value =
                     EventsState.Success(
                         eventList.filter { event ->
@@ -118,7 +118,7 @@ class ProfileViewModel @Inject constructor(
             // 만약 가입한 날짜보다 빠르다면 반복문을 멈춤
             if (targetDateTime < registrationDateTime) break
 
-            getEventListUseCase(targetDateTime).onSuccess { eventsList.addAll(it) }
+            getDateEventListUseCase(targetDateTime).onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
         _recentEvents.value = EventsState.Success(eventsList)

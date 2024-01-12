@@ -61,7 +61,7 @@ internal fun ProfileRoute(
         recentEventsState = recentEventsState,
         userRoleState = userRoleState,
         userProfile = userProfile,
-        userRespondedSurveyState = userRespondedSurveysState,
+        userRespondedSurveysState = userRespondedSurveysState,
         snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
@@ -74,7 +74,7 @@ internal fun ProfileScreen(
     userProfile: UserProfile,
     todayEventsState: ProfileViewModel.EventsState,
     recentEventsState: ProfileViewModel.EventsState,
-    userRespondedSurveyState: ProfileViewModel.SurveysState,
+    userRespondedSurveysState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
@@ -131,7 +131,7 @@ internal fun ProfileScreen(
                             UserProfile(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
-                                userRespondedSurveyState = userRespondedSurveysState,
+                                userRespondedSurveysState = userRespondedSurveysState,
                             )
                         }
 
@@ -153,7 +153,7 @@ internal fun ProfileScreen(
                             UserProfile(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
-                                userRespondedSurveyState = userRespondedSurveysState,
+                                userRespondedSurveysState = userRespondedSurveysState,
                             )
                         }
 

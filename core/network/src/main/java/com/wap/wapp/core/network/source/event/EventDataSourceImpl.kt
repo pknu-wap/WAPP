@@ -10,6 +10,7 @@ import com.wap.wapp.core.network.utils.await
 import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -23,6 +24,30 @@ class EventDataSourceImpl @Inject constructor(
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .document(getMonth(date))
                 .collection(EVENT_COLLECTION)
+                .get()
+                .await()
+
+            for (document in task.documents) {
+                val event = document.toObject<EventResponse>()
+                checkNotNull(event)
+                result.add(event)
+            }
+
+            result
+        }
+
+    override suspend fun getDateEvents(date: LocalDate): Result<List<EventResponse>> =
+        runCatching {
+            val result = mutableListOf<EventResponse>()
+
+            val startDateTime = date.atStartOfDay()
+            val endDateTime = date.atTime(LocalTime.MAX)
+
+            val task = firebaseFirestore.collection(EVENT_COLLECTION)
+                .document(getMonth(date))
+                .collection(EVENT_COLLECTION)
+                .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", endDateTime)
                 .get()
                 .await()
 
