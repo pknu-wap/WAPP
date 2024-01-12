@@ -2,6 +2,7 @@ package com.wap.wapp.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.domain.usecase.auth.IsUserSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,20 +11,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() : ViewModel() {
-    private val _eventFlow = MutableSharedFlow<SplashEvent>()
-    val eventFlow = _eventFlow.asSharedFlow()
-
-    fun event(event: SplashEvent) = viewModelScope.launch { _eventFlow.emit(event) }
+class SplashViewModel @Inject constructor(
+    private val isUserSignInUseCase: IsUserSignInUseCase,
+) : ViewModel() {
+    private val _splashUiEvent = MutableSharedFlow<SplashEvent>()
+    val splashUiEvent = _splashUiEvent.asSharedFlow()
 
     init {
         viewModelScope.launch {
             delay(2000)
-            event(SplashEvent.TimerDone)
+            isUserSignIn()
         }
     }
 
+    private suspend fun isUserSignIn() {
+        isUserSignInUseCase()
+            .onSuccess { isSignIn ->
+                if (isSignIn) {
+                    _splashUiEvent.emit(SplashEvent.SignInUser)
+                } else {
+                    _splashUiEvent.emit(SplashEvent.NonSignInUser)
+                }
+            }.onFailure { throwable ->
+                _splashUiEvent.emit(SplashEvent.Failure(throwable))
+            }
+    }
+
     sealed class SplashEvent {
-        object TimerDone : SplashEvent()
+        data object SignInUser : SplashEvent()
+        data object NonSignInUser : SplashEvent()
+        data class Failure(val throwable: Throwable) : SplashEvent()
     }
 }

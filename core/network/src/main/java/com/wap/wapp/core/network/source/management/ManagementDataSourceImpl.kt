@@ -37,4 +37,11 @@ class ManagementDataSourceImpl @Inject constructor(
 
         result.isEmpty.not()
     }
+
+    override suspend fun deleteManager(userId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(MANAGER_COLLECTION)
+            .document(userId)
+            .delete()
+            .await()
+    }
 }

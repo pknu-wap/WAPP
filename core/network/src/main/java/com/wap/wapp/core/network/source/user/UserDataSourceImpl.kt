@@ -49,4 +49,11 @@ class UserDataSourceImpl @Inject constructor(
             checkNotNull(userProfile)
         }
     }
+
+    override suspend fun deleteUserProfile(userId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(USER_COLLECTION)
+            .document(userId)
+            .delete()
+            .await()
+    }
 }

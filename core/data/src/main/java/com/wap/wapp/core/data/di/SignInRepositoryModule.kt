@@ -1,7 +1,7 @@
 package com.wap.wapp.core.data.di
 
-import com.wap.wapp.core.data.repository.auth.AuthRepository
-import com.wap.wapp.core.data.repository.auth.AuthRepositoryImpl
+import com.wap.wapp.core.data.repository.auth.SignInRepository
+import com.wap.wapp.core.data.repository.auth.SignInRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,10 +10,10 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
-abstract class AuthRepositoryModule {
+abstract class SignInRepositoryModule {
     @Binds
     @ActivityScoped
     abstract fun bindsAuthRepository(
-        authRepositoryImpl: AuthRepositoryImpl,
-    ): AuthRepository
+        signInRepositoryImpl: SignInRepositoryImpl,
+    ): SignInRepository
 }

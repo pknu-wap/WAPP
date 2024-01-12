@@ -28,4 +28,7 @@ class UserRepositoryImpl @Inject constructor(
             registeredAt = registeredAt,
         ),
     )
+
+    override suspend fun deleteUserProfile(userId: String): Result<Unit> =
+        userDataSource.deleteUserProfile(userId)
 }

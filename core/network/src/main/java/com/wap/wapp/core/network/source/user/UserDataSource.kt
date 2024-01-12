@@ -9,4 +9,6 @@ interface UserDataSource {
     suspend fun getUserProfile(userId: String): Result<UserProfileResponse>
 
     suspend fun getUserId(): Result<String>
+
+    suspend fun deleteUserProfile(userId: String): Result<Unit>
 }

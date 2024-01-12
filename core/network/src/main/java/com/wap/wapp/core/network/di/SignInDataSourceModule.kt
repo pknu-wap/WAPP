@@ -1,7 +1,7 @@
 package com.wap.wapp.core.network.di
 
-import com.wap.wapp.core.network.source.auth.AuthDataSource
-import com.wap.wapp.core.network.source.auth.AuthDataSourceImpl
+import com.wap.wapp.core.network.source.auth.SignInDataSource
+import com.wap.wapp.core.network.source.auth.SignInDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -10,10 +10,10 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
-abstract class AuthDataSourceModule {
+abstract class SignInDataSourceModule {
     @Binds
     @ActivityScoped
-    abstract fun bindsAuthDataSource(
-        authDataSourceImpl: AuthDataSourceImpl,
-    ): AuthDataSource
+    abstract fun bindsSignInDataSource(
+        signInDataSourceImpl: SignInDataSourceImpl,
+    ): SignInDataSource
 }
