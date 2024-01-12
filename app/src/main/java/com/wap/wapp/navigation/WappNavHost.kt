@@ -55,6 +55,13 @@ fun WappNavHost(
                     },
                 )
             },
+            navigateToNotice = {
+                navController.navigateToNotice(
+                    navOptions {
+                        popUpTo(splashNavigationRoute) { inclusive = true }
+                    },
+                )
+            },
         )
         signInScreen(
             signInUseCase = signInUseCase,

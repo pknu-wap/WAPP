@@ -1,5 +1,7 @@
 package com.wap.wapp.core.network.di
 
+import com.wap.wapp.core.network.source.auth.AuthDataSource
+import com.wap.wapp.core.network.source.auth.AuthDataSourceImpl
 import com.wap.wapp.core.network.source.event.EventDataSource
 import com.wap.wapp.core.network.source.event.EventDataSourceImpl
 import com.wap.wapp.core.network.source.management.ManagementDataSource
@@ -19,6 +21,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class NetworkModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindsAuthDataSource(
+        authDataSourceImpl: AuthDataSourceImpl,
+    ): AuthDataSource
 
     @Binds
     @Singleton

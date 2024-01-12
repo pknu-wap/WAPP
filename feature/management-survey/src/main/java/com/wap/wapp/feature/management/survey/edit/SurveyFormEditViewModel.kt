@@ -194,7 +194,7 @@ class SurveyFormEditViewModel @Inject constructor(
         _surveyQuestionList.value.addAll(surveyQuestionList)
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = EMPTY }
+    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 
@@ -221,8 +221,6 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     companion object {
-        const val EMPTY = ""
-        val EVENT_SELECTION_INIT: Event =
-            Event("", "", "", "", DateUtil.generateNowDateTime(), DateUtil.generateNowDateTime())
+        val EVENT_SELECTION_INIT = Event("", "", "", "", LocalDateTime.MIN, LocalDateTime.MAX)
     }
 }

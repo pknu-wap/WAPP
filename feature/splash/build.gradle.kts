@@ -26,6 +26,8 @@ dependencies {
     implementation(project(":core:designresource"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)

@@ -13,8 +13,14 @@ fun NavController.navigateToSplash(navOptions: NavOptions? = navOptions {}) {
     this.navigate(splashNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.splashScreen(navigateToAuth: () -> Unit) {
+fun NavGraphBuilder.splashScreen(
+    navigateToAuth: () -> Unit,
+    navigateToNotice: () -> Unit,
+) {
     composable(route = splashNavigationRoute) {
-        SplashRoute(navigateToAuth = navigateToAuth)
+        SplashRoute(
+            navigateToAuth = navigateToAuth,
+            navigateToNotice = navigateToNotice,
+        )
     }
 }

@@ -1,38 +1,15 @@
 package com.wap.wapp.core.network.source.auth
 
-import android.app.Activity
-import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.OAuthProvider
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.wap.wapp.core.network.utils.await
-import dagger.hilt.android.qualifiers.ActivityContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    @ActivityContext private val context: Context,
 ) : AuthDataSource {
-    override suspend fun hasPendingResult(): Boolean {
-        return firebaseAuth.pendingAuthResult != null
-    }
-
-    override suspend fun signIn(email: String): Result<String> {
-        return runCatching {
-            val provider = OAuthProvider.newBuilder("github.com")
-            provider.addCustomParameter("login", email)
-
-            val activityContext = context as Activity
-
-            val result = firebaseAuth.startActivityForSignInWithProvider(
-                activityContext,
-                provider.build(),
-            ).await()
-
-            val user = checkNotNull(result.user)
-            user.uid
-        }
-    }
-
     override suspend fun signOut(): Result<Unit> {
         return runCatching {
             firebaseAuth.signOut()
@@ -45,6 +22,31 @@ class AuthDataSourceImpl @Inject constructor(
 
             user.delete()
                 .await()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun isUserSignIn(): Result<Boolean> = runCatching {
+        suspendCancellableCoroutine { cont ->
+            val authStateListener = object : AuthStateListener {
+                override fun onAuthStateChanged(remoteAuth: FirebaseAuth) {
+                    val user = remoteAuth.currentUser
+                    if (user != null) {
+                        cont.resume(true, null)
+                    } else {
+                        cont.resume(false, null)
+                    }
+
+                    // 한 번 호출된 후에 Listener 삭제
+                    firebaseAuth.removeAuthStateListener(this)
+                }
+            }
+
+            firebaseAuth.addAuthStateListener(authStateListener)
+
+            cont.invokeOnCancellation { // Coroutine이 취소되는 경우 리스너 삭제
+                firebaseAuth.removeAuthStateListener(authStateListener)
+            }
         }
     }
 }
