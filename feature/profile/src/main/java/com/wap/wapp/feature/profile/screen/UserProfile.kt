@@ -42,6 +42,7 @@ import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 internal fun UserProfile(
     todayEventsState: ProfileViewModel.EventsState,
     recentEventsState: ProfileViewModel.EventsState,
+    userRespondedSurveyState: ProfileViewModel.SurveysState,
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         ProfileAttendanceCard(
@@ -54,7 +55,10 @@ internal fun UserProfile(
             modifier = Modifier.padding(top = 20.dp),
         )
 
-        MySurveyHistory(modifier = Modifier.padding(vertical = 20.dp))
+        MySurveyHistory(
+            userRespondedSurveyState = userRespondedSurveyState,
+            modifier = Modifier.padding(vertical = 20.dp),
+        )
     }
 }
 
@@ -185,7 +189,10 @@ private fun MyAttendanceStatus(
 }
 
 @Composable
-private fun MySurveyHistory(modifier: Modifier = Modifier) {
+private fun MySurveyHistory(
+    userRespondedSurveyState: ProfileViewModel.SurveysState,
+    modifier: Modifier = Modifier,
+) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.survey_i_did),

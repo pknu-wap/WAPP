@@ -43,6 +43,7 @@ internal fun ProfileRoute(
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val recentEventsState by viewModel.recentEvents.collectAsStateWithLifecycle()
+    val userRespondedSurveysState by viewModel.userRespondedSurveys.collectAsStateWithLifecycle()
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
     val userProfile by viewModel.userProfile.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -60,6 +61,7 @@ internal fun ProfileRoute(
         recentEventsState = recentEventsState,
         userRoleState = userRoleState,
         userProfile = userProfile,
+        userRespondedSurveyState = userRespondedSurveysState,
         snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
@@ -72,6 +74,7 @@ internal fun ProfileScreen(
     userProfile: UserProfile,
     todayEventsState: ProfileViewModel.EventsState,
     recentEventsState: ProfileViewModel.EventsState,
+    userRespondedSurveyState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
@@ -128,6 +131,7 @@ internal fun ProfileScreen(
                             UserProfile(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
+                                userRespondedSurveyState = userRespondedSurveysState,
                             )
                         }
 
@@ -149,6 +153,7 @@ internal fun ProfileScreen(
                             UserProfile(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
+                                userRespondedSurveyState = userRespondedSurveysState,
                             )
                         }
 
