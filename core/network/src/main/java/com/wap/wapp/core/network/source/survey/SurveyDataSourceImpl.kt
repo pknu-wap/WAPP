@@ -29,6 +29,25 @@ class SurveyDataSourceImpl @Inject constructor(
         result
     }
 
+    override suspend fun getUserRespondedSurveyList(userId: String): Result<List<SurveyResponse>> =
+        runCatching {
+            val result: MutableList<SurveyResponse> = mutableListOf()
+
+            val task = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .whereEqualTo("userId", userId)
+                .get()
+                .await()
+
+            for (document in task.documents) {
+                val surveyResponse = document.toObject(SurveyResponse::class.java)
+                checkNotNull(surveyResponse)
+
+                result.add(surveyResponse)
+            }
+
+            result
+        }
+
     override suspend fun getSurvey(surveyId: String): Result<SurveyResponse> = runCatching {
         val result = firebaseFirestore.collection(SURVEY_COLLECTION)
             .document(surveyId)
