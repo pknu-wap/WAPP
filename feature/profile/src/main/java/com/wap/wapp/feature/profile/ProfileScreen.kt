@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 internal fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
-    navigateToProfileSetting: () -> Unit,
+    navigateToProfileSetting: (String) -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
@@ -76,7 +76,7 @@ internal fun ProfileScreen(
     recentEventsState: ProfileViewModel.EventsState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
-    navigateToProfileSetting: () -> Unit,
+    navigateToProfileSetting: (String) -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -109,7 +109,7 @@ internal fun ProfileScreen(
                         contentRes = R.string.profile_content,
                         settingButtonDescriptionRes = R.string.profile_setting_description,
                         showSettingButton = userRoleState.userRole != UserRole.GUEST,
-                        onClickSettingButton = navigateToProfileSetting,
+                        onClickSettingButton = { navigateToProfileSetting(userProfile.userId) },
                     )
 
                     when (userRoleState.userRole) {

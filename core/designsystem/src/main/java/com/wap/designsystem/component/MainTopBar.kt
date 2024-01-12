@@ -92,7 +92,6 @@ fun WappMainTopBarWithButton() {
                 titleRes = R.string.notice,
                 contentRes = R.string.notice,
                 showSettingButton = true,
-                onClickSettingButton = {},
             )
         }
     }

@@ -35,6 +35,7 @@ import com.wap.wapp.feature.profile.profilesetting.component.ProfileSettingDialo
 
 @Composable
 internal fun ProfileSettingRoute(
+    userId: String,
     navigateToProfile: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {

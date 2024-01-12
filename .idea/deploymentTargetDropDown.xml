@@ -4,18 +4,18 @@
     <value>
       <entry key="app">
         <State>
-          <targetSelectedWithDropDown>
+          <runningDeviceTargetSelectedWithDropDown>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\atg06\.android\avd\Small_Phone_API_33.avd" />
+                  <type value="SERIAL_NUMBER" />
+                  <value value="R3CN603FCDX" />
                 </Key>
               </deviceKey>
             </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-12T14:59:38.069908500Z" />
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-01-12T15:32:28.371870100Z" />
         </State>
       </entry>
     </value>
