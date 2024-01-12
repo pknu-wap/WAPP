@@ -20,17 +20,17 @@ class ProfileSettingViewModel @Inject constructor(
     val eventFlow: SharedFlow<ProfileSettingEvent> = _eventFlow.asSharedFlow()
 
     fun signOut() = viewModelScope.launch {
-        signOutUseCase().onSuccess { }
-            .onFailure { }
+        signOutUseCase().onSuccess { _eventFlow.emit(ProfileSettingEvent.Success) }
+            .onFailure { _eventFlow.emit(ProfileSettingEvent.Failure(it)) }
     }
 
     fun withdrawal(userId: String) = viewModelScope.launch {
-        deleteUserUseCase(userId).onSuccess { }
-            .onFailure { }
+        deleteUserUseCase(userId).onSuccess { _eventFlow.emit(ProfileSettingEvent.Success) }
+            .onFailure { _eventFlow.emit(ProfileSettingEvent.Failure(it)) }
     }
 
     sealed class ProfileSettingEvent {
-        data object Failure : ProfileSettingEvent()
+        data class Failure(val throwable: Throwable) : ProfileSettingEvent()
         data object Success : ProfileSettingEvent()
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +32,8 @@ import com.wap.designsystem.component.WappRowBar
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.profile.R.string
+import com.wap.wapp.feature.profile.profilesetting.ProfileSettingViewModel.ProfileSettingEvent.Failure
+import com.wap.wapp.feature.profile.profilesetting.ProfileSettingViewModel.ProfileSettingEvent.Success
 import com.wap.wapp.feature.profile.profilesetting.component.ProfileSettingDialog
 
 @Composable
@@ -40,7 +43,18 @@ internal fun ProfileSettingRoute(
     navigateToSignIn: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(true) {
+        viewModel.eventFlow.collect {
+            when (it) {
+                is Failure -> {}
+                is Success -> navigateToSignIn()
+            }
+        }
+    }
+
     ProfileSettingScreen(
+        withdrawal = { viewModel.withdrawal(userId) },
+        signOut = viewModel::signOut,
         navigateToProfile = navigateToProfile,
     )
 }
@@ -48,6 +62,8 @@ internal fun ProfileSettingRoute(
 @Composable
 internal fun ProfileSettingScreen(
     navigateToProfile: () -> Unit,
+    withdrawal: () -> Unit,
+    signOut: () -> Unit,
     onClickedAlarmSetting: () -> Unit = {},
 ) {
     var showWithdrawalDialog by remember { mutableStateOf(false) }
@@ -59,7 +75,7 @@ internal fun ProfileSettingScreen(
     if (showWithdrawalDialog) {
         ProfileSettingDialog(
             onDismissRequest = { showWithdrawalDialog = false },
-            onConfirmRequest = {},
+            onConfirmRequest = withdrawal,
             title = string.withdrawal,
         )
     }
@@ -67,7 +83,7 @@ internal fun ProfileSettingScreen(
     if (showLogoutDialog) {
         ProfileSettingDialog(
             onDismissRequest = { showLogoutDialog = false },
-            onConfirmRequest = {},
+            onConfirmRequest = signOut,
             title = string.logout,
         )
     }
