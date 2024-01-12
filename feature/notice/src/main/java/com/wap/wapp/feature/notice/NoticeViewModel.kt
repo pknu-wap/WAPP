@@ -46,7 +46,8 @@ class NoticeViewModel @Inject constructor(
         viewModelScope.launch {
             getEventListUseCase(_selectedDate.value).onSuccess {
                 _selectedDateEvents.value = EventsState.Success(
-                    it.filter { it.startDateTime.toLocalDate() == _selectedDate.value },
+                    it.filter { it.startDateTime.toLocalDate() == _selectedDate.value }
+                        .sortedBy { it.startDateTime },
                 )
             }.onFailure { _selectedDateEvents.value = EventsState.Failure(it) }
         }
