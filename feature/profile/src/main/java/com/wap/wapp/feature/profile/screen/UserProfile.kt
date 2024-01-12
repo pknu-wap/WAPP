@@ -48,6 +48,7 @@ internal fun UserProfile(
             todayEventsState = todayEventsState,
             modifier = Modifier.padding(top = 20.dp),
         )
+
         MyAttendanceStatus(
             recentEventsState = recentEventsState,
             modifier = Modifier.padding(top = 20.dp),

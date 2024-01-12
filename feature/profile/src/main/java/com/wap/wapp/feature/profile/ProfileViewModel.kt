@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.core.model.survey.SurveyAnswer
 import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,6 +30,7 @@ class ProfileViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getEventListUseCase: GetEventListUseCase,
+    private val getSurveyListUseCase: GetSurveyListUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
@@ -37,6 +40,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _recentEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val recentEvents: StateFlow<EventsState> = _recentEvents.asStateFlow()
+
+    private val _mySurveys = MutableStateFlow<SurveysState>(SurveysState.Loading)
+    val mySurveys: StateFlow<SurveysState> = _mySurveys.asStateFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
@@ -108,8 +114,7 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
-//        _recentEvents.value = EventsState.Success(eventsList)
-        _recentEvents.value = EventsState.Success(emptyList())
+        _recentEvents.value = EventsState.Success(eventsList)
     }
 
     private fun createRegistrationDateTime(year: Int, semester: String): LocalDate {
@@ -128,6 +133,11 @@ class ProfileViewModel @Inject constructor(
     sealed class EventsState {
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
+    }
+
+    sealed class SurveysState {
+        data object Loading : SurveysState()
+        data class Success(val events: List<SurveyAnswer>) : SurveysState()
     }
 
     sealed class UserRoleState {
