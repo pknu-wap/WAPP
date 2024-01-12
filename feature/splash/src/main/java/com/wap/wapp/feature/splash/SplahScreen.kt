@@ -26,8 +26,8 @@ internal fun SplashRoute(
     LaunchedEffect(true) {
         viewModel.splashUiEvent.collect { event ->
             when (event) {
-                is SplashViewModel.SplashEvent.SignInUser -> { navigateToNotice() }
-                is SplashViewModel.SplashEvent.NonSignInUser -> { navigateToAuth() }
+                is SplashViewModel.SplashEvent.SignInUser -> navigateToNotice()
+                is SplashViewModel.SplashEvent.NonSignInUser -> navigateToAuth()
                 is SplashViewModel.SplashEvent.Failure -> {
                     navigateToAuth()
                     context.showToast(event.throwable.toSupportingText())
