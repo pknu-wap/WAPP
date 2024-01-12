@@ -244,8 +244,8 @@ private fun MySurveyHistory(
                         items(
                             items = userRespondedSurveysState.surveys,
                             key = { survey -> survey.surveyId },
-                        ) { event ->
-                            WappSurveyHistoryRow()
+                        ) { survey ->
+                            WappSurveyHistoryRow(survey)
                         }
                     }
                 }
