@@ -24,19 +24,17 @@ class SplashViewModel @Inject constructor(
         }
     }
 
-    private fun isUserSignIn() {
-        viewModelScope.launch {
-            isUserSignInUseCase()
-                .onSuccess { isSignIn ->
-                    if (isSignIn) {
-                        _splashUiEvent.emit(SplashEvent.SignInUser)
-                    } else {
-                        _splashUiEvent.emit(SplashEvent.NonSignInUser)
-                    }
-                }.onFailure { throwable ->
-                    _splashUiEvent.emit(SplashEvent.Failure(throwable))
+    private suspend fun isUserSignIn() {
+        isUserSignInUseCase()
+            .onSuccess { isSignIn ->
+                if (isSignIn) {
+                    _splashUiEvent.emit(SplashEvent.SignInUser)
+                } else {
+                    _splashUiEvent.emit(SplashEvent.NonSignInUser)
                 }
-        }
+            }.onFailure { throwable ->
+                _splashUiEvent.emit(SplashEvent.Failure(throwable))
+            }
     }
 
     sealed class SplashEvent {
