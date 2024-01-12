@@ -134,6 +134,12 @@ private fun MyAttendanceStatus(
                 .padding(top = 10.dp),
         ) {
             when (recentEventsState) {
+                is ProfileViewModel.EventsState.Loading -> CircleLoader(
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .height(130.dp),
+                )
+
                 is ProfileViewModel.EventsState.Success -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -150,10 +156,6 @@ private fun MyAttendanceStatus(
                         }
                     }
                 }
-
-                is ProfileViewModel.EventsState.Loading -> CircleLoader(
-                    modifier = Modifier.weight(1f),
-                )
             }
         }
     }

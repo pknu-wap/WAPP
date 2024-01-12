@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -77,10 +77,10 @@ private fun EventsList(events: List<Event>) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            itemsIndexed(
+            items(
                 items = events,
-                key = { _, event -> event.eventId },
-            ) { _, event ->
+                key = { event -> event.eventId },
+            ) { event ->
                 EventItem(event = event)
             }
         }
