@@ -40,8 +40,8 @@ class EventDataSourceImpl @Inject constructor(
         runCatching {
             val result = mutableListOf<EventResponse>()
 
-            val startDateTime = date.atStartOfDay()
-            val endDateTime = date.atTime(LocalTime.MAX)
+            val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
+            val endDateTime = date.atTime(LocalTime.MAX).toISOLocalDateTimeString()
 
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .document(getMonth(date))
@@ -131,3 +131,6 @@ class EventDataSourceImpl @Inject constructor(
         return date.format(formatter)
     }
 }
+
+private fun LocalDateTime.toISOLocalDateTimeString(): String =
+    this.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)

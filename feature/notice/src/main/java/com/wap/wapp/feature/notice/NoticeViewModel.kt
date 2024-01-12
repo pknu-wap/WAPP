@@ -3,6 +3,7 @@ package com.wap.wapp.feature.notice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
 import com.wap.wapp.core.model.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val getMonthEventListUseCase: GetMonthEventListUseCase,
+    private val getDateEventListUseCase: GetDateEventListUseCase,
 ) : ViewModel() {
 
     private val _monthEvents = MutableStateFlow<EventsState>(EventsState.Loading)
@@ -44,10 +46,9 @@ class NoticeViewModel @Inject constructor(
     fun getSelectedDateEvents() {
         _selectedDateEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getMonthEventListUseCase(_selectedDate.value).onSuccess {
+            getDateEventListUseCase(_selectedDate.value).onSuccess {
                 _selectedDateEvents.value = EventsState.Success(
-                    it.filter { it.startDateTime.toLocalDate() == _selectedDate.value }
-                        .sortedBy { it.startDateTime },
+                    it.sortedBy { it.startDateTime },
                 )
             }.onFailure { _selectedDateEvents.value = EventsState.Failure(it) }
         }
