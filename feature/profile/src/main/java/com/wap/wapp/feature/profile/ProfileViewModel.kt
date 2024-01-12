@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.profile
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
@@ -92,7 +93,6 @@ class ProfileViewModel @Inject constructor(
     private suspend fun getRecentEventsForAttendanceCheck() {
         val registeredAt = _userProfile.value.registeredAt
         val (registeredYear, registeredSemester) = registeredAt.split(" ")
-
         val registrationDateTime =
             createRegistrationDateTime(registeredYear.toInt(), registeredSemester)
 
@@ -100,9 +100,8 @@ class ProfileViewModel @Inject constructor(
         val currentDateTime = LocalDate.now()
 
         val eventsList = mutableListOf<Event>()
-        for (i in 1..3) {
+        for (i in 0..3) {
             val targetDateTime = currentDateTime.minus(i.toLong(), ChronoUnit.MONTHS)
-
             // 만약 가입한 날짜보다 빠르다면 반복문을 멈춤
             if (targetDateTime < registrationDateTime) break
 
@@ -110,7 +109,6 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
-
         _recentEvents.value = EventsState.Success(eventsList)
     }
 

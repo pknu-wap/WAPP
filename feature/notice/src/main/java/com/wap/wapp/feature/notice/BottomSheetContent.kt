@@ -33,7 +33,6 @@ import com.wap.wapp.core.commmon.util.DateUtil.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -110,8 +109,6 @@ private fun EventsList(events: List<Event>) {
 
 @Composable
 private fun EventItem(event: Event) {
-    val formatter = DateTimeFormatter.ofPattern("MM-dd")
-
     Column {
         Row(
             modifier = Modifier

@@ -1,13 +1,17 @@
 package com.wap.wapp.feature.profile.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,86 +37,88 @@ import com.wap.wapp.feature.profile.component.WappAttendacneRow
 import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 
 @Composable
-internal fun UserProfile(eventsState: ProfileViewModel.EventsState) {
+internal fun UserProfile(
+    todayEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventsState,
+) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
-        handleMonthEventsState(eventsState = eventsState)
-
-        MyAttendanceStatus(modifier = Modifier.padding(top = 20.dp))
+        ProfileAttendanceCard(
+            todayEventsState = todayEventsState,
+            modifier = Modifier.padding(top = 20.dp),
+        )
+        MyAttendanceStatus(
+            recentEventsState = recentEventsState,
+            modifier = Modifier.padding(top = 20.dp),
+        )
 
         MySurveyHistory(modifier = Modifier.padding(vertical = 20.dp))
     }
 }
 
 @Composable
-private fun handleMonthEventsState(
-    eventsState: ProfileViewModel.EventsState,
-) = when (eventsState) {
-    is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-    is ProfileViewModel.EventsState.Success -> {
-        ProfileAttendanceCard(
-            events = eventsState.events,
-            modifier = Modifier.padding(top = 20.dp),
-        )
-    }
-}
-
-@Composable
 private fun ProfileAttendanceCard(
-    events: List<Event>,
+    todayEventsState: ProfileViewModel.EventsState,
     modifier: Modifier,
 ) {
-    WappCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp, vertical = 10.dp),
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(id = R.string.wap_attendance),
-                    style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
-                    color = WappTheme.colors.white,
-                )
+    when (todayEventsState) {
+        is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+        is ProfileViewModel.EventsState.Success -> {
+            WappCard(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp, vertical = 10.dp),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(id = R.string.wap_attendance),
+                            style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                            color = WappTheme.colors.white,
+                        )
 
-                Image(
-                    painter = painterResource(id = drawable.ic_check),
-                    contentDescription = "",
-                    modifier = Modifier.padding(start = 10.dp),
-                )
-            }
+                        Image(
+                            painter = painterResource(id = drawable.ic_check),
+                            contentDescription = "",
+                            modifier = Modifier.padding(start = 10.dp),
+                        )
+                    }
+                    Text(
+                        text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
+                        style = WappTheme.typography.contentRegular,
+                        color = WappTheme.colors.white,
+                        modifier = Modifier.padding(top = 20.dp),
+                    )
 
-            Text(
-                text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
-                style = WappTheme.typography.contentRegular,
-                color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 20.dp),
-            )
-
-            if (events.isEmpty()) {
-                Text(
-                    text = stringResource(id = R.string.no_event_today),
-                    style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.padding(top = 5.dp),
-                )
-            } else {
-                Text(
-                    text = generateTodayEventString(events = events),
-                    style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.padding(top = 5.dp),
-                )
+                    if (todayEventsState.events.isEmpty()) {
+                        Text(
+                            text = stringResource(id = R.string.no_event_today),
+                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                            color = WappTheme.colors.white,
+                            modifier = Modifier.padding(top = 5.dp),
+                        )
+                    } else {
+                        Text(
+                            text = generateTodayEventString(events = todayEventsState.events),
+                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                            color = WappTheme.colors.white,
+                            modifier = Modifier.padding(top = 5.dp),
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun MyAttendanceStatus(modifier: Modifier = Modifier) {
+private fun MyAttendanceStatus(
+    recentEventsState: ProfileViewModel.EventsState,
+    modifier: Modifier = Modifier,
+) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(id = R.string.my_attendance),
@@ -127,14 +133,27 @@ private fun MyAttendanceStatus(modifier: Modifier = Modifier) {
                 .wrapContentHeight()
                 .padding(top = 10.dp),
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.padding(vertical = 10.dp),
-            ) {
-                WappAttendacneRow(isAttendance = false)
-                WappAttendacneRow(isAttendance = true)
-                WappAttendacneRow(isAttendance = false)
-                WappAttendacneRow(isAttendance = true)
+            when (recentEventsState) {
+                is ProfileViewModel.EventsState.Success -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .height(130.dp),
+                    ) {
+                        items(
+                            items = recentEventsState.events,
+                            key = { event -> event.eventId },
+                        ) { event ->
+                            Log.d("test", recentEventsState.events.toString())
+                            WappAttendacneRow(isAttendance = true, event = event)
+                        }
+                    }
+                }
+
+                is ProfileViewModel.EventsState.Loading -> CircleLoader(
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
     }

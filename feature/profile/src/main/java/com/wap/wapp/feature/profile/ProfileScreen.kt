@@ -41,7 +41,8 @@ internal fun ProfileRoute(
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
-    val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val recentEventsState by viewModel.recentEvents.collectAsStateWithLifecycle()
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
     val userProfile by viewModel.userProfile.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -55,7 +56,8 @@ internal fun ProfileRoute(
     }
 
     ProfileScreen(
-        eventsState = eventsState,
+        todayEventsState = todayEventsState,
+        recentEventsState = recentEventsState,
         userRoleState = userRoleState,
         userProfile = userProfile,
         snackBarHostState = snackBarHostState,
@@ -68,7 +70,8 @@ internal fun ProfileRoute(
 internal fun ProfileScreen(
     userRoleState: UserRoleState,
     userProfile: UserProfile,
-    eventsState: ProfileViewModel.EventsState,
+    todayEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventsState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
@@ -122,7 +125,10 @@ internal fun ProfileScreen(
                                 userName = "${userProfile.userName} 님",
                             )
 
-                            UserProfile(eventsState = eventsState)
+                            UserProfile(
+                                todayEventsState = todayEventsState,
+                                recentEventsState = recentEventsState,
+                            )
                         }
 
                         UserRole.MEMBER -> {
@@ -140,7 +146,10 @@ internal fun ProfileScreen(
                                 userName = "${userProfile.userName} 님",
                             )
 
-                            UserProfile(eventsState = eventsState)
+                            UserProfile(
+                                todayEventsState = todayEventsState,
+                                recentEventsState = recentEventsState,
+                            )
                         }
 
                         UserRole.GUEST -> {
