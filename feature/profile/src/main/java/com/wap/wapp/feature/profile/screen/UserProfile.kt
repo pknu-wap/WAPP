@@ -156,7 +156,7 @@ private fun MyAttendanceStatus(
                         ) {
                             Spacer(modifier = Modifier.weight(1f))
                             Text(
-                                text = "가입한 이후로 진행된 일정이 없어요!",
+                                text = stringResource(id = R.string.no_events_recently),
                                 style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
                                 color = WappTheme.colors.white,
                                 textAlign = TextAlign.Center,
@@ -222,7 +222,7 @@ private fun MySurveyHistory(
                         ) {
                             Spacer(modifier = Modifier.weight(1f))
                             Text(
-                                text = "가입한 이후로 참여한 설문이 없어요!",
+                                text = stringResource(id = R.string.no_surveys_after_sign_up),
                                 style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
                                 color = WappTheme.colors.white,
                                 textAlign = TextAlign.Center,

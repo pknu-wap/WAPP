@@ -23,4 +23,6 @@
     <string name="navigate_to_login">로그인 하러 가기</string>
     <string name="wap_attendance">WAP 출석</string>
     <string name="no_event_today">오늘은 별 다른 행사가 없어요!</string>
+    <string name="no_surveys_after_sign_up">가입한 이후로 참여한 설문이 없어요!</string>
+    <string name="no_events_recently">가입한 이후로 진행된 일정이 없어요!</string>
 </resources>
