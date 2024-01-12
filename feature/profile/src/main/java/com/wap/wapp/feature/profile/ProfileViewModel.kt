@@ -8,12 +8,11 @@ import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.core.model.survey.SurveyAnswer
+import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -51,13 +50,10 @@ class ProfileViewModel @Inject constructor(
     val userProfile: StateFlow<UserProfile> = _userProfile.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            checkUserInformationAndGetEvents()
-            launch { getRecentEventsForAttendanceCheck() }
-        }
+        checkUserInformationAndGetEvents()
     }
 
-    private suspend fun checkUserInformationAndGetEvents() = coroutineScope {
+    private fun checkUserInformationAndGetEvents() = viewModelScope.launch {
         getUserRoleUseCase()
             .onFailure { exception -> _errorFlow.emit(exception) }
             .onSuccess { userRole ->
@@ -75,6 +71,8 @@ class ProfileViewModel @Inject constructor(
                             .onSuccess {
                                 _userRole.value = UserRoleState.Success(userRole)
                                 _userProfile.value = it
+                                launch { getRecentEventsForAttendanceCheck() }
+                                launch { getUserRespondedSurveys() }
                             }.onFailure { exception -> _errorFlow.emit(exception) }
                     }
                 }
@@ -96,17 +94,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun getUserRespondedSurveys() {
-        _todayEvents.value = EventsState.Loading
-        viewModelScope.launch {
-            getEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-                _todayEvents.value =
-                    EventsState.Success(
-                        eventList.filter { event ->
-                            event.startDateTime.toLocalDate() == DateUtil.generateNowDate()
-                        }.sortedBy { event -> event.title },
-                    )
-            }.onFailure { exception -> _errorFlow.emit(exception) }
-        }
+        getSurveyListUseCase().onSuccess { surveyList ->
+            _userRespondedSurveys.value =
+                SurveysState.Success(
+                    surveyList.filter { survey -> survey.userName == _userProfile.value.userName }
+                        .sortedBy { survey -> survey.surveyedAt },
+                )
+        }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
     private suspend fun getRecentEventsForAttendanceCheck() {
@@ -124,8 +118,7 @@ class ProfileViewModel @Inject constructor(
             // 만약 가입한 날짜보다 빠르다면 반복문을 멈춤
             if (targetDateTime < registrationDateTime) break
 
-            getEventListUseCase(targetDateTime)
-                .onSuccess { eventsList.addAll(it) }
+            getEventListUseCase(targetDateTime).onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
         _recentEvents.value = EventsState.Success(eventsList)
@@ -151,7 +144,7 @@ class ProfileViewModel @Inject constructor(
 
     sealed class SurveysState {
         data object Loading : SurveysState()
-        data class Success(val events: List<SurveyAnswer>) : SurveysState()
+        data class Success(val surveys: List<Survey>) : SurveysState()
     }
 
     sealed class UserRoleState {
