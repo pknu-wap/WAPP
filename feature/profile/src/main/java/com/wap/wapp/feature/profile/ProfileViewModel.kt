@@ -22,8 +22,8 @@ class ProfileViewModel @Inject constructor(
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 
-    private val _userRole = MutableStateFlow<UserRole>(UserRole.GUEST)
-    val userRole: StateFlow<UserRole> = _userRole.asStateFlow()
+    private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
+    val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
 
     init {
         checkUserRoleAndGetEvents()
@@ -36,9 +36,9 @@ class ProfileViewModel @Inject constructor(
                     UserRole.GUEST -> Unit
                     UserRole.MEMBER, UserRole.MANAGER -> getTodayDateEvents()
                 }
-                _userRole.value = userRole
+                _userRole.value = UserRoleState.Success(userRole)
             }
-            .onFailure { }
+            .onFailure { throwable -> _userRole.value = UserRoleState.Failure(throwable) }
     }
 
     private fun getTodayDateEvents() {
@@ -62,5 +62,11 @@ class ProfileViewModel @Inject constructor(
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
         data class Failure(val throwable: Throwable) : EventsState()
+    }
+
+    sealed class UserRoleState {
+        data object Loading : UserRoleState()
+        data class Success(val userRole: UserRole) : UserRoleState()
+        data class Failure(val throwable: Throwable) : UserRoleState()
     }
 }

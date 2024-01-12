@@ -13,10 +13,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.core.model.user.UserRole
+import com.wap.wapp.feature.profile.ProfileViewModel.UserRoleState
 import com.wap.wapp.feature.profile.component.WappProfileCard
 import com.wap.wapp.feature.profile.screen.GuestProfile
 import com.wap.wapp.feature.profile.screen.UserProfile
@@ -28,9 +30,11 @@ internal fun ProfileRoute(
     navigateToSignInScreen: () -> Unit,
 ) {
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
 
     ProfileScreen(
         eventsState = eventsState,
+        userRoleState = userRoleState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
     )
@@ -38,7 +42,7 @@ internal fun ProfileRoute(
 
 @Composable
 internal fun ProfileScreen(
-    role: UserRole = UserRole.MANAGER,
+    userRoleState: UserRoleState,
     userName: String = "",
     eventsState: ProfileViewModel.EventsState,
     navigateToProfileSetting: () -> Unit,
@@ -52,67 +56,73 @@ internal fun ProfileScreen(
             .verticalScroll(scrollState)
             .background(WappTheme.colors.backgroundBlack),
     ) {
-        WappMainTopBar(
-            titleRes = string.profile,
-            contentRes = R.string.profile_content,
-            settingButtonDescriptionRes = R.string.profile_setting_description,
-            showSettingButton = role != UserRole.GUEST,
-            onClickSettingButton = navigateToProfileSetting,
-        )
-
-        when (role) {
-            UserRole.MANAGER -> {
-                WappProfileCard(
-                    position = stringResource(R.string.manager),
-                    githubImage = drawable.ic_manager_github,
-                    catImage = drawable.ic_manager_cat,
-                    brush = Brush.horizontalGradient(
-                        listOf(
-                            WappTheme.colors.blue2FF,
-                            WappTheme.colors.blue4FF,
-                            WappTheme.colors.blue1FF,
-                        ),
-                    ),
-                    userName = "$userName 님",
+        when (userRoleState) {
+            is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+            is UserRoleState.Failure -> {}
+            is UserRoleState.Success -> {
+                WappMainTopBar(
+                    titleRes = string.profile,
+                    contentRes = R.string.profile_content,
+                    settingButtonDescriptionRes = R.string.profile_setting_description,
+                    showSettingButton = userRoleState.userRole != UserRole.GUEST,
+                    onClickSettingButton = navigateToProfileSetting,
                 )
 
-                UserProfile(eventsState = eventsState)
-            }
+                when (userRoleState.userRole) {
+                    UserRole.MANAGER -> {
+                        WappProfileCard(
+                            position = stringResource(R.string.manager),
+                            githubImage = drawable.ic_manager_github,
+                            catImage = drawable.ic_manager_cat,
+                            brush = Brush.horizontalGradient(
+                                listOf(
+                                    WappTheme.colors.blue2FF,
+                                    WappTheme.colors.blue4FF,
+                                    WappTheme.colors.blue1FF,
+                                ),
+                            ),
+                            userName = "$userName 님",
+                        )
 
-            UserRole.MEMBER -> {
-                WappProfileCard(
-                    position = stringResource(R.string.normal),
-                    githubImage = drawable.ic_normal_github,
-                    catImage = drawable.ic_normal_cat,
-                    brush = Brush.horizontalGradient(
-                        listOf(
-                            WappTheme.colors.yellow3C,
-                            WappTheme.colors.yellow34,
-                            WappTheme.colors.yellowA4,
-                        ),
-                    ),
-                    userName = "$userName 님",
-                )
+                        UserProfile(eventsState = eventsState)
+                    }
 
-                UserProfile(eventsState = eventsState)
-            }
+                    UserRole.MEMBER -> {
+                        WappProfileCard(
+                            position = stringResource(R.string.normal),
+                            githubImage = drawable.ic_normal_github,
+                            catImage = drawable.ic_normal_cat,
+                            brush = Brush.horizontalGradient(
+                                listOf(
+                                    WappTheme.colors.yellow3C,
+                                    WappTheme.colors.yellow34,
+                                    WappTheme.colors.yellowA4,
+                                ),
+                            ),
+                            userName = "$userName 님",
+                        )
 
-            UserRole.GUEST -> {
-                WappProfileCard(
-                    position = stringResource(R.string.guest),
-                    githubImage = drawable.ic_guest_github,
-                    catImage = drawable.ic_guest_cat,
-                    brush = Brush.horizontalGradient(
-                        listOf(
-                            WappTheme.colors.grayA2,
-                            WappTheme.colors.gray7C,
-                            WappTheme.colors.gray4A,
-                        ),
-                    ),
-                    userName = stringResource(id = R.string.non_user),
-                )
+                        UserProfile(eventsState = eventsState)
+                    }
 
-                GuestProfile(navigateToSignInScreen = navigateToSignInScreen)
+                    UserRole.GUEST -> {
+                        WappProfileCard(
+                            position = stringResource(R.string.guest),
+                            githubImage = drawable.ic_guest_github,
+                            catImage = drawable.ic_guest_cat,
+                            brush = Brush.horizontalGradient(
+                                listOf(
+                                    WappTheme.colors.grayA2,
+                                    WappTheme.colors.gray7C,
+                                    WappTheme.colors.gray4A,
+                                ),
+                            ),
+                            userName = stringResource(id = R.string.non_user),
+                        )
+
+                        GuestProfile(navigateToSignInScreen = navigateToSignInScreen)
+                    }
+                }
             }
         }
     }
