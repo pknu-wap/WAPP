@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,6 +80,43 @@ class ProfileViewModel @Inject constructor(
                     )
             }.onFailure { exception -> _errorFlow.emit(exception) }
         }
+    }
+
+    private suspend fun getRecentEventsForAttendanceCheck() {
+        val registeredAt = _userProfile.value.registeredAt
+        val (registeredYear, registeredSemester) = registeredAt.split(" ")
+
+        val registrationDateTime =
+            createRegistrationDateTime(registeredYear.toInt(), registeredSemester)
+
+        // 현재 날짜
+        val currentDateTime = LocalDate.now()
+
+        val eventsList = mutableListOf<Event>()
+
+        for (i in 1..3) {
+            val targetDateTime = currentDateTime.minus(i.toLong(), ChronoUnit.MONTHS)
+
+            // 만약 가입한 날짜보다 빠르다면 반복문을 멈춤
+            if (targetDateTime < registrationDateTime) break
+
+            getEventListUseCase(targetDateTime)
+                .onSuccess { eventsList.addAll(it) }
+                .onFailure { _errorFlow.emit(it) }
+        }
+    }
+
+    private fun createRegistrationDateTime(year: Int, semester: String): LocalDate {
+        // 학기에 따른 기준 날짜 설정 (예: 1학기는 3월 1일, 2학기는 9월 1일)
+        val semesterNumber = semester.removeSuffix("학기").toInt()
+        val baseDate =
+            if (semesterNumber == 1) {
+                LocalDate.of(year, 3, 1)
+            } else {
+                LocalDate.of(year, 9, 1)
+            }
+
+        return baseDate
     }
 
     sealed class EventsState {
