@@ -41,8 +41,8 @@ class ProfileViewModel @Inject constructor(
     private val _recentEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val recentEvents: StateFlow<EventsState> = _recentEvents.asStateFlow()
 
-    private val _mySurveys = MutableStateFlow<SurveysState>(SurveysState.Loading)
-    val mySurveys: StateFlow<SurveysState> = _mySurveys.asStateFlow()
+    private val _userRespondedSurveys = MutableStateFlow<SurveysState>(SurveysState.Loading)
+    val userRespondedSurveys: StateFlow<SurveysState> = _userRespondedSurveys.asStateFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
@@ -82,6 +82,20 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getTodayDateEvents() {
+        _todayEvents.value = EventsState.Loading
+        viewModelScope.launch {
+            getEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
+                _todayEvents.value =
+                    EventsState.Success(
+                        eventList.filter { event ->
+                            event.startDateTime.toLocalDate() == DateUtil.generateNowDate()
+                        }.sortedBy { event -> event.title },
+                    )
+            }.onFailure { exception -> _errorFlow.emit(exception) }
+        }
+    }
+
+    private suspend fun getUserRespondedSurveys() {
         _todayEvents.value = EventsState.Loading
         viewModelScope.launch {
             getEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
