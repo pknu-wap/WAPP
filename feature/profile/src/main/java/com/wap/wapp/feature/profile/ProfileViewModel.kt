@@ -26,14 +26,19 @@ class ProfileViewModel @Inject constructor(
     val userRole: StateFlow<UserRole> = _userRole.asStateFlow()
 
     init {
-        // getTodayDateEvents()
+        checkUserRole()
     }
 
-    private fun checkUserRole() {
-        viewModelScope.launch {
-            getUserRoleUseCase().onSuccess { }
-                .onFailure { }
-        }
+    private fun checkUserRole() = viewModelScope.launch {
+        getUserRoleUseCase()
+            .onSuccess { userRole ->
+                when (userRole) {
+                    UserRole.GUEST -> Unit
+                    UserRole.MEMBER, UserRole.MANAGER -> getTodayDateEvents()
+                }
+                _userRole.value = userRole
+            }
+            .onFailure { }
     }
 
     private fun getTodayDateEvents() {
