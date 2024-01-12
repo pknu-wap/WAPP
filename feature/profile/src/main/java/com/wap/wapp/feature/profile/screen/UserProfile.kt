@@ -54,8 +54,6 @@ private fun handleMonthEventsState(
             modifier = Modifier.padding(top = 20.dp),
         )
     }
-
-    is ProfileViewModel.EventsState.Failure -> {}
 }
 
 @Composable

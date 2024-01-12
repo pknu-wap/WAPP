@@ -2,6 +2,7 @@ package com.wap.wapp.feature.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -86,7 +87,16 @@ internal fun ProfileScreen(
                 .background(WappTheme.colors.backgroundBlack),
         ) {
             when (userRoleState) {
-                is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+                is UserRoleState.Loading -> {
+                    Spacer(modifier = Modifier.weight(1f))
+                    CircleLoader(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+
                 is UserRoleState.Success -> {
                     WappMainTopBar(
                         titleRes = string.profile,
