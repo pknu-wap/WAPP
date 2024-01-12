@@ -102,7 +102,7 @@ internal fun ProfileScreen(
                                     WappTheme.colors.yellowA4,
                                 ),
                             ),
-                            userName = "$userProfile 님",
+                            userName = "${userProfile.userName} 님",
                         )
 
                         UserProfile(eventsState = eventsState)
