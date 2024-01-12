@@ -71,7 +71,7 @@ private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (event
 
 @Composable
 private fun EventsList(events: List<Event>) {
-    if (events.size > 0) {
+    if (events.isNotEmpty()) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 15.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
