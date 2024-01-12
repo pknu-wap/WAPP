@@ -22,7 +22,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.feature.profile.R
 
 @Composable
-internal fun GuestProfile(navigateToSignInScreen: () -> Unit) {
+internal fun GuestProfile(navigateToSignIn: () -> Unit) {
     Text(
         text = SpannableGuestText(),
         color = WappTheme.colors.white,
@@ -41,7 +41,7 @@ internal fun GuestProfile(navigateToSignInScreen: () -> Unit) {
             .padding(top = 40.dp)
             .height(50.dp)
             .fillMaxWidth()
-            .clickable { navigateToSignInScreen() },
+            .clickable { navigateToSignIn() },
     ) {
         Text(
             text = stringResource(id = R.string.navigate_to_login),

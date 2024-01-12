@@ -18,7 +18,10 @@ fun NavController.navigateToProfileSetting(
     this.navigate("profile_setting_route/$userId", navOptions)
 }
 
-fun NavGraphBuilder.profileSettingScreen(navigateToProfile: () -> Unit) {
+fun NavGraphBuilder.profileSettingScreen(
+    navigateToSignIn: () -> Unit,
+    navigateToProfile: () -> Unit,
+) {
     composable(
         route = profileSettingNavigationRoute,
         arguments = listOf(
@@ -26,6 +29,10 @@ fun NavGraphBuilder.profileSettingScreen(navigateToProfile: () -> Unit) {
         ),
     ) { navBackStackEntry ->
         val userId = navBackStackEntry.arguments?.getString("userId") ?: ""
-        ProfileSettingRoute(userId = userId, navigateToProfile = navigateToProfile)
+        ProfileSettingRoute(
+            userId = userId,
+            navigateToSignIn = navigateToSignIn,
+            navigateToProfile = navigateToProfile,
+        )
     }
 }

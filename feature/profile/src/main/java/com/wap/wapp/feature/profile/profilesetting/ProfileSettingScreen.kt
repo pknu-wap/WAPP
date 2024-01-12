@@ -37,6 +37,7 @@ import com.wap.wapp.feature.profile.profilesetting.component.ProfileSettingDialo
 internal fun ProfileSettingRoute(
     userId: String,
     navigateToProfile: () -> Unit,
+    navigateToSignIn: () -> Unit,
     viewModel: ProfileSettingViewModel = hiltViewModel(),
 ) {
     ProfileSettingScreen(
@@ -58,6 +59,7 @@ internal fun ProfileSettingScreen(
     if (showWithdrawalDialog) {
         ProfileSettingDialog(
             onDismissRequest = { showWithdrawalDialog = false },
+            onConfirmRequest = {},
             title = string.withdrawal,
         )
     }
@@ -65,6 +67,7 @@ internal fun ProfileSettingScreen(
     if (showLogoutDialog) {
         ProfileSettingDialog(
             onDismissRequest = { showLogoutDialog = false },
+            onConfirmRequest = {},
             title = string.logout,
         )
     }

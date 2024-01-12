@@ -9,6 +9,7 @@ import androidx.navigation.navOptions
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
+import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signin.navigation.signInScreen
 import com.wap.wapp.feature.auth.signup.navigation.navigateToSignUp
 import com.wap.wapp.feature.auth.signup.navigation.signUpScreen
@@ -17,9 +18,9 @@ import com.wap.wapp.feature.management.event.navigation.navigateToEventEdit
 import com.wap.wapp.feature.management.event.navigation.navigateToEventRegistration
 import com.wap.wapp.feature.management.navigation.managementScreen
 import com.wap.wapp.feature.management.navigation.navigateToManagement
+import com.wap.wapp.feature.management.survey.navigation.managementSurveyNavGraph
 import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormEdit
 import com.wap.wapp.feature.management.survey.navigation.navigateToSurveyFormRegistration
-import com.wap.wapp.feature.management.survey.navigation.managementSurveyNavGraph
 import com.wap.wapp.feature.notice.navigation.navigateToNotice
 import com.wap.wapp.feature.notice.navigation.noticeScreen
 import com.wap.wapp.feature.profile.navigation.navigateToProfile
@@ -89,7 +90,7 @@ fun WappNavHost(
         )
         profileScreen(
             navigateToProfileSetting = navController::navigateToProfileSetting,
-            navigateToSignInScreen = {
+            navigateToSignIn = {
                 navController.navigateToSignIn(
                     navOptions {
                         popUpTo(profileNavigationRoute)
@@ -98,6 +99,13 @@ fun WappNavHost(
             },
         )
         profileSettingScreen(
+            navigateToSignIn = {
+                navController.navigateToSignIn(
+                    navOptions {
+                        popUpTo(signInNavigationRoute) { inclusive = true }
+                    },
+                )
+            },
             navigateToProfile = {
                 navController.navigateToProfile(
                     navOptions {
