@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
-import com.wap.wapp.core.domain.usecase.survey.GetSurveyListUseCase
+import com.wap.wapp.core.domain.usecase.survey.GetUserRespondedSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getDateEventListUseCase: GetDateEventListUseCase,
-    private val getSurveyListUseCase: GetSurveyListUseCase,
+    private val getUserRespondedSurveyListUseCase: GetUserRespondedSurveyListUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
@@ -72,7 +72,7 @@ class ProfileViewModel @Inject constructor(
                                 _userRole.value = UserRoleState.Success(userRole)
                                 _userProfile.value = it
                                 launch { getRecentEventsForAttendanceCheck() }
-                                launch { getUserRespondedSurveys() }
+                                getUserRespondedSurveys()
                             }.onFailure { exception -> _errorFlow.emit(exception) }
                     }
                 }
@@ -94,12 +94,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun getUserRespondedSurveys() {
-        getSurveyListUseCase().onSuccess { surveyList ->
+        getUserRespondedSurveyListUseCase(_userProfile.value.userId).onSuccess { surveyList ->
             _userRespondedSurveys.value =
-                SurveysState.Success(
-                    surveyList.filter { survey -> survey.userName == _userProfile.value.userName }
-                        .sortedBy { survey -> survey.surveyedAt },
-                )
+                SurveysState.Success(surveyList.sortedBy { survey -> survey.surveyedAt })
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
