@@ -74,7 +74,6 @@ internal fun ProfileSettingScreen(
     withdrawal: () -> Unit,
     signOut: () -> Unit,
     snackBarHostState: SnackbarHostState,
-    onClickedAlarmSetting: () -> Unit = {},
 ) {
     var showWithdrawalDialog by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -130,13 +129,6 @@ internal fun ProfileSettingScreen(
                     color = WappTheme.colors.white,
                 )
             }
-
-            WappRowBar(
-                title = stringResource(id = string.alarm_setting),
-                onClicked = onClickedAlarmSetting,
-            )
-
-            Divider(color = dividerColor)
 
             WappRowBar(
                 title = stringResource(id = string.logout),
