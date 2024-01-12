@@ -11,8 +11,11 @@ import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +26,9 @@ class ProfileViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
+    private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
+    val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
+
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 
@@ -38,7 +44,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun checkUserInformationAndGetEvents() = viewModelScope.launch {
         getUserRoleUseCase()
-            .onFailure { throwable -> _userRole.value = UserRoleState.Failure(throwable) }
+            .onFailure { exception -> _errorFlow.emit(exception) }
             .onSuccess { userRole ->
                 when (userRole) {
                     // 비회원 일 경우, 바로 UserCard 갱신
@@ -54,9 +60,7 @@ class ProfileViewModel @Inject constructor(
                             .onSuccess {
                                 _userRole.value = UserRoleState.Success(userRole)
                                 _userProfile.value = it
-                            }.onFailure { throwable ->
-                                _userRole.value = UserRoleState.Failure(throwable)
-                            }
+                            }.onFailure { exception -> _errorFlow.emit(exception) }
                     }
                 }
             }
@@ -74,7 +78,7 @@ class ProfileViewModel @Inject constructor(
                             },
                         )
                 },
-                onFailure = { _todayEvents.value = EventsState.Failure(it) },
+                onFailure = { exception -> _errorFlow.emit(exception) },
             )
         }
     }
@@ -82,13 +86,11 @@ class ProfileViewModel @Inject constructor(
     sealed class EventsState {
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
-        data class Failure(val throwable: Throwable) : EventsState()
     }
 
     sealed class UserRoleState {
         data object Loading : UserRoleState()
         data class Success(val userRole: UserRole) : UserRoleState()
-        data class Failure(val throwable: Throwable) : UserRoleState()
     }
 
     companion object {

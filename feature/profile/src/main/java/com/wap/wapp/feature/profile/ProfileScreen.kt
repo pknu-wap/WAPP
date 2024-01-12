@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
@@ -37,11 +40,13 @@ internal fun ProfileRoute(
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
     val userProfile by viewModel.userProfile.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     ProfileScreen(
         eventsState = eventsState,
         userRoleState = userRoleState,
         userProfile = userProfile,
+        snackbarHostState = snackbarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
     )
@@ -52,12 +57,16 @@ internal fun ProfileScreen(
     userRoleState: UserRoleState,
     userProfile: UserProfile,
     eventsState: ProfileViewModel.EventsState,
+    snackbarHostState: SnackbarHostState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
-    Scaffold(contentWindowInsets = WindowInsets(0.dp)) { paddingValues ->
+    Scaffold(
+        contentWindowInsets = WindowInsets(0.dp),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -67,7 +76,6 @@ internal fun ProfileScreen(
         ) {
             when (userRoleState) {
                 is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-                is UserRoleState.Failure -> {}
                 is UserRoleState.Success -> {
                     WappMainTopBar(
                         titleRes = string.profile,
