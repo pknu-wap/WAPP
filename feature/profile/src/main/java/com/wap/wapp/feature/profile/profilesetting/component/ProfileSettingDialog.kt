@@ -47,7 +47,7 @@ internal fun ProfileSettingDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 30.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),
         ) {
