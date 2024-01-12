@@ -17,6 +17,7 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
+import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.profile.ProfileViewModel.UserRoleState
 import com.wap.wapp.feature.profile.component.WappProfileCard
@@ -31,10 +32,12 @@ internal fun ProfileRoute(
 ) {
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
+    val userProfile by viewModel.userProfile.collectAsStateWithLifecycle()
 
     ProfileScreen(
         eventsState = eventsState,
         userRoleState = userRoleState,
+        userProfile = userProfile,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
     )
@@ -43,7 +46,7 @@ internal fun ProfileRoute(
 @Composable
 internal fun ProfileScreen(
     userRoleState: UserRoleState,
-    userName: String = "",
+    userProfile: UserProfile,
     eventsState: ProfileViewModel.EventsState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
@@ -81,7 +84,7 @@ internal fun ProfileScreen(
                                     WappTheme.colors.blue1FF,
                                 ),
                             ),
-                            userName = "$userName 님",
+                            userName = "${userProfile.userName} 님",
                         )
 
                         UserProfile(eventsState = eventsState)
@@ -99,7 +102,7 @@ internal fun ProfileScreen(
                                     WappTheme.colors.yellowA4,
                                 ),
                             ),
-                            userName = "$userName 님",
+                            userName = "$userProfile 님",
                         )
 
                         UserProfile(eventsState = eventsState)
