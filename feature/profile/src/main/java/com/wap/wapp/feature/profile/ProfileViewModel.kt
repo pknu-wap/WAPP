@@ -11,6 +11,7 @@ import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -34,6 +35,9 @@ class ProfileViewModel @Inject constructor(
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 
+    private val _recentEvents = MutableStateFlow<EventsState>(EventsState.Loading)
+    val recentEvents: StateFlow<EventsState> = _recentEvents.asStateFlow()
+
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
 
@@ -41,10 +45,13 @@ class ProfileViewModel @Inject constructor(
     val userProfile: StateFlow<UserProfile> = _userProfile.asStateFlow()
 
     init {
-        checkUserInformationAndGetEvents()
+        viewModelScope.launch {
+            checkUserInformationAndGetEvents()
+            launch { getRecentEventsForAttendanceCheck() }
+        }
     }
 
-    private fun checkUserInformationAndGetEvents() = viewModelScope.launch {
+    private suspend fun checkUserInformationAndGetEvents() = coroutineScope {
         getUserRoleUseCase()
             .onFailure { exception -> _errorFlow.emit(exception) }
             .onSuccess { userRole ->
@@ -93,7 +100,6 @@ class ProfileViewModel @Inject constructor(
         val currentDateTime = LocalDate.now()
 
         val eventsList = mutableListOf<Event>()
-
         for (i in 1..3) {
             val targetDateTime = currentDateTime.minus(i.toLong(), ChronoUnit.MONTHS)
 
@@ -104,6 +110,8 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
+
+        _recentEvents.value = EventsState.Success(eventsList)
     }
 
     private fun createRegistrationDateTime(year: Int, semester: String): LocalDate {
