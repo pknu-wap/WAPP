@@ -16,21 +16,21 @@ class ProfileSettingViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
 ) : ViewModel() {
-    private val _eventFlow: MutableSharedFlow<ProfileSettingEvent> = MutableSharedFlow()
-    val eventFlow: SharedFlow<ProfileSettingEvent> = _eventFlow.asSharedFlow()
+    private val _eventFlow: MutableSharedFlow<EventResult> = MutableSharedFlow()
+    val eventFlow: SharedFlow<EventResult> = _eventFlow.asSharedFlow()
 
     fun signOut() = viewModelScope.launch {
-        signOutUseCase().onSuccess { _eventFlow.emit(ProfileSettingEvent.Success) }
-            .onFailure { _eventFlow.emit(ProfileSettingEvent.Failure(it)) }
+        signOutUseCase().onSuccess { _eventFlow.emit(EventResult.Success) }
+            .onFailure { _eventFlow.emit(EventResult.Failure(it)) }
     }
 
     fun withdrawal(userId: String) = viewModelScope.launch {
-        deleteUserUseCase(userId).onSuccess { _eventFlow.emit(ProfileSettingEvent.Success) }
-            .onFailure { _eventFlow.emit(ProfileSettingEvent.Failure(it)) }
+        deleteUserUseCase(userId).onSuccess { _eventFlow.emit(EventResult.Success) }
+            .onFailure { _eventFlow.emit(EventResult.Failure(it)) }
     }
 
-    sealed class ProfileSettingEvent {
-        data class Failure(val throwable: Throwable) : ProfileSettingEvent()
-        data object Success : ProfileSettingEvent()
+    sealed class EventResult {
+        data class Failure(val throwable: Throwable) : EventResult()
+        data object Success : EventResult()
     }
 }
