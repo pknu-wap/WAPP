@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappMainTopBar
+import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.core.model.user.UserProfile
@@ -30,6 +32,7 @@ import com.wap.wapp.feature.profile.ProfileViewModel.UserRoleState
 import com.wap.wapp.feature.profile.component.WappProfileCard
 import com.wap.wapp.feature.profile.screen.GuestProfile
 import com.wap.wapp.feature.profile.screen.UserProfile
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun ProfileRoute(
@@ -40,13 +43,21 @@ internal fun ProfileRoute(
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
     val userProfile by viewModel.userProfile.collectAsStateWithLifecycle()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(true) {
+        viewModel.errorFlow.collectLatest { throwable ->
+            snackBarHostState.showSnackbar(
+                message = throwable.toSupportingText(),
+            )
+        }
+    }
 
     ProfileScreen(
         eventsState = eventsState,
         userRoleState = userRoleState,
         userProfile = userProfile,
-        snackbarHostState = snackbarHostState,
+        snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToSignInScreen = navigateToSignInScreen,
     )
@@ -57,7 +68,7 @@ internal fun ProfileScreen(
     userRoleState: UserRoleState,
     userProfile: UserProfile,
     eventsState: ProfileViewModel.EventsState,
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: () -> Unit,
     navigateToSignInScreen: () -> Unit,
 ) {
@@ -65,7 +76,7 @@ internal fun ProfileScreen(
 
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddingValues ->
         Column(
             modifier = Modifier
