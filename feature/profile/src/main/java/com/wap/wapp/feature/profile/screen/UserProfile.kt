@@ -171,7 +171,7 @@ private fun MySurveyHistory(modifier: Modifier = Modifier) {
 
 @Composable
 private fun generateTodayEventString(events: List<Event>) = buildAnnotatedString {
-    append("오늘은")
+    append("오늘은 ")
 
     withStyle(
         style = SpanStyle(
@@ -179,10 +179,8 @@ private fun generateTodayEventString(events: List<Event>) = buildAnnotatedString
             textDecoration = TextDecoration.Underline,
         ),
     ) {
-        events.forEach { event ->
-            append(event.title + ", ")
-        }
+        append(events.map { it.title }.joinToString(separator = ", "))
     }
 
-    append("날 이에요!")
+    append(" 날 이에요!")
 }

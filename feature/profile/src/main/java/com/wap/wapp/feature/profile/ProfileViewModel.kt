@@ -73,8 +73,8 @@ class ProfileViewModel @Inject constructor(
                 _todayEvents.value =
                     EventsState.Success(
                         eventList.filter { event ->
-                            event.startDateTime == DateUtil.generateNowDateTime()
-                        },
+                            event.startDateTime.toLocalDate() == DateUtil.generateNowDate()
+                        }.sortedBy { event -> event.title },
                     )
             }.onFailure { exception -> _errorFlow.emit(exception) }
         }
