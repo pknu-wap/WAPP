@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,13 +16,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+    private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 
+    private val _userRole = MutableStateFlow<UserRole>(UserRole.GUEST)
+    val userRole: StateFlow<UserRole> = _userRole.asStateFlow()
+
     init {
-        getTodayDateEvents()
+        // getTodayDateEvents()
+    }
+
+    private fun checkUserRole() {
+        viewModelScope.launch {
+            getUserRoleUseCase().onSuccess { }
+                .onFailure { }
+        }
     }
 
     private fun getTodayDateEvents() {
