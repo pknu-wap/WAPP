@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.profile.screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -178,7 +177,6 @@ private fun MyAttendanceStatus(
                             items = recentEventsState.events,
                             key = { event -> event.eventId },
                         ) { event ->
-                            Log.d("test", recentEventsState.events.toString())
                             WappAttendacneRow(isAttendance = true, event = event)
                         }
                     }
