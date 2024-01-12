@@ -1,6 +1,5 @@
 package com.wap.wapp.feature.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
@@ -109,7 +108,8 @@ class ProfileViewModel @Inject constructor(
                 .onSuccess { eventsList.addAll(it) }
                 .onFailure { _errorFlow.emit(it) }
         }
-        _recentEvents.value = EventsState.Success(eventsList)
+//        _recentEvents.value = EventsState.Success(eventsList)
+        _recentEvents.value = EventsState.Success(emptyList())
     }
 
     private fun createRegistrationDateTime(year: Int, semester: String): LocalDate {
