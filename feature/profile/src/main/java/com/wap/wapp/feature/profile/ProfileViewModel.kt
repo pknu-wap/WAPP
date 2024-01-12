@@ -69,17 +69,14 @@ class ProfileViewModel @Inject constructor(
     private fun getTodayDateEvents() {
         _todayEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getEventListUseCase(DateUtil.generateNowDate()).fold(
-                onSuccess = {
-                    _todayEvents.value =
-                        EventsState.Success(
-                            it.filter {
-                                it.endDateTime == DateUtil.generateNowDateTime()
-                            },
-                        )
-                },
-                onFailure = { exception -> _errorFlow.emit(exception) },
-            )
+            getEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
+                _todayEvents.value =
+                    EventsState.Success(
+                        eventList.filter { event ->
+                            event.startDateTime == DateUtil.generateNowDateTime()
+                        },
+                    )
+            }.onFailure { exception -> _errorFlow.emit(exception) }
         }
     }
 
