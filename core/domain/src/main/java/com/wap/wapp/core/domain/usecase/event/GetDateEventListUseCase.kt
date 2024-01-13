@@ -9,5 +9,5 @@ class GetDateEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(date: LocalDate): Result<List<Event>> =
-        eventRepository.getDateEventList(date)
+        eventRepository.getMonthEventList(date)
 }

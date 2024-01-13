@@ -28,7 +28,7 @@ class EventDataSourceImpl @Inject constructor(
             result.add(event)
         }
 
-        result.sortedBy { it.startDateTime }
+        result
     }
 
     override suspend fun getMonthEventList(date: LocalDate): Result<List<EventResponse>> =
@@ -56,7 +56,7 @@ class EventDataSourceImpl @Inject constructor(
                 result.add(event)
             }
 
-            result.sortedBy { it.startDateTime }
+            result
         }
 
     override suspend fun getDateEventList(date: LocalDate): Result<List<EventResponse>> =
@@ -78,7 +78,7 @@ class EventDataSourceImpl @Inject constructor(
                 result.add(event)
             }
 
-            result.sortedBy { it.startDateTime }
+            result
         }
 
     override suspend fun getEvent(eventId: String): Result<EventResponse> =
