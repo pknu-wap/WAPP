@@ -7,8 +7,9 @@ import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
-import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -19,9 +20,16 @@ class EventDataSourceImpl @Inject constructor(
         runCatching {
             val result = mutableListOf<EventResponse>()
 
+            val startDateTime = LocalDate.of(date.year, date.month, 1).atStartOfDay()
+                .toISOLocalDateTimeString()
+
+            val endDateTime =
+                LocalDate.of(date.year, date.month, date.dayOfMonth).atTime(LocalTime.MAX)
+                    .toISOLocalDateTimeString()
+
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date))
-                .collection(EVENT_COLLECTION)
+                .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", endDateTime)
                 .get()
                 .await()
 
@@ -62,11 +70,7 @@ class EventDataSourceImpl @Inject constructor(
             eventId = documentId,
         )
 
-        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
-
         firebaseFirestore.collection(EVENT_COLLECTION)
-            .document(getMonth(startDate))
-            .collection(EVENT_COLLECTION)
             .document(documentId)
             .set(eventRequest)
             .await()
@@ -80,7 +84,6 @@ class EventDataSourceImpl @Inject constructor(
         startDateTime: String,
         endDateTime: String,
     ): Result<Unit> = runCatching {
-        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
         val updateData = mapOf(
             "title" to title,
             "content" to content,
@@ -90,16 +93,11 @@ class EventDataSourceImpl @Inject constructor(
         )
 
         firebaseFirestore.collection(EVENT_COLLECTION)
-            .document(getMonth(startDate))
-            .collection(EVENT_COLLECTION)
             .document(eventId)
             .update(updateData)
             .await()
     }
-
-    private fun getMonth(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
-
-        return date.format(formatter)
-    }
 }
+
+private fun LocalDateTime.toISOLocalDateTimeString(): String =
+    this.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
