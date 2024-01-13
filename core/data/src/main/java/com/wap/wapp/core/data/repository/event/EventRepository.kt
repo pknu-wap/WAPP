@@ -5,7 +5,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface EventRepository {
-    suspend fun getMonthEvents(date: LocalDate): Result<List<Event>>
+    suspend fun getEventList(): Result<List<Event>>
+
+    suspend fun getMonthEventList(date: LocalDate): Result<List<Event>>
 
     suspend fun getEvent(eventId: String): Result<Event>
 
