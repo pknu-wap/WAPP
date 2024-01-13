@@ -19,9 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.feature.survey.R.string
 import com.wap.wapp.core.model.survey.SurveyForm
 
 @Composable
@@ -79,13 +81,13 @@ private fun SurveyCheckButton(
         content = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    text = "작성된 설문 보러가기",
+                    text = stringResource(string.go_to_survey_check),
                     style = WappTheme.typography.contentRegular,
                 )
 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_magnifier),
-                    contentDescription = "작성된 설문 보러가기 아이콘",
+                    contentDescription = stringResource(string.survey_check_description),
                 )
             }
         },
