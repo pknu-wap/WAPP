@@ -15,14 +15,18 @@ fun NavController.navigateToSurvey(navOptions: NavOptions? = navOptions {}) {
     this.navigate(SurveyRoute.route, navOptions)
 }
 
-fun NavController.navigateToSurveyAnswer(eventId: String, navOptions: NavOptions? = navOptions {}) {
-    navigate(SurveyRoute.answerRoute(eventId), navOptions)
+fun NavController.navigateToSurveyAnswer(
+    surveyFormId: String,
+    navOptions: NavOptions? = navOptions {},
+) {
+    navigate(SurveyRoute.answerRoute(surveyFormId), navOptions)
 }
 
 fun NavGraphBuilder.surveyNavGraph(
     navigateToSurveyAnswer: (String) -> Unit,
     navigateToSurvey: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSurveyCheck: () -> Unit,
 ) {
     composable(route = SurveyRoute.route) {
         SurveyScreen(
@@ -31,6 +35,7 @@ fun NavGraphBuilder.surveyNavGraph(
             navigateToSurveyAnswer = { surveyFormId ->
                 navigateToSurveyAnswer(surveyFormId)
             },
+            navigateToSurveyCheck = navigateToSurveyCheck,
         )
     }
 

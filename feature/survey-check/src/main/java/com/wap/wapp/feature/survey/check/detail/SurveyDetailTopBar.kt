@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.survey.check
+package com.wap.wapp.feature.survey.check.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets
@@ -17,10 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable
+import com.wap.wapp.feature.survey.check.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SurveyCheckTopBar(
+internal fun SurveyDetailTopBar(
     onBackButtonClicked: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
