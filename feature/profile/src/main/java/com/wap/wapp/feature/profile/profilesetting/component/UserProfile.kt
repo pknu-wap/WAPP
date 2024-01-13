@@ -1,10 +1,9 @@
-package com.wap.wapp.feature.profile.screen
+package com.wap.wapp.feature.profile.profilesetting.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -148,22 +146,7 @@ private fun MyAttendanceStatus(
 
                 is ProfileViewModel.EventsState.Success -> {
                     if (recentEventsState.events.isEmpty()) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .height(130.dp),
-                        ) {
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                text = stringResource(id = R.string.no_events_recently),
-                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                                color = WappTheme.colors.white,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(1f),
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
+                        NothingToShow(title = R.string.no_events_recently)
                         return@WappCard
                     }
 
@@ -214,22 +197,7 @@ private fun MySurveyHistory(
 
                 is ProfileViewModel.SurveysState.Success -> {
                     if (userRespondedSurveysState.surveys.isEmpty()) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .height(130.dp),
-                        ) {
-                            Spacer(modifier = Modifier.weight(1f))
-                            Text(
-                                text = stringResource(id = R.string.no_surveys_after_sign_up),
-                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                                color = WappTheme.colors.white,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(1f),
-                            )
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
+                        NothingToShow(title = R.string.no_surveys_after_sign_up)
                         return@WappCard
                     }
 

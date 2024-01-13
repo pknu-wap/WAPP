@@ -31,8 +31,8 @@ import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.profile.ProfileViewModel.UserRoleState
 import com.wap.wapp.feature.profile.component.WappProfileCard
-import com.wap.wapp.feature.profile.screen.GuestProfile
-import com.wap.wapp.feature.profile.screen.UserProfile
+import com.wap.wapp.feature.profile.profilesetting.component.GuestProfile
+import com.wap.wapp.feature.profile.profilesetting.component.UserProfile
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
