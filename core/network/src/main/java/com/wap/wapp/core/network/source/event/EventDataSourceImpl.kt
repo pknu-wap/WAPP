@@ -3,26 +3,50 @@ package com.wap.wapp.core.network.source.event
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
-import com.wap.wapp.core.network.constant.SURVEY_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
-import com.wap.wapp.core.network.utils.toISOLocalDateTime
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class EventDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : EventDataSource {
-    override suspend fun getMonthEvents(date: LocalDate): Result<List<EventResponse>> =
+    override suspend fun getEventList(): Result<List<EventResponse>> = runCatching {
+        val result = mutableListOf<EventResponse>()
+
+        val task = firebaseFirestore.collection(EVENT_COLLECTION)
+            .get()
+            .await()
+
+        for (document in task.documents) {
+            val event = document.toObject<EventResponse>()
+            checkNotNull(event)
+            result.add(event)
+        }
+
+        result
+    }
+
+    override suspend fun getMonthEventList(date: LocalDate): Result<List<EventResponse>> =
         runCatching {
             val result = mutableListOf<EventResponse>()
 
+            // 선택된 날짜 1일 00시 00분 00초
+            val startDateTime = LocalDate.of(date.year, date.month, 1).atStartOfDay()
+                .toISOLocalDateTimeString()
+
+            // 선택된 날짜의 마지막 날(31일) 23시 59분 59초
+            val endDateTime =
+                LocalDate.of(date.year, date.month, date.lengthOfMonth()).atTime(LocalTime.MAX)
+                    .toISOLocalDateTimeString()
+
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date))
-                .collection(EVENT_COLLECTION)
+                .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", endDateTime)
                 .get()
                 .await()
 
@@ -35,11 +59,9 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
-    override suspend fun getEvent(date: LocalDateTime, eventId: String): Result<EventResponse> =
+    override suspend fun getEvent(eventId: String): Result<EventResponse> =
         runCatching {
             val document = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(getMonth(date.toLocalDate()))
-                .collection(EVENT_COLLECTION)
                 .document(eventId)
                 .get()
                 .await()
@@ -54,7 +76,7 @@ class EventDataSourceImpl @Inject constructor(
         startDateTime: String,
         endDateTime: String,
     ): Result<Unit> = runCatching {
-        val documentId = firebaseFirestore.collection(SURVEY_COLLECTION).document().id
+        val documentId = firebaseFirestore.collection(EVENT_COLLECTION).document().id
 
         val eventRequest = EventRequest(
             title = title,
@@ -65,11 +87,7 @@ class EventDataSourceImpl @Inject constructor(
             eventId = documentId,
         )
 
-        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
-
         firebaseFirestore.collection(EVENT_COLLECTION)
-            .document(getMonth(startDate))
-            .collection(EVENT_COLLECTION)
             .document(documentId)
             .set(eventRequest)
             .await()
@@ -83,7 +101,6 @@ class EventDataSourceImpl @Inject constructor(
         startDateTime: String,
         endDateTime: String,
     ): Result<Unit> = runCatching {
-        val startDate = startDateTime.toISOLocalDateTime().toLocalDate()
         val updateData = mapOf(
             "title" to title,
             "content" to content,
@@ -93,16 +110,11 @@ class EventDataSourceImpl @Inject constructor(
         )
 
         firebaseFirestore.collection(EVENT_COLLECTION)
-            .document(getMonth(startDate))
-            .collection(EVENT_COLLECTION)
             .document(eventId)
             .update(updateData)
             .await()
     }
-
-    private fun getMonth(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
-
-        return date.format(formatter)
-    }
 }
+
+private fun LocalDateTime.toISOLocalDateTimeString(): String =
+    this.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)

@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
-import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
 import com.wap.wapp.core.domain.usecase.management.HasManagerStateUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormListUseCase
 import com.wap.wapp.core.model.event.Event
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class ManagementViewModel @Inject constructor(
     private val hasManagerStateUseCase: HasManagerStateUseCase,
     private val getSurveyFormListUseCase: GetSurveyFormListUseCase,
-    private val getEventListUseCase: GetEventListUseCase,
+    private val getMonthEventListUseCase: GetMonthEventListUseCase,
 ) : ViewModel() {
 
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -68,7 +68,7 @@ class ManagementViewModel @Inject constructor(
     private suspend fun getMonthEventList() {
         _eventList.value = EventsState.Loading
 
-        getEventListUseCase(generateNowDate()).onSuccess { events ->
+        getMonthEventListUseCase(generateNowDate()).onSuccess { events ->
             _eventList.value = EventsState.Success(events)
         }.onFailure { exception ->
             _errorFlow.emit(exception)
