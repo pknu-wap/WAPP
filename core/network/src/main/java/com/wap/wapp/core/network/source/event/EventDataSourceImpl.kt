@@ -16,7 +16,23 @@ import javax.inject.Inject
 class EventDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : EventDataSource {
-    override suspend fun getMonthEvents(date: LocalDate): Result<List<EventResponse>> =
+    override suspend fun getEventList(): Result<List<EventResponse>> = runCatching {
+        val result = mutableListOf<EventResponse>()
+
+        val task = firebaseFirestore.collection(EVENT_COLLECTION)
+            .get()
+            .await()
+
+        for (document in task.documents) {
+            val event = document.toObject<EventResponse>()
+            checkNotNull(event)
+            result.add(event)
+        }
+
+        result
+    }
+
+    override suspend fun getMonthEventList(date: LocalDate): Result<List<EventResponse>> =
         runCatching {
             val result = mutableListOf<EventResponse>()
 

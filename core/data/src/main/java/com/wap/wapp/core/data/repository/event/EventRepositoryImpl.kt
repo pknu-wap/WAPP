@@ -11,7 +11,7 @@ class EventRepositoryImpl @Inject constructor(
     private val eventDataSource: EventDataSource,
 ) : EventRepository {
     override suspend fun getMonthEvents(date: LocalDate): Result<List<Event>> =
-        eventDataSource.getMonthEvents(date).mapCatching { eventResponses ->
+        eventDataSource.getMonthEventList(date).mapCatching { eventResponses ->
             eventResponses.map { eventResponse ->
                 eventResponse.toDomain()
             }

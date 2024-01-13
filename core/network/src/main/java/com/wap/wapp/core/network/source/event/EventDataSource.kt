@@ -4,7 +4,9 @@ import com.wap.wapp.core.network.model.event.EventResponse
 import java.time.LocalDate
 
 interface EventDataSource {
-    suspend fun getMonthEvents(date: LocalDate): Result<List<EventResponse>>
+    suspend fun getEventList(): Result<List<EventResponse>>
+
+    suspend fun getMonthEventList(date: LocalDate): Result<List<EventResponse>>
 
     suspend fun getEvent(eventId: String): Result<EventResponse>
 
