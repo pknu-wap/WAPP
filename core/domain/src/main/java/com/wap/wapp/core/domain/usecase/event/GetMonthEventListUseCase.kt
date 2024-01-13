@@ -9,7 +9,7 @@ class GetMonthEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(date: LocalDate): Result<List<Event>> = runCatching {
-        eventRepository.getMonthEvents(date).fold(
+        eventRepository.getMonthEventList(date).fold(
             onSuccess = { eventsList -> eventsList },
             onFailure = { throw (it) },
         )

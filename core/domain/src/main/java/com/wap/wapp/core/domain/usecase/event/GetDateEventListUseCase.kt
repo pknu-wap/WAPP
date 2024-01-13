@@ -9,7 +9,7 @@ class GetDateEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(date: LocalDate): Result<List<Event>> = runCatching {
-        eventRepository.getDateEvents(date).fold(
+        eventRepository.getDateEventList(date).fold(
             onSuccess = { eventsList -> eventsList },
             onFailure = { throw (it) },
         )

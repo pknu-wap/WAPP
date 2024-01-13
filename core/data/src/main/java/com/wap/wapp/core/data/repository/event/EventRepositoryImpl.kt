@@ -10,15 +10,15 @@ import javax.inject.Inject
 class EventRepositoryImpl @Inject constructor(
     private val eventDataSource: EventDataSource,
 ) : EventRepository {
-    override suspend fun getMonthEvents(date: LocalDate): Result<List<Event>> =
-        eventDataSource.getMonthEvents(date).mapCatching { eventResponses ->
+    override suspend fun getMonthEventList(date: LocalDate): Result<List<Event>> =
+        eventDataSource.getMonthEventList(date).mapCatching { eventResponses ->
             eventResponses.map { eventResponse ->
                 eventResponse.toDomain()
             }
         }
 
-    override suspend fun getDateEvents(date: LocalDate): Result<List<Event>> =
-        eventDataSource.getDateEvents(date).mapCatching { eventResponses ->
+    override suspend fun getDateEventList(date: LocalDate): Result<List<Event>> =
+        eventDataSource.getDateEventList(date).mapCatching { eventResponses ->
             eventResponses.map { eventResponse ->
                 eventResponse.toDomain()
             }
