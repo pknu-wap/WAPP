@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management.survey.registration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.PostSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SurveyFormRegistrationViewModel @Inject constructor(
     private val registerSurveyUseCase: PostSurveyFormUseCase,
-    private val getMonthEventListUseCase: GetMonthEventListUseCase,
+    private val getEventListUseCase: GetEventListUseCase,
 ) : ViewModel() {
     private val _surveyRegistrationEvent: MutableSharedFlow<SurveyRegistrationEvent> =
         MutableSharedFlow()
@@ -67,12 +67,11 @@ class SurveyFormRegistrationViewModel @Inject constructor(
     val surveyDateDeadline = _surveyDateDeadline.asStateFlow()
 
     fun getEventList() = viewModelScope.launch {
-        getMonthEventListUseCase(DateUtil.generateNowDate())
-            .onSuccess { eventList ->
-                _eventList.value = EventsState.Success(eventList)
-            }.onFailure { throwable ->
-                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-            }
+        getEventListUseCase().onSuccess { eventList ->
+            _eventList.value = EventsState.Success(eventList)
+        }.onFailure { throwable ->
+            _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
+        }
     }
 
     fun registerSurvey() = viewModelScope.launch {
@@ -123,21 +122,37 @@ class SurveyFormRegistrationViewModel @Inject constructor(
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
+    fun setSurveyFormState(nextState: SurveyFormState) {
+        _currentSurveyFormState.value = nextState
+    }
 
-    fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
+    fun setSurveyEventSelection(event: Event) {
+        _surveyEventSelection.value = event
+    }
 
-    fun setSurveyTitle(title: String) { _surveyTitle.value = title }
+    fun setSurveyTitle(title: String) {
+        _surveyTitle.value = title
+    }
 
-    fun setSurveyContent(content: String) { _surveyContent.value = content }
+    fun setSurveyContent(content: String) {
+        _surveyContent.value = content
+    }
 
-    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
+    fun setSurveyQuestion(question: String) {
+        _surveyQuestion.value = question
+    }
 
-    fun setSurveyQuestionType(type: QuestionType) { _surveyQuestionType.value = type }
+    fun setSurveyQuestionType(type: QuestionType) {
+        _surveyQuestionType.value = type
+    }
 
-    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+    fun setSurveyTimeDeadline(time: LocalTime) {
+        _surveyTimeDeadline.value = time
+    }
 
-    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
+    fun setSurveyDateDeadline(date: LocalDate) {
+        _surveyDateDeadline.value = date
+    }
 
     fun addSurveyQuestion() {
         _surveyQuestionList.value.add(
@@ -149,7 +164,9 @@ class SurveyFormRegistrationViewModel @Inject constructor(
         clearSurveyQuestionState()
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
+    private fun clearSurveyQuestionState() {
+        _surveyQuestion.value = ""
+    }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 

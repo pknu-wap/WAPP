@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management.survey.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
 import com.wap.wapp.core.domain.usecase.survey.UpdateSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SurveyFormEditViewModel @Inject constructor(
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
-    private val getMonthEventListUseCase: GetMonthEventListUseCase,
+    private val getEventListUseCase: GetEventListUseCase,
     private val updateSurveyFormUseCase: UpdateSurveyFormUseCase,
 ) : ViewModel() {
     private val _surveyFormEditUiEvent: MutableSharedFlow<SurveyFormEditUiEvent> =
@@ -113,12 +113,11 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     fun getEventList() = viewModelScope.launch {
-        getMonthEventListUseCase(DateUtil.generateNowDate())
-            .onSuccess { eventList ->
-                _eventList.value = EventsState.Success(eventList)
-            }.onFailure { throwable ->
-                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
-            }
+        getEventListUseCase().onSuccess { eventList ->
+            _eventList.value = EventsState.Success(eventList)
+        }.onFailure { throwable ->
+            _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
+        }
     }
 
     fun validateSurveyForm(currentState: SurveyFormState): Boolean {
@@ -155,7 +154,9 @@ class SurveyFormEditViewModel @Inject constructor(
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
+    fun setSurveyFormState(nextState: SurveyFormState) {
+        _currentSurveyFormState.value = nextState
+    }
 
     fun addSurveyQuestion() {
         _surveyQuestionList.value.add(
@@ -167,23 +168,37 @@ class SurveyFormEditViewModel @Inject constructor(
         clearSurveyQuestionState()
     }
 
-    private fun setSurveyFormId(surveyFormId: String) { this.surveyFormId.value = surveyFormId }
+    private fun setSurveyFormId(surveyFormId: String) {
+        this.surveyFormId.value = surveyFormId
+    }
 
-    fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
+    fun setSurveyEventSelection(event: Event) {
+        _surveyEventSelection.value = event
+    }
 
-    fun setSurveyTitle(title: String) { _surveyTitle.value = title }
+    fun setSurveyTitle(title: String) {
+        _surveyTitle.value = title
+    }
 
-    fun setSurveyContent(content: String) { _surveyContent.value = content }
+    fun setSurveyContent(content: String) {
+        _surveyContent.value = content
+    }
 
-    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
+    fun setSurveyQuestion(question: String) {
+        _surveyQuestion.value = question
+    }
 
     fun setSurveyQuestionType(questionType: QuestionType) {
         _surveyQuestionType.value = questionType
     }
 
-    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+    fun setSurveyTimeDeadline(time: LocalTime) {
+        _surveyTimeDeadline.value = time
+    }
 
-    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
+    fun setSurveyDateDeadline(date: LocalDate) {
+        _surveyDateDeadline.value = date
+    }
 
     private fun setSurveyQuestionList(surveyQuestionList: MutableList<SurveyQuestion>) {
         // 마지막 질문은 UI에 노출
@@ -194,7 +209,9 @@ class SurveyFormEditViewModel @Inject constructor(
         _surveyQuestionList.value.addAll(surveyQuestionList)
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
+    private fun clearSurveyQuestionState() {
+        _surveyQuestion.value = ""
+    }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 

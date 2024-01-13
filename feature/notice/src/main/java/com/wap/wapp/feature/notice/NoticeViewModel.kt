@@ -19,7 +19,6 @@ class NoticeViewModel @Inject constructor(
     private val getMonthEventListUseCase: GetMonthEventListUseCase,
     private val getDateEventListUseCase: GetDateEventListUseCase,
 ) : ViewModel() {
-
     private val _monthEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val monthEvents: StateFlow<EventsState> = _monthEvents.asStateFlow()
 
@@ -47,9 +46,7 @@ class NoticeViewModel @Inject constructor(
         _selectedDateEvents.value = EventsState.Loading
         viewModelScope.launch {
             getDateEventListUseCase(_selectedDate.value).onSuccess {
-                _selectedDateEvents.value = EventsState.Success(
-                    it.sortedBy { it.startDateTime },
-                )
+                _selectedDateEvents.value = EventsState.Success(it.sortedBy { it.startDateTime })
             }.onFailure { _selectedDateEvents.value = EventsState.Failure(it) }
         }
     }

@@ -8,10 +8,6 @@ import javax.inject.Inject
 class GetMonthEventListUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
-    suspend operator fun invoke(date: LocalDate): Result<List<Event>> = runCatching {
-        eventRepository.getMonthEventList(date).fold(
-            onSuccess = { eventsList -> eventsList },
-            onFailure = { throw (it) },
-        )
-    }
+    suspend operator fun invoke(date: LocalDate): Result<List<Event>> =
+        eventRepository.getMonthEventList(date)
 }
