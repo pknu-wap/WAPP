@@ -4,4 +4,6 @@
     <string name="name">이름</string>
     <string name="next">다음</string>
     <string name="event">일정</string>
+    <string name="survey_check">설문 확인</string>
+    <string name="survey_check_content">구성원이 작성한 설문을 확인하세요 !</string>
 </resources>
