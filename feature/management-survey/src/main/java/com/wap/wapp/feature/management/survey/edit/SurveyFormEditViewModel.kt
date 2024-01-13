@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management.survey.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
 import com.wap.wapp.core.domain.usecase.survey.UpdateSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SurveyFormEditViewModel @Inject constructor(
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
-    private val getEventListUseCase: GetEventListUseCase,
+    private val getMonthEventListUseCase: GetMonthEventListUseCase,
     private val updateSurveyFormUseCase: UpdateSurveyFormUseCase,
 ) : ViewModel() {
     private val _surveyFormEditUiEvent: MutableSharedFlow<SurveyFormEditUiEvent> =
@@ -113,7 +113,7 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     fun getEventList() = viewModelScope.launch {
-        getEventListUseCase(DateUtil.generateNowDate())
+        getMonthEventListUseCase(DateUtil.generateNowDate())
             .onSuccess { eventList ->
                 _eventList.value = EventsState.Success(eventList)
             }.onFailure { throwable ->

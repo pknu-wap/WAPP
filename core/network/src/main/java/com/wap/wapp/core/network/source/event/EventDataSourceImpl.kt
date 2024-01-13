@@ -35,11 +35,13 @@ class EventDataSourceImpl @Inject constructor(
         runCatching {
             val result = mutableListOf<EventResponse>()
 
+            // 선택된 날짜 1일 00시 00분 00초
             val startDateTime = LocalDate.of(date.year, date.month, 1).atStartOfDay()
                 .toISOLocalDateTimeString()
 
+            // 선택된 날짜의 마지막 날(31일) 23시 59분 59초
             val endDateTime =
-                LocalDate.of(date.year, date.month, date.dayOfMonth).atTime(LocalTime.MAX)
+                LocalDate.of(date.year, date.month, date.lengthOfMonth()).atTime(LocalTime.MAX)
                     .toISOLocalDateTimeString()
 
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
