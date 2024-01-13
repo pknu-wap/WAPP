@@ -13,7 +13,7 @@ class GetRecentEventListUseCase @Inject constructor(
     suspend operator fun invoke(registrationDate: LocalDate): Result<List<Event>> {
         val currentDate = LocalDate.now(ZoneId.of("Asia/Seoul"))
         val minimumDate = currentDate.minus(3, ChronoUnit.MONTHS)
-        val selectedDate = minOf(registrationDate, minimumDate)
+        val selectedDate = maxOf(registrationDate, minimumDate)
         return eventRepository.getEventListFromDate(selectedDate)
     }
 }
