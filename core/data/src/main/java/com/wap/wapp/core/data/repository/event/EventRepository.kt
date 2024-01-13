@@ -9,6 +9,8 @@ interface EventRepository {
 
     suspend fun getDateEventList(date: LocalDate): Result<List<Event>>
 
+    suspend fun getEventListFromDate(date: LocalDate): Result<List<Event>>
+
     suspend fun getEventList(): Result<List<Event>>
 
     suspend fun getEvent(eventId: String): Result<Event>

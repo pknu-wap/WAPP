@@ -10,6 +10,8 @@ interface EventDataSource {
 
     suspend fun getEventList(): Result<List<EventResponse>>
 
+    suspend fun getEventListFromDate(date: LocalDate): Result<List<EventResponse>>
+
     suspend fun getEvent(eventId: String): Result<EventResponse>
 
     suspend fun postEvent(
