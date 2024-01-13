@@ -154,9 +154,7 @@ class SurveyFormEditViewModel @Inject constructor(
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) {
-        _currentSurveyFormState.value = nextState
-    }
+    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
 
     fun addSurveyQuestion() {
         _surveyQuestionList.value.add(
@@ -195,9 +193,7 @@ class SurveyFormEditViewModel @Inject constructor(
         _surveyQuestionList.value.addAll(surveyQuestionList)
     }
 
-    private fun clearSurveyQuestionState() {
-        _surveyQuestion.value = ""
-    }
+    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 
