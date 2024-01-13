@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
-import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
 import com.wap.wapp.core.domain.usecase.event.GetRecentEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetUserRespondedSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
@@ -30,7 +29,6 @@ class ProfileViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getRecentEventListUseCase: GetRecentEventListUseCase,
-    private val getMonthEventListUseCase: GetMonthEventListUseCase,
     private val getDateEventListUseCase: GetDateEventListUseCase,
     private val getUserRespondedSurveyListUseCase: GetUserRespondedSurveyListUseCase,
 ) : ViewModel() {
