@@ -69,13 +69,12 @@ class ProfileViewModel @Inject constructor(
                         getTodayDateEvents()
                         val userProfile = async { getUserProfileUseCase() }
 
-                        userProfile.await()
-                            .onSuccess {
-                                _userRole.value = UserRoleState.Success(userRole)
-                                _userProfile.value = it
-                                launch { getRecentEventsForAttendanceCheck() }
-                                getUserRespondedSurveys()
-                            }.onFailure { exception -> _errorFlow.emit(exception) }
+                        userProfile.await().onSuccess {
+                            _userRole.value = UserRoleState.Success(userRole)
+                            _userProfile.value = it
+                            launch { getRecentEventsForAttendanceCheck() }
+                            getUserRespondedSurveys()
+                        }.onFailure { exception -> _errorFlow.emit(exception) }
                     }
                 }
             }
@@ -85,12 +84,7 @@ class ProfileViewModel @Inject constructor(
         _todayEvents.value = EventsState.Loading
         viewModelScope.launch {
             getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-                _todayEvents.value =
-                    EventsState.Success(
-                        eventList.filter { event ->
-                            event.startDateTime.toLocalDate() == DateUtil.generateNowDate()
-                        }.sortedBy { event -> event.title },
-                    )
+                _todayEvents.value = EventsState.Success(eventList)
             }.onFailure { exception -> _errorFlow.emit(exception) }
         }
     }
