@@ -91,8 +91,7 @@ class ProfileViewModel @Inject constructor(
 
     private suspend fun getUserRespondedSurveys() {
         getUserRespondedSurveyListUseCase(_userProfile.value.userId).onSuccess { surveyList ->
-            _userRespondedSurveys.value =
-                SurveysState.Success(surveyList.sortedBy { survey -> survey.surveyedAt })
+            _userRespondedSurveys.value = SurveysState.Success(surveyList)
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 

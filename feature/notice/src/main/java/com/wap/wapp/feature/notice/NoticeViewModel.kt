@@ -45,8 +45,8 @@ class NoticeViewModel @Inject constructor(
     fun getSelectedDateEvents() {
         _selectedDateEvents.value = EventsState.Loading
         viewModelScope.launch {
-            getDateEventListUseCase(_selectedDate.value).onSuccess {
-                _selectedDateEvents.value = EventsState.Success(it.sortedBy { it.startDateTime })
+            getDateEventListUseCase(_selectedDate.value).onSuccess { eventList ->
+                _selectedDateEvents.value = EventsState.Success(eventList)
             }.onFailure { _selectedDateEvents.value = EventsState.Failure(it) }
         }
     }
