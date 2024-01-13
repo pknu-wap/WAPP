@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.survey.check
+package com.wap.wapp.feature.survey.check.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

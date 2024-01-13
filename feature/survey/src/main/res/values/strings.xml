@@ -14,4 +14,6 @@
     <string name="survey_guset_title">앗 회원이 아니시네요 !</string>
     <string name="survey_guest_content">회원만 설문을 작성할 수 있어요.</string>
     <string name="guest_dialog_button_text">비회원으로 둘러보기</string>
+    <string name="go_to_survey_check">작성된 설문 보러가기</string>
+    <string name="survey_check_description">작성된 설문 보러가기 아이콘</string>
 </resources>

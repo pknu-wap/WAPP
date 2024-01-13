@@ -1,116 +1,73 @@
 package com.wap.wapp.feature.survey.check
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappButton
+import com.wap.designsystem.component.CircleLoader
+import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.model.survey.QuestionType
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-internal fun SurveyCheckRoute(
+internal fun SurveyCheckScreen(
     viewModel: SurveyCheckViewModel = hiltViewModel(),
-    surveyId: String,
-    navigateToManagement: () -> Unit,
+    navigateToSurveyDetail: (String) -> Unit,
 ) {
-    val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
+    val surveyListUiState = viewModel.surveyListUiState.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(true) {
-        viewModel.getSurvey(surveyId)
-    }
-
-    LaunchedEffect(true) {
-        viewModel.surveyCheckUiEvent.collectLatest {
-            when (it) {
-                is SurveyCheckViewModel.SurveyUiEvent.Failure -> {
-                    snackBarHostState.showSnackbar(it.throwable.toSupportingText())
-                }
-            }
+        viewModel.errorFlow.collectLatest {
+            snackBarHostState.showSnackbar(it.toSupportingText())
         }
     }
 
-    SurveyCheckScreen(
-        snackBarHostState = snackBarHostState,
-        surveyUiState = surveyUiState,
-        onDoneButtonClicked = { navigateToManagement() },
-        onBackButtonClicked = { navigateToManagement() },
-    )
-}
-
-@Composable
-internal fun SurveyCheckScreen(
-    snackBarHostState: SnackbarHostState,
-    surveyUiState: SurveyCheckViewModel.SurveyUiState,
-    onDoneButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
-) {
-    val scrollState = rememberScrollState()
-
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = WappTheme.colors.backgroundBlack,
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            SurveyCheckTopBar(
-                onBackButtonClicked = onBackButtonClicked,
+            WappMainTopBar(
+                titleRes = R.string.survey_check,
+                contentRes = R.string.survey_check_content,
             )
         },
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-        containerColor = WappTheme.colors.backgroundBlack,
+        contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(vertical = 16.dp, horizontal = 8.dp)
-                .fillMaxSize()
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(32.dp),
-        ) {
-            when (surveyUiState) {
-                is SurveyCheckViewModel.SurveyUiState.Init -> {}
+        when (surveyListUiState) {
+            is SurveyCheckViewModel.SurveyListUiState.Init -> {
+                CircleLoader(modifier = Modifier.fillMaxSize())
+            }
 
-                is SurveyCheckViewModel.SurveyUiState.Success -> {
-                    SurveyInformationCard(
-                        title = surveyUiState.survey.title,
-                        content = surveyUiState.survey.content,
-                        userName = surveyUiState.survey.userName,
-                        eventName = surveyUiState.survey.eventName,
-                    )
-
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(32.dp),
-                    ) {
-                        surveyUiState.survey.surveyAnswerList.forEach { surveyAnswer ->
-                            when (surveyAnswer.questionType) {
-                                QuestionType.OBJECTIVE -> {
-                                    ObjectiveQuestionCard(surveyAnswer)
-                                }
-
-                                QuestionType.SUBJECTIVE -> {
-                                    SubjectiveQuestionCard(surveyAnswer)
-                                }
-                            }
-                        }
+            is SurveyCheckViewModel.SurveyListUiState.Success -> {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .padding(paddingValues),
+                ) {
+                    val surveyList = surveyListUiState.surveyList
+                    items(surveyList) { survey ->
+                        SurveyItemCard(
+                            onCardClicked = navigateToSurveyDetail,
+                            survey = survey,
+                        )
                     }
-
-                    WappButton(
-                        onClick = onDoneButtonClicked,
-                        textRes = com.wap.wapp.core.designsystem.R.string.done,
-                    )
                 }
             }
         }

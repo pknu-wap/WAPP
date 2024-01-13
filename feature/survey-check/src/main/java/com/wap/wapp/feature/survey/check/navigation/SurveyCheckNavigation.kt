@@ -7,32 +7,44 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
-import com.wap.wapp.feature.survey.check.SurveyCheckRoute
+import com.wap.wapp.feature.survey.check.SurveyCheckScreen
+import com.wap.wapp.feature.survey.check.detail.SurveyDetailRoute
 
-const val SURVEY_CHECK_ROUTE = "survey/check/{surveyId}"
-
-fun NavController.navigateToSurveyCheck(
+fun NavController.navigateToSurveyDetail(
     surveyId: String,
     navOptions: NavOptions? = navOptions {},
-) {
-    this.navigate("survey/check/$surveyId", navOptions)
-}
+) = this.navigate(SurveyCheckRoute.surveyDetailRoute(surveyId), navOptions)
 
-fun NavGraphBuilder.surveyCheckScreen(
-    navigateToManagement: () -> Unit,
+fun NavController.navigateToSurveyCheck(navOptions: NavOptions? = navOptions {}) =
+    this.navigate(SurveyCheckRoute.surveyCheckRoute, navOptions)
+
+fun NavGraphBuilder.surveyCheckNavGraph(
+    navigateToSurveyDetail: (String) -> Unit,
+    navigateToSurveyCheck: () -> Unit,
 ) {
+    composable(route = SurveyCheckRoute.surveyCheckRoute) {
+        SurveyCheckScreen(
+            navigateToSurveyDetail = navigateToSurveyDetail,
+        )
+    }
+
     composable(
-        route = SURVEY_CHECK_ROUTE,
+        route = SurveyCheckRoute.surveyDetailRoute("{id}"),
         arguments = listOf(
-            navArgument("surveyId") {
+            navArgument("id") {
                 type = NavType.StringType
             },
         ),
     ) { navBackStackEntry ->
-        val surveyId = navBackStackEntry.arguments?.getString("surveyId") ?: ""
-        SurveyCheckRoute(
-            navigateToManagement = navigateToManagement,
+        val surveyId = navBackStackEntry.arguments?.getString("id") ?: ""
+        SurveyDetailRoute(
+            navigateToSurveyCheck = navigateToSurveyCheck,
             surveyId = surveyId,
         )
     }
+}
+
+object SurveyCheckRoute {
+    const val surveyCheckRoute = "survey/check"
+    fun surveyDetailRoute(surveyId: String) = "survey/detail/$surveyId"
 }
