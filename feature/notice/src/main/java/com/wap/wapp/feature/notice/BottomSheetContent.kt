@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -33,7 +33,6 @@ import com.wap.wapp.core.commmon.util.DateUtil.MONTH_DATE_START_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
 import com.wap.wapp.core.model.event.Event
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -72,16 +71,16 @@ private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (event
 
 @Composable
 private fun EventsList(events: List<Event>) {
-    if (events.size > 0) {
+    if (events.isNotEmpty()) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 15.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            itemsIndexed(
+            items(
                 items = events,
-                key = { _, event -> event.eventId },
-            ) { _, event ->
+                key = { event -> event.eventId },
+            ) { event ->
                 EventItem(event = event)
             }
         }
@@ -110,8 +109,6 @@ private fun EventsList(events: List<Event>) {
 
 @Composable
 private fun EventItem(event: Event) {
-    val formatter = DateTimeFormatter.ofPattern("MM-dd")
-
     Column {
         Row(
             modifier = Modifier

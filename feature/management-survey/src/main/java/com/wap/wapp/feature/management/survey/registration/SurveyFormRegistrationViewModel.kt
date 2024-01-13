@@ -67,12 +67,11 @@ class SurveyFormRegistrationViewModel @Inject constructor(
     val surveyDateDeadline = _surveyDateDeadline.asStateFlow()
 
     fun getEventList() = viewModelScope.launch {
-        getEventListUseCase()
-            .onSuccess { eventList ->
-                _eventList.value = EventsState.Success(eventList)
-            }.onFailure { throwable ->
-                _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
-            }
+        getEventListUseCase().onSuccess { eventList ->
+            _eventList.value = EventsState.Success(eventList)
+        }.onFailure { throwable ->
+            _surveyRegistrationEvent.emit(SurveyRegistrationEvent.Failure(throwable))
+        }
     }
 
     fun registerSurvey() = viewModelScope.launch {

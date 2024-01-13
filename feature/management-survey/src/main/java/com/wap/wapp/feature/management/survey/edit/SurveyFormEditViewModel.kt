@@ -113,12 +113,11 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     fun getEventList() = viewModelScope.launch {
-        getEventListUseCase()
-            .onSuccess { eventList ->
-                _eventList.value = EventsState.Success(eventList)
-            }.onFailure { throwable ->
-                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
-            }
+        getEventListUseCase().onSuccess { eventList ->
+            _eventList.value = EventsState.Success(eventList)
+        }.onFailure { throwable ->
+            _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
+        }
     }
 
     fun validateSurveyForm(currentState: SurveyFormState): Boolean {

@@ -12,19 +12,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.core.model.event.Event
 
 @Composable
 internal fun WappAttendacneRow(
+    event: Event,
     isAttendance: Boolean,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .padding(horizontal = 10.dp)
-            .clickable { onClick() },
+        modifier = modifier.clickable { onClick() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -32,7 +33,7 @@ internal fun WappAttendacneRow(
         ) {
             WappAttendanceBadge(isAttendance = isAttendance)
             Text(
-                text = "프로젝트 세미나",
+                text = event.title,
                 style = WappTheme.typography.labelRegular,
                 color = WappTheme.colors.white,
                 maxLines = 1,
@@ -41,7 +42,7 @@ internal fun WappAttendacneRow(
             )
         }
         Text(
-            text = "09월 04일",
+            text = event.startDateTime.format(DateUtil.HHmmFormatter),
             style = WappTheme.typography.labelRegular,
             color = WappTheme.colors.gray95,
             modifier = Modifier.padding(start = 10.dp),

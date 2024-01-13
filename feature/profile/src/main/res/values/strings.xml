@@ -11,9 +11,11 @@
     <string name="survey_i_did">내가 한 설문</string>
     <string name="account_setting">계정 설정</string>
     <string name="alarm_setting">알람 설정</string>
-    <string name="sign_out">로그아웃</string>
-    <string name="withdrawal">회원 탈퇴</string>
+    <string name="logout">로그아웃</string>
+    <string name="withdrawal">회원탈퇴</string>
     <string name="inquiry">문의하기</string>
+    <string name="complete">완료</string>
+    <string name="cancel">취소</string>
     <string name="more">더보기</string>
     <string name="faq">FAQ</string>
     <string name="terms_and_policies">약관 및 정책</string>
@@ -21,4 +23,6 @@
     <string name="navigate_to_login">로그인 하러 가기</string>
     <string name="wap_attendance">WAP 출석</string>
     <string name="no_event_today">오늘은 별 다른 행사가 없어요!</string>
+    <string name="no_surveys_after_sign_up">가입한 이후로 참여한 설문이 없어요!</string>
+    <string name="no_events_recently">가입한 이후로 진행된 일정이 없어요!</string>
 </resources>

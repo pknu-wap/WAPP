@@ -13,9 +13,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
+import com.wap.wapp.core.model.survey.Survey
 
 @Composable
 internal fun WappSurveyHistoryRow(
+    survey: Survey,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
@@ -35,7 +37,7 @@ internal fun WappSurveyHistoryRow(
             )
 
             Text(
-                text = "프로젝트 세미나에서 보완해야 할 점이 많아요 아싸라비야",
+                text = survey.title,
                 style = WappTheme.typography.labelRegular,
                 color = WappTheme.colors.white,
                 maxLines = 1,

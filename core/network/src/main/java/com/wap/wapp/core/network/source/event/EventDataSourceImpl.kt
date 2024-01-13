@@ -31,6 +31,27 @@ class EventDataSourceImpl @Inject constructor(
         result
     }
 
+    override suspend fun getEventListFromDate(date: LocalDate): Result<List<EventResponse>> =
+        runCatching {
+            val result = mutableListOf<EventResponse>()
+
+            // 선택된 날짜 1일 00시 00분 00초
+            val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
+
+            val task = firebaseFirestore.collection(EVENT_COLLECTION)
+                .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .get()
+                .await()
+
+            for (document in task.documents) {
+                val event = document.toObject<EventResponse>()
+                checkNotNull(event)
+                result.add(event)
+            }
+
+            result
+        }
+
     override suspend fun getMonthEventList(date: LocalDate): Result<List<EventResponse>> =
         runCatching {
             val result = mutableListOf<EventResponse>()
@@ -43,6 +64,28 @@ class EventDataSourceImpl @Inject constructor(
             val endDateTime =
                 LocalDate.of(date.year, date.month, date.lengthOfMonth()).atTime(LocalTime.MAX)
                     .toISOLocalDateTimeString()
+
+            val task = firebaseFirestore.collection(EVENT_COLLECTION)
+                .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", endDateTime)
+                .get()
+                .await()
+
+            for (document in task.documents) {
+                val event = document.toObject<EventResponse>()
+                checkNotNull(event)
+                result.add(event)
+            }
+
+            result
+        }
+
+    override suspend fun getDateEventList(date: LocalDate): Result<List<EventResponse>> =
+        runCatching {
+            val result = mutableListOf<EventResponse>()
+
+            val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
+            val endDateTime = date.atTime(LocalTime.MAX).toISOLocalDateTimeString()
 
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
