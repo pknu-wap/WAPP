@@ -66,9 +66,7 @@ internal fun SurveyScreen(
                         }
 
                         // 비회원이 아닌 경우, 목록 호출
-                        UserRole.MEMBER -> {
-                            viewModel.getSurveyFormList()
-                        }
+                        UserRole.MEMBER -> viewModel.getSurveyFormList()
 
                         UserRole.MANAGER -> {
                             viewModel.getSurveyFormList()
