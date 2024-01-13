@@ -13,13 +13,10 @@ import com.wap.wapp.feature.survey.check.detail.SurveyDetailRoute
 fun NavController.navigateToSurveyDetail(
     surveyId: String,
     navOptions: NavOptions? = navOptions {},
-) {
-    this.navigate(SurveyCheckRoute.surveyDetailRoute(surveyId), navOptions)
-}
+) = this.navigate(SurveyCheckRoute.surveyDetailRoute(surveyId), navOptions)
 
-fun NavController.navigateToSurveyCheck(navOptions: NavOptions? = navOptions {}) {
+fun NavController.navigateToSurveyCheck(navOptions: NavOptions? = navOptions {}) =
     this.navigate(SurveyCheckRoute.surveyCheckRoute, navOptions)
-}
 
 fun NavGraphBuilder.surveyCheckNavGraph(
     navigateToSurveyDetail: (String) -> Unit,
