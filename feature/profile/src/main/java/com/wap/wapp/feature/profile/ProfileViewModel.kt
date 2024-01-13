@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.event.GetMonthEventListUseCase
+import com.wap.wapp.core.domain.usecase.event.GetRecentEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetUserRespondedSurveyListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
@@ -22,13 +23,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val getRecentEventListUseCase: GetRecentEventListUseCase,
     private val getMonthEventListUseCase: GetMonthEventListUseCase,
     private val getDateEventListUseCase: GetDateEventListUseCase,
     private val getUserRespondedSurveyListUseCase: GetUserRespondedSurveyListUseCase,
@@ -98,35 +99,23 @@ class ProfileViewModel @Inject constructor(
     private suspend fun getRecentEventsForAttendanceCheck() {
         val registeredAt = _userProfile.value.registeredAt
         val (registeredYear, registeredSemester) = registeredAt.split(" ")
-        val registrationDateTime =
-            createRegistrationDateTime(registeredYear.toInt(), registeredSemester)
+        val registrationDate =
+            createRegistrationDate(registeredYear.toInt(), registeredSemester)
 
-        // 현재 날짜
-        val currentDateTime = LocalDate.now()
-
-        val eventsList = mutableListOf<Event>()
-        for (i in 0..3) {
-            val targetDateTime = currentDateTime.minus(i.toLong(), ChronoUnit.MONTHS)
-            // 만약 가입한 날짜보다 빠르다면 반복문을 멈춤
-            if (targetDateTime < registrationDateTime) break
-
-            getMonthEventListUseCase(targetDateTime).onSuccess { eventsList.addAll(it) }
-                .onFailure { _errorFlow.emit(it) }
-        }
-        _recentEvents.value = EventsState.Success(eventsList)
+        getRecentEventListUseCase(registrationDate)
+            .onSuccess {
+                _recentEvents.value = EventsState.Success(it)
+            }.onFailure { _errorFlow.emit(it) }
     }
 
-    private fun createRegistrationDateTime(year: Int, semester: String): LocalDate {
+    private fun createRegistrationDate(year: Int, semester: String): LocalDate {
         // 학기에 따른 기준 날짜 설정 (예: 1학기는 3월 1일, 2학기는 9월 1일)
         val semesterNumber = semester.removeSuffix("학기").toInt()
-        val baseDate =
-            if (semesterNumber == 1) {
-                LocalDate.of(year, 3, 1)
-            } else {
-                LocalDate.of(year, 9, 1)
-            }
 
-        return baseDate
+        if (semesterNumber == 1) {
+            return LocalDate.of(year, 3, 1)
+        }
+        return LocalDate.of(year, 9, 1)
     }
 
     sealed class EventsState {
