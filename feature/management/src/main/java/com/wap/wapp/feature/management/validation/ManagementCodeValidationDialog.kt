@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
@@ -33,6 +32,7 @@ fun ManagementCodeValidationDialog(
     LaunchedEffect(true) {
         viewModel.managementCodeUiState.collectLatest {
             when (it) {
+                is ManagementCodeUiState.Init -> {}
                 is ManagementCodeUiState.Success -> {
                     onDismissRequest()
                 }
@@ -40,8 +40,6 @@ fun ManagementCodeValidationDialog(
                 is ManagementCodeUiState.Failure -> {
                     showToast(it.throwable)
                 }
-
-                is ManagementCodeUiState.Init -> {}
             }
         }
     }
@@ -49,10 +47,6 @@ fun ManagementCodeValidationDialog(
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
         modifier = Modifier.padding(horizontal = 16.dp),
-        properties = DialogProperties(
-            dismissOnBackPress = false,
-            dismissOnClickOutside = false,
-        ),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -94,13 +88,3 @@ fun ManagementCodeValidationDialog(
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun previewDialog() {
-    WappTheme {
-        ManageCodeDialog()
-    }
-}
-*/
