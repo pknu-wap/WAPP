@@ -23,7 +23,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.feature.management.ManagementViewModel.ManagerState
 import com.wap.wapp.feature.management.validation.ManagementCodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
 
@@ -52,9 +51,9 @@ internal fun ManagementRoute(
     LaunchedEffect(true) {
         viewModel.managerState.collectLatest { managerState ->
             when (managerState) {
-                ManagerState.Init -> {}
-                ManagerState.NonManager -> { isShowDialog = true }
-                ManagerState.Manager -> viewModel.getEventSurveyList()
+                ManagementViewModel.ManagerUiState.Init -> {}
+                ManagementViewModel.ManagerUiState.NonManager -> { isShowDialog = true }
+                ManagementViewModel.ManagerUiState.Manager -> viewModel.getEventSurveyList()
             }
         }
     }
@@ -92,16 +91,17 @@ internal fun ManagementScreen(
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
+        topBar = {
+            WappMainTopBar(
+                titleRes = R.string.management,
+                contentRes = R.string.management_content,
+            )
+        },
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.padding(paddingValues),
         ) {
             item {
-                WappMainTopBar(
-                    titleRes = R.string.management,
-                    contentRes = R.string.management_content,
-                )
-
                 ManagementEventCard(
                     eventsState = eventsState,
                     onCardClicked = navigateToEventEdit,
