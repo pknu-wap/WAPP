@@ -78,6 +78,11 @@ internal fun SurveyScreen(
         }
     }
 
+    if (isGuest) {
+        SurveyGuestScreen(onButtonClicked = navigateToSignIn)
+        return
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = WappTheme.colors.backgroundBlack,
@@ -102,12 +107,5 @@ internal fun SurveyScreen(
                 )
             }
         }
-    }
-
-    if (isGuest) {
-        SurveyGuestDialog(
-            onDismissRequest = { isGuest = false },
-            onButtonClicked = navigateToSignIn,
-        )
     }
 }
