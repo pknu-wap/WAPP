@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,33 +21,37 @@ import com.wap.designsystem.component.WappButton
 internal fun SurveyGuestScreen(
     onButtonClicked: () -> Unit,
 ) {
-    Column(
+    Surface(
+        color = WappTheme.colors.backgroundBlack,
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = stringResource(R.string.survey_guset_title),
-            style = WappTheme.typography.titleBold,
-            color = WappTheme.colors.white,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = stringResource(R.string.survey_guset_title),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.white,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
 
-        Text(
-            text = stringResource(R.string.survey_guest_content),
-            style = WappTheme.typography.captionMedium,
-            color = WappTheme.colors.white,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-        )
+            Text(
+                text = stringResource(R.string.survey_guest_content),
+                style = WappTheme.typography.captionMedium,
+                color = WappTheme.colors.white,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
 
-        Spacer(modifier = Modifier.padding(vertical = 16.dp))
+            Spacer(modifier = Modifier.padding(vertical = 16.dp))
 
-        WappButton(
-            textRes = R.string.go_to_signin,
-            onClick = onButtonClicked,
-            modifier = Modifier.padding(horizontal = 32.dp),
-        )
+            WappButton(
+                textRes = R.string.go_to_signin,
+                onClick = onButtonClicked,
+                modifier = Modifier.padding(horizontal = 32.dp),
+            )
+        }
     }
 }
