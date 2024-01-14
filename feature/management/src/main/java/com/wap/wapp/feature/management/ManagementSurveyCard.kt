@@ -73,6 +73,7 @@ private fun ManagementSurveyContent(
     onAddSurveyButtonClicked: () -> Unit,
 ) {
     when (surveyFormsState) {
+        is ManagementViewModel.SurveyFormsState.Init -> { }
         is ManagementViewModel.SurveyFormsState.Loading -> CircleLoader(
             modifier = Modifier
                 .fillMaxWidth()
