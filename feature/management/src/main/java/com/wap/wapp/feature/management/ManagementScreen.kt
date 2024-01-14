@@ -37,7 +37,7 @@ internal fun ManagementRoute(
     val surveyFormsState by viewModel.surveyFormList.collectAsStateWithLifecycle()
     val eventsState by viewModel.eventList.collectAsStateWithLifecycle()
 
-    SideEffect {
+    LaunchedEffect(true) {
         viewModel.hasManagerState()
     }
 
@@ -60,7 +60,12 @@ internal fun ManagementRoute(
     }
 
     if (showValidationScreen) {
-        ManagementValidationScreen(onValidationSuccess = { showValidationScreen = false })
+        ManagementValidationScreen(
+            onValidationSuccess = {
+                showValidationScreen = false
+                viewModel.hasManagerState() // 매니저 권한 재 검증
+            }
+        )
         return
     }
 
