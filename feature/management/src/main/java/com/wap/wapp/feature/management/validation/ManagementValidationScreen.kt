@@ -42,13 +42,11 @@ fun ManagementValidationScreen(
             when (it) {
                 is ManagementValidationViewModel.ManagementCodeUiState.Init -> {}
 
-                is ManagementValidationViewModel.ManagementCodeUiState.Success -> {
+                is ManagementValidationViewModel.ManagementCodeUiState.Success ->
                     onValidationSuccess()
-                }
 
-                is ManagementValidationViewModel.ManagementCodeUiState.Failure -> {
+                is ManagementValidationViewModel.ManagementCodeUiState.Failure ->
                     snackBarHostState.showSnackbar(it.throwable.toSupportingText())
-                }
             }
         }
     }
