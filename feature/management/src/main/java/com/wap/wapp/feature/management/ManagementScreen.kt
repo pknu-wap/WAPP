@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.management.validation.ManagementValidationScreen
 import kotlinx.coroutines.flow.collectLatest
 
@@ -30,15 +31,17 @@ internal fun ManagementRoute(
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
+    navigateToSignIn: () -> Unit,
     viewModel: ManagementViewModel = hiltViewModel(),
 ) {
     var showValidationScreen by rememberSaveable { mutableStateOf(false) }
+    var showGuestScreen by rememberSaveable { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
     val surveyFormsState by viewModel.surveyFormList.collectAsStateWithLifecycle()
     val eventsState by viewModel.eventList.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.hasManagerState()
+        viewModel.getUserRole()
     }
 
     LaunchedEffect(true) {
@@ -50,20 +53,25 @@ internal fun ManagementRoute(
     }
 
     LaunchedEffect(true) {
-        viewModel.managerState.collectLatest { managerState ->
+        viewModel.userRole.collectLatest { managerState ->
             when (managerState) {
-                ManagementViewModel.ManagerUiState.Init -> {}
-                ManagementViewModel.ManagerUiState.NonManager -> { showValidationScreen = true }
-                ManagementViewModel.ManagerUiState.Manager -> viewModel.getEventSurveyList()
+                UserRole.GUEST -> { showGuestScreen = true }
+                UserRole.MEMBER -> { showValidationScreen = true }
+                UserRole.MANAGER -> viewModel.getEventSurveyList()
             }
         }
     }
 
-    if (showValidationScreen) {
+    if (showGuestScreen) { // 비회원인 경우
+        ManagementGuestScreen(onButtonClicked = navigateToSignIn)
+        return
+    }
+
+    if (showValidationScreen) { // 회원인 경우
         ManagementValidationScreen(
             onValidationSuccess = {
                 showValidationScreen = false
-                viewModel.hasManagerState() // 매니저 권한 재 검증
+                viewModel.getUserRole() // 매니저 권한 재 검증
             }
         )
         return
