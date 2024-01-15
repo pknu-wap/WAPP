@@ -18,6 +18,7 @@ fun NavGraphBuilder.managementScreen(
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
     composable(route = managementNavigationRoute) {
         ManagementRoute(
@@ -25,6 +26,7 @@ fun NavGraphBuilder.managementScreen(
             navigateToEventRegistration = navigateToEventRegistration,
             navigateToSurveyRegistration = navigateToSurveyRegistration,
             navigateToSurveyFormEdit = navigateToSurveyFormEdit,
+            navigateToSignIn = navigateToSignIn,
         )
     }
 }
