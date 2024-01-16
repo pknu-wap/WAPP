@@ -49,4 +49,7 @@
     <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
     <string name="surveyForm_deadline">%s 마감</string>
     <string name="event_duration">%s 시작</string>
+    <string name="go_to_signin">로그인 하러가기</string>
+    <string name="management_guest_title">앗 회원이 아니시네요 !</string>
+    <string name="management_guest_content">운영진만 접근할 수 있어요.</string>
 </resources>

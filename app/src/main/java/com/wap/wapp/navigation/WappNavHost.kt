@@ -123,6 +123,7 @@ fun WappNavHost(
             navigateToEventRegistration = navController::navigateToEventRegistration,
             navigateToEventEdit = navController::navigateToEventEdit,
             navigateToSurveyFormEdit = navController::navigateToSurveyFormEdit,
+            navigateToSignIn = navController::navigateToSignIn
         )
     }
 }

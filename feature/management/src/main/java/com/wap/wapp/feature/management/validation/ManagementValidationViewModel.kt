@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ManagementCodeValidationViewModel @Inject constructor(
+class ManagementValidationViewModel @Inject constructor(
     private val validateManagementCodeUseCase: ValidateManagementCodeUseCase,
 ) : ViewModel() {
     private val _managementCodeUiState: MutableStateFlow<ManagementCodeUiState> =
