@@ -41,24 +41,20 @@ internal fun ManagementRoute(
     val eventsState by viewModel.eventList.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.getUserRole()
-    }
+        viewModel.getUserRole() // 유저 권한 검색
 
-    LaunchedEffect(true) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            snackBarHostState.showSnackbar(
-                message = throwable.toSupportingText(),
-            )
-        }
-    }
-
-    LaunchedEffect(true) {
         viewModel.userRole.collectLatest { managerState ->
             when (managerState) {
                 UserRole.GUEST -> { showGuestScreen = true }
                 UserRole.MEMBER -> { showValidationScreen = true }
                 UserRole.MANAGER -> viewModel.getEventSurveyList()
             }
+        }
+
+        viewModel.errorFlow.collectLatest { throwable ->
+            snackBarHostState.showSnackbar(
+                message = throwable.toSupportingText(),
+            )
         }
     }
 
