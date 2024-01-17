@@ -7,6 +7,8 @@ import java.time.LocalDateTime
 interface SurveyRepository {
     suspend fun getSurveyList(): Result<List<Survey>>
 
+    suspend fun getSurveyList(eventId: String): Result<List<Survey>>
+
     suspend fun getUserRespondedSurveyList(userId: String): Result<List<Survey>>
 
     suspend fun getSurvey(surveyId: String): Result<Survey>
