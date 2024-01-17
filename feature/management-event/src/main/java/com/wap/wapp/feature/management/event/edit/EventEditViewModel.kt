@@ -6,7 +6,6 @@ import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.DeleteEventUseCase
 import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
 import com.wap.wapp.core.domain.usecase.event.UpdateEventUseCase
-import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,7 +27,7 @@ class EventEditViewModel @Inject constructor(
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
     val currentEditState = _currentEditState.asStateFlow()
 
-    private val _eventEditEvent: MutableSharedFlow<EventRegistrationEvent> =
+    private val _eventEditEvent: MutableSharedFlow<EventEditEvent> =
         MutableSharedFlow()
     val eventEditEvent = _eventEditEvent.asSharedFlow()
 
@@ -59,15 +58,25 @@ class EventEditViewModel @Inject constructor(
 
     private val _eventId: MutableStateFlow<String> = MutableStateFlow("")
 
-    fun setEventTitle(eventTitle: String) { _eventTitle.value = eventTitle }
+    fun setEventTitle(eventTitle: String) {
+        _eventTitle.value = eventTitle
+    }
 
-    fun setEventContent(eventContent: String) { _eventContent.value = eventContent }
+    fun setEventContent(eventContent: String) {
+        _eventContent.value = eventContent
+    }
 
-    fun setEventLocation(eventLocation: String) { _eventLocation.value = eventLocation }
+    fun setEventLocation(eventLocation: String) {
+        _eventLocation.value = eventLocation
+    }
 
-    fun setEventStartDate(eventDate: LocalDate) { _eventStartDate.value = eventDate }
+    fun setEventStartDate(eventDate: LocalDate) {
+        _eventStartDate.value = eventDate
+    }
 
-    fun setEventStartTime(eventTime: LocalTime) { _eventStartTime.value = eventTime }
+    fun setEventStartTime(eventTime: LocalTime) {
+        _eventStartTime.value = eventTime
+    }
 
     fun setEventEndDate(eventDate: LocalDate) {
         if (!isValidEndDate(eventDate)) {
@@ -116,10 +125,18 @@ class EventEditViewModel @Inject constructor(
                 eventEndTime = _eventEndTime.value,
                 eventId = _eventId.value,
             ).onSuccess {
-                _eventEditEvent.emit(EventRegistrationEvent.Success)
+                _eventEditEvent.emit(EventEditEvent.EditSuccess)
             }.onFailure { throwable ->
-                _eventEditEvent.emit(EventRegistrationEvent.Failure(throwable))
+                _eventEditEvent.emit(EventEditEvent.Failure(throwable))
             }
+        }
+    }
+
+    fun deleteEvent() = viewModelScope.launch {
+        deleteEventUseCase(_eventId.value).onSuccess {
+            _eventEditEvent.emit(EventEditEvent.DeleteSuccess)
+        }.onFailure { throwable ->
+            _eventEditEvent.emit(EventEditEvent.Failure(throwable))
         }
     }
 
@@ -148,11 +165,13 @@ class EventEditViewModel @Inject constructor(
             .onFailure { emitValidationErrorMessage("이벤트를 불러오는데 실패하였습니다.") }
     }
 
-    private fun emitValidationErrorMessage(message: String) {
-        viewModelScope.launch {
-            _eventEditEvent.emit(
-                EventRegistrationEvent.ValidationError(message),
-            )
-        }
+    private fun emitValidationErrorMessage(message: String) =
+        viewModelScope.launch { _eventEditEvent.emit(EventEditEvent.ValidationError(message)) }
+
+    sealed class EventEditEvent {
+        data class ValidationError(val message: String) : EventEditEvent()
+        data class Failure(val error: Throwable) : EventEditEvent()
+        data object EditSuccess : EventEditEvent()
+        data object DeleteSuccess : EventEditEvent()
     }
 }

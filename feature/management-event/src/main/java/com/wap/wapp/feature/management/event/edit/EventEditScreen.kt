@@ -33,7 +33,6 @@ import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.event.R
 import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
-import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
@@ -41,7 +40,6 @@ import java.time.LocalTime
 
 @Composable
 internal fun EventEditRoute(
-    date: String,
     eventId: String,
     navigateToManagement: () -> Unit,
     viewModel: EventEditViewModel = hiltViewModel(),
@@ -72,17 +70,17 @@ internal fun EventEditRoute(
 
         viewModel.eventEditEvent.collectLatest {
             when (it) {
-                is EventRegistrationEvent.Failure -> {
+                is EventEditViewModel.EventEditEvent.Failure ->
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
-                }
 
-                is EventRegistrationEvent.ValidationError -> {
+                is EventEditViewModel.EventEditEvent.ValidationError ->
                     snackBarHostState.showSnackbar(it.message)
-                }
 
-                is EventRegistrationEvent.Success -> {
+                is EventEditViewModel.EventEditEvent.EditSuccess ->
                     navigateToManagement()
-                }
+
+                is EventEditViewModel.EventEditEvent.DeleteSuccess ->
+                    navigateToManagement()
             }
         }
     }
@@ -107,6 +105,7 @@ internal fun EventEditRoute(
         onNextButtonClicked = onNextButtonClicked,
         onEditButtonClicked = onRegisterButtonClicked,
         onBackButtonClicked = navigateToManagement,
+        deleteEvent = viewModel::deleteEvent,
     )
 }
 
@@ -132,6 +131,7 @@ internal fun EventEditScreen(
     onNextButtonClicked: () -> Unit,
     onEditButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
+    deleteEvent: () -> Unit,
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showStartTimePicker by remember { mutableStateOf(false) }

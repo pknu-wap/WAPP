@@ -11,18 +11,17 @@ import com.wap.wapp.feature.management.event.edit.EventEditRoute
 import com.wap.wapp.feature.management.event.registration.EventRegistrationRoute
 
 const val eventRegistrationNavigationRoute = "event_registration_route"
-const val eventEditNavigationRoute = "event/edit/{date}/{eventId}"
+const val eventEditNavigationRoute = "event/edit/{eventId}"
 
 fun NavController.navigateToEventRegistration(navOptions: NavOptions? = navOptions {}) {
     this.navigate(eventRegistrationNavigationRoute, navOptions)
 }
 
 fun NavController.navigateToEventEdit(
-    date: String,
     eventId: String,
     navOptions: NavOptions? = navOptions {},
 ) {
-    this.navigate("event/edit/$date/$eventId", navOptions)
+    this.navigate("event/edit/$eventId", navOptions)
 }
 
 fun NavGraphBuilder.managementEventNavGraph(
@@ -36,15 +35,10 @@ fun NavGraphBuilder.managementEventNavGraph(
 
     composable(
         route = eventEditNavigationRoute,
-        arguments = listOf(
-            navArgument("date") { type = NavType.StringType },
-            navArgument("eventId") { type = NavType.StringType },
-        ),
+        arguments = listOf(navArgument("eventId") { type = NavType.StringType }),
     ) { navBackStackEntry ->
-        val date = navBackStackEntry.arguments?.getString("date") ?: ""
         val eventId = navBackStackEntry.arguments?.getString("eventId") ?: ""
         EventEditRoute(
-            date = date,
             eventId = eventId,
             navigateToManagement = navigateToManagement,
         )
