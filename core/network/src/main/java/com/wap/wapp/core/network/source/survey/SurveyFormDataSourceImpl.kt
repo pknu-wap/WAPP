@@ -42,24 +42,23 @@ class SurveyFormDataSourceImpl @Inject constructor(
 
     override suspend fun getSurveyFormListByEventId(
         eventId: String,
-    ): Result<List<SurveyFormResponse>> =
-        runCatching {
-            val result: MutableList<SurveyFormResponse> = mutableListOf()
+    ): Result<List<SurveyFormResponse>> = runCatching {
+        val result: MutableList<SurveyFormResponse> = mutableListOf()
 
-            val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
-                .whereEqualTo("eventId", eventId)
-                .get()
-                .await()
+        val task = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+            .whereEqualTo("eventId", eventId)
+            .get()
+            .await()
 
-            for (document in task.documents) {
-                val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
-                checkNotNull(surveyFormResponse)
+        for (document in task.documents) {
+            val surveyFormResponse = document.toObject(SurveyFormResponse::class.java)
+            checkNotNull(surveyFormResponse)
 
-                result.add(surveyFormResponse)
-            }
-
-            result
+            result.add(surveyFormResponse)
         }
+
+        result
+    }
 
     override suspend fun deleteSurveyForm(surveyFormId: String): Result<Unit> = runCatching {
         firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
