@@ -112,6 +112,13 @@ class EventDataSourceImpl @Inject constructor(
             checkNotNull(document.toObject<EventResponse>())
         }
 
+    override suspend fun deleteEvent(eventId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(eventId)
+            .delete()
+            .await()
+    }
+
     override suspend fun postEvent(
         title: String,
         content: String,
