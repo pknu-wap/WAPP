@@ -154,7 +154,9 @@ internal fun EventEditScreen(
             WappSubTopBar(
                 titleRes = R.string.event_edit,
                 showLeftButton = true,
+                showRightButton = true,
                 onClickLeftButton = onBackButtonClicked,
+                onClickRightButton = {},
             )
 
             EventEditStateIndicator(

@@ -42,12 +42,8 @@ class ManagementViewModel @Inject constructor(
     fun getUserRole() {
         viewModelScope.launch {
             getUserRoleUseCase()
-                .onSuccess { userRole ->
-                   _userRole.emit(userRole)
-                }
-                .onFailure { exception ->
-                    _errorFlow.emit(exception)
-                }
+                .onSuccess { userRole -> _userRole.emit(userRole) }
+                .onFailure { exception -> _errorFlow.emit(exception) }
         }
     }
 

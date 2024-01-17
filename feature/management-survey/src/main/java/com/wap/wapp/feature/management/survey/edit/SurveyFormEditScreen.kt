@@ -61,9 +61,11 @@ internal fun SurveyFormEditScreen(
                 is SurveyFormEditViewModel.SurveyFormEditUiEvent.Success -> {
                     navigateToManagement()
                 }
+
                 is SurveyFormEditViewModel.SurveyFormEditUiEvent.Failure -> {
                     snackBarHostState.showSnackbar(surveyFormEditEvent.throwable.toSupportingText())
                 }
+
                 is SurveyFormEditViewModel.SurveyFormEditUiEvent.ValidationError -> {
                     snackBarHostState.showSnackbar(surveyFormEditEvent.message)
                 }
@@ -90,7 +92,9 @@ internal fun SurveyFormEditScreen(
                 WappSubTopBar(
                     titleRes = R.string.survey_edit,
                     showLeftButton = true,
+                    showRightButton = true,
                     onClickLeftButton = navigateToManagement,
+                    onClickRightButton = {},
                 )
 
                 SurveyFormStateIndicator(
