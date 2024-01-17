@@ -41,7 +41,7 @@ class SurveyFormDataSourceImpl @Inject constructor(
     }
 
     override suspend fun deleteSurveyForm(surveyFormId: String): Result<Unit> = runCatching {
-        val result = firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
+        firebaseFirestore.collection(SURVEY_FORM_COLLECTION)
             .document(surveyFormId)
             .delete()
             .await()

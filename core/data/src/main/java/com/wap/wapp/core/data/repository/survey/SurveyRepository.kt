@@ -11,6 +11,8 @@ interface SurveyRepository {
 
     suspend fun getSurvey(surveyId: String): Result<Survey>
 
+    suspend fun deleteSurvey(surveyId: String): Result<Survey>
+
     suspend fun postSurvey(
         surveyFormId: String,
         eventId: String,

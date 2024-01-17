@@ -58,6 +58,13 @@ class SurveyDataSourceImpl @Inject constructor(
         checkNotNull(surveyResponse)
     }
 
+    override suspend fun deleteSurvey(surveyId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(SURVEY_COLLECTION)
+            .document(surveyId)
+            .delete()
+            .await()
+    }
+
     override suspend fun postSurvey(
         surveyFormId: String,
         eventId: String,
