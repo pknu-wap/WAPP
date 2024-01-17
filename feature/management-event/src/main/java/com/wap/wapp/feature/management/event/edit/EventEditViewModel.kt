@@ -3,6 +3,7 @@ package com.wap.wapp.feature.management.event.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.event.DeleteEventUseCase
 import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
 import com.wap.wapp.core.domain.usecase.event.UpdateEventUseCase
 import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class EventEditViewModel @Inject constructor(
     private val getEventUseCase: GetEventUseCase,
     private val updateEventUseCase: UpdateEventUseCase,
+    private val deleteEventUseCase: DeleteEventUseCase,
 ) : ViewModel() {
     private val _currentEditState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
@@ -132,7 +134,7 @@ class EventEditViewModel @Inject constructor(
 
     private fun isValidLocation(): Boolean = _eventLocation.value.isNotEmpty()
 
-    fun getEvent(date: String, eventId: String) = viewModelScope.launch {
+    fun getEvent(eventId: String) = viewModelScope.launch {
         getEventUseCase(eventId).onSuccess {
             _eventContent.value = it.content
             _eventTitle.value = it.title

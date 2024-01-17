@@ -68,7 +68,7 @@ internal fun EventEditRoute(
     val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
-        viewModel.getEvent(date = date, eventId = eventId)
+        viewModel.getEvent(eventId = eventId)
 
         viewModel.eventEditEvent.collectLatest {
             when (it) {
