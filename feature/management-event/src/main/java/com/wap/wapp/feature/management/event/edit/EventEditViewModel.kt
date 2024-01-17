@@ -58,25 +58,15 @@ class EventEditViewModel @Inject constructor(
 
     private val _eventId: MutableStateFlow<String> = MutableStateFlow("")
 
-    fun setEventTitle(eventTitle: String) {
-        _eventTitle.value = eventTitle
-    }
+    fun setEventTitle(eventTitle: String) { _eventTitle.value = eventTitle }
 
-    fun setEventContent(eventContent: String) {
-        _eventContent.value = eventContent
-    }
+    fun setEventContent(eventContent: String) { _eventContent.value = eventContent }
 
-    fun setEventLocation(eventLocation: String) {
-        _eventLocation.value = eventLocation
-    }
+    fun setEventLocation(eventLocation: String) { _eventLocation.value = eventLocation }
 
-    fun setEventStartDate(eventDate: LocalDate) {
-        _eventStartDate.value = eventDate
-    }
+    fun setEventStartDate(eventDate: LocalDate) { _eventStartDate.value = eventDate }
 
-    fun setEventStartTime(eventTime: LocalTime) {
-        _eventStartTime.value = eventTime
-    }
+    fun setEventStartTime(eventTime: LocalTime) { _eventStartTime.value = eventTime }
 
     fun setEventEndDate(eventDate: LocalDate) {
         if (!isValidEndDate(eventDate)) {

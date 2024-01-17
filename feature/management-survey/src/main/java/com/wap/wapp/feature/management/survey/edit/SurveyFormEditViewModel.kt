@@ -165,9 +165,7 @@ class SurveyFormEditViewModel @Inject constructor(
         return true
     }
 
-    fun setSurveyFormState(nextState: SurveyFormState) {
-        _currentSurveyFormState.value = nextState
-    }
+    fun setSurveyFormState(nextState: SurveyFormState) { _currentSurveyFormState.value = nextState }
 
     fun addSurveyQuestion() {
         _surveyQuestionList.value.add(
@@ -179,37 +177,23 @@ class SurveyFormEditViewModel @Inject constructor(
         clearSurveyQuestionState()
     }
 
-    private fun setSurveyFormId(surveyFormId: String) {
-        this.surveyFormId.value = surveyFormId
-    }
+    private fun setSurveyFormId(surveyFormId: String) { this.surveyFormId.value = surveyFormId }
 
-    fun setSurveyEventSelection(event: Event) {
-        _surveyEventSelection.value = event
-    }
+    fun setSurveyEventSelection(event: Event) { _surveyEventSelection.value = event }
 
-    fun setSurveyTitle(title: String) {
-        _surveyTitle.value = title
-    }
+    fun setSurveyTitle(title: String) { _surveyTitle.value = title }
 
-    fun setSurveyContent(content: String) {
-        _surveyContent.value = content
-    }
+    fun setSurveyContent(content: String) { _surveyContent.value = content }
 
-    fun setSurveyQuestion(question: String) {
-        _surveyQuestion.value = question
-    }
+    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
 
     fun setSurveyQuestionType(questionType: QuestionType) {
         _surveyQuestionType.value = questionType
     }
 
-    fun setSurveyTimeDeadline(time: LocalTime) {
-        _surveyTimeDeadline.value = time
-    }
+    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
 
-    fun setSurveyDateDeadline(date: LocalDate) {
-        _surveyDateDeadline.value = date
-    }
+    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
 
     private fun setSurveyQuestionList(surveyQuestionList: MutableList<SurveyQuestion>) {
         // 마지막 질문은 UI에 노출
@@ -220,9 +204,7 @@ class SurveyFormEditViewModel @Inject constructor(
         _surveyQuestionList.value.addAll(surveyQuestionList)
     }
 
-    private fun clearSurveyQuestionState() {
-        _surveyQuestion.value = ""
-    }
+    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
 
     private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
 
