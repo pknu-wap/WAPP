@@ -157,7 +157,7 @@ internal fun EventEditScreen(
                 showLeftButton = true,
                 showRightButton = true,
                 onClickLeftButton = onBackButtonClicked,
-                onClickRightButton = {},
+                onClickRightButton = deleteEvent,
             )
 
             EventEditStateIndicator(
