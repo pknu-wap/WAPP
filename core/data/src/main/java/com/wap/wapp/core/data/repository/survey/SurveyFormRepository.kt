@@ -9,6 +9,8 @@ interface SurveyFormRepository {
 
     suspend fun getSurveyFormList(): Result<List<SurveyForm>>
 
+    suspend fun getSurveyFormList(eventId: String): Result<List<SurveyForm>>
+
     suspend fun deleteSurveyForm(surveyFormId: String): Result<Unit>
 
     suspend fun postSurveyForm(

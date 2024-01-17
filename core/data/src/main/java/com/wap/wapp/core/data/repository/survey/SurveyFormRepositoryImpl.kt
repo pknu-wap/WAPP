@@ -26,6 +26,13 @@ class SurveyFormRepositoryImpl @Inject constructor(
     override suspend fun deleteSurveyForm(surveyFormId: String): Result<Unit> =
         surveyFormDataSource.deleteSurveyForm(surveyFormId)
 
+    override suspend fun getSurveyFormList(eventId: String): Result<List<SurveyForm>> =
+        surveyFormDataSource.getSurveyFormList(eventId).mapCatching { surveyFormResponseList ->
+            surveyFormResponseList.map { surveyFormResponse ->
+                surveyFormResponse.toDomain()
+            }
+        }
+
     override suspend fun postSurveyForm(
         eventId: String,
         title: String,
