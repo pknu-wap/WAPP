@@ -32,6 +32,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.event.R
+import com.wap.wapp.feature.management.event.edit.EventEditViewModel.EventEditEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import kotlinx.coroutines.flow.collectLatest
@@ -70,16 +71,16 @@ internal fun EventEditRoute(
 
         viewModel.eventEditEvent.collectLatest {
             when (it) {
-                is EventEditViewModel.EventEditEvent.Failure ->
+                is EventEditEvent.Failure ->
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
 
-                is EventEditViewModel.EventEditEvent.ValidationError ->
+                is EventEditEvent.ValidationError ->
                     snackBarHostState.showSnackbar(it.message)
 
-                is EventEditViewModel.EventEditEvent.EditSuccess ->
+                is EventEditEvent.EditSuccess ->
                     navigateToManagement()
 
-                is EventEditViewModel.EventEditEvent.DeleteSuccess ->
+                is EventEditEvent.DeleteSuccess ->
                     navigateToManagement()
             }
         }
