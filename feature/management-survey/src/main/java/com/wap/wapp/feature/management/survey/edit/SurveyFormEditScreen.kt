@@ -58,17 +58,17 @@ internal fun SurveyFormEditScreen(
     LaunchedEffect(true) {
         viewModel.surveyFormEditUiEvent.collectLatest { surveyFormEditEvent ->
             when (surveyFormEditEvent) {
-                is SurveyFormEditViewModel.SurveyFormEditUiEvent.Success -> {
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.EditSuccess ->
                     navigateToManagement()
-                }
 
-                is SurveyFormEditViewModel.SurveyFormEditUiEvent.Failure -> {
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.DeleteSuccess ->
+                    navigateToManagement()
+
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.Failure ->
                     snackBarHostState.showSnackbar(surveyFormEditEvent.throwable.toSupportingText())
-                }
 
-                is SurveyFormEditViewModel.SurveyFormEditUiEvent.ValidationError -> {
+                is SurveyFormEditViewModel.SurveyFormEditUiEvent.ValidationError ->
                     snackBarHostState.showSnackbar(surveyFormEditEvent.message)
-                }
             }
         }
     }
@@ -94,7 +94,7 @@ internal fun SurveyFormEditScreen(
                     showLeftButton = true,
                     showRightButton = true,
                     onClickLeftButton = navigateToManagement,
-                    onClickRightButton = {},
+                    onClickRightButton = viewModel::deleteSurveyForm,
                 )
 
                 SurveyFormStateIndicator(
