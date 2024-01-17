@@ -8,5 +8,6 @@ class GetSurveyFormListUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() = surveyFormRepository.getSurveyFormList()
 
-    suspend operator fun invoke(eventId: String) = surveyFormRepository.getSurveyFormList(eventId)
+    suspend operator fun invoke(eventId: String) =
+        surveyFormRepository.getSurveyFormListByEventId(eventId)
 }

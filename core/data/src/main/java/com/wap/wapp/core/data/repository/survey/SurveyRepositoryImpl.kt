@@ -28,8 +28,24 @@ class SurveyRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getSurveyList(eventId: String): Result<List<Survey>> =
-        surveyDataSource.getSurveyList(eventId).mapCatching { surveyList ->
+    override suspend fun getSurveyListByEventId(eventId: String): Result<List<Survey>> =
+        surveyDataSource.getSurveyListByEventId(eventId).mapCatching { surveyList ->
+            surveyList.map { surveyResponse ->
+                userDataSource.getUserProfile(userId = surveyResponse.userId)
+                    .mapCatching { userProfileResponse ->
+                        val userName = userProfileResponse.toDomain().userName
+
+                        noticeNameResponse.mapCatching { noticeNameResponse ->
+                            val eventName = noticeNameResponse.toDomain()
+
+                            surveyResponse.toDomain(userName = userName, eventName = eventName)
+                        }.getOrThrow()
+                    }.getOrThrow()
+            }
+        }
+
+    override suspend fun getSurveyListBySurveyFormId(surveyFormId: String): Result<List<Survey>> =
+        surveyDataSource.getSurveyListByEventId(surveyFormId).mapCatching { surveyList ->
             surveyList.map { surveyResponse ->
                 userDataSource.getUserProfile(userId = surveyResponse.userId)
                     .mapCatching { userProfileResponse ->

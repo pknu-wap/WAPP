@@ -12,12 +12,12 @@ class DeleteEventUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(eventId: String): Result<Unit> = runCatching {
         eventRepository.deleteEvent(eventId)
-        surveyFormRepository.getSurveyFormList(eventId).mapCatching { surveyFormList ->
+        surveyFormRepository.getSurveyFormListByEventId(eventId).mapCatching { surveyFormList ->
             surveyFormList.map { surveyForm ->
                 surveyFormRepository.deleteSurveyForm(surveyForm.surveyFormId)
             }
         }
-        surveyRepository.getSurveyList(eventId).mapCatching { surveyList ->
+        surveyRepository.getSurveyListByEventId(eventId).mapCatching { surveyList ->
             surveyList.map { survey ->
                 surveyRepository.deleteSurvey(survey.surveyId)
             }

@@ -40,7 +40,9 @@ class SurveyFormDataSourceImpl @Inject constructor(
         result
     }
 
-    override suspend fun getSurveyFormList(eventId: String): Result<List<SurveyFormResponse>> =
+    override suspend fun getSurveyFormListByEventId(
+        eventId: String,
+    ): Result<List<SurveyFormResponse>> =
         runCatching {
             val result: MutableList<SurveyFormResponse> = mutableListOf()
 

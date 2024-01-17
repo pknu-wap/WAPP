@@ -17,7 +17,7 @@ interface SurveyFormDataSource {
 
     suspend fun getSurveyFormList(): Result<List<SurveyFormResponse>>
 
-    suspend fun getSurveyFormList(eventId: String): Result<List<SurveyFormResponse>>
+    suspend fun getSurveyFormListByEventId(eventId: String): Result<List<SurveyFormResponse>>
 
     suspend fun deleteSurveyForm(surveyFormId: String): Result<Unit>
 
