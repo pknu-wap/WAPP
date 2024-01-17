@@ -58,7 +58,7 @@ class SurveyRepositoryImpl @Inject constructor(
                 }.getOrThrow()
         }
 
-    override suspend fun deleteSurvey(surveyId: String): Result<Survey> =
+    override suspend fun deleteSurvey(surveyId: String): Result<Unit> =
         surveyDataSource.deleteSurvey(surveyId)
 
     override suspend fun postSurvey(
