@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun ManagementRoute(
-    navigateToEventEdit: (String, String) -> Unit,
+    navigateToEventEdit: (String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
@@ -88,7 +88,7 @@ internal fun ManagementScreen(
     snackBarHostState: SnackbarHostState,
     surveyFormsState: ManagementViewModel.SurveyFormsState,
     eventsState: ManagementViewModel.EventsState,
-    navigateToEventEdit: (String, String) -> Unit,
+    navigateToEventEdit: (String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
