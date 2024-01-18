@@ -42,7 +42,7 @@ internal fun WappAttendacneRow(
             )
         }
         Text(
-            text = event.startDateTime.format(DateUtil.HHmmFormatter),
+            text = event.startDateTime.format(DateUtil.MMddFormatter),
             style = WappTheme.typography.labelRegular,
             color = WappTheme.colors.gray95,
             modifier = Modifier.padding(start = 10.dp),

@@ -36,11 +36,7 @@ internal fun WappProfileCard(
             .height(130.dp)
             .padding(horizontal = 10.dp),
     ) {
-        Box(
-            modifier = Modifier.background(
-                brush = brush,
-            ),
-        ) {
+        Box(modifier = Modifier.background(brush = brush)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.CenterStart),
