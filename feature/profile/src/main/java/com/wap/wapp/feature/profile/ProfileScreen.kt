@@ -132,6 +132,7 @@ internal fun ProfileScreen(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
+                                attendanceCardBoardColor = WappTheme.colors.blue4FF,
                             )
                         }
 
@@ -154,6 +155,7 @@ internal fun ProfileScreen(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
+                                attendanceCardBoardColor = WappTheme.colors.yellow34,
                             )
                         }
 
