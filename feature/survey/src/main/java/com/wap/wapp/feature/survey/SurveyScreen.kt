@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappMainTopBar
+import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
 import kotlinx.coroutines.flow.collectLatest
@@ -88,7 +88,7 @@ internal fun SurveyScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            WappMainTopBar(
+            WappLeftMainTopBar(
                 titleRes = R.string.survey,
                 contentRes = R.string.survey_content,
             )

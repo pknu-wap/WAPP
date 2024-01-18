@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
-import com.wap.designsystem.component.WappMainTopBar
+import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
@@ -104,7 +104,7 @@ internal fun ProfileScreen(
                 }
 
                 is UserRoleState.Success -> {
-                    WappMainTopBar(
+                    WappLeftMainTopBar(
                         titleRes = string.profile,
                         contentRes = R.string.profile_content,
                         settingButtonDescriptionRes = R.string.profile_setting_description,

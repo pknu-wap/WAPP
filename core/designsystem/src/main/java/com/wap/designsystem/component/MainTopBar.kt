@@ -23,7 +23,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designsystem.R
 
 @Composable
-fun WappMainTopBar(
+fun WappLeftMainTopBar(
     @StringRes titleRes: Int,
     @StringRes contentRes: Int,
     showSettingButton: Boolean = false,
@@ -66,14 +66,58 @@ fun WappMainTopBar(
     }
 }
 
-@Preview("without Button TopBar")
 @Composable
-fun WappMainTopBarWithoutButton() {
+fun WappRightMainTopBar(
+    @StringRes titleRes: Int,
+    @StringRes contentRes: Int,
+    showLeftButton: Boolean = false,
+    onClickLeftButton: () -> Unit = {},
+    @StringRes settingButtonDescriptionRes: Int = R.string.setting_button,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.End,
+        modifier = modifier
+            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+            .fillMaxWidth()
+            .wrapContentHeight(),
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(id = titleRes),
+                color = WappTheme.colors.white,
+                style = WappTheme.typography.titleBold.copy(fontSize = 24.sp),
+                modifier = Modifier.align(Alignment.CenterEnd),
+            )
+
+            if (showLeftButton) {
+                Image(
+                    painter =
+                    painterResource(id = R.drawable.ic_back),
+                    contentDescription = stringResource(id = settingButtonDescriptionRes),
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .clickable { onClickLeftButton() },
+                )
+            }
+        }
+        Text(
+            text = stringResource(id = contentRes),
+            color = WappTheme.colors.white,
+            style = WappTheme.typography.contentRegular,
+        )
+    }
+}
+
+@Preview("without Button Left TopBar")
+@Composable
+fun WappLeftMainTopBarWithoutButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappMainTopBar(
+            WappLeftMainTopBar(
                 titleRes = R.string.notice,
                 contentRes = R.string.notice,
             )
@@ -81,17 +125,48 @@ fun WappMainTopBarWithoutButton() {
     }
 }
 
-@Preview("with Button TopBar")
+@Preview("with Button Left TopBar")
 @Composable
-fun WappMainTopBarWithButton() {
+fun WappLeftMainTopBarWithButton() {
     WappTheme {
         Surface(
             color = WappTheme.colors.backgroundBlack,
         ) {
-            WappMainTopBar(
+            WappLeftMainTopBar(
                 titleRes = R.string.notice,
                 contentRes = R.string.notice,
                 showSettingButton = true,
+            )
+        }
+    }
+}
+
+@Preview("without Button Right TopBar")
+@Composable
+fun WappRightMainTopBarWithoutButton() {
+    WappTheme {
+        Surface(
+            color = WappTheme.colors.backgroundBlack,
+        ) {
+            WappRightMainTopBar(
+                titleRes = R.string.notice,
+                contentRes = R.string.notice,
+            )
+        }
+    }
+}
+
+@Preview("with Button Right TopBar")
+@Composable
+fun WappRightMainTopBarWithButton() {
+    WappTheme {
+        Surface(
+            color = WappTheme.colors.backgroundBlack,
+        ) {
+            WappRightMainTopBar(
+                titleRes = R.string.notice,
+                contentRes = R.string.notice,
+                showLeftButton = true,
             )
         }
     }
