@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -93,44 +94,51 @@ private fun ProfileAttendanceCard(
             WappCard(
                 modifier = cardModifier,
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 10.dp),
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = stringResource(id = R.string.wap_attendance),
+                                style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                            )
+
+                            Image(
+                                painter = painterResource(id = drawable.ic_check),
+                                contentDescription = "",
+                                modifier = Modifier.padding(start = 10.dp),
+                            )
+                        }
                         Text(
-                            text = stringResource(id = R.string.wap_attendance),
-                            style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                            text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
+                            style = WappTheme.typography.contentRegular,
                             color = WappTheme.colors.white,
+                            modifier = Modifier.padding(top = 20.dp),
                         )
 
-                        Image(
-                            painter = painterResource(id = drawable.ic_check),
-                            contentDescription = "",
-                            modifier = Modifier.padding(start = 10.dp),
-                        )
+                        if (todayEventsState.events.isEmpty()) {
+                            Text(
+                                text = stringResource(id = R.string.no_event_today),
+                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                                modifier = Modifier.padding(top = 5.dp),
+                            )
+                        } else {
+                            Text(
+                                text = generateTodayEventString(events = todayEventsState.events),
+                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                                modifier = Modifier.padding(top = 5.dp),
+                            )
+                        }
                     }
-                    Text(
-                        text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
-                        style = WappTheme.typography.contentRegular,
-                        color = WappTheme.colors.white,
-                        modifier = Modifier.padding(top = 20.dp),
-                    )
-
-                    if (todayEventsState.events.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.no_event_today),
-                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                            color = WappTheme.colors.white,
-                            modifier = Modifier.padding(top = 5.dp),
-                        )
-                    } else {
-                        Text(
-                            text = generateTodayEventString(events = todayEventsState.events),
-                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                            color = WappTheme.colors.white,
-                            modifier = Modifier.padding(top = 5.dp),
+                    if (todayEventsState.events.isNotEmpty()) {
+                        Image(
+                            painter = painterResource(id = drawable.ic_forward),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 12.dp),
                         )
                     }
                 }
