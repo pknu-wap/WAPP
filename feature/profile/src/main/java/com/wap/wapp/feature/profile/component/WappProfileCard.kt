@@ -33,7 +33,7 @@ internal fun WappProfileCard(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(130.dp)
             .padding(horizontal = 10.dp),
     ) {
         Box(
