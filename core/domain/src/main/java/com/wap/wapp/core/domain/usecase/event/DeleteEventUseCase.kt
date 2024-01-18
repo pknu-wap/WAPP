@@ -13,12 +13,12 @@ class DeleteEventUseCase @Inject constructor(
     // 일정을 삭제합니다. 추가로 이와 관련된 설문 폼, 작성된 설문들을 제거합니다.
     suspend operator fun invoke(eventId: String): Result<Unit> = runCatching {
         eventRepository.deleteEvent(eventId)
-        surveyFormRepository.getSurveyFormListByEventId(eventId).mapCatching { surveyFormList ->
+        surveyFormRepository.getSurveyFormListByEventId(eventId).map { surveyFormList ->
             surveyFormList.map { surveyForm ->
                 surveyFormRepository.deleteSurveyForm(surveyForm.surveyFormId)
             }
         }
-        surveyRepository.getSurveyListByEventId(eventId).mapCatching { surveyList ->
+        surveyRepository.getSurveyListByEventId(eventId).map { surveyList ->
             surveyList.map { survey ->
                 surveyRepository.deleteSurvey(survey.surveyId)
             }
