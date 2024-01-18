@@ -73,8 +73,8 @@ internal fun WappProfileCard(
                 painter = painterResource(id = catImage),
                 contentDescription = null,
                 modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp, top = 25.dp),
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 10.dp, bottom = 5.dp),
             )
         }
     }
