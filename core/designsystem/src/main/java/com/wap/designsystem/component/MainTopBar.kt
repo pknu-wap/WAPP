@@ -70,9 +70,9 @@ fun WappLeftMainTopBar(
 fun WappRightMainTopBar(
     @StringRes titleRes: Int,
     @StringRes contentRes: Int,
-    showLeftButton: Boolean = false,
-    onClickLeftButton: () -> Unit = {},
-    @StringRes settingButtonDescriptionRes: Int = R.string.setting_button,
+    showBackButton: Boolean = false,
+    onClickBackButton: () -> Unit = {},
+    @StringRes settingButtonDescriptionRes: Int = R.string.back_button,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -91,14 +91,14 @@ fun WappRightMainTopBar(
                 modifier = Modifier.align(Alignment.CenterEnd),
             )
 
-            if (showLeftButton) {
+            if (showBackButton) {
                 Image(
                     painter =
                     painterResource(id = R.drawable.ic_back),
                     contentDescription = stringResource(id = settingButtonDescriptionRes),
                     modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .clickable { onClickLeftButton() },
+                        .clickable { onClickBackButton() },
                 )
             }
         }
@@ -166,7 +166,7 @@ fun WappRightMainTopBarWithButton() {
             WappRightMainTopBar(
                 titleRes = R.string.notice,
                 contentRes = R.string.notice,
-                showLeftButton = true,
+                showBackButton = true,
             )
         }
     }
