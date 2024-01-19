@@ -8,6 +8,7 @@ import com.wap.wapp.core.commmon.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
+import com.wap.wapp.core.model.attendancestatus.AttendanceStatus
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -98,6 +99,11 @@ class AttendanceViewModel @Inject constructor(
     sealed class UserRoleState {
         data object Loading : UserRoleState()
         data class Success(val userRole: UserRole) : UserRoleState()
+    }
+
+    sealed class AttendanceStatusState {
+        data object Loading : AttendanceStatusState()
+        data class Success(val attendanceStatus: List<AttendanceStatus>) : AttendanceStatusState()
     }
 
     sealed class AttendanceEvent {
