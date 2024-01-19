@@ -1,5 +1,7 @@
 package com.wap.wapp.core.data.di
 
+import com.wap.wapp.core.data.repository.attendance.AttendanceRepository
+import com.wap.wapp.core.data.repository.attendance.AttendanceRepositoryImpl
 import com.wap.wapp.core.data.repository.auth.AuthRepository
 import com.wap.wapp.core.data.repository.auth.AuthRepositoryImpl
 import com.wap.wapp.core.data.repository.event.EventRepository
@@ -56,4 +58,10 @@ abstract class DataModule {
     abstract fun bindsEventRepository(
         eventRepositoryImpl: EventRepositoryImpl,
     ): EventRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsAttendanceRepository(
+        attendanceRepositoryImpl: AttendanceRepositoryImpl,
+    ): AttendanceRepository
 }
