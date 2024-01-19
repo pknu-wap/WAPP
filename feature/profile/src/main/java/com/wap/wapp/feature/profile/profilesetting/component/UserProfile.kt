@@ -45,12 +45,14 @@ internal fun UserProfile(
     recentEventsState: ProfileViewModel.EventsState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     attendanceCardBoardColor: Color,
+    navigateToAttendance: () -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         ProfileAttendanceCard(
             todayEventsState = todayEventsState,
             attendanceCardBoardColor = attendanceCardBoardColor,
             modifier = Modifier.padding(top = 20.dp),
+            navigateToAttendance = navigateToAttendance,
         )
 
         MyAttendanceStatus(
@@ -70,6 +72,7 @@ private fun ProfileAttendanceCard(
     todayEventsState: ProfileViewModel.EventsState,
     attendanceCardBoardColor: Color,
     modifier: Modifier,
+    navigateToAttendance: () -> Unit,
 ) {
     when (todayEventsState) {
         is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
@@ -83,7 +86,7 @@ private fun ProfileAttendanceCard(
                     )
                     .fillMaxWidth()
                     .height(130.dp)
-                    .clickable { }
+                    .clickable { navigateToAttendance() }
             } else {
                 modifier
                     .fillMaxWidth()

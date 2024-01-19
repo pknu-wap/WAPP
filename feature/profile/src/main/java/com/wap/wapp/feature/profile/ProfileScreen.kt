@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToProfileSetting: (String) -> Unit,
+    navigateToAttendance: (String) -> Unit,
     navigateToSignIn: () -> Unit,
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
@@ -64,6 +65,7 @@ internal fun ProfileRoute(
         userRespondedSurveysState = userRespondedSurveysState,
         snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
+        navigateToAttendance = { navigateToAttendance(viewModel.userProfile.value.userId) },
         navigateToSignIn = navigateToSignIn,
     )
 }
@@ -77,6 +79,7 @@ internal fun ProfileScreen(
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: (String) -> Unit,
+    navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -133,6 +136,7 @@ internal fun ProfileScreen(
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
                                 attendanceCardBoardColor = WappTheme.colors.blue4FF,
+                                navigateToAttendance = navigateToAttendance,
                             )
                         }
 
@@ -156,6 +160,7 @@ internal fun ProfileScreen(
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
                                 attendanceCardBoardColor = WappTheme.colors.yellow34,
+                                navigateToAttendance = navigateToAttendance,
                             )
                         }
 
