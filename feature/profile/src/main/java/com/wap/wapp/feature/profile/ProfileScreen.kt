@@ -75,7 +75,7 @@ internal fun ProfileScreen(
     userRoleState: UserRoleState,
     userProfile: UserProfile,
     todayEventsState: ProfileViewModel.EventsState,
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: (String) -> Unit,

@@ -14,11 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.designresource.R
-import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.feature.profile.model.EventAttendanceStatus
 
 @Composable
 internal fun WappAttendacneRow(
-    event: Event,
+    event: EventAttendanceStatus,
     isAttendance: Boolean,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,

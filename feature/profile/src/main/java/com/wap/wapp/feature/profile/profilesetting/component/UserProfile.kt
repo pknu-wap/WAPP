@@ -42,7 +42,7 @@ import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 @Composable
 internal fun UserProfile(
     todayEventsState: ProfileViewModel.EventsState,
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     attendanceCardBoardColor: Color,
     navigateToAttendance: () -> Unit,
@@ -151,7 +151,7 @@ private fun ProfileAttendanceCard(
 
 @Composable
 private fun MyAttendanceStatus(
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -169,13 +169,13 @@ private fun MyAttendanceStatus(
                 .padding(top = 10.dp),
         ) {
             when (recentEventsState) {
-                is ProfileViewModel.EventsState.Loading -> CircleLoader(
+                is ProfileViewModel.EventAttendanceStatusState.Loading -> CircleLoader(
                     modifier = Modifier
                         .padding(vertical = 10.dp)
                         .height(130.dp),
                 )
 
-                is ProfileViewModel.EventsState.Success -> {
+                is ProfileViewModel.EventAttendanceStatusState.Success -> {
                     if (recentEventsState.events.isEmpty()) {
                         NothingToShow(title = R.string.no_events_recently)
                         return@WappCard
