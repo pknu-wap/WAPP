@@ -6,4 +6,6 @@
     <string name="management_attendance_content">오늘 있을 일정에 대한 출석코드를 설정해요!</string>
     <string name="no_events_to_manage_attendance">지금 출석을 시작할 수 있는 일정이 없어요!</string>
     <string name="go_to_management_attendance_code">출석 코드 관리 하러가기</string>
+    <string name="complete">완료</string>
+    <string name="cancel">취소</string>
 </resources>
