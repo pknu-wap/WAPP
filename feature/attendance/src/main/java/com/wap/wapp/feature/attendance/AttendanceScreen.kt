@@ -41,7 +41,7 @@ import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Failure
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Success
-import com.wap.wapp.feature.attendance.AttendanceViewModel.EventsState
+import com.wap.wapp.feature.attendance.AttendanceViewModel.EventAttendanceStatusState
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
 import com.wap.wapp.feature.attendance.component.AttendanceDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -56,7 +56,7 @@ internal fun AttendanceRoute(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
-    val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val eventsState by viewModel.todayEventsAttendanceStatus.collectAsStateWithLifecycle()
     val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
     val selectedEvent by viewModel.selectedEvent.collectAsStateWithLifecycle()
 
@@ -84,7 +84,7 @@ internal fun AttendanceRoute(
     AttendanceScreen(
         snackBarHostState = snackBarHostState,
         userRoleState = userRoleState,
-        eventsState = eventsState,
+        eventAttendanceStatusState = eventsState,
         attendanceCode = attendanceCode,
         selectedEvent = selectedEvent,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
@@ -99,7 +99,7 @@ internal fun AttendanceRoute(
 internal fun AttendanceScreen(
     snackBarHostState: SnackbarHostState,
     userRoleState: UserRoleState,
-    eventsState: EventsState,
+    eventAttendanceStatusState: EventAttendanceStatusState,
     attendanceCode: String,
     selectedEvent: Event,
     onAttendanceCodeChanged: (String) -> Unit,
@@ -136,19 +136,19 @@ internal fun AttendanceScreen(
                 when (userRoleState) {
                     is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
                     is UserRoleState.Success -> {
-                        when (eventsState) {
-                            is EventsState.Loading -> CircleLoader(
+                        when (eventAttendanceStatusState) {
+                            is EventAttendanceStatusState.Loading -> CircleLoader(
                                 modifier = Modifier.fillMaxSize(),
                             )
 
-                            is EventsState.Success -> LazyColumn(
+                            is EventAttendanceStatusState.Success -> LazyColumn(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 15.dp)
                                     .weight(1f),
                             ) {
                                 items(
-                                    items = eventsState.events,
+                                    items = eventAttendanceStatusState.events,
                                     key = { event -> event.eventId },
                                 ) { event ->
                                     AttendanceItemCard(

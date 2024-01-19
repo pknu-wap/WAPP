@@ -6,12 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
+import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
-import com.wap.wapp.core.model.attendancestatus.AttendanceStatus
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
+import com.wap.wapp.feature.attendance.model.EventAttendanceStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
     private val getDateEventListUseCase: GetDateEventListUseCase,
+    private val getEventAttendanceStatusUseCase: GetEventAttendanceStatusUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
 ) : ViewModel() {
@@ -37,8 +40,10 @@ class AttendanceViewModel @Inject constructor(
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
 
-    private val _todayEventList = MutableStateFlow<EventsState>(EventsState.Loading)
-    val todayEvents: StateFlow<EventsState> = _todayEventList.asStateFlow()
+    private val _todayEventsAttendanceStatus =
+        MutableStateFlow<EventAttendanceStatusState>(EventAttendanceStatusState.Loading)
+    val todayEventsAttendanceStatus: StateFlow<EventAttendanceStatusState> =
+        _todayEventsAttendanceStatus.asStateFlow()
 
     private val _attendanceCode = MutableStateFlow<String>("")
     val attendanceCode: StateFlow<String> = _attendanceCode.asStateFlow()
@@ -47,13 +52,19 @@ class AttendanceViewModel @Inject constructor(
     val selectedEvent: StateFlow<Event> = _selectedEvent.asStateFlow()
 
     init {
-        getTodayDateEvents()
         getUserRole()
     }
 
-    private fun getTodayDateEvents() = viewModelScope.launch {
+    private fun getTodayEventsAttendanceStatus(userId: String) = viewModelScope.launch {
         getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-            _todayEventList.value = EventsState.Success(eventList)
+            val eventAttendanceStatusList = eventList.map { event ->
+                async {
+                    getEventAttendanceStatusUseCase(
+                        eventId = event.eventId,
+                        userId = userId,
+                    )
+                }.await()
+            }
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
@@ -91,19 +102,14 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    sealed class EventsState {
-        data object Loading : EventsState()
-        data class Success(val events: List<Event>) : EventsState()
+    sealed class EventAttendanceStatusState {
+        data object Loading : EventAttendanceStatusState()
+        data class Success(val events: List<EventAttendanceStatus>) : EventAttendanceStatusState()
     }
 
     sealed class UserRoleState {
         data object Loading : UserRoleState()
         data class Success(val userRole: UserRole) : UserRoleState()
-    }
-
-    sealed class AttendanceStatusState {
-        data object Loading : AttendanceStatusState()
-        data class Success(val attendanceStatus: List<AttendanceStatus>) : AttendanceStatusState()
     }
 
     sealed class AttendanceEvent {
