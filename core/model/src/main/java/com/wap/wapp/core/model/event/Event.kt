@@ -14,7 +14,20 @@ data class Event(
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
 ) {
-    fun calculateStart(): String {
+    fun displayTime(): String {
+        val currentDateTime = generateNowDateTime()
+        if (startDateTime >= currentDateTime) {
+            return calculateStart()
+        }
+
+        if (endDateTime >= currentDateTime) {
+            return calculateDeadline()
+        }
+
+        return "마감"
+    }
+
+    private fun calculateStart(): String {
         val currentDateTime = generateNowDateTime()
         val duration = Duration.between(currentDateTime, startDateTime)
 
@@ -28,10 +41,10 @@ data class Event(
             return leftHours + "시간 후 시작"
         }
 
-        return endDateTime.format(yyyyMMddFormatter) + " 마감"
+        return endDateTime.format(yyyyMMddFormatter) + " 시작"
     }
 
-    fun calculateDeadline(): String {
+    private fun calculateDeadline(): String {
         val zoneId = ZoneId.of("Asia/Seoul")
         val currentDateTime = LocalDateTime.now(zoneId)
         val duration = Duration.between(currentDateTime, endDateTime)
@@ -47,5 +60,10 @@ data class Event(
         }
 
         return endDateTime.format(yyyyMMddFormatter) + " 마감"
+    }
+
+    fun isAfterDeadline(): Boolean {
+        val currentDateTime = generateNowDateTime()
+        return endDateTime.isAfter(currentDateTime)
     }
 }
