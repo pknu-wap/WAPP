@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDateTime
-import com.wap.wapp.core.domain.usecase.attendance.IsVerifyAttendanceCodeUseCase
+import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class AttendanceViewModel @Inject constructor(
     private val getDateEventListUseCase: GetDateEventListUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
-    private val isVerifyAttendanceCodeUseCase: IsVerifyAttendanceCodeUseCase,
+    private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
@@ -73,7 +73,7 @@ class AttendanceViewModel @Inject constructor(
     }
 
     fun verifyAttendanceCode() = viewModelScope.launch {
-        isVerifyAttendanceCodeUseCase(
+        verifyAttendanceCodeUseCase(
             eventId = _selectedEvent.value.eventId,
             attendanceCode = _attendanceCode.value,
         ).onSuccess { result ->
