@@ -101,7 +101,7 @@ fun WappNavHost(
                 navController.navigateToSignIn(navOptions { popUpTo(profileNavigationRoute) })
             },
         )
-        attendanceScreen()
+        attendanceScreen(navigateToProfile = navController::navigateToProfile)
         profileSettingScreen(
             navigateToSignIn = {
                 navController.navigateToSignIn(

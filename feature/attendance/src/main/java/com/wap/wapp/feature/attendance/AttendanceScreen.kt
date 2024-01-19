@@ -17,14 +17,18 @@ import com.wap.designsystem.component.WappRightMainTopBar
 internal fun AttendanceRoute(
     userId: String,
     viewModel: AttendanceViewModel = hiltViewModel(),
+    navigateToProfile: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
-    AttendanceScreen(snackBarHostState = snackBarHostState)
+    AttendanceScreen(snackBarHostState = snackBarHostState, navigateToProfile = navigateToProfile)
 }
 
 @Composable
-internal fun AttendanceScreen(snackBarHostState: SnackbarHostState) {
+internal fun AttendanceScreen(
+    snackBarHostState: SnackbarHostState,
+    navigateToProfile: () -> Unit,
+) {
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -37,6 +41,8 @@ internal fun AttendanceScreen(snackBarHostState: SnackbarHostState) {
             WappRightMainTopBar(
                 titleRes = R.string.attendance,
                 contentRes = R.string.attendance_content,
+                showBackButton = true,
+                onClickBackButton = navigateToProfile,
             )
         }
     }
