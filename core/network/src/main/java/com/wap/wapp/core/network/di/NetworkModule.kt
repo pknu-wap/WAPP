@@ -1,5 +1,7 @@
 package com.wap.wapp.core.network.di
 
+import com.wap.wapp.core.network.source.attendance.AttendanceDataSource
+import com.wap.wapp.core.network.source.attendance.AttendanceDataSourceImpl
 import com.wap.wapp.core.network.source.auth.AuthDataSource
 import com.wap.wapp.core.network.source.auth.AuthDataSourceImpl
 import com.wap.wapp.core.network.source.event.EventDataSource
@@ -57,4 +59,10 @@ abstract class NetworkModule {
     abstract fun bindsEventDataSource(
         eventDataSourceImpl: EventDataSourceImpl,
     ): EventDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsAttendanceDataSource(
+        attendanceDataSourceImpl: AttendanceDataSourceImpl,
+    ): AttendanceDataSource
 }
