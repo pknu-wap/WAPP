@@ -95,7 +95,7 @@ internal fun AttendanceRoute(
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEventId = viewModel::setSelectedEventId,
         onSelectEventTitle = viewModel::setSelectedEventTitle,
-        verifyAttendanceCode = viewModel::verifyAttendanceCode,
+        verifyAttendanceCode = { viewModel.verifyAttendanceCode(userId) },
         navigateToProfile = navigateToProfile,
         navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
     )

@@ -7,6 +7,7 @@ import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.attendance.GetEventListAttendanceUseCase
 import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
+import com.wap.wapp.core.domain.usecase.attendancestatus.PostAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
@@ -28,6 +29,7 @@ class AttendanceViewModel @Inject constructor(
     private val getEventListAttendanceUseCase: GetEventListAttendanceUseCase,
     private val getEventListAttendanceStatusUseCase: GetEventListAttendanceStatusUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
+    private val postAttendanceStatusUseCase: PostAttendanceStatusUseCase,
     private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -122,15 +124,19 @@ class AttendanceViewModel @Inject constructor(
         _selectedEventTitle.value = eventTitle
     }
 
-    fun verifyAttendanceCode() = viewModelScope.launch {
+    fun verifyAttendanceCode(userId: String) = viewModelScope.launch {
         verifyAttendanceCodeUseCase(
             eventId = _selectedEventId.value,
             attendanceCode = _attendanceCode.value,
         ).onSuccess { result ->
             // 출석에 성공했을 경우
             if (result) {
-                _attendanceEvent.emit(AttendanceEvent.Success)
-                return@launch
+                postAttendanceStatusUseCase(eventId = _selectedEventId.value, userId = userId)
+                    .onSuccess {
+                        _attendanceEvent.emit(AttendanceEvent.Success)
+                        return@launch
+                    }
+                    .onFailure { exception -> _errorFlow.emit(exception) }
             }
             // 출석에 실패했을 경우
             _attendanceEvent.emit(AttendanceEvent.Failure("출석 코드가 일치하지 않습니다."))

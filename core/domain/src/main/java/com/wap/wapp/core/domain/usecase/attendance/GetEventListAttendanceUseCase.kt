@@ -13,6 +13,7 @@ class GetEventListAttendanceUseCase @Inject constructor(
     // 오늘 일정 중, 출석이 시작된 일정들을 가져옵니다.
     suspend operator fun invoke(eventIdList: List<String>): Result<List<Attendance>> =
         runCatching {
+            // eventIdList를 바탕으로 출석이 열렸는지 병렬적으로 모두 확인합니다.
             coroutineScope {
                 val deferredList = eventIdList.map { eventId ->
                     async { attendanceRepository.getAttendance(eventId = eventId) }

@@ -10,6 +10,7 @@ import javax.inject.Inject
 class GetEventListAttendanceStatusUseCase @Inject constructor(
     private val attendanceStatusRepository: AttendanceStatusRepository,
 ) {
+    // eventIdList를 받아서, 해당 일정에 사용자가 출석을 했는지, 하지 않았는 지 정보를 가져옵니다.
     suspend operator fun invoke(
         eventIdList: List<String>,
         userId: String,
