@@ -1,0 +1,6 @@
+com.wap.wapp.feature.attendance
+string attendance
+string attendance_content
+string go_to_management_attendance_code
+string management_attendance_code
+string management_attendance_code_content
