@@ -1,5 +1,0 @@
-int string attendance 0x0
-int string attendance_content 0x0
-int string go_to_management_attendance_code 0x0
-int string management_attendance_code 0x0
-int string management_attendance_code_content 0x0
