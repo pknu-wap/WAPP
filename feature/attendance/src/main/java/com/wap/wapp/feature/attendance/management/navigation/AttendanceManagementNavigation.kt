@@ -26,7 +26,7 @@ fun NavGraphBuilder.attendanceManagementScreen(navigateToAttendance: (String) ->
         val userId = navBackStackEntry.arguments?.getString("userId") ?: ""
         AttendanceManagementRoute(
             userId = userId,
-            navigateToManagement = navigateToAttendance,
+            navigateToAttendance = navigateToAttendance,
         )
     }
 }
