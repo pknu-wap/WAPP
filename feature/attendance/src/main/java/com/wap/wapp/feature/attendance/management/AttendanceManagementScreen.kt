@@ -32,7 +32,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.designresource.R.drawable.ic_forward
+import com.wap.wapp.core.designresource.R.drawable.ic_forward_yellow
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.attendance.R
 import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.EventsState
@@ -142,7 +142,7 @@ private fun AttendanceItemCard(
                 )
             }
             Image(
-                painter = painterResource(id = ic_forward),
+                painter = painterResource(id = ic_forward_yellow),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
