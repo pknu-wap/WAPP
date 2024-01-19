@@ -1,9 +1,10 @@
 package com.wap.wapp.core.model.event
 
+import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
+import com.wap.wapp.core.model.util.DateUtil.yyyyMMddFormatter
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 data class Event(
     val content: String,
@@ -14,8 +15,7 @@ data class Event(
     val endDateTime: LocalDateTime,
 ) {
     fun calculateStart(): String {
-        val zoneId = ZoneId.of("Asia/Seoul")
-        val currentDateTime = LocalDateTime.now(zoneId)
+        val currentDateTime = generateNowDateTime()
         val duration = Duration.between(currentDateTime, startDateTime)
 
         if (duration.toMinutes() < 60) {
@@ -28,7 +28,7 @@ data class Event(
             return leftHours + "시간 후 시작"
         }
 
-        return endDateTime.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) + " 마감"
+        return endDateTime.format(yyyyMMddFormatter) + " 마감"
     }
 
     fun calculateDeadline(): String {
@@ -46,6 +46,6 @@ data class Event(
             return leftHours + "시간 후 종료"
         }
 
-        return endDateTime.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) + " 마감"
+        return endDateTime.format(yyyyMMddFormatter) + " 마감"
     }
 }
