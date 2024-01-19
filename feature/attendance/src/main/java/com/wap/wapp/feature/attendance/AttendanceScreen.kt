@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 internal fun AttendanceRoute(
+    userId: String,
     viewModel: AttendanceViewModel = hiltViewModel(),
 ) {
     AttendanceScreen()

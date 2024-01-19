@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import com.wap.wapp.R
 import com.wap.wapp.core.designresource.R.string
 import com.wap.wapp.feature.management.navigation.managementNavigationRoute
+import com.wap.wapp.feature.notice.navigation.noticeNavigationRoute
 import com.wap.wapp.feature.profile.navigation.profileNavigationRoute
 import com.wap.wapp.feature.survey.navigation.SurveyRoute
 
