@@ -24,7 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -39,6 +41,7 @@ import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.attendance.AttendanceViewModel.EventsState
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
+import com.wap.wapp.feature.attendance.component.AttendanceDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -51,6 +54,8 @@ internal fun AttendanceRoute(
     val snackBarHostState = remember { SnackbarHostState() }
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
+    val selectedEvent by viewModel.selectedEvent.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.errorFlow.collectLatest { throwable ->
@@ -64,6 +69,10 @@ internal fun AttendanceRoute(
         snackBarHostState = snackBarHostState,
         userRoleState = userRoleState,
         eventsState = eventsState,
+        attendanceCode = attendanceCode,
+        selectedEvent = selectedEvent,
+        onAttendanceCodeChanged = viewModel::setAttendanceCode,
+        onSelectEvent = viewModel::setSelectedEvent,
         navigateToProfile = navigateToProfile,
         navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
     )
@@ -74,9 +83,25 @@ internal fun AttendanceScreen(
     snackBarHostState: SnackbarHostState,
     userRoleState: UserRoleState,
     eventsState: EventsState,
+    attendanceCode: String,
+    selectedEvent: Event,
     navigateToProfile: () -> Unit,
     navigateToAttendanceManagement: () -> Unit,
+    onAttendanceCodeChanged: (String) -> Unit,
+    onSelectEvent: (Event) -> Unit,
 ) {
+    var showAttendanceDialog by remember { mutableStateOf(false) }
+
+    if (showAttendanceDialog) {
+        AttendanceDialog(
+            attendanceCode = attendanceCode,
+            event = selectedEvent,
+            onAttendanceCodeChanged = onAttendanceCodeChanged,
+            onDismissRequest = { showAttendanceDialog = false },
+            onConfirmRequest = {},
+        )
+    }
+
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -107,7 +132,15 @@ internal fun AttendanceScreen(
                                 items(
                                     items = eventsState.events,
                                     key = { event -> event.eventId },
-                                ) { event -> AttendanceItemCard(event = event) }
+                                ) { event ->
+                                    AttendanceItemCard(
+                                        event = event,
+                                        onSelectItemCard = {
+                                            onSelectEvent(event)
+                                            showAttendanceDialog = true
+                                        },
+                                    )
+                                }
                             }
                         }
                     }

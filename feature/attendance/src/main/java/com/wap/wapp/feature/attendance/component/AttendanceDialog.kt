@@ -32,11 +32,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.attendance.R
 
 @Composable
 internal fun AttendanceDialog(
     attendanceCode: String,
+    event: Event,
     onConfirmRequest: () -> Unit,
     onDismissRequest: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
@@ -69,7 +71,7 @@ internal fun AttendanceDialog(
             )
 
             Text(
-                text = generateDialogContentString(),
+                text = generateDialogContentString(event.title),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
             )

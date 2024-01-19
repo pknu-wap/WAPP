@@ -1,8 +1,10 @@
 package com.wap.wapp.feature.attendance
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.commmon.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
@@ -31,6 +33,12 @@ class AttendanceViewModel @Inject constructor(
     private val _todayEventList = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEventList.asStateFlow()
 
+    private val _attendanceCode = MutableStateFlow<String>("")
+    val attendanceCode: StateFlow<String> = _attendanceCode.asStateFlow()
+
+    private val _selectedEvent = MutableStateFlow<Event>(DEFAULT_EVENT)
+    val selectedEvent: StateFlow<Event> = _selectedEvent.asStateFlow()
+
     init {
         getTodayDateEvents()
         getUserRole()
@@ -48,6 +56,14 @@ class AttendanceViewModel @Inject constructor(
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
+    fun setAttendanceCode(attendanceCode: String) {
+        if (attendanceCode.isDigitsOnly()) {
+            _attendanceCode.value = attendanceCode
+        }
+    }
+
+    fun setSelectedEvent(event: Event) { _selectedEvent.value = event }
+
     sealed class EventsState {
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
@@ -56,5 +72,10 @@ class AttendanceViewModel @Inject constructor(
     sealed class UserRoleState {
         data object Loading : UserRoleState()
         data class Success(val userRole: UserRole) : UserRoleState()
+    }
+
+    companion object {
+        val DEFAULT_EVENT =
+            Event("", "", "", "", generateNowDateTime(), generateNowDateTime())
     }
 }
