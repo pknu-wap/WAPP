@@ -56,6 +56,7 @@ internal fun AttendanceManagementRoute(
         attendanceCode = attendanceCode,
         navigateToManagement = { navigateToManagement(userId) },
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
+        onSelectEvent = viewModel::setSelectedEventId,
     )
 }
 
@@ -66,6 +67,7 @@ internal fun AttendanceManagementScreen(
     attendanceCode: String,
     navigateToManagement: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
+    onSelectEvent: (String) -> Unit,
 ) {
     var showAttendanceManagementDialog by remember { mutableStateOf(false) }
 
@@ -116,6 +118,7 @@ internal fun AttendanceManagementScreen(
                                     event = event,
                                     onSelectItemCard = {
                                         onAttendanceCodeChanged("")
+                                        onSelectEvent(event.eventId)
                                         showAttendanceManagementDialog = true
                                     },
                                 )

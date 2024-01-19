@@ -29,6 +29,8 @@ class AttendanceManagementViewModel @Inject constructor(
     private val _attendanceCode = MutableStateFlow<String>("")
     val attendanceCode: StateFlow<String> = _attendanceCode.asStateFlow()
 
+    private val selectedEventId = MutableStateFlow<String>("")
+
     init {
         getTodayDateEvents()
     }
@@ -40,11 +42,13 @@ class AttendanceManagementViewModel @Inject constructor(
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
-    fun setAttendanceCode(input: String) {
-        if (input.isDigitsOnly()) {
-            _attendanceCode.value = input
+    fun setAttendanceCode(attendanceCode: String) {
+        if (attendanceCode.isDigitsOnly()) {
+            _attendanceCode.value = attendanceCode
         }
     }
+
+    fun setSelectedEventId(eventId: String) { selectedEventId.value = eventId }
 
     sealed class EventsState {
         data object Loading : EventsState()
