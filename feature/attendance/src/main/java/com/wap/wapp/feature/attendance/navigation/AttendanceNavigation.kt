@@ -1,0 +1,20 @@
+package com.wap.wapp.feature.attendance.navigation
+
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
+import com.wap.wapp.feature.attendance.AttendanceRoute
+
+const val attendanceNavigationRoute = "attendance_route"
+
+fun NavController.navigateToAttendance(navOptions: NavOptions? = navOptions {}) {
+    this.navigate(attendanceNavigationRoute, navOptions)
+}
+
+fun NavGraphBuilder.attendanceScreen() {
+    composable(route = attendanceNavigationRoute) {
+        AttendanceRoute()
+    }
+}
