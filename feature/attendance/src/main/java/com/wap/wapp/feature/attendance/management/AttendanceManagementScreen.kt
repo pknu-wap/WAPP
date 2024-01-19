@@ -114,7 +114,10 @@ internal fun AttendanceManagementScreen(
                             ) { event ->
                                 AttendanceItemCard(
                                     event = event,
-                                    onSelectItemCard = { showAttendanceManagementDialog = true },
+                                    onSelectItemCard = {
+                                        onAttendanceCodeChanged("")
+                                        showAttendanceManagementDialog = true
+                                    },
                                 )
                             }
                         }
