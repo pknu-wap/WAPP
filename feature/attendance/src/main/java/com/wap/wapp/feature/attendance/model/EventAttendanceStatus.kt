@@ -5,5 +5,5 @@ data class EventAttendanceStatus(
     val eventId: String,
     val title: String,
     val remainAttendanceDateTime: String,
-    val isAttendance: Boolean,
+    val isAttendance: Boolean = false,
 )

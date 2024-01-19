@@ -4,7 +4,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.attendance.GetAttendanceUseCase
+import com.wap.wapp.core.domain.usecase.attendance.GetEventListAttendanceUseCase
 import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
     private val getDateEventListUseCase: GetDateEventListUseCase,
-    private val getAttendanceUseCase: GetAttendanceUseCase,
+    private val getEventListAttendanceUseCase: GetEventListAttendanceUseCase,
     private val getEventListAttendanceStatusUseCase: GetEventListAttendanceStatusUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
@@ -54,30 +54,53 @@ class AttendanceViewModel @Inject constructor(
     val selectedEventTitle: StateFlow<String> = _selectedEventTitle.asStateFlow()
 
     fun getTodayEventsAttendanceStatus(userId: String) = viewModelScope.launch {
+        // 오늘 있는 일정을 가져옵니다.
         getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-            getEventListAttendanceStatus(eventList = eventList, userId = userId)
+            getEventListAttendance(eventList = eventList, userId = userId)
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
-    private suspend fun getEventListAttendanceStatus(eventList: List<Event>, userId: String) =
-        getEventListAttendanceStatusUseCase(
-            eventIdList = eventList.map { it.eventId },
-            userId = userId,
-        ).onSuccess { attendanceStatusList ->
-            val eventAttendanceStatusList = eventList
-                .zip(attendanceStatusList)
-                .map { (event, attendanceStatus) ->
-                    EventAttendanceStatus(
-                        eventId = event.eventId,
-                        title = event.title,
-                        content = event.content,
-                        remainAttendanceDateTime = attendanceStatus.attendanceDateTime,
-                        isAttendance = attendanceStatus.isAttendance(),
-                    )
-                }
-            _todayEventsAttendanceStatus.value =
-                EventAttendanceStatusState.Success(eventAttendanceStatusList)
-        }.onFailure { _errorFlow.emit(it) }
+    // 오늘 있는 일정을 기준으로, 출석이 시작된 일정들을 가져옵니다.
+    private suspend fun getEventListAttendance(eventList: List<Event>, userId: String) =
+        getEventListAttendanceUseCase(eventList.map { it.eventId })
+            .onSuccess { attendanceList ->
+                val eventAttendanceList = eventList.zip(attendanceList)
+                    .map { (event, attendance) ->
+                        EventAttendanceStatus(
+                            eventId = event.eventId,
+                            title = event.title,
+                            content = event.content,
+                            remainAttendanceDateTime = attendance.calculateDeadline(),
+                        )
+                    }
+                getEventListAttendanceStatus(
+                    eventAttendanceList = eventAttendanceList,
+                    userId = userId,
+                )
+            }.onFailure { exception -> _errorFlow.emit(exception) }
+
+    // 출석이 시작된 일정들 중, 유저가 출석을 했는 지 안했는 지를 판별합니다.
+    private suspend fun getEventListAttendanceStatus(
+        eventAttendanceList: List<EventAttendanceStatus>,
+        userId: String,
+    ) = getEventListAttendanceStatusUseCase(
+        eventIdList = eventAttendanceList.map { it.eventId },
+        userId = userId,
+    ).onSuccess { attendanceStatusList ->
+        val eventAttendanceStatusList = eventAttendanceList
+            .zip(attendanceStatusList)
+            .map { (eventAttendanceStatus, attendanceStatus) ->
+                EventAttendanceStatus(
+                    eventId = eventAttendanceStatus.eventId,
+                    title = eventAttendanceStatus.title,
+                    content = eventAttendanceStatus.content,
+                    remainAttendanceDateTime = eventAttendanceStatus.remainAttendanceDateTime,
+                    isAttendance = attendanceStatus.isAttendance(),
+                )
+            }
+        _todayEventsAttendanceStatus.value =
+            EventAttendanceStatusState.Success(eventAttendanceStatusList)
+    }.onFailure { _errorFlow.emit(it) }
 
     fun getUserRole() = viewModelScope.launch {
         getUserRoleUseCase().onSuccess {

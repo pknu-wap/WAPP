@@ -18,4 +18,9 @@ data class Attendance(
         val leftSeconds = (duration.toKotlinDuration().inWholeSeconds % 60).toString()
         return "${leftMinutes}분 ${leftSeconds}초 후 마감"
     }
+
+    fun isBeforeEndTime(): Boolean {
+        val currentDateTime = generateNowDateTime()
+        return currentDateTime.isBefore(deadline)
+    }
 }
