@@ -124,33 +124,7 @@ internal fun AttendanceScreen(
 }
 
 @Composable
-private fun AttendanceCheckButton(
-    onAttendanceCheckButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    ElevatedButton(
-        modifier = modifier.height(48.dp),
-        onClick = { onAttendanceCheckButtonClicked() },
-        colors = ButtonDefaults.buttonColors(
-            contentColor = WappTheme.colors.black,
-            containerColor = WappTheme.colors.yellow34,
-            disabledContentColor = WappTheme.colors.white,
-            disabledContainerColor = WappTheme.colors.grayA2,
-        ),
-        shape = RoundedCornerShape(8.dp),
-        content = {
-            Row {
-                Text(
-                    text = stringResource(R.string.go_to_management_attendance_code),
-                    style = WappTheme.typography.contentRegular,
-                )
-            }
-        },
-    )
-}
-
-@Composable
-internal fun AttendanceItemCard(
+private fun AttendanceItemCard(
     event: Event,
     onSelectItemCard: () -> Unit = {},
 ) {
@@ -188,4 +162,30 @@ internal fun AttendanceItemCard(
             )
         }
     }
+}
+
+@Composable
+private fun AttendanceCheckButton(
+    onAttendanceCheckButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ElevatedButton(
+        modifier = modifier.height(48.dp),
+        onClick = { onAttendanceCheckButtonClicked() },
+        colors = ButtonDefaults.buttonColors(
+            contentColor = WappTheme.colors.black,
+            containerColor = WappTheme.colors.yellow34,
+            disabledContentColor = WappTheme.colors.white,
+            disabledContainerColor = WappTheme.colors.grayA2,
+        ),
+        shape = RoundedCornerShape(8.dp),
+        content = {
+            Row {
+                Text(
+                    text = stringResource(R.string.go_to_management_attendance_code),
+                    style = WappTheme.typography.contentRegular,
+                )
+            }
+        },
+    )
 }
