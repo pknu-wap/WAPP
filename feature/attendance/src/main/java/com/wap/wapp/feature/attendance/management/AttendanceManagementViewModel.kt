@@ -31,7 +31,8 @@ class AttendanceManagementViewModel @Inject constructor(
 
     private fun getTodayDateEvents() = viewModelScope.launch {
         getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-            _todayEventList.value = EventsState.Success(eventList)
+            val unfinishedEventList = eventList.filter { !it.isAfterEndTime() }
+            _todayEventList.value = EventsState.Success(unfinishedEventList)
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 

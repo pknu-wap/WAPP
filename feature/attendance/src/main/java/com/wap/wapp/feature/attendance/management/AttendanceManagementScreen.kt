@@ -95,7 +95,9 @@ internal fun AttendanceManagementScreen(
                         items(
                             items = eventsState.events,
                             key = { event -> event.eventId },
-                        ) { event -> AttendanceItemCard(event = event) }
+                        ) { event ->
+                            AttendanceItemCard(event = event)
+                        }
                     }
                 }
             }
@@ -130,7 +132,7 @@ private fun AttendanceItemCard(
                         style = WappTheme.typography.titleBold,
                     )
                     Text(
-                        text = "10분 후 마감",
+                        text = event.displayTime(),
                         color = WappTheme.colors.yellow34,
                         style = WappTheme.typography.captionMedium,
                     )
