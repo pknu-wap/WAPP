@@ -47,6 +47,6 @@ data class SurveyForm(
 
     fun isBeforeDeadline(): Boolean {
         val currentDateTime = generateNowDateTime()
-        return deadline.isBefore(currentDateTime)
+        return currentDateTime.isBefore(deadline)
     }
 }

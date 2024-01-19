@@ -62,8 +62,8 @@ data class Event(
         return endDateTime.format(yyyyMMddFormatter) + " 마감"
     }
 
-    fun isAfterEndTime(): Boolean {
+    fun isBeforeEndTime(): Boolean {
         val currentDateTime = generateNowDateTime()
-        return currentDateTime.isAfter(endDateTime)
+        return currentDateTime.isBefore(endDateTime)
     }
 }
