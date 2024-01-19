@@ -52,7 +52,11 @@ class SurveyViewModel @Inject constructor(
         viewModelScope.launch {
             getSurveyFormListUseCase()
                 .onSuccess { surveyFormList ->
-                    _surveyFormListUiState.value = SurveyFormListUiState.Success(surveyFormList)
+                    val filteredSurveyFormList = surveyFormList.filter { survey ->
+                        survey.isBeforeDeadline()
+                    }
+                    _surveyFormListUiState.value =
+                        SurveyFormListUiState.Success(filteredSurveyFormList)
                 }
                 .onFailure { throwable ->
                     _surveyEvent.emit(SurveyUiEvent.Failure(throwable))

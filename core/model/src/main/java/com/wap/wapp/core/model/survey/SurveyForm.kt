@@ -45,8 +45,8 @@ data class SurveyForm(
         return deadline.format(yyyyMMddFormatter) + " 마감"
     }
 
-    fun isAfterDeadline(): Boolean {
+    fun isBeforeDeadline(): Boolean {
         val currentDateTime = generateNowDateTime()
-        return deadline.isAfter(currentDateTime)
+        return deadline.isBefore(currentDateTime)
     }
 }
