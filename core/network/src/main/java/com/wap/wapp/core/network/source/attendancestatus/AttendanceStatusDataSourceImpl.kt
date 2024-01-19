@@ -26,7 +26,8 @@ class AttendanceStatusDataSourceImpl @Inject constructor(
             .get()
             .await()
 
-        checkNotNull(task.toObject<AttendanceStatusResponse>())
+        // null일 경우 출석이 되지 않음 (출석 시간이 empty로 반환)
+        task.toObject<AttendanceStatusResponse>() ?: AttendanceStatusResponse("")
     }
 
     override suspend fun postAttendanceStatus(eventId: String, userId: String): Result<Unit> =
