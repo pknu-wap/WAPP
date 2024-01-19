@@ -40,6 +40,7 @@ internal fun AttendanceManagementRoute(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
+    val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.errorFlow.collectLatest { throwable ->
@@ -52,7 +53,9 @@ internal fun AttendanceManagementRoute(
     AttendanceManagementScreen(
         snackBarHostState = snackBarHostState,
         eventsState = eventsState,
+        attendanceCode = attendanceCode,
         navigateToManagement = { navigateToManagement(userId) },
+        onAttendanceCodeChanged = viewModel::setAttendanceCode,
     )
 }
 
@@ -60,14 +63,18 @@ internal fun AttendanceManagementRoute(
 internal fun AttendanceManagementScreen(
     snackBarHostState: SnackbarHostState,
     eventsState: EventsState,
+    attendanceCode: String,
     navigateToManagement: () -> Unit,
+    onAttendanceCodeChanged: (String) -> Unit,
 ) {
     var showAttendanceManagementDialog by remember { mutableStateOf(false) }
 
     if (showAttendanceManagementDialog) {
         AttendanceManagementDialog(
+            attendanceCode = attendanceCode,
             attendanceStart = {},
             onDismissRequest = { showAttendanceManagementDialog = false },
+            onAttendanceCodeChanged = onAttendanceCodeChanged,
         )
     }
 

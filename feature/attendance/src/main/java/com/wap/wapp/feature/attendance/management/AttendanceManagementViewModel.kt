@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.attendance.management
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
@@ -25,6 +26,9 @@ class AttendanceManagementViewModel @Inject constructor(
     private val _todayEventList = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEventList.asStateFlow()
 
+    private val _attendanceCode = MutableStateFlow<String>("")
+    val attendanceCode: StateFlow<String> = _attendanceCode.asStateFlow()
+
     init {
         getTodayDateEvents()
     }
@@ -34,6 +38,12 @@ class AttendanceManagementViewModel @Inject constructor(
             val unfinishedEventList = eventList.filter { it.isBeforeEndTime() }
             _todayEventList.value = EventsState.Success(unfinishedEventList)
         }.onFailure { exception -> _errorFlow.emit(exception) }
+    }
+
+    fun setAttendanceCode(input: String) {
+        if (input.isDigitsOnly()) {
+            _attendanceCode.value = input
+        }
     }
 
     sealed class EventsState {

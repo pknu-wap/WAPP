@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -31,8 +36,10 @@ import com.wap.wapp.feature.attendance.R
 
 @Composable
 internal fun AttendanceManagementDialog(
+    attendanceCode: String,
     attendanceStart: () -> Unit,
     onDismissRequest: () -> Unit,
+    onAttendanceCodeChanged: (String) -> Unit,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -41,16 +48,16 @@ internal fun AttendanceManagementDialog(
         ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),
         ) {
             Text(
-                text = "출석 코드 설정",
+                text = stringResource(R.string.set_attendance_code),
                 style = WappTheme.typography.contentBold.copy(fontSize = 20.sp),
                 color = WappTheme.colors.yellow34,
                 modifier = Modifier.padding(top = 16.dp),
@@ -67,16 +74,32 @@ internal fun AttendanceManagementDialog(
                 color = WappTheme.colors.white,
             )
 
+            OutlinedTextField(
+                value = attendanceCode,
+                onValueChange = onAttendanceCodeChanged,
+                textStyle = WappTheme.typography.titleRegular.copy(textAlign = TextAlign.Center),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                shape = RoundedCornerShape(8.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = WappTheme.colors.white,
+                    focusedBorderColor = WappTheme.colors.yellow34,
+                    unfocusedBorderColor = WappTheme.colors.yellow34,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            )
+
             Text(
                 text = generateDialogContentString2(),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
-                modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 32.dp),
+                modifier = Modifier.padding(start = 12.dp, end = 12.dp),
             )
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+                modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 16.dp),
             ) {
                 Button(
                     onClick = {
