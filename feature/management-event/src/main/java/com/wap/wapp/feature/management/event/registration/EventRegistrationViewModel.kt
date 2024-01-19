@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowTime
-import com.wap.wapp.core.domain.usecase.event.RegisterEventUseCase
+import com.wap.wapp.core.domain.usecase.event.PostEventUseCase
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState.EVENT_DETAILS
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState.EVENT_SCHEDULE
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventRegistrationViewModel @Inject constructor(
-    private val registerEventUseCase: RegisterEventUseCase,
+    private val postEventUseCase: PostEventUseCase,
 ) : ViewModel() {
     private val _currentRegistrationState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EVENT_DETAILS)
@@ -106,7 +106,7 @@ class EventRegistrationViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            registerEventUseCase(
+            postEventUseCase(
                 eventTitle = _eventTitle.value,
                 eventContent = _eventContent.value,
                 eventLocation = _eventLocation.value,
