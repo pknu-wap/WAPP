@@ -1,26 +1,16 @@
 package com.wap.wapp.feature.attendance
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,7 +31,10 @@ import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Failu
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Success
 import com.wap.wapp.feature.attendance.AttendanceViewModel.EventAttendanceStatusState
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
+import com.wap.wapp.feature.attendance.component.AttendanceCheckButton
 import com.wap.wapp.feature.attendance.component.AttendanceDialog
+import com.wap.wapp.feature.attendance.component.AttendanceItemCard
+import com.wap.wapp.feature.attendance.management.component.NothingToShow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -67,19 +59,19 @@ internal fun AttendanceRoute(
 
             launch {
                 errorFlow.collectLatest { throwable ->
-                    snackBarHostState.showSnackbar(
-                        message = throwable.toSupportingText(),
-                    )
+                    snackBarHostState.showSnackbar(message = throwable.toSupportingText())
                 }
             }
 
             launch {
-                attendanceEvent.collectLatest { event ->
+                attendanceEvent.collect { event ->
                     when (event) {
-                        // 출석 성공 했을 경우
-                        is Success -> {}
-                        // 출석 실패 했을 경우
-                        is Failure -> {}
+                        is Success -> {
+                            getTodayEventsAttendanceStatus(userId)
+                            snackBarHostState.showSnackbar(message = "출석에 성공하셨습니다!")
+                        }
+
+                        is Failure -> snackBarHostState.showSnackbar(message = "출석 코드가 다릅니다.")
                     }
                 }
             }
@@ -148,28 +140,34 @@ internal fun AttendanceScreen(
                                 modifier = Modifier.fillMaxSize(),
                             )
 
-                            is EventAttendanceStatusState.Success -> LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 15.dp)
-                                    .weight(1f),
-                            ) {
-                                items(
-                                    items = eventsAttendanceStatusState.events,
-                                    key = { it.eventId },
-                                ) { attendanceStatus ->
-                                    AttendanceItemCard(
-                                        eventTitle = attendanceStatus.title,
-                                        eventContent = attendanceStatus.content,
-                                        remainAttendanceDateTime =
-                                        attendanceStatus.remainAttendanceDateTime,
-                                        isAttendance = attendanceStatus.isAttendance,
-                                        onSelectItemCard = {
-                                            onSelectEventId(attendanceStatus.eventId)
-                                            onSelectEventTitle(attendanceStatus.title)
-                                            showAttendanceDialog = true
-                                        },
-                                    )
+                            is EventAttendanceStatusState.Success -> {
+                                if (eventsAttendanceStatusState.events.isEmpty()) {
+                                    NothingToShow(title = R.string.no_events_to_attendance)
+                                } else {
+                                    LazyColumn(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 15.dp)
+                                            .weight(1f),
+                                    ) {
+                                        items(
+                                            items = eventsAttendanceStatusState.events,
+                                            key = { it.eventId },
+                                        ) { attendanceStatus ->
+                                            AttendanceItemCard(
+                                                eventTitle = attendanceStatus.title,
+                                                eventContent = attendanceStatus.content,
+                                                remainAttendanceDateTime =
+                                                attendanceStatus.remainAttendanceDateTime,
+                                                isAttendance = attendanceStatus.isAttendance,
+                                                onSelectItemCard = {
+                                                    onSelectEventId(attendanceStatus.eventId)
+                                                    onSelectEventTitle(attendanceStatus.title)
+                                                    showAttendanceDialog = true
+                                                },
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -187,82 +185,4 @@ internal fun AttendanceScreen(
             }
         }
     }
-}
-
-@Composable
-private fun AttendanceItemCard(
-    eventTitle: String,
-    eventContent: String,
-    remainAttendanceDateTime: String,
-    isAttendance: Boolean,
-    onSelectItemCard: () -> Unit = {},
-) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = WappTheme.colors.black25),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onSelectItemCard() },
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = eventTitle,
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    style = WappTheme.typography.titleBold,
-                )
-                if (isAttendance) {
-                    Text(
-                        text = "출석 완료",
-                        color = WappTheme.colors.greenAB,
-                        style = WappTheme.typography.captionMedium,
-                    )
-                    return@Row
-                }
-                Text(
-                    text = remainAttendanceDateTime,
-                    color = WappTheme.colors.yellow34,
-                    style = WappTheme.typography.captionMedium,
-                )
-            }
-            Text(
-                text = eventContent,
-                color = WappTheme.colors.grayBD,
-                style = WappTheme.typography.contentMedium,
-            )
-        }
-    }
-}
-
-@Composable
-private fun AttendanceCheckButton(
-    onAttendanceCheckButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    ElevatedButton(
-        modifier = modifier.height(48.dp),
-        onClick = { onAttendanceCheckButtonClicked() },
-        colors = ButtonDefaults.buttonColors(
-            contentColor = WappTheme.colors.black,
-            containerColor = WappTheme.colors.yellow34,
-            disabledContentColor = WappTheme.colors.white,
-            disabledContainerColor = WappTheme.colors.grayA2,
-        ),
-        shape = RoundedCornerShape(8.dp),
-        content = {
-            Row {
-                Text(
-                    text = stringResource(R.string.go_to_management_attendance_code),
-                    style = WappTheme.typography.contentRegular,
-                )
-            }
-        },
-    )
 }

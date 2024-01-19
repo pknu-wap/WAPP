@@ -35,8 +35,7 @@ class AttendanceViewModel @Inject constructor(
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
 
-    private val _attendanceEvent: MutableSharedFlow<AttendanceEvent> =
-        MutableSharedFlow()
+    private val _attendanceEvent: MutableSharedFlow<AttendanceEvent> = MutableSharedFlow()
     val attendanceEvent = _attendanceEvent.asSharedFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
@@ -55,11 +54,12 @@ class AttendanceViewModel @Inject constructor(
     private val _selectedEventTitle = MutableStateFlow<String>("")
     val selectedEventTitle: StateFlow<String> = _selectedEventTitle.asStateFlow()
 
-    fun getTodayEventsAttendanceStatus(userId: String) = viewModelScope.launch {
-        // 오늘 있는 일정을 가져옵니다.
-        getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-            getEventListAttendance(eventList = eventList, userId = userId)
-        }.onFailure { exception -> _errorFlow.emit(exception) }
+    fun getTodayEventsAttendanceStatus(userId: String) {
+        viewModelScope.launch {
+            getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
+                getEventListAttendance(eventList = eventList, userId = userId)
+            }.onFailure { exception -> _errorFlow.emit(exception) }
+        }
     }
 
     // 오늘 있는 일정을 기준으로, 출석이 시작된 일정들을 가져옵니다.
@@ -105,9 +105,9 @@ class AttendanceViewModel @Inject constructor(
     }.onFailure { _errorFlow.emit(it) }
 
     fun getUserRole() = viewModelScope.launch {
-        getUserRoleUseCase().onSuccess {
-            _userRole.value = UserRoleState.Success(it)
-        }.onFailure { exception -> _errorFlow.emit(exception) }
+        getUserRoleUseCase()
+            .onSuccess { _userRole.value = UserRoleState.Success(it) }
+            .onFailure { exception -> _errorFlow.emit(exception) }
     }
 
     fun setAttendanceCode(attendanceCode: String) {
@@ -132,18 +132,13 @@ class AttendanceViewModel @Inject constructor(
             // 출석에 성공했을 경우
             if (result) {
                 postAttendanceStatusUseCase(eventId = _selectedEventId.value, userId = userId)
-                    .onSuccess {
-                        _attendanceEvent.emit(AttendanceEvent.Success)
-                        return@launch
-                    }
+                    .onSuccess { _attendanceEvent.emit(AttendanceEvent.Success) }
                     .onFailure { exception -> _errorFlow.emit(exception) }
+                return@launch
             }
             // 출석에 실패했을 경우
             _attendanceEvent.emit(AttendanceEvent.Failure("출석 코드가 일치하지 않습니다."))
-        }.onFailure { exception ->
-            // 네트워크 통신에 실패했을 경우
-            _errorFlow.emit(exception)
-        }
+        }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
     sealed class EventAttendanceStatusState {
