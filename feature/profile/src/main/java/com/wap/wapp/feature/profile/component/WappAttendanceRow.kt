@@ -51,7 +51,7 @@ internal fun WappAttendacneRow(
 }
 
 @Composable
-private fun WappAttendanceBadge(isAttendance: Boolean = true) {
+private fun WappAttendanceBadge(isAttendance: Boolean) {
     val drawableId = if (isAttendance) R.drawable.ic_attendance else R.drawable.ic_absent
     Image(painter = painterResource(id = drawableId), contentDescription = "")
 }

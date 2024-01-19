@@ -2,6 +2,7 @@ package com.wap.wapp.core.network.source.event
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
@@ -37,9 +38,10 @@ class EventDataSourceImpl @Inject constructor(
 
             // 선택된 날짜 1일 00시 00분 00초
             val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
-
+            val currentDateTime = generateNowDateTime().toISOLocalDateTimeString()
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", currentDateTime)
                 .get()
                 .await()
 
