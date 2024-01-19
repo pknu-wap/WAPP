@@ -11,7 +11,7 @@ import com.wap.wapp.feature.attendance.management.AttendanceManagementRoute
 
 const val attendanceManagementNavigationRoute = "attendance/management/{userId}"
 
-fun NavController.navigateToAttendanceManagemenet(
+fun NavController.navigateToAttendanceManagement(
     userId: String,
     navOptions: NavOptions? = navOptions {},
 ) {

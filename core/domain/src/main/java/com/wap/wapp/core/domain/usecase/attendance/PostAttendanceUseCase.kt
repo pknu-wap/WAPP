@@ -11,5 +11,6 @@ class PostAttendanceUseCase @Inject constructor(
         eventId: String,
         code: String,
         deadline: LocalDateTime,
-    ) = attendanceRepository.postAttendance(eventId = eventId, code = code, deadline = deadline)
+    ): Result<Unit> =
+        attendanceRepository.postAttendance(eventId = eventId, code = code, deadline = deadline)
 }

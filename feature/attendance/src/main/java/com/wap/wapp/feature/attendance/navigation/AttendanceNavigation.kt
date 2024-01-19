@@ -14,9 +14,7 @@ const val attendanceNavigationRoute = "attendance/{userId}"
 fun NavController.navigateToAttendance(
     userId: String,
     navOptions: NavOptions? = navOptions {},
-) {
-    this.navigate("attendance/$userId", navOptions)
-}
+) = this.navigate("attendance/$userId", navOptions)
 
 fun NavGraphBuilder.attendanceScreen(
     navigateToProfile: () -> Unit,

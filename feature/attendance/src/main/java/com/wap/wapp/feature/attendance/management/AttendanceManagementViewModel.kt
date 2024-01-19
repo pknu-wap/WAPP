@@ -64,8 +64,9 @@ class AttendanceManagementViewModel @Inject constructor(
             eventId = selectedEventId.value,
             code = _attendanceCode.value,
             deadline = generateNowDateTime().plusMinutes(10),
-        ).onSuccess { _attendanceManagementEvent.emit(AttendanceManagementEvent.Success) }
-            .onFailure { exception -> _errorFlow.emit(exception) }
+        ).onSuccess {
+            _attendanceManagementEvent.emit(AttendanceManagementEvent.Success)
+        }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
     sealed class EventsState {

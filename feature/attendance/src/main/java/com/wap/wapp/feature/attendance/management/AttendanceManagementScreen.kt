@@ -26,12 +26,13 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.attendance.R
-import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.AttendanceManagementEvent.Success
+import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.AttendanceManagementEvent
 import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.EventsState
 import com.wap.wapp.feature.attendance.management.component.AttendanceItemCard
 import com.wap.wapp.feature.attendance.management.component.AttendanceManagementDialog
 import com.wap.wapp.feature.attendance.management.component.NothingToShow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun AttendanceManagementRoute(
@@ -44,15 +45,19 @@ internal fun AttendanceManagementRoute(
     val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            snackBarHostState.showSnackbar(
-                message = throwable.toSupportingText(),
-            )
+        launch {
+            viewModel.errorFlow.collectLatest { throwable ->
+                snackBarHostState.showSnackbar(
+                    message = throwable.toSupportingText(),
+                )
+            }
         }
 
-        viewModel.attendanceManagementEvent.collectLatest { event ->
-            when (event) {
-                is Success -> navigateToAttendance(userId)
+        launch {
+            viewModel.attendanceManagementEvent.collect { event ->
+                when (event) {
+                    is AttendanceManagementEvent.Success -> navigateToAttendance(userId)
+                }
             }
         }
     }
