@@ -4,7 +4,7 @@ import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
 import com.wap.wapp.core.data.repository.survey.SurveyRepository
 import javax.inject.Inject
 
-class DeleteSurveyFormUseCase @Inject constructor(
+class DeleteSurveyFormAndRelatedSurveysUseCase @Inject constructor(
     private val surveyFormRepository: SurveyFormRepository,
     private val surveyRepository: SurveyRepository,
 ) {

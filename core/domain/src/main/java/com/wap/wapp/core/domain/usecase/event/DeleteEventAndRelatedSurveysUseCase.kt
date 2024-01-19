@@ -5,7 +5,7 @@ import com.wap.wapp.core.data.repository.survey.SurveyFormRepository
 import com.wap.wapp.core.data.repository.survey.SurveyRepository
 import javax.inject.Inject
 
-class DeleteEventUseCase @Inject constructor(
+class DeleteEventAndRelatedSurveysUseCase @Inject constructor(
     private val eventRepository: EventRepository,
     private val surveyFormRepository: SurveyFormRepository,
     private val surveyRepository: SurveyRepository,

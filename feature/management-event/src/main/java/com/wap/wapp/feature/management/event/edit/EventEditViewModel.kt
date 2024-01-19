@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management.event.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
-import com.wap.wapp.core.domain.usecase.event.DeleteEventUseCase
+import com.wap.wapp.core.domain.usecase.event.DeleteEventAndRelatedSurveysUseCase
 import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
 import com.wap.wapp.core.domain.usecase.event.UpdateEventUseCase
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class EventEditViewModel @Inject constructor(
     private val getEventUseCase: GetEventUseCase,
     private val updateEventUseCase: UpdateEventUseCase,
-    private val deleteEventUseCase: DeleteEventUseCase,
+    private val deleteEventAndRelatedSurveysUseCase: DeleteEventAndRelatedSurveysUseCase,
 ) : ViewModel() {
     private val _currentEditState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
@@ -123,7 +123,7 @@ class EventEditViewModel @Inject constructor(
     }
 
     fun deleteEvent() = viewModelScope.launch {
-        deleteEventUseCase(_eventId.value).onSuccess {
+        deleteEventAndRelatedSurveysUseCase(_eventId.value).onSuccess {
             _eventEditEvent.emit(EventEditEvent.DeleteSuccess)
         }.onFailure { throwable ->
             _eventEditEvent.emit(EventEditEvent.Failure(throwable))

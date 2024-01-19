@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
-import com.wap.wapp.core.domain.usecase.survey.DeleteSurveyFormUseCase
+import com.wap.wapp.core.domain.usecase.survey.DeleteSurveyFormAndRelatedSurveysUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
 import com.wap.wapp.core.domain.usecase.survey.UpdateSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
@@ -30,7 +30,7 @@ class SurveyFormEditViewModel @Inject constructor(
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
     private val getEventListUseCase: GetEventListUseCase,
     private val updateSurveyFormUseCase: UpdateSurveyFormUseCase,
-    private val deleteSurveyFormUseCase: DeleteSurveyFormUseCase,
+    private val deleteSurveyFormAndRelatedSurveysUseCase: DeleteSurveyFormAndRelatedSurveysUseCase,
 ) : ViewModel() {
     private val _surveyFormEditUiEvent: MutableSharedFlow<SurveyFormEditUiEvent> =
         MutableSharedFlow()
@@ -115,7 +115,7 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     fun deleteSurveyForm() = viewModelScope.launch {
-        deleteSurveyFormUseCase(surveyFormId.value)
+        deleteSurveyFormAndRelatedSurveysUseCase(surveyFormId.value)
             .onSuccess {
                 _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.EditSuccess)
             }.onFailure { throwable ->
