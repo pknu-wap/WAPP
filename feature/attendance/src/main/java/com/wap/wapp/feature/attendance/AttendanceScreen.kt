@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -33,7 +31,6 @@ import com.wap.wapp.feature.attendance.AttendanceViewModel.EventAttendanceStatus
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
 import com.wap.wapp.feature.attendance.component.AttendanceCheckButton
 import com.wap.wapp.feature.attendance.component.AttendanceDialog
-import com.wap.wapp.feature.attendance.component.AttendanceItemCard
 import com.wap.wapp.feature.attendance.management.component.NothingToShow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -144,30 +141,16 @@ internal fun AttendanceScreen(
                                 if (eventsAttendanceStatusState.events.isEmpty()) {
                                     NothingToShow(title = R.string.no_events_to_attendance)
                                 } else {
-                                    LazyColumn(
+                                    AttendanceContent(
+                                        eventsAttendanceStatus = eventsAttendanceStatusState.events,
+                                        onSelectEventId = onSelectEventId,
+                                        onSelectEventTitle = onSelectEventTitle,
+                                        setAttendanceDialog = { showAttendanceDialog = true },
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 15.dp)
                                             .weight(1f),
-                                    ) {
-                                        items(
-                                            items = eventsAttendanceStatusState.events,
-                                            key = { it.eventId },
-                                        ) { attendanceStatus ->
-                                            AttendanceItemCard(
-                                                eventTitle = attendanceStatus.title,
-                                                eventContent = attendanceStatus.content,
-                                                remainAttendanceDateTime =
-                                                attendanceStatus.remainAttendanceDateTime,
-                                                isAttendance = attendanceStatus.isAttendance,
-                                                onSelectItemCard = {
-                                                    onSelectEventId(attendanceStatus.eventId)
-                                                    onSelectEventTitle(attendanceStatus.title)
-                                                    showAttendanceDialog = true
-                                                },
-                                            )
-                                        }
-                                    }
+                                    )
                                 }
                             }
                         }
