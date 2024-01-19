@@ -31,7 +31,7 @@ class AttendanceViewModel @Inject constructor(
 
     private val _attendanceEvent: MutableSharedFlow<AttendanceEvent> =
         MutableSharedFlow()
-    val attendanceManagementEvent = _attendanceEvent.asSharedFlow()
+    val attendanceEvent = _attendanceEvent.asSharedFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()

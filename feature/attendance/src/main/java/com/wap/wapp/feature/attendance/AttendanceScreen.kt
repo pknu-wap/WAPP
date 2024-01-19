@@ -39,10 +39,13 @@ import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
+import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Failure
+import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Success
 import com.wap.wapp.feature.attendance.AttendanceViewModel.EventsState
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
 import com.wap.wapp.feature.attendance.component.AttendanceDialog
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun AttendanceRoute(
@@ -58,10 +61,23 @@ internal fun AttendanceRoute(
     val selectedEvent by viewModel.selectedEvent.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            snackBarHostState.showSnackbar(
-                message = throwable.toSupportingText(),
-            )
+        launch {
+            viewModel.errorFlow.collectLatest { throwable ->
+                snackBarHostState.showSnackbar(
+                    message = throwable.toSupportingText(),
+                )
+            }
+        }
+
+        launch {
+            viewModel.attendanceEvent.collectLatest { event ->
+                when (event) {
+                    // 출석 성공 했을 경우
+                    is Success -> {}
+                    // 출석 실패 했을 경우
+                    is Failure -> {}
+                }
+            }
         }
     }
 
@@ -73,6 +89,7 @@ internal fun AttendanceRoute(
         selectedEvent = selectedEvent,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEvent = viewModel::setSelectedEvent,
+        verifyAttendanceCode = viewModel::verifyAttendanceCode,
         navigateToProfile = navigateToProfile,
         navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
     )
@@ -85,10 +102,11 @@ internal fun AttendanceScreen(
     eventsState: EventsState,
     attendanceCode: String,
     selectedEvent: Event,
-    navigateToProfile: () -> Unit,
-    navigateToAttendanceManagement: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
     onSelectEvent: (Event) -> Unit,
+    verifyAttendanceCode: () -> Unit,
+    navigateToProfile: () -> Unit,
+    navigateToAttendanceManagement: () -> Unit,
 ) {
     var showAttendanceDialog by remember { mutableStateOf(false) }
 
@@ -98,7 +116,7 @@ internal fun AttendanceScreen(
             event = selectedEvent,
             onAttendanceCodeChanged = onAttendanceCodeChanged,
             onDismissRequest = { showAttendanceDialog = false },
-            onConfirmRequest = {},
+            onConfirmRequest = verifyAttendanceCode,
         )
     }
 
