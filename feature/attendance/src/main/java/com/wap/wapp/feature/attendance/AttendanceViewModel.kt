@@ -28,8 +28,8 @@ class AttendanceViewModel @Inject constructor(
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
 
-    private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
-    val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
+    private val _todayEventList = MutableStateFlow<EventsState>(EventsState.Loading)
+    val todayEvents: StateFlow<EventsState> = _todayEventList.asStateFlow()
 
     init {
         getTodayDateEvents()
@@ -38,7 +38,7 @@ class AttendanceViewModel @Inject constructor(
 
     private fun getTodayDateEvents() = viewModelScope.launch {
         getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-            _todayEvents.value = EventsState.Success(eventList)
+            _todayEventList.value = EventsState.Success(eventList)
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
