@@ -154,7 +154,7 @@ internal fun EventEditScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
-    var showDeleteDialog by remember { mutableStateOf(false) }
+    var showDeleteEventDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
 
     Scaffold(
@@ -164,10 +164,10 @@ internal fun EventEditScreen(
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
 
-        if (showDeleteDialog) {
+        if (showDeleteEventDialog) {
             DeleteEventDialog(
                 deleteEvent = deleteEvent,
-                onDismissRequest = { showDeleteDialog = false },
+                onDismissRequest = { showDeleteEventDialog = false },
             )
         }
 
@@ -182,7 +182,7 @@ internal fun EventEditScreen(
                 showLeftButton = true,
                 showRightButton = true,
                 onClickLeftButton = onBackButtonClicked,
-                onClickRightButton = { showDeleteDialog = true },
+                onClickRightButton = { showDeleteEventDialog = true },
             )
 
             EventEditStateIndicator(
