@@ -46,6 +46,7 @@ internal fun AttendanceRoute(
     userId: String,
     viewModel: AttendanceViewModel = hiltViewModel(),
     navigateToProfile: () -> Unit,
+    navigateToAttendanceManagement: (String) -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
@@ -64,6 +65,7 @@ internal fun AttendanceRoute(
         userRoleState = userRoleState,
         eventsState = eventsState,
         navigateToProfile = navigateToProfile,
+        navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
     )
 }
 
@@ -73,6 +75,7 @@ internal fun AttendanceScreen(
     userRoleState: UserRoleState,
     eventsState: EventsState,
     navigateToProfile: () -> Unit,
+    navigateToAttendanceManagement: () -> Unit,
 ) {
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
@@ -113,7 +116,7 @@ internal fun AttendanceScreen(
 
             if (userRoleState == UserRoleState.Success(UserRole.MANAGER)) {
                 AttendanceCheckButton(
-                    onAttendanceCheckButtonClicked = {},
+                    onAttendanceCheckButtonClicked = navigateToAttendanceManagement,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(end = 16.dp, bottom = 16.dp),

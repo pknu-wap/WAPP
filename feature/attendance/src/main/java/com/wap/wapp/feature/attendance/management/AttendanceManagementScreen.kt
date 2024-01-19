@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun AttendanceManagementRoute(
+    userId: String,
     viewModel: AttendanceManagementViewModel = hiltViewModel(),
     navigateToManagement: (String) -> Unit,
 ) {
@@ -58,7 +59,7 @@ internal fun AttendanceManagementRoute(
     AttendanceManagementScreen(
         snackBarHostState = snackBarHostState,
         eventsState = eventsState,
-        navigateToManagement = { navigateToManagement("") },
+        navigateToManagement = { navigateToManagement(userId) },
     )
 }
 

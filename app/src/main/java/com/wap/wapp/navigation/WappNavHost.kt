@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
+import com.wap.wapp.feature.attendance.management.navigation.attendanceManagementScreen
+import com.wap.wapp.feature.attendance.management.navigation.navigateToAttendanceManagemenet
 import com.wap.wapp.feature.attendance.navigation.attendanceScreen
 import com.wap.wapp.feature.attendance.navigation.navigateToAttendance
 import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
@@ -101,7 +103,11 @@ fun WappNavHost(
                 navController.navigateToSignIn(navOptions { popUpTo(profileNavigationRoute) })
             },
         )
-        attendanceScreen(navigateToProfile = navController::navigateToProfile)
+        attendanceScreen(
+            navigateToProfile = navController::navigateToProfile,
+            navigateToAttendanceManagement = navController::navigateToAttendanceManagemenet,
+        )
+        attendanceManagementScreen(navigateToAttendance = navController::navigateToAttendance)
         profileSettingScreen(
             navigateToSignIn = {
                 navController.navigateToSignIn(

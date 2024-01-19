@@ -18,12 +18,19 @@ fun NavController.navigateToAttendance(
     this.navigate("attendance/$userId", navOptions)
 }
 
-fun NavGraphBuilder.attendanceScreen(navigateToProfile: () -> Unit) {
+fun NavGraphBuilder.attendanceScreen(
+    navigateToProfile: () -> Unit,
+    navigateToAttendanceManagement: (String) -> Unit,
+) {
     composable(
         route = attendanceNavigationRoute,
         arguments = listOf(navArgument("userId") { type = NavType.StringType }),
     ) { navBackStackEntry ->
         val userId = navBackStackEntry.arguments?.getString("userId") ?: ""
-        AttendanceRoute(userId = userId, navigateToProfile = navigateToProfile)
+        AttendanceRoute(
+            userId = userId,
+            navigateToProfile = navigateToProfile,
+            navigateToAttendanceManagement = navigateToAttendanceManagement,
+        )
     }
 }
