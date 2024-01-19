@@ -4,6 +4,6 @@ data class EventAttendanceStatus(
     val content: String,
     val eventId: String,
     val title: String,
-    val displayTime: String,
+    val remainAttendanceDateTime: String,
     val isAttendance: Boolean,
 )

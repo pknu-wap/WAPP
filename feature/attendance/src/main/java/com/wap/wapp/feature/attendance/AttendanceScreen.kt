@@ -161,7 +161,8 @@ internal fun AttendanceScreen(
                                     AttendanceItemCard(
                                         eventTitle = attendanceStatus.title,
                                         eventContent = attendanceStatus.content,
-                                        displayTime = attendanceStatus.displayTime,
+                                        remainAttendanceDateTime =
+                                        attendanceStatus.remainAttendanceDateTime,
                                         isAttendance = attendanceStatus.isAttendance,
                                         onSelectItemCard = {
                                             onSelectEventId(attendanceStatus.eventId)
@@ -192,7 +193,7 @@ internal fun AttendanceScreen(
 private fun AttendanceItemCard(
     eventTitle: String,
     eventContent: String,
-    displayTime: String,
+    remainAttendanceDateTime: String,
     isAttendance: Boolean,
     onSelectItemCard: () -> Unit = {},
 ) {
@@ -226,7 +227,7 @@ private fun AttendanceItemCard(
                     return@Row
                 }
                 Text(
-                    text = displayTime,
+                    text = remainAttendanceDateTime,
                     color = WappTheme.colors.yellow34,
                     style = WappTheme.typography.captionMedium,
                 )

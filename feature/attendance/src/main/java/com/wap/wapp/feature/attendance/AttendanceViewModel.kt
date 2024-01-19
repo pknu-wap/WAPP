@@ -4,6 +4,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.attendance.GetAttendanceUseCase
 import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
@@ -24,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
     private val getDateEventListUseCase: GetDateEventListUseCase,
+    private val getAttendanceUseCase: GetAttendanceUseCase,
     private val getEventListAttendanceStatusUseCase: GetEventListAttendanceStatusUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
@@ -69,7 +71,7 @@ class AttendanceViewModel @Inject constructor(
                         eventId = event.eventId,
                         title = event.title,
                         content = event.content,
-                        displayTime = event.displayTime(),
+                        remainAttendanceDateTime = attendanceStatus.attendanceDateTime,
                         isAttendance = attendanceStatus.isAttendance(),
                     )
                 }
@@ -89,9 +91,13 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
+    fun setSelectedEventId(eventId: String) {
+        _selectedEventId.value = eventId
+    }
 
-    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
+    fun setSelectedEventTitle(eventTitle: String) {
+        _selectedEventTitle.value = eventTitle
+    }
 
     fun verifyAttendanceCode() = viewModelScope.launch {
         verifyAttendanceCodeUseCase(
