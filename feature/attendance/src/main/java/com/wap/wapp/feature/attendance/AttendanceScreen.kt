@@ -37,7 +37,6 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
-import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Failure
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Success
@@ -56,26 +55,32 @@ internal fun AttendanceRoute(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
-    val eventsState by viewModel.todayEventsAttendanceStatus.collectAsStateWithLifecycle()
+    val eventsAttendanceStatusState
+        by viewModel.todayEventsAttendanceStatus.collectAsStateWithLifecycle()
     val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
-    val selectedEvent by viewModel.selectedEvent.collectAsStateWithLifecycle()
+    val selectedEventTitle by viewModel.selectedEventTitle.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        launch {
-            viewModel.errorFlow.collectLatest { throwable ->
-                snackBarHostState.showSnackbar(
-                    message = throwable.toSupportingText(),
-                )
-            }
-        }
+        viewModel.apply {
+            getUserRole()
+            getTodayEventsAttendanceStatus(userId)
 
-        launch {
-            viewModel.attendanceEvent.collectLatest { event ->
-                when (event) {
-                    // 출석 성공 했을 경우
-                    is Success -> {}
-                    // 출석 실패 했을 경우
-                    is Failure -> {}
+            launch {
+                errorFlow.collectLatest { throwable ->
+                    snackBarHostState.showSnackbar(
+                        message = throwable.toSupportingText(),
+                    )
+                }
+            }
+
+            launch {
+                attendanceEvent.collectLatest { event ->
+                    when (event) {
+                        // 출석 성공 했을 경우
+                        is Success -> {}
+                        // 출석 실패 했을 경우
+                        is Failure -> {}
+                    }
                 }
             }
         }
@@ -84,11 +89,12 @@ internal fun AttendanceRoute(
     AttendanceScreen(
         snackBarHostState = snackBarHostState,
         userRoleState = userRoleState,
-        eventAttendanceStatusState = eventsState,
+        eventsAttendanceStatusState = eventsAttendanceStatusState,
         attendanceCode = attendanceCode,
-        selectedEvent = selectedEvent,
+        selectedEventTitle = selectedEventTitle,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
-        onSelectEvent = viewModel::setSelectedEvent,
+        onSelectEventId = viewModel::setSelectedEventId,
+        onSelectEventTitle = viewModel::setSelectedEventTitle,
         verifyAttendanceCode = viewModel::verifyAttendanceCode,
         navigateToProfile = navigateToProfile,
         navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
@@ -99,11 +105,12 @@ internal fun AttendanceRoute(
 internal fun AttendanceScreen(
     snackBarHostState: SnackbarHostState,
     userRoleState: UserRoleState,
-    eventAttendanceStatusState: EventAttendanceStatusState,
+    eventsAttendanceStatusState: EventAttendanceStatusState,
     attendanceCode: String,
-    selectedEvent: Event,
+    selectedEventTitle: String,
     onAttendanceCodeChanged: (String) -> Unit,
-    onSelectEvent: (Event) -> Unit,
+    onSelectEventId: (String) -> Unit,
+    onSelectEventTitle: (String) -> Unit,
     verifyAttendanceCode: () -> Unit,
     navigateToProfile: () -> Unit,
     navigateToAttendanceManagement: () -> Unit,
@@ -113,7 +120,7 @@ internal fun AttendanceScreen(
     if (showAttendanceDialog) {
         AttendanceDialog(
             attendanceCode = attendanceCode,
-            event = selectedEvent,
+            eventTitle = selectedEventTitle,
             onAttendanceCodeChanged = onAttendanceCodeChanged,
             onDismissRequest = { showAttendanceDialog = false },
             onConfirmRequest = verifyAttendanceCode,
@@ -136,7 +143,7 @@ internal fun AttendanceScreen(
                 when (userRoleState) {
                     is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
                     is UserRoleState.Success -> {
-                        when (eventAttendanceStatusState) {
+                        when (eventsAttendanceStatusState) {
                             is EventAttendanceStatusState.Loading -> CircleLoader(
                                 modifier = Modifier.fillMaxSize(),
                             )
@@ -148,13 +155,17 @@ internal fun AttendanceScreen(
                                     .weight(1f),
                             ) {
                                 items(
-                                    items = eventAttendanceStatusState.events,
-                                    key = { event -> event.eventId },
-                                ) { event ->
+                                    items = eventsAttendanceStatusState.events,
+                                    key = { it.eventId },
+                                ) { attendanceStatus ->
                                     AttendanceItemCard(
-                                        event = event,
+                                        eventTitle = attendanceStatus.title,
+                                        eventContent = attendanceStatus.content,
+                                        displayTime = attendanceStatus.displayTime,
+                                        isAttendance = attendanceStatus.isAttendance,
                                         onSelectItemCard = {
-                                            onSelectEvent(event)
+                                            onSelectEventId(attendanceStatus.eventId)
+                                            onSelectEventTitle(attendanceStatus.title)
                                             showAttendanceDialog = true
                                         },
                                     )
@@ -179,7 +190,10 @@ internal fun AttendanceScreen(
 
 @Composable
 private fun AttendanceItemCard(
-    event: Event,
+    eventTitle: String,
+    eventContent: String,
+    displayTime: String,
+    isAttendance: Boolean,
     onSelectItemCard: () -> Unit = {},
 ) {
     Card(
@@ -197,20 +211,28 @@ private fun AttendanceItemCard(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
-                    text = event.title,
+                    text = eventTitle,
                     color = WappTheme.colors.white,
                     modifier = Modifier.weight(1f),
                     maxLines = 1,
                     style = WappTheme.typography.titleBold,
                 )
+                if (isAttendance) {
+                    Text(
+                        text = "출석 완료",
+                        color = WappTheme.colors.greenAB,
+                        style = WappTheme.typography.captionMedium,
+                    )
+                    return@Row
+                }
                 Text(
-                    text = "10분 후 마감",
+                    text = displayTime,
                     color = WappTheme.colors.yellow34,
                     style = WappTheme.typography.captionMedium,
                 )
             }
             Text(
-                text = event.content,
+                text = eventContent,
                 color = WappTheme.colors.grayBD,
                 style = WappTheme.typography.contentMedium,
             )
