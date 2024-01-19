@@ -37,7 +37,7 @@ import com.wap.wapp.feature.attendance.R
 @Composable
 internal fun AttendanceManagementDialog(
     attendanceCode: String,
-    attendanceStart: () -> Unit,
+    onConfirmRequest: () -> Unit,
     onDismissRequest: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
 ) {
@@ -103,7 +103,7 @@ internal fun AttendanceManagementDialog(
             ) {
                 Button(
                     onClick = {
-                        attendanceStart()
+                        onConfirmRequest()
                         onDismissRequest()
                     },
                     shape = RoundedCornerShape(8.dp),

@@ -54,9 +54,10 @@ internal fun AttendanceManagementRoute(
         snackBarHostState = snackBarHostState,
         eventsState = eventsState,
         attendanceCode = attendanceCode,
-        navigateToManagement = { navigateToManagement(userId) },
+        postAttendance = viewModel::postAttendance,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEvent = viewModel::setSelectedEventId,
+        navigateToManagement = { navigateToManagement(userId) },
     )
 }
 
@@ -65,16 +66,17 @@ internal fun AttendanceManagementScreen(
     snackBarHostState: SnackbarHostState,
     eventsState: EventsState,
     attendanceCode: String,
-    navigateToManagement: () -> Unit,
+    postAttendance: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
     onSelectEvent: (String) -> Unit,
+    navigateToManagement: () -> Unit,
 ) {
     var showAttendanceManagementDialog by remember { mutableStateOf(false) }
 
     if (showAttendanceManagementDialog) {
         AttendanceManagementDialog(
             attendanceCode = attendanceCode,
-            attendanceStart = {},
+            onConfirmRequest = postAttendance,
             onDismissRequest = { showAttendanceManagementDialog = false },
             onAttendanceCodeChanged = onAttendanceCodeChanged,
         )
