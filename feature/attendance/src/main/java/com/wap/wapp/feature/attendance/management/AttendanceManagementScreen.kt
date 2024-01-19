@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.attendance.management
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,15 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -25,8 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -34,6 +32,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable.ic_forward
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.feature.attendance.R
 import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.EventsState
@@ -115,58 +114,40 @@ private fun AttendanceItemCard(
             .fillMaxWidth()
             .clickable { onSelectItemCard() },
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth(),
+        Box(modifier = Modifier.padding(16.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        text = event.title,
+                        color = WappTheme.colors.white,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        style = WappTheme.typography.titleBold,
+                    )
+                    Text(
+                        text = "10분 후 마감",
+                        color = WappTheme.colors.yellow34,
+                        style = WappTheme.typography.captionMedium,
+                    )
+                }
                 Text(
-                    text = event.title,
-                    color = WappTheme.colors.white,
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    style = WappTheme.typography.titleBold,
-                )
-                Text(
-                    text = "10분 후 마감",
-                    color = WappTheme.colors.yellow34,
-                    style = WappTheme.typography.captionMedium,
+                    text = event.content,
+                    color = WappTheme.colors.grayBD,
+                    style = WappTheme.typography.contentMedium,
                 )
             }
-            Text(
-                text = event.content,
-                color = WappTheme.colors.grayBD,
-                style = WappTheme.typography.contentMedium,
+            Image(
+                painter = painterResource(id = ic_forward),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 12.dp),
             )
         }
     }
-}
-
-@Composable
-private fun AttendanceCheckButton(
-    onAttendanceCheckButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    ElevatedButton(
-        modifier = modifier.height(48.dp),
-        onClick = { onAttendanceCheckButtonClicked() },
-        colors = ButtonDefaults.buttonColors(
-            contentColor = WappTheme.colors.black,
-            containerColor = WappTheme.colors.yellow34,
-            disabledContentColor = WappTheme.colors.white,
-            disabledContainerColor = WappTheme.colors.grayA2,
-        ),
-        shape = RoundedCornerShape(8.dp),
-        content = {
-            Row {
-                Text(
-                    text = stringResource(R.string.go_to_management_attendance_code),
-                    style = WappTheme.typography.contentRegular,
-                )
-            }
-        },
-    )
 }
