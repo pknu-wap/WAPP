@@ -116,13 +116,9 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedEventId(eventId: String) {
-        _selectedEventId.value = eventId
-    }
+    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
 
-    fun setSelectedEventTitle(eventTitle: String) {
-        _selectedEventTitle.value = eventTitle
-    }
+    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
 
     fun verifyAttendanceCode(userId: String) = viewModelScope.launch {
         verifyAttendanceCodeUseCase(
