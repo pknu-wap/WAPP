@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.commmon.util.DateUtil.generateNowDateTime
+import com.wap.wapp.core.domain.usecase.attendance.IsVerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
@@ -23,9 +24,14 @@ import javax.inject.Inject
 class AttendanceViewModel @Inject constructor(
     private val getDateEventListUseCase: GetDateEventListUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
+    private val isVerifyAttendanceCodeUseCase: IsVerifyAttendanceCodeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
+
+    private val _attendanceEvent: MutableSharedFlow<AttendanceEvent> =
+        MutableSharedFlow()
+    val attendanceManagementEvent = _attendanceEvent.asSharedFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
@@ -62,7 +68,27 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedEvent(event: Event) { _selectedEvent.value = event }
+    fun setSelectedEvent(event: Event) {
+        _selectedEvent.value = event
+    }
+
+    fun verifyAttendanceCode() = viewModelScope.launch {
+        isVerifyAttendanceCodeUseCase(
+            eventId = _selectedEvent.value.eventId,
+            attendanceCode = _attendanceCode.value,
+        ).onSuccess { result ->
+            // 출석에 성공했을 경우
+            if (result) {
+                _attendanceEvent.emit(AttendanceEvent.Success)
+                return@launch
+            }
+            // 출석에 실패했을 경우
+            _attendanceEvent.emit(AttendanceEvent.Failure("출석 코드가 일치하지 않습니다."))
+        }.onFailure { exception ->
+            // 네트워크 통신에 실패했을 경우
+            _errorFlow.emit(exception)
+        }
+    }
 
     sealed class EventsState {
         data object Loading : EventsState()
@@ -72,6 +98,11 @@ class AttendanceViewModel @Inject constructor(
     sealed class UserRoleState {
         data object Loading : UserRoleState()
         data class Success(val userRole: UserRole) : UserRoleState()
+    }
+
+    sealed class AttendanceEvent {
+        data object Success : AttendanceEvent()
+        data class Failure(val message: String) : AttendanceEvent()
     }
 
     companion object {
