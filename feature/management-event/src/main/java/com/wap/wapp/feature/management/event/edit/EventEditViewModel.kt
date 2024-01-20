@@ -3,9 +3,9 @@ package com.wap.wapp.feature.management.event.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.event.DeleteEventAndRelatedSurveysUseCase
 import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
 import com.wap.wapp.core.domain.usecase.event.UpdateEventUseCase
-import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,12 +21,13 @@ import javax.inject.Inject
 class EventEditViewModel @Inject constructor(
     private val getEventUseCase: GetEventUseCase,
     private val updateEventUseCase: UpdateEventUseCase,
+    private val deleteEventAndRelatedSurveysUseCase: DeleteEventAndRelatedSurveysUseCase,
 ) : ViewModel() {
     private val _currentEditState: MutableStateFlow<EventRegistrationState> =
         MutableStateFlow(EventRegistrationState.EVENT_DETAILS)
     val currentEditState = _currentEditState.asStateFlow()
 
-    private val _eventEditEvent: MutableSharedFlow<EventRegistrationEvent> =
+    private val _eventEditEvent: MutableSharedFlow<EventEditEvent> =
         MutableSharedFlow()
     val eventEditEvent = _eventEditEvent.asSharedFlow()
 
@@ -114,10 +115,18 @@ class EventEditViewModel @Inject constructor(
                 eventEndTime = _eventEndTime.value,
                 eventId = _eventId.value,
             ).onSuccess {
-                _eventEditEvent.emit(EventRegistrationEvent.Success)
+                _eventEditEvent.emit(EventEditEvent.EditSuccess)
             }.onFailure { throwable ->
-                _eventEditEvent.emit(EventRegistrationEvent.Failure(throwable))
+                _eventEditEvent.emit(EventEditEvent.Failure(throwable))
             }
+        }
+    }
+
+    fun deleteEvent() = viewModelScope.launch {
+        deleteEventAndRelatedSurveysUseCase(_eventId.value).onSuccess {
+            _eventEditEvent.emit(EventEditEvent.DeleteSuccess)
+        }.onFailure { throwable ->
+            _eventEditEvent.emit(EventEditEvent.Failure(throwable))
         }
     }
 
@@ -132,7 +141,7 @@ class EventEditViewModel @Inject constructor(
 
     private fun isValidLocation(): Boolean = _eventLocation.value.isNotEmpty()
 
-    fun getEvent(date: String, eventId: String) = viewModelScope.launch {
+    fun getEvent(eventId: String) = viewModelScope.launch {
         getEventUseCase(eventId).onSuccess {
             _eventContent.value = it.content
             _eventTitle.value = it.title
@@ -146,11 +155,13 @@ class EventEditViewModel @Inject constructor(
             .onFailure { emitValidationErrorMessage("이벤트를 불러오는데 실패하였습니다.") }
     }
 
-    private fun emitValidationErrorMessage(message: String) {
-        viewModelScope.launch {
-            _eventEditEvent.emit(
-                EventRegistrationEvent.ValidationError(message),
-            )
-        }
+    private fun emitValidationErrorMessage(message: String) =
+        viewModelScope.launch { _eventEditEvent.emit(EventEditEvent.ValidationError(message)) }
+
+    sealed class EventEditEvent {
+        data class ValidationError(val message: String) : EventEditEvent()
+        data class Failure(val error: Throwable) : EventEditEvent()
+        data object EditSuccess : EventEditEvent()
+        data object DeleteSuccess : EventEditEvent()
     }
 }

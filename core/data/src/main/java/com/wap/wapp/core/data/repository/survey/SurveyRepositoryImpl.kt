@@ -28,6 +28,38 @@ class SurveyRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getSurveyListByEventId(eventId: String): Result<List<Survey>> =
+        surveyDataSource.getSurveyListByEventId(eventId).mapCatching { surveyList ->
+            surveyList.map { surveyResponse ->
+                userDataSource.getUserProfile(userId = surveyResponse.userId)
+                    .mapCatching { userProfileResponse ->
+                        val userName = userProfileResponse.toDomain().userName
+
+                        noticeNameResponse.mapCatching { noticeNameResponse ->
+                            val eventName = noticeNameResponse.toDomain()
+
+                            surveyResponse.toDomain(userName = userName, eventName = eventName)
+                        }.getOrThrow()
+                    }.getOrThrow()
+            }
+        }
+
+    override suspend fun getSurveyListBySurveyFormId(surveyFormId: String): Result<List<Survey>> =
+        surveyDataSource.getSurveyListByEventId(surveyFormId).mapCatching { surveyList ->
+            surveyList.map { surveyResponse ->
+                userDataSource.getUserProfile(userId = surveyResponse.userId)
+                    .mapCatching { userProfileResponse ->
+                        val userName = userProfileResponse.toDomain().userName
+
+                        noticeNameResponse.mapCatching { noticeNameResponse ->
+                            val eventName = noticeNameResponse.toDomain()
+
+                            surveyResponse.toDomain(userName = userName, eventName = eventName)
+                        }.getOrThrow()
+                    }.getOrThrow()
+            }
+        }
+
     override suspend fun getUserRespondedSurveyList(userId: String): Result<List<Survey>> =
         surveyDataSource.getUserRespondedSurveyList(userId).mapCatching { surveyList ->
             surveyList.map { surveyResponse ->
@@ -57,6 +89,9 @@ class SurveyRepositoryImpl @Inject constructor(
                     }.getOrThrow()
                 }.getOrThrow()
         }
+
+    override suspend fun deleteSurvey(surveyId: String): Result<Unit> =
+        surveyDataSource.deleteSurvey(surveyId)
 
     override suspend fun postSurvey(
         surveyFormId: String,

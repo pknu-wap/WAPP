@@ -30,9 +30,7 @@ fun WappSubTopBar(
     onClickLeftButton: () -> Unit = {},
     onClickRightButton: () -> Unit = {},
     @StringRes leftButtonDescriptionRes: Int = R.string.back_button,
-    @StringRes rightButtonDescriptionRes: Int = R.string.close_button,
     @DrawableRes leftButtonDrawableRes: Int = R.drawable.ic_back,
-    @DrawableRes rightButtonDrawableRes: Int = R.drawable.ic_close,
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -43,7 +41,7 @@ fun WappSubTopBar(
                 contentDescription = stringResource(leftButtonDescriptionRes),
                 tint = WappTheme.colors.white,
                 modifier = Modifier
-                    .padding(start = 10.dp)
+                    .padding(start = 20.dp)
                     .size(20.dp)
                     .clickable { onClickLeftButton() }
                     .align(Alignment.CenterStart),
@@ -59,15 +57,14 @@ fun WappSubTopBar(
         )
 
         if (showRightButton) {
-            Icon(
-                painter = painterResource(rightButtonDrawableRes),
-                contentDescription = stringResource(rightButtonDescriptionRes),
-                tint = WappTheme.colors.white,
+            Text(
+                text = stringResource(id = R.string.delete),
+                style = WappTheme.typography.titleBold,
+                color = WappTheme.colors.yellow34,
                 modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(20.dp)
-                    .clickable { onClickRightButton() }
-                    .align(Alignment.CenterEnd),
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 20.dp)
+                    .clickable { onClickRightButton() },
             )
         }
     }

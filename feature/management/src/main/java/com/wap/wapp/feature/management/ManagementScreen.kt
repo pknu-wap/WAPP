@@ -8,7 +8,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun ManagementRoute(
-    navigateToEventEdit: (String, String) -> Unit,
+    navigateToEventEdit: (String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
@@ -68,7 +67,7 @@ internal fun ManagementRoute(
             onValidationSuccess = {
                 showValidationScreen = false
                 viewModel.getUserRole() // 매니저 권한 재 검증
-            }
+            },
         )
         return
     }
@@ -89,7 +88,7 @@ internal fun ManagementScreen(
     snackBarHostState: SnackbarHostState,
     surveyFormsState: ManagementViewModel.SurveyFormsState,
     eventsState: ManagementViewModel.EventsState,
-    navigateToEventEdit: (String, String) -> Unit,
+    navigateToEventEdit: (String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,
