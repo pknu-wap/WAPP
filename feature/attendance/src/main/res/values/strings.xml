@@ -13,7 +13,7 @@
     <string name="cancel">취소</string>
     <string name="attendance_success">출석에 성공하셨습니다!</string>
     <string name="attendance_failure">출석 코드가 다릅니다.</string>
-    <string name="attendance_guset_title">앗! 회원이 아니시네요</string>
-    <string name="attendance_guest_content">회원만 출석을 할 수 있어요.</string>
+    <string name="attendance_guset_title">앗 회원이 아니시네요 !</string>
+    <string name="attendance_guest_content">회원만 일정에 출석할 수 있어요.</string>
     <string name="go_to_signin">로그인 하러 가기</string>
 </resources>

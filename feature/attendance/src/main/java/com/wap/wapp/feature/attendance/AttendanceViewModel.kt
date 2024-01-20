@@ -9,11 +9,14 @@ import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.PostAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
+import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.event.Event
+import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.attendance.model.EventAttendanceStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,6 +32,7 @@ class AttendanceViewModel @Inject constructor(
     private val getEventListAttendanceUseCase: GetEventListAttendanceUseCase,
     private val getEventListAttendanceStatusUseCase: GetEventListAttendanceStatusUseCase,
     private val getUserRoleUseCase: GetUserRoleUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
     private val postAttendanceStatusUseCase: PostAttendanceStatusUseCase,
     private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
 ) : ViewModel() {
@@ -37,6 +41,9 @@ class AttendanceViewModel @Inject constructor(
 
     private val _attendanceEvent: MutableSharedFlow<AttendanceEvent> = MutableSharedFlow()
     val attendanceEvent = _attendanceEvent.asSharedFlow()
+
+    private val _userProfile = MutableStateFlow<UserProfile>(DEFAULT_USER_PROFILE)
+    val userProfile: StateFlow<UserProfile> = _userProfile.asStateFlow()
 
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Loading)
     val userRole: StateFlow<UserRoleState> = _userRole.asStateFlow()
@@ -53,6 +60,28 @@ class AttendanceViewModel @Inject constructor(
 
     private val _selectedEventTitle = MutableStateFlow<String>("")
     val selectedEventTitle: StateFlow<String> = _selectedEventTitle.asStateFlow()
+
+    init {
+        checkUserInformationAndGetEvents()
+    }
+
+    private fun checkUserInformationAndGetEvents() = viewModelScope.launch {
+        getUserRoleUseCase().onSuccess { userRole ->
+            when (userRole) {
+                UserRole.GUEST -> _userRole.value = UserRoleState.Success(userRole)
+
+                // 일반 회원 혹은 운영진 일 경우,
+                // 유저 프로필을 받아오고, 해당 유저 아이디를 이용해서 출석 정보를 가져옴
+                UserRole.MEMBER, UserRole.MANAGER -> {
+                    async { getUserProfileUseCase() }.await().onSuccess {
+                        _userRole.value = UserRoleState.Success(userRole)
+                        _userProfile.value = it
+                        launch { getTodayEventsAttendanceStatus(it.userId) }
+                    }.onFailure { exception -> _errorFlow.emit(exception) }
+                }
+            }
+        }.onFailure { exception -> _errorFlow.emit(exception) }
+    }
 
     fun getTodayEventsAttendanceStatus(userId: String) {
         viewModelScope.launch {
@@ -104,12 +133,6 @@ class AttendanceViewModel @Inject constructor(
             EventAttendanceStatusState.Success(eventAttendanceStatusList)
     }.onFailure { _errorFlow.emit(it) }
 
-    fun getUserRole() = viewModelScope.launch {
-        getUserRoleUseCase()
-            .onSuccess { _userRole.value = UserRoleState.Success(it) }
-            .onFailure { exception -> _errorFlow.emit(exception) }
-    }
-
     fun setAttendanceCode(attendanceCode: String) {
         if (attendanceCode.isDigitsOnly()) {
             _attendanceCode.value = attendanceCode
@@ -152,5 +175,9 @@ class AttendanceViewModel @Inject constructor(
     sealed class AttendanceEvent {
         data object Success : AttendanceEvent()
         data class Failure(val message: String) : AttendanceEvent()
+    }
+
+    companion object {
+        val DEFAULT_USER_PROFILE = UserProfile("", "", "", "")
     }
 }

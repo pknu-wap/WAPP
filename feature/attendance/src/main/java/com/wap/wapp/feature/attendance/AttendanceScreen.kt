@@ -59,35 +59,30 @@ internal fun AttendanceRoute(
     val selectedEventTitle by viewModel.selectedEventTitle.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    if (userId.isNotEmpty()) {
-        LaunchedEffect(true) {
-            viewModel.apply {
-                getUserRole()
-                getTodayEventsAttendanceStatus(userId)
-
-                launch {
-                    errorFlow.collectLatest { throwable ->
-                        snackBarHostState.showSnackbar(message = throwable.toSupportingText())
-                    }
+    LaunchedEffect(true) {
+        viewModel.apply {
+            launch {
+                errorFlow.collectLatest { throwable ->
+                    snackBarHostState.showSnackbar(message = throwable.toSupportingText())
                 }
+            }
 
-                launch {
-                    attendanceEvent.collect { event ->
-                        when (event) {
-                            is Success -> {
-                                snackBarHostState.showSnackbar(
-                                    message = getString(context, R.string.attendance_success),
-                                )
-                                clearAttendanceCode()
-                                getTodayEventsAttendanceStatus(userId)
-                            }
+            launch {
+                attendanceEvent.collect { event ->
+                    when (event) {
+                        is Success -> {
+                            snackBarHostState.showSnackbar(
+                                getString(context, R.string.attendance_success),
+                            )
+                            clearAttendanceCode()
+                            getTodayEventsAttendanceStatus(userId)
+                        }
 
-                            is Failure -> {
-                                snackBarHostState.showSnackbar(
-                                    message = getString(context, R.string.attendance_failure),
-                                )
-                                clearAttendanceCode()
-                            }
+                        is Failure -> {
+                            snackBarHostState.showSnackbar(
+                                getString(context, R.string.attendance_failure),
+                            )
+                            clearAttendanceCode()
                         }
                     }
                 }
@@ -95,28 +90,33 @@ internal fun AttendanceRoute(
         }
     }
 
-    AttendanceScreen(
-        userId = userId,
-        snackBarHostState = snackBarHostState,
-        userRoleState = userRoleState,
-        eventsAttendanceStatusState = eventsAttendanceStatusState,
-        attendanceCode = attendanceCode,
-        selectedEventTitle = selectedEventTitle,
-        clearAttendanceCode = viewModel::clearAttendanceCode,
-        onAttendanceCodeChanged = viewModel::setAttendanceCode,
-        onSelectEventId = viewModel::setSelectedEventId,
-        onSelectEventTitle = viewModel::setSelectedEventTitle,
-        verifyAttendanceCode = { viewModel.verifyAttendanceCode(userId) },
-        navigateToSignIn = navigateToSignIn,
-        navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
-    )
+    when (userRoleState) {
+        is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+        is UserRoleState.Success -> {
+            when ((userRoleState as UserRoleState.Success).userRole) {
+                UserRole.GUEST -> AttendanceGuestScreen(onButtonClicked = navigateToSignIn)
+                UserRole.MANAGER, UserRole.MEMBER -> AttendanceScreen(
+                    userRole = (userRoleState as UserRoleState.Success).userRole,
+                    snackBarHostState = snackBarHostState,
+                    eventsAttendanceStatusState = eventsAttendanceStatusState,
+                    attendanceCode = attendanceCode,
+                    selectedEventTitle = selectedEventTitle,
+                    clearAttendanceCode = viewModel::clearAttendanceCode,
+                    onAttendanceCodeChanged = viewModel::setAttendanceCode,
+                    onSelectEventId = viewModel::setSelectedEventId,
+                    onSelectEventTitle = viewModel::setSelectedEventTitle,
+                    verifyAttendanceCode = { viewModel.verifyAttendanceCode(userId) },
+                    navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
+                )
+            }
+        }
+    }
 }
 
 @Composable
 internal fun AttendanceScreen(
-    userId: String,
+    userRole: UserRole,
     snackBarHostState: SnackbarHostState,
-    userRoleState: UserRoleState,
     eventsAttendanceStatusState: EventAttendanceStatusState,
     attendanceCode: String,
     selectedEventTitle: String,
@@ -125,7 +125,6 @@ internal fun AttendanceScreen(
     onSelectEventId: (String) -> Unit,
     onSelectEventTitle: (String) -> Unit,
     verifyAttendanceCode: () -> Unit,
-    navigateToSignIn: () -> Unit,
     navigateToAttendanceManagement: () -> Unit,
 ) {
     var showAttendanceDialog by remember { mutableStateOf(false) }
@@ -145,57 +144,48 @@ internal fun AttendanceScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                WappLeftMainTopBar(
-                    titleRes = R.string.attendance,
-                    contentRes = R.string.attendance_content,
-                )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+        ) {
+            WappLeftMainTopBar(
+                titleRes = R.string.attendance,
+                contentRes = R.string.attendance_content,
+            )
+            when (eventsAttendanceStatusState) {
+                is EventAttendanceStatusState.Loading ->
+                    CircleLoader(Modifier.fillMaxSize())
 
-                if (userId.isEmpty()) {
-                    AttendanceGuestScreen(onButtonClicked = navigateToSignIn)
-                } else {
-                    when (userRoleState) {
-                        is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-                        is UserRoleState.Success -> {
-                            when (eventsAttendanceStatusState) {
-                                is EventAttendanceStatusState.Loading -> CircleLoader(
-                                    modifier = Modifier.fillMaxSize(),
-                                )
-
-                                is EventAttendanceStatusState.Success -> {
-                                    if (eventsAttendanceStatusState.events.isEmpty()) {
-                                        NothingToShow(title = R.string.no_events_to_attendance)
-                                    } else {
-                                        AttendanceContent(
-                                            eventsAttendanceStatus =
-                                            eventsAttendanceStatusState.events,
-                                            onSelectEventId = onSelectEventId,
-                                            onSelectEventTitle = onSelectEventTitle,
-                                            setAttendanceDialog = {
-                                                clearAttendanceCode()
-                                                showAttendanceDialog = true
-                                            },
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 15.dp)
-                                                .weight(1f),
-                                        )
-                                    }
-                                }
-                            }
+                is EventAttendanceStatusState.Success -> {
+                    Box {
+                        if (eventsAttendanceStatusState.events.isEmpty()) {
+                            NothingToShow(title = R.string.no_events_to_attendance)
+                        } else {
+                            AttendanceContent(
+                                eventsAttendanceStatus =
+                                eventsAttendanceStatusState.events,
+                                onSelectEventId = onSelectEventId,
+                                onSelectEventTitle = onSelectEventTitle,
+                                setAttendanceDialog = {
+                                    clearAttendanceCode()
+                                    showAttendanceDialog = true
+                                },
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 15.dp),
+                            )
+                        }
+                        if (userRole == UserRole.MANAGER) {
+                            AttendanceCheckButton(
+                                onAttendanceCheckButtonClicked = navigateToAttendanceManagement,
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .padding(end = 16.dp, bottom = 16.dp),
+                            )
                         }
                     }
                 }
-            }
-
-            if (userRoleState == UserRoleState.Success(UserRole.MANAGER)) {
-                AttendanceCheckButton(
-                    onAttendanceCheckButtonClicked = navigateToAttendanceManagement,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(end = 16.dp, bottom = 16.dp),
-                )
             }
         }
     }
