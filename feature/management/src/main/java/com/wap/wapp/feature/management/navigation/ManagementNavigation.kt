@@ -14,7 +14,7 @@ fun NavController.navigateToManagement(navOptions: NavOptions? = navOptions {}) 
 }
 
 fun NavGraphBuilder.managementScreen(
-    navigateToEventEdit: (String, String) -> Unit,
+    navigateToEventEdit: (String) -> Unit,
     navigateToEventRegistration: () -> Unit,
     navigateToSurveyRegistration: () -> Unit,
     navigateToSurveyFormEdit: (String) -> Unit,

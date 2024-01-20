@@ -33,7 +33,7 @@ import com.wap.wapp.core.model.event.Event
 @Composable
 internal fun ManagementEventCard(
     eventsState: ManagementViewModel.EventsState,
-    onCardClicked: (String, String) -> Unit,
+    onCardClicked: (String) -> Unit,
     onAddEventButtonClicked: () -> Unit,
 ) {
     Card(
@@ -65,11 +65,11 @@ internal fun ManagementEventCard(
 @Composable
 private fun ManagementEventContent(
     eventsState: ManagementViewModel.EventsState,
-    onCardClicked: (String, String) -> Unit,
+    onCardClicked: (String) -> Unit,
     onAddEventButtonClicked: () -> Unit,
 ) {
     when (eventsState) {
-        is ManagementViewModel.EventsState.Init -> { }
+        is ManagementViewModel.EventsState.Init -> {}
         is ManagementViewModel.EventsState.Loading -> CircleLoader(
             modifier = Modifier
                 .fillMaxWidth()
@@ -107,13 +107,13 @@ private fun ManagementEventContent(
 private fun ManagementEventItem(
     item: Event,
     cardColor: Color,
-    onCardClicked: (String, String) -> Unit,
+    onCardClicked: (String) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onCardClicked(item.startDateTime.toString(), item.eventId) },
+            .clickable { onCardClicked(item.eventId) },
         colors = CardDefaults.cardColors(containerColor = cardColor),
     ) {
         Row(

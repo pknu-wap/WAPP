@@ -15,6 +15,8 @@ interface EventRepository {
 
     suspend fun getEvent(eventId: String): Result<Event>
 
+    suspend fun deleteEvent(eventId: String): Result<Unit>
+
     suspend fun postEvent(
         title: String,
         content: String,

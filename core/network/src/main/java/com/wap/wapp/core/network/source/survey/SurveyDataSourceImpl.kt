@@ -29,6 +29,45 @@ class SurveyDataSourceImpl @Inject constructor(
         result
     }
 
+    override suspend fun getSurveyListByEventId(eventId: String): Result<List<SurveyResponse>> =
+        runCatching {
+            val result: MutableList<SurveyResponse> = mutableListOf()
+
+            val task = firebaseFirestore.collection(SURVEY_COLLECTION)
+                .whereEqualTo("eventId", eventId)
+                .get()
+                .await()
+
+            for (document in task.documents) {
+                val surveyResponse = document.toObject(SurveyResponse::class.java)
+                checkNotNull(surveyResponse)
+
+                result.add(surveyResponse)
+            }
+
+            result
+        }
+
+    override suspend fun getSurveyListBySurveyFormId(
+        surveyFormId: String,
+    ): Result<List<SurveyResponse>> = runCatching {
+        val result: MutableList<SurveyResponse> = mutableListOf()
+
+        val task = firebaseFirestore.collection(SURVEY_COLLECTION)
+            .whereEqualTo("surveyFormId", surveyFormId)
+            .get()
+            .await()
+
+        for (document in task.documents) {
+            val surveyResponse = document.toObject(SurveyResponse::class.java)
+            checkNotNull(surveyResponse)
+
+            result.add(surveyResponse)
+        }
+
+        result
+    }
+
     override suspend fun getUserRespondedSurveyList(userId: String): Result<List<SurveyResponse>> =
         runCatching {
             val result: MutableList<SurveyResponse> = mutableListOf()
@@ -56,6 +95,13 @@ class SurveyDataSourceImpl @Inject constructor(
 
         val surveyResponse = result.toObject(SurveyResponse::class.java)
         checkNotNull(surveyResponse)
+    }
+
+    override suspend fun deleteSurvey(surveyId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(SURVEY_COLLECTION)
+            .document(surveyId)
+            .delete()
+            .await()
     }
 
     override suspend fun postSurvey(

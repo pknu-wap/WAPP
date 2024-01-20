@@ -104,15 +104,21 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
-    override suspend fun getEvent(eventId: String): Result<EventResponse> =
-        runCatching {
-            val document = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(eventId)
-                .get()
-                .await()
+    override suspend fun getEvent(eventId: String): Result<EventResponse> = runCatching {
+        val document = firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(eventId)
+            .get()
+            .await()
 
-            checkNotNull(document.toObject<EventResponse>())
-        }
+        checkNotNull(document.toObject<EventResponse>())
+    }
+
+    override suspend fun deleteEvent(eventId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(eventId)
+            .delete()
+            .await()
+    }
 
     override suspend fun postEvent(
         title: String,
