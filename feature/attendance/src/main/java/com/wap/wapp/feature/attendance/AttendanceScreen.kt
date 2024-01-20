@@ -124,10 +124,7 @@ internal fun AttendanceScreen(
             attendanceCode = attendanceCode,
             eventTitle = selectedEventTitle,
             onAttendanceCodeChanged = onAttendanceCodeChanged,
-            onDismissRequest = {
-                clearAttendanceCode()
-                showAttendanceDialog = false
-            },
+            onDismissRequest = { showAttendanceDialog = false },
             onConfirmRequest = verifyAttendanceCode,
         )
     }
@@ -161,7 +158,10 @@ internal fun AttendanceScreen(
                                         eventsAttendanceStatus = eventsAttendanceStatusState.events,
                                         onSelectEventId = onSelectEventId,
                                         onSelectEventTitle = onSelectEventTitle,
-                                        setAttendanceDialog = { showAttendanceDialog = true },
+                                        setAttendanceDialog = {
+                                            clearAttendanceCode()
+                                            showAttendanceDialog = true
+                                        },
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 15.dp)
