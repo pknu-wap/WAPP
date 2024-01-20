@@ -69,6 +69,7 @@ internal fun AttendanceManagementRoute(
         attendanceCode = attendanceCode,
         selectedEventTitle = selectedEventTitle,
         postAttendance = viewModel::postAttendance,
+        clearAttendanceCode = viewModel::clearAttendanceCode,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEventId = viewModel::setSelectedEventId,
         onSelectEventTitle = viewModel::setSelectedEventTitle,
@@ -83,6 +84,7 @@ internal fun AttendanceManagementScreen(
     attendanceCode: String,
     selectedEventTitle: String,
     postAttendance: () -> Unit,
+    clearAttendanceCode: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
     onSelectEventTitle: (String) -> Unit,
     onSelectEventId: (String) -> Unit,
@@ -137,7 +139,7 @@ internal fun AttendanceManagementScreen(
                                 AttendanceItemCard(
                                     event = event,
                                     onSelectItemCard = {
-                                        onAttendanceCodeChanged("")
+                                        clearAttendanceCode()
                                         onSelectEventId(event.eventId)
                                         onSelectEventTitle(event.title)
                                         showAttendanceManagementDialog = true

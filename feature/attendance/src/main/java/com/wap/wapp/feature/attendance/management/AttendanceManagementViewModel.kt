@@ -58,6 +58,8 @@ class AttendanceManagementViewModel @Inject constructor(
         }
     }
 
+    fun clearAttendanceCode() { _attendanceCode.value = "" }
+
     fun setSelectedEventId(eventId: String) { selectedEventId.value = eventId }
 
     fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
