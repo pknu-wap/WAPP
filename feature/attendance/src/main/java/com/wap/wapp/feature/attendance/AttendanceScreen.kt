@@ -46,10 +46,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun AttendanceRoute(
-    userId: String,
     viewModel: AttendanceViewModel = hiltViewModel(),
     navigateToSignIn: () -> Unit,
-    navigateToAttendanceManagement: (String) -> Unit,
+    navigateToAttendanceManagement: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val userRoleState by viewModel.userRole.collectAsStateWithLifecycle()
@@ -75,7 +74,7 @@ internal fun AttendanceRoute(
                                 getString(context, R.string.attendance_success),
                             )
                             clearAttendanceCode()
-                            getTodayEventsAttendanceStatus(userId)
+                            getTodayEventsAttendanceStatus()
                         }
 
                         is Failure -> {
@@ -105,8 +104,8 @@ internal fun AttendanceRoute(
                     onAttendanceCodeChanged = viewModel::setAttendanceCode,
                     onSelectEventId = viewModel::setSelectedEventId,
                     onSelectEventTitle = viewModel::setSelectedEventTitle,
-                    verifyAttendanceCode = { viewModel.verifyAttendanceCode(userId) },
-                    navigateToAttendanceManagement = { navigateToAttendanceManagement(userId) },
+                    verifyAttendanceCode = viewModel::verifyAttendanceCode,
+                    navigateToAttendanceManagement = navigateToAttendanceManagement,
                 )
             }
         }

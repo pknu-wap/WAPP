@@ -76,17 +76,17 @@ class AttendanceViewModel @Inject constructor(
                     async { getUserProfileUseCase() }.await().onSuccess {
                         _userRole.value = UserRoleState.Success(userRole)
                         _userProfile.value = it
-                        launch { getTodayEventsAttendanceStatus(it.userId) }
+                        launch { getTodayEventsAttendanceStatus() }
                     }.onFailure { exception -> _errorFlow.emit(exception) }
                 }
             }
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
-    fun getTodayEventsAttendanceStatus(userId: String) {
+    fun getTodayEventsAttendanceStatus() {
         viewModelScope.launch {
             getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-                getEventListAttendance(eventList = eventList, userId = userId)
+                getEventListAttendance(eventList = eventList, userId = _userProfile.value.userId)
             }.onFailure { exception -> _errorFlow.emit(exception) }
         }
     }
@@ -133,14 +133,17 @@ class AttendanceViewModel @Inject constructor(
             EventAttendanceStatusState.Success(eventAttendanceStatusList)
     }.onFailure { _errorFlow.emit(it) }
 
-    fun verifyAttendanceCode(userId: String) = viewModelScope.launch {
+    fun verifyAttendanceCode() = viewModelScope.launch {
         verifyAttendanceCodeUseCase(
             eventId = _selectedEventId.value,
             attendanceCode = _attendanceCode.value,
         ).onSuccess { result ->
             // 출석에 성공했을 경우
             if (result) {
-                postAttendanceStatusUseCase(eventId = _selectedEventId.value, userId = userId)
+                postAttendanceStatusUseCase(
+                    eventId = _selectedEventId.value,
+                    userId = _userProfile.value.userId,
+                )
                     .onSuccess { _attendanceEvent.emit(AttendanceEvent.Success) }
                     .onFailure { exception -> _errorFlow.emit(exception) }
                 return@launch

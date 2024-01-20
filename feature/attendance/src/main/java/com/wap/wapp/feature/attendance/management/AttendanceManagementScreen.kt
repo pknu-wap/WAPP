@@ -36,9 +36,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun AttendanceManagementRoute(
-    userId: String,
     viewModel: AttendanceManagementViewModel = hiltViewModel(),
-    navigateToAttendance: (String) -> Unit,
+    navigateToAttendance: () -> Unit,
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
@@ -57,7 +56,7 @@ internal fun AttendanceManagementRoute(
         launch {
             viewModel.attendanceManagementEvent.collect { event ->
                 when (event) {
-                    is AttendanceManagementEvent.Success -> navigateToAttendance(userId)
+                    is AttendanceManagementEvent.Success -> navigateToAttendance()
                 }
             }
         }
@@ -73,7 +72,7 @@ internal fun AttendanceManagementRoute(
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEventId = viewModel::setSelectedEventId,
         onSelectEventTitle = viewModel::setSelectedEventTitle,
-        navigateToManagement = { navigateToAttendance(userId) },
+        navigateToAttendance = navigateToAttendance,
     )
 }
 
@@ -88,7 +87,7 @@ internal fun AttendanceManagementScreen(
     onAttendanceCodeChanged: (String) -> Unit,
     onSelectEventTitle: (String) -> Unit,
     onSelectEventId: (String) -> Unit,
-    navigateToManagement: () -> Unit,
+    navigateToAttendance: () -> Unit,
 ) {
     var showAttendanceManagementDialog by remember { mutableStateOf(false) }
 
@@ -113,7 +112,7 @@ internal fun AttendanceManagementScreen(
                     titleRes = R.string.management_attendance,
                     contentRes = R.string.management_attendance_content,
                     showBackButton = true,
-                    onClickBackButton = navigateToManagement,
+                    onClickBackButton = navigateToAttendance,
                 )
                 when (eventsState) {
                     is EventsState.Loading -> CircleLoader(
