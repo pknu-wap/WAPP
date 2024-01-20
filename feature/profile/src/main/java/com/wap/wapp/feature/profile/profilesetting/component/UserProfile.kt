@@ -191,7 +191,7 @@ private fun MyAttendanceStatus(
                             items = recentEventsState.events,
                             key = { event -> event.eventId },
                         ) { event ->
-                            WappAttendacneRow(isAttendance = true, event = event)
+                            WappAttendacneRow(eventAttendanceStatus = event)
                         }
                     }
                 }

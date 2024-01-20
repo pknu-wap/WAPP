@@ -18,8 +18,7 @@ import com.wap.wapp.feature.profile.model.EventAttendanceStatus
 
 @Composable
 internal fun WappAttendacneRow(
-    event: EventAttendanceStatus,
-    isAttendance: Boolean,
+    eventAttendanceStatus: EventAttendanceStatus,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -31,9 +30,9 @@ internal fun WappAttendacneRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f),
         ) {
-            WappAttendanceBadge(isAttendance = isAttendance)
+            WappAttendanceBadge(eventAttendanceStatus.isAttendance)
             Text(
-                text = event.title,
+                text = eventAttendanceStatus.title,
                 style = WappTheme.typography.labelRegular,
                 color = WappTheme.colors.white,
                 maxLines = 1,
@@ -42,7 +41,7 @@ internal fun WappAttendacneRow(
             )
         }
         Text(
-            text = event.startDateTime.format(DateUtil.MMddFormatter),
+            text = eventAttendanceStatus.startDateTime.format(DateUtil.MMddFormatter),
             style = WappTheme.typography.labelRegular,
             color = WappTheme.colors.gray95,
             modifier = Modifier.padding(start = 10.dp),
