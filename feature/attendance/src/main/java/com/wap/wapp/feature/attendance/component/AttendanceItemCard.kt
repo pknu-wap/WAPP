@@ -24,11 +24,16 @@ internal fun AttendanceItemCard(
     isAttendance: Boolean,
     onSelectItemCard: () -> Unit = {},
 ) {
+    val cardModifier = if (isAttendance) {
+        Modifier.fillMaxWidth()
+    } else {
+        Modifier
+            .fillMaxWidth()
+            .clickable { onSelectItemCard() }
+    }
     Card(
         colors = CardDefaults.cardColors(containerColor = WappTheme.colors.black25),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onSelectItemCard() },
+        modifier = cardModifier,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
