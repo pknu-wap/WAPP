@@ -17,7 +17,7 @@ fun NavController.navigateToAttendance(
 ) = this.navigate("attendance/$userId", navOptions)
 
 fun NavGraphBuilder.attendanceScreen(
-    navigateToProfile: () -> Unit,
+    navigateToSignIn: () -> Unit,
     navigateToAttendanceManagement: (String) -> Unit,
 ) {
     composable(
@@ -27,7 +27,7 @@ fun NavGraphBuilder.attendanceScreen(
         val userId = navBackStackEntry.arguments?.getString("userId") ?: ""
         AttendanceRoute(
             userId = userId,
-            navigateToProfile = navigateToProfile,
+            navigateToSignIn = navigateToSignIn,
             navigateToAttendanceManagement = navigateToAttendanceManagement,
         )
     }

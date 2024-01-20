@@ -10,6 +10,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.attendance.management.navigation.attendanceManagementScreen
 import com.wap.wapp.feature.attendance.management.navigation.navigateToAttendanceManagement
+import com.wap.wapp.feature.attendance.navigation.attendanceNavigationRoute
 import com.wap.wapp.feature.attendance.navigation.attendanceScreen
 import com.wap.wapp.feature.attendance.navigation.navigateToAttendance
 import com.wap.wapp.feature.auth.signin.navigation.navigateToSignIn
@@ -104,7 +105,9 @@ fun WappNavHost(
             },
         )
         attendanceScreen(
-            navigateToProfile = navController::navigateToProfile,
+            navigateToSignIn = {
+                navController.navigateToSignIn(navOptions { popUpTo(attendanceNavigationRoute) })
+            },
             navigateToAttendanceManagement = navController::navigateToAttendanceManagement,
         )
         attendanceManagementScreen(navigateToAttendance = navController::navigateToAttendance)
