@@ -92,6 +92,7 @@ internal fun AttendanceRoute(
         eventsAttendanceStatusState = eventsAttendanceStatusState,
         attendanceCode = attendanceCode,
         selectedEventTitle = selectedEventTitle,
+        clearAttendanceCode = viewModel::clearAttendanceCode,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
         onSelectEventId = viewModel::setSelectedEventId,
         onSelectEventTitle = viewModel::setSelectedEventTitle,
@@ -108,6 +109,7 @@ internal fun AttendanceScreen(
     eventsAttendanceStatusState: EventAttendanceStatusState,
     attendanceCode: String,
     selectedEventTitle: String,
+    clearAttendanceCode: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
     onSelectEventId: (String) -> Unit,
     onSelectEventTitle: (String) -> Unit,
@@ -122,7 +124,10 @@ internal fun AttendanceScreen(
             attendanceCode = attendanceCode,
             eventTitle = selectedEventTitle,
             onAttendanceCodeChanged = onAttendanceCodeChanged,
-            onDismissRequest = { showAttendanceDialog = false },
+            onDismissRequest = {
+                clearAttendanceCode()
+                showAttendanceDialog = false
+            },
             onConfirmRequest = verifyAttendanceCode,
         )
     }
