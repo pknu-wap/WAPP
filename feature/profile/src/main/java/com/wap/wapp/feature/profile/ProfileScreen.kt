@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToProfileSetting: (String) -> Unit,
-    navigateToAttendance: (String) -> Unit,
+    navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
@@ -65,7 +65,7 @@ internal fun ProfileRoute(
         userRespondedSurveysState = userRespondedSurveysState,
         snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
-        navigateToAttendance = { navigateToAttendance(viewModel.userProfile.value.userId) },
+        navigateToAttendance = navigateToAttendance,
         navigateToSignIn = navigateToSignIn,
     )
 }
