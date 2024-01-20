@@ -11,4 +11,6 @@
     <string name="go_to_management_attendance_code">출석 코드 관리 하러가기</string>
     <string name="complete">완료</string>
     <string name="cancel">취소</string>
+    <string name="attendance_success">출석에 성공하셨습니다!</string>
+    <string name="attendance_failure">출석 코드가 다릅니다.</string>
 </resources>

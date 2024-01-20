@@ -17,7 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getString
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
@@ -48,6 +50,7 @@ internal fun AttendanceRoute(
         by viewModel.todayEventsAttendanceStatus.collectAsStateWithLifecycle()
     val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
     val selectedEventTitle by viewModel.selectedEventTitle.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(true) {
         viewModel.apply {
@@ -64,11 +67,15 @@ internal fun AttendanceRoute(
                 attendanceEvent.collect { event ->
                     when (event) {
                         is Success -> {
+                            snackBarHostState.showSnackbar(
+                                message = getString(context, R.string.attendance_success),
+                            )
                             getTodayEventsAttendanceStatus(userId)
-                            snackBarHostState.showSnackbar(message = "출석에 성공하셨습니다!")
                         }
 
-                        is Failure -> snackBarHostState.showSnackbar(message = "출석 코드가 다릅니다.")
+                        is Failure -> snackBarHostState.showSnackbar(
+                            message = getString(context, R.string.attendance_failure),
+                        )
                     }
                 }
             }
