@@ -43,6 +43,7 @@ internal fun AttendanceManagementRoute(
     val snackBarHostState = remember { SnackbarHostState() }
     val eventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val attendanceCode by viewModel.attendanceCode.collectAsStateWithLifecycle()
+    val selectedEventTitle by viewModel.selectedEventTitle.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         launch {
@@ -66,9 +67,11 @@ internal fun AttendanceManagementRoute(
         snackBarHostState = snackBarHostState,
         eventsState = eventsState,
         attendanceCode = attendanceCode,
+        selectedEventTitle = selectedEventTitle,
         postAttendance = viewModel::postAttendance,
         onAttendanceCodeChanged = viewModel::setAttendanceCode,
-        onSelectEvent = viewModel::setSelectedEventId,
+        onSelectEventId = viewModel::setSelectedEventId,
+        onSelectEventTitle = viewModel::setSelectedEventTitle,
         navigateToManagement = { navigateToAttendance(userId) },
     )
 }
@@ -78,9 +81,11 @@ internal fun AttendanceManagementScreen(
     snackBarHostState: SnackbarHostState,
     eventsState: EventsState,
     attendanceCode: String,
+    selectedEventTitle: String,
     postAttendance: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
-    onSelectEvent: (String) -> Unit,
+    onSelectEventTitle: (String) -> Unit,
+    onSelectEventId: (String) -> Unit,
     navigateToManagement: () -> Unit,
 ) {
     var showAttendanceManagementDialog by remember { mutableStateOf(false) }
@@ -88,6 +93,7 @@ internal fun AttendanceManagementScreen(
     if (showAttendanceManagementDialog) {
         AttendanceManagementDialog(
             attendanceCode = attendanceCode,
+            selectedEventTitle = selectedEventTitle,
             onConfirmRequest = postAttendance,
             onDismissRequest = { showAttendanceManagementDialog = false },
             onAttendanceCodeChanged = onAttendanceCodeChanged,
@@ -132,7 +138,8 @@ internal fun AttendanceManagementScreen(
                                     event = event,
                                     onSelectItemCard = {
                                         onAttendanceCodeChanged("")
-                                        onSelectEvent(event.eventId)
+                                        onSelectEventId(event.eventId)
+                                        onSelectEventTitle(event.title)
                                         showAttendanceManagementDialog = true
                                     },
                                 )

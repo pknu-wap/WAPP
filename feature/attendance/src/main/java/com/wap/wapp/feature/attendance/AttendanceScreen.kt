@@ -70,12 +70,16 @@ internal fun AttendanceRoute(
                             snackBarHostState.showSnackbar(
                                 message = getString(context, R.string.attendance_success),
                             )
+                            clearAttendanceCode()
                             getTodayEventsAttendanceStatus(userId)
                         }
 
-                        is Failure -> snackBarHostState.showSnackbar(
-                            message = getString(context, R.string.attendance_failure),
-                        )
+                        is Failure -> {
+                            snackBarHostState.showSnackbar(
+                                message = getString(context, R.string.attendance_failure),
+                            )
+                            clearAttendanceCode()
+                        }
                     }
                 }
             }

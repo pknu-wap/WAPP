@@ -38,6 +38,9 @@ class AttendanceManagementViewModel @Inject constructor(
 
     private val selectedEventId = MutableStateFlow<String>("")
 
+    private val _selectedEventTitle = MutableStateFlow<String>("")
+    val selectedEventTitle: StateFlow<String> = _selectedEventTitle.asStateFlow()
+
     init {
         getTodayDateEvents()
     }
@@ -55,9 +58,9 @@ class AttendanceManagementViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedEventId(eventId: String) {
-        selectedEventId.value = eventId
-    }
+    fun setSelectedEventId(eventId: String) { selectedEventId.value = eventId }
+
+    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
 
     fun postAttendance() = viewModelScope.launch {
         postAttendanceUseCase(

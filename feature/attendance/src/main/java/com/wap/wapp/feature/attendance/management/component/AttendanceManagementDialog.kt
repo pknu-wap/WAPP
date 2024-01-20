@@ -37,6 +37,7 @@ import com.wap.wapp.feature.attendance.R
 @Composable
 internal fun AttendanceManagementDialog(
     attendanceCode: String,
+    selectedEventTitle: String,
     onConfirmRequest: () -> Unit,
     onDismissRequest: () -> Unit,
     onAttendanceCodeChanged: (String) -> Unit,
@@ -69,7 +70,7 @@ internal fun AttendanceManagementDialog(
             )
 
             Text(
-                text = generateDialogContentString(),
+                text = generateDialogContentString(selectedEventTitle),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
             )
@@ -147,14 +148,14 @@ internal fun AttendanceManagementDialog(
 }
 
 @Composable
-private fun generateDialogContentString() = buildAnnotatedString {
+private fun generateDialogContentString(eventTitle: String) = buildAnnotatedString {
     withStyle(
         style = SpanStyle(
             textDecoration = TextDecoration.Underline,
             color = WappTheme.colors.yellow34,
         ),
     ) {
-        append("프로젝트 최종발표")
+        append(eventTitle)
     }
     append(" 일정에 출석 코드를 설정합니다.")
 }
