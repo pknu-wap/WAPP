@@ -27,7 +27,6 @@ import com.wap.designsystem.WappTheme
 import com.wap.wapp.component.WappBottomBar
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.attendance.management.navigation.attendanceManagementNavigationRoute
-import com.wap.wapp.feature.attendance.navigation.attendanceNavigationRoute
 import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signup.navigation.signUpNavigationRoute
 import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigationRoute
@@ -114,7 +113,6 @@ private fun handleBottomBarState(
     signUpNavigationRoute -> setBottomBarState(false)
     splashNavigationRoute -> setBottomBarState(false)
     profileSettingNavigationRoute -> setBottomBarState(false)
-    attendanceNavigationRoute -> setBottomBarState(false)
     attendanceManagementNavigationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
