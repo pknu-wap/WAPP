@@ -133,18 +133,6 @@ class AttendanceViewModel @Inject constructor(
             EventAttendanceStatusState.Success(eventAttendanceStatusList)
     }.onFailure { _errorFlow.emit(it) }
 
-    fun setAttendanceCode(attendanceCode: String) {
-        if (attendanceCode.isDigitsOnly()) {
-            _attendanceCode.value = attendanceCode
-        }
-    }
-
-    fun clearAttendanceCode() { _attendanceCode.value = "" }
-
-    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
-
-    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
-
     fun verifyAttendanceCode(userId: String) = viewModelScope.launch {
         verifyAttendanceCodeUseCase(
             eventId = _selectedEventId.value,
@@ -161,6 +149,18 @@ class AttendanceViewModel @Inject constructor(
             _attendanceEvent.emit(AttendanceEvent.Failure("출석 코드가 일치하지 않습니다."))
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
+
+    fun setAttendanceCode(attendanceCode: String) {
+        if (attendanceCode.isDigitsOnly()) {
+            _attendanceCode.value = attendanceCode
+        }
+    }
+
+    fun clearAttendanceCode() { _attendanceCode.value = "" }
+
+    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
+
+    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
 
     sealed class EventAttendanceStatusState {
         data object Loading : EventAttendanceStatusState()

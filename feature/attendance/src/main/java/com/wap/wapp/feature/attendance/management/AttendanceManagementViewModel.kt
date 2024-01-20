@@ -52,6 +52,16 @@ class AttendanceManagementViewModel @Inject constructor(
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
+    fun postAttendance() = viewModelScope.launch {
+        postAttendanceUseCase(
+            eventId = selectedEventId.value,
+            code = _attendanceCode.value,
+            deadline = generateNowDateTime().plusMinutes(10),
+        ).onSuccess {
+            _attendanceManagementEvent.emit(AttendanceManagementEvent.Success)
+        }.onFailure { exception -> _errorFlow.emit(exception) }
+    }
+
     fun setAttendanceCode(attendanceCode: String) {
         if (attendanceCode.isDigitsOnly()) {
             _attendanceCode.value = attendanceCode
@@ -63,16 +73,6 @@ class AttendanceManagementViewModel @Inject constructor(
     fun setSelectedEventId(eventId: String) { selectedEventId.value = eventId }
 
     fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
-
-    fun postAttendance() = viewModelScope.launch {
-        postAttendanceUseCase(
-            eventId = selectedEventId.value,
-            code = _attendanceCode.value,
-            deadline = generateNowDateTime().plusMinutes(10),
-        ).onSuccess {
-            _attendanceManagementEvent.emit(AttendanceManagementEvent.Success)
-        }.onFailure { exception -> _errorFlow.emit(exception) }
-    }
 
     sealed class EventsState {
         data object Loading : EventsState()
