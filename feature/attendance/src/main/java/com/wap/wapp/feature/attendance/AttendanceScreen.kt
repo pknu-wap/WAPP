@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
+import com.wap.designsystem.component.NothingToShow
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
@@ -40,7 +41,6 @@ import com.wap.wapp.feature.attendance.AttendanceViewModel.EventAttendanceStatus
 import com.wap.wapp.feature.attendance.AttendanceViewModel.UserRoleState
 import com.wap.wapp.feature.attendance.component.AttendanceCheckButton
 import com.wap.wapp.feature.attendance.component.AttendanceDialog
-import com.wap.wapp.feature.attendance.management.component.NothingToShow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

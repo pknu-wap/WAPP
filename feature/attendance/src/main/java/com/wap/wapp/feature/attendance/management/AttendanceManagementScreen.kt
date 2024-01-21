@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
+import com.wap.designsystem.component.NothingToShow
 import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.attendance.R
@@ -30,7 +31,6 @@ import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.
 import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.EventsState
 import com.wap.wapp.feature.attendance.management.component.AttendanceItemCard
 import com.wap.wapp.feature.attendance.management.component.AttendanceManagementDialog
-import com.wap.wapp.feature.attendance.management.component.NothingToShow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

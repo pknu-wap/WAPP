@@ -1,4 +1,4 @@
-package com.wap.wapp.feature.attendance.management.component
+package com.wap.designsystem.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 
 @Composable
-internal fun NothingToShow(@StringRes title: Int) {
+fun NothingToShow(@StringRes title: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
