@@ -16,10 +16,10 @@ data class Event(
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime,
 ) {
-    fun displayTime(): String {
+    fun getCalculatedTime(): String {
         val currentDateTime = generateNowDateTime()
         if (startDateTime >= currentDateTime) {
-            return calculateStart()
+            return calculateStartTime()
         }
 
         if (endDateTime >= currentDateTime) {
@@ -29,7 +29,7 @@ data class Event(
         return "마감"
     }
 
-    private fun calculateStart(): String {
+    private fun calculateStartTime(): String {
         val currentDateTime = generateNowDateTime()
         val duration = Duration.between(currentDateTime, startDateTime)
 

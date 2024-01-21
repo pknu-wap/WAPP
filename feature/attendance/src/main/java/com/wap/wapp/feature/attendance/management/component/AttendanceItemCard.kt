@@ -48,7 +48,7 @@ internal fun AttendanceItemCard(
                     )
 
                     Text(
-                        text = event.displayTime(),
+                        text = event.getCalculatedTime(),
                         color = WappTheme.colors.yellow34,
                         style = WappTheme.typography.captionMedium,
                     )
