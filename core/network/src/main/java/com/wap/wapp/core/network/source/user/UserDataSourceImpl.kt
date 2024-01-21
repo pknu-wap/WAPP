@@ -29,7 +29,8 @@ class UserDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getUserId(): Result<String> = runCatching {
-        checkNotNull(firebaseAuth.uid)
+        val userId = checkNotNull(firebaseAuth.uid)
+        userId
     }
 
     override suspend fun getUserProfile(
@@ -40,8 +41,8 @@ class UserDataSourceImpl @Inject constructor(
             .get()
             .await()
 
-        val userProfile = result.toObject(UserProfileResponse::class.java)
-        checkNotNull(userProfile)
+        val userProfileResponse = result.toObject(UserProfileResponse::class.java)
+        checkNotNull(userProfileResponse)
     }
 
     override suspend fun deleteUserProfile(userId: String): Result<Unit> = runCatching {

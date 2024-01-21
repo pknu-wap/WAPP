@@ -34,6 +34,7 @@ class AttendanceDataSourceImpl @Inject constructor(
             .get()
             .await()
 
-        checkNotNull(task.toObject<AttendanceResponse>())
+        val attendanceResponse = task.toObject<AttendanceResponse>()
+        checkNotNull(attendanceResponse)
     }
 }

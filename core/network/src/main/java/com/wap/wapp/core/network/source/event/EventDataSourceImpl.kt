@@ -110,7 +110,8 @@ class EventDataSourceImpl @Inject constructor(
             .get()
             .await()
 
-        checkNotNull(document.toObject<EventResponse>())
+        val eventResponse = document.toObject<EventResponse>()
+        checkNotNull(eventResponse)
     }
 
     override suspend fun deleteEvent(eventId: String): Result<Unit> = runCatching {
