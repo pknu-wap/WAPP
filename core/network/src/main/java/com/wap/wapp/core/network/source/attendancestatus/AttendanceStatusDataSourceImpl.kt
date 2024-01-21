@@ -2,7 +2,6 @@ package com.wap.wapp.core.network.source.attendancestatus
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.network.constant.ATTENDANCE_STATUS_COLLECTION
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.attendancestatus.AttendanceStatusRequest

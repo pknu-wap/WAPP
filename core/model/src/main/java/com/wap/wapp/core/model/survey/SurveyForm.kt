@@ -1,9 +1,9 @@
 package com.wap.wapp.core.model.survey
 
-import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
-import com.wap.wapp.core.model.util.DateUtil.yyyyMMddFormatter
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 // 운영진이 등록하는 설문 모델
 data class SurveyForm(
@@ -24,7 +24,7 @@ data class SurveyForm(
     )
 
     fun calculateDeadline(): String {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         val duration = Duration.between(currentDateTime, deadline)
 
         if (duration.toMinutes() < 60) {
@@ -46,7 +46,12 @@ data class SurveyForm(
     }
 
     fun isBeforeDeadline(): Boolean {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         return currentDateTime.isBefore(deadline)
+    }
+
+    companion object {
+        val yyyyMMddFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val TIME_ZONE_SEOUL = ZoneId.of("Asia/Seoul")
     }
 }

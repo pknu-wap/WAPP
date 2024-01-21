@@ -2,7 +2,6 @@ package com.wap.wapp.core.network.source.event
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse

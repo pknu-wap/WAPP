@@ -1,12 +1,9 @@
-@file:OptIn(ExperimentalContracts::class)
-
 package com.wap.wapp.core.model.event
 
-import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
-import com.wap.wapp.core.model.util.DateUtil.yyyyMMddFormatter
 import java.time.Duration
 import java.time.LocalDateTime
-import kotlin.contracts.ExperimentalContracts
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class Event(
     val content: String,
@@ -17,7 +14,7 @@ data class Event(
     val endDateTime: LocalDateTime,
 ) {
     fun getCalculatedTime(): String {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         if (startDateTime >= currentDateTime) {
             return calculateStartTime()
         }
@@ -30,7 +27,7 @@ data class Event(
     }
 
     private fun calculateStartTime(): String {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         val duration = Duration.between(currentDateTime, startDateTime)
 
         if (duration.toMinutes() < 60) {
@@ -47,7 +44,7 @@ data class Event(
     }
 
     private fun calculateDeadline(): String {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         val duration = Duration.between(currentDateTime, endDateTime)
 
         if (duration.toMinutes() < 60) {
@@ -64,7 +61,12 @@ data class Event(
     }
 
     fun isBeforeEndTime(): Boolean {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         return currentDateTime.isBefore(endDateTime)
+    }
+
+    companion object {
+        val yyyyMMddFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val TIME_ZONE_SEOUL = ZoneId.of("Asia/Seoul")
     }
 }

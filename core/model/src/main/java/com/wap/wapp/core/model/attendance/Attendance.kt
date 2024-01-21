@@ -1,8 +1,8 @@
 package com.wap.wapp.core.model.attendance
 
-import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlin.time.toKotlinDuration
 
 data class Attendance(
@@ -11,7 +11,7 @@ data class Attendance(
     val deadline: LocalDateTime,
 ) {
     fun calculateDeadline(): String {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         val duration = Duration.between(currentDateTime, deadline)
 
         val leftMinutes = duration.toKotlinDuration().inWholeMinutes.toString()
@@ -19,7 +19,11 @@ data class Attendance(
     }
 
     fun isBeforeEndTime(): Boolean {
-        val currentDateTime = generateNowDateTime()
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         return currentDateTime.isBefore(deadline)
+    }
+
+    companion object {
+        val TIME_ZONE_SEOUL = ZoneId.of("Asia/Seoul")
     }
 }
