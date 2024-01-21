@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
-import com.wap.designsystem.component.WappMainTopBar
+import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.management.validation.ManagementValidationScreen
@@ -97,7 +97,7 @@ internal fun ManagementScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            WappMainTopBar(
+            WappLeftMainTopBar(
                 titleRes = R.string.management,
                 contentRes = R.string.management_content,
             )

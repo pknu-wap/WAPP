@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
-import com.wap.designsystem.component.WappMainTopBar
+import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import kotlinx.coroutines.flow.collectLatest
 
@@ -41,7 +41,7 @@ internal fun SurveyCheckScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            WappMainTopBar(
+            WappLeftMainTopBar(
                 titleRes = R.string.survey_check,
                 contentRes = R.string.survey_check_content,
             )

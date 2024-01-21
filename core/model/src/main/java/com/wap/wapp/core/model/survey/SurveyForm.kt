@@ -24,8 +24,7 @@ data class SurveyForm(
     )
 
     fun calculateDeadline(): String {
-        val zoneId = ZoneId.of("Asia/Seoul")
-        val currentDateTime = LocalDateTime.now(zoneId)
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
         val duration = Duration.between(currentDateTime, deadline)
 
         if (duration.toMinutes() < 60) {
@@ -43,12 +42,16 @@ data class SurveyForm(
             return leftDays + "일 후 마감"
         }
 
-        return deadline.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) + " 마감"
+        return deadline.format(yyyyMMddFormatter) + " 마감"
     }
 
-    fun isAfterDeadline(): Boolean {
-        val zoneId = ZoneId.of("Asia/Seoul")
-        val currentDateTime = LocalDateTime.now(zoneId)
-        return deadline.isAfter(currentDateTime)
+    fun isBeforeDeadline(): Boolean {
+        val currentDateTime = LocalDateTime.now(TIME_ZONE_SEOUL)
+        return currentDateTime.isBefore(deadline)
+    }
+
+    companion object {
+        val yyyyMMddFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val TIME_ZONE_SEOUL = ZoneId.of("Asia/Seoul")
     }
 }

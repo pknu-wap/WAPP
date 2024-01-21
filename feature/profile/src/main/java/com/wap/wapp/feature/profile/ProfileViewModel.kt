@@ -3,6 +3,7 @@ package com.wap.wapp.feature.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
 import com.wap.wapp.core.domain.usecase.event.GetRecentEventListUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetUserRespondedSurveyListUseCase
@@ -12,6 +13,7 @@ import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.model.user.UserProfile
 import com.wap.wapp.core.model.user.UserRole
+import com.wap.wapp.feature.profile.model.EventAttendanceStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,6 +32,7 @@ class ProfileViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getRecentEventListUseCase: GetRecentEventListUseCase,
     private val getDateEventListUseCase: GetDateEventListUseCase,
+    private val getEventListAttendanceStatusUseCase: GetEventListAttendanceStatusUseCase,
     private val getUserRespondedSurveyListUseCase: GetUserRespondedSurveyListUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -38,8 +41,9 @@ class ProfileViewModel @Inject constructor(
     private val _todayEvents = MutableStateFlow<EventsState>(EventsState.Loading)
     val todayEvents: StateFlow<EventsState> = _todayEvents.asStateFlow()
 
-    private val _recentEvents = MutableStateFlow<EventsState>(EventsState.Loading)
-    val recentEvents: StateFlow<EventsState> = _recentEvents.asStateFlow()
+    private val _recentEvents =
+        MutableStateFlow<EventAttendanceStatusState>(EventAttendanceStatusState.Loading)
+    val recentEvents: StateFlow<EventAttendanceStatusState> = _recentEvents.asStateFlow()
 
     private val _userRespondedSurveys = MutableStateFlow<SurveysState>(SurveysState.Loading)
     val userRespondedSurveys: StateFlow<SurveysState> = _userRespondedSurveys.asStateFlow()
@@ -101,10 +105,35 @@ class ProfileViewModel @Inject constructor(
             createRegistrationDate(registeredYear.toInt(), registeredSemester)
 
         getRecentEventListUseCase(registrationDate)
-            .onSuccess {
-                _recentEvents.value = EventsState.Success(it)
+            .onSuccess { eventList ->
+                getEventListAttendanceStatus(
+                    eventList = eventList,
+                    userId = _userProfile.value.userId,
+                )
             }.onFailure { _errorFlow.emit(it) }
     }
+
+    // 최근 일정들 중, 유저가 출석을 했는 지 안했는 지를 판별합니다.
+    private suspend fun getEventListAttendanceStatus(
+        eventList: List<Event>,
+        userId: String,
+    ) = getEventListAttendanceStatusUseCase(
+        eventIdList = eventList.map { it.eventId },
+        userId = userId,
+    ).onSuccess { attendanceStatusList ->
+        val eventAttendanceStatusList = eventList.zip(attendanceStatusList)
+            .map { (event, attendanceStatus) ->
+                EventAttendanceStatus(
+                    eventId = event.eventId,
+                    title = event.title,
+                    content = event.content,
+                    startDateTime = event.startDateTime,
+                    isAttendance = attendanceStatus.isAttendance(),
+                )
+            }
+        _recentEvents.value =
+            EventAttendanceStatusState.Success(eventAttendanceStatusList)
+    }.onFailure { _errorFlow.emit(it) }
 
     private fun createRegistrationDate(year: Int, semester: String): LocalDate {
         // 학기에 따른 기준 날짜 설정 (예: 1학기는 3월 1일, 2학기는 9월 1일)
@@ -119,6 +148,11 @@ class ProfileViewModel @Inject constructor(
     sealed class EventsState {
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
+    }
+
+    sealed class EventAttendanceStatusState {
+        data object Loading : EventAttendanceStatusState()
+        data class Success(val events: List<EventAttendanceStatus>) : EventAttendanceStatusState()
     }
 
     sealed class SurveysState {

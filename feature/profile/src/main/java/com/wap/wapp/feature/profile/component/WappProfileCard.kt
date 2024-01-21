@@ -33,14 +33,10 @@ internal fun WappProfileCard(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(130.dp)
             .padding(horizontal = 10.dp),
     ) {
-        Box(
-            modifier = Modifier.background(
-                brush = brush,
-            ),
-        ) {
+        Box(modifier = Modifier.background(brush = brush)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.align(Alignment.CenterStart),
@@ -73,8 +69,8 @@ internal fun WappProfileCard(
                 painter = painterResource(id = catImage),
                 contentDescription = null,
                 modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp, top = 25.dp),
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 10.dp, bottom = 5.dp),
             )
         }
     }

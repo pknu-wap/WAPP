@@ -1,20 +1,24 @@
 package com.wap.wapp.feature.profile.profilesetting.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -26,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
+import com.wap.designsystem.component.NothingToShow
 import com.wap.designsystem.component.WappCard
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.designresource.R.drawable
@@ -38,13 +43,17 @@ import com.wap.wapp.feature.profile.component.WappSurveyHistoryRow
 @Composable
 internal fun UserProfile(
     todayEventsState: ProfileViewModel.EventsState,
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
+    attendanceCardBoardColor: Color,
+    navigateToAttendance: () -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         ProfileAttendanceCard(
             todayEventsState = todayEventsState,
+            attendanceCardBoardColor = attendanceCardBoardColor,
             modifier = Modifier.padding(top = 20.dp),
+            navigateToAttendance = navigateToAttendance,
         )
 
         MyAttendanceStatus(
@@ -62,54 +71,77 @@ internal fun UserProfile(
 @Composable
 private fun ProfileAttendanceCard(
     todayEventsState: ProfileViewModel.EventsState,
+    attendanceCardBoardColor: Color,
     modifier: Modifier,
+    navigateToAttendance: () -> Unit,
 ) {
     when (todayEventsState) {
         is ProfileViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
         is ProfileViewModel.EventsState.Success -> {
-            WappCard(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 10.dp),
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = stringResource(id = R.string.wap_attendance),
-                            style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
-                            color = WappTheme.colors.white,
-                        )
-
-                        Image(
-                            painter = painterResource(id = drawable.ic_check),
-                            contentDescription = "",
-                            modifier = Modifier.padding(start = 10.dp),
-                        )
-                    }
-                    Text(
-                        text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
-                        style = WappTheme.typography.contentRegular,
-                        color = WappTheme.colors.white,
-                        modifier = Modifier.padding(top = 20.dp),
+            val cardModifier = if (todayEventsState.events.isNotEmpty()) {
+                modifier
+                    .border(
+                        width = 2.dp,
+                        color = attendanceCardBoardColor,
+                        shape = RoundedCornerShape(10.dp),
                     )
+                    .fillMaxWidth()
+                    .height(130.dp)
+                    .clickable { navigateToAttendance() }
+            } else {
+                modifier
+                    .fillMaxWidth()
+                    .height(130.dp)
+            }
 
-                    if (todayEventsState.events.isEmpty()) {
+            WappCard(
+                modifier = cardModifier,
+            ) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = stringResource(id = R.string.wap_attendance),
+                                style = WappTheme.typography.captionBold.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                            )
+
+                            Image(
+                                painter = painterResource(id = drawable.ic_check),
+                                contentDescription = "",
+                                modifier = Modifier.padding(start = 10.dp),
+                            )
+                        }
                         Text(
-                            text = stringResource(id = R.string.no_event_today),
-                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                            text = DateUtil.generateNowDate().format(DateUtil.yyyyMMddFormatter),
+                            style = WappTheme.typography.contentRegular,
                             color = WappTheme.colors.white,
-                            modifier = Modifier.padding(top = 5.dp),
+                            modifier = Modifier.padding(top = 20.dp),
                         )
-                    } else {
-                        Text(
-                            text = generateTodayEventString(events = todayEventsState.events),
-                            style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
-                            color = WappTheme.colors.white,
-                            modifier = Modifier.padding(top = 5.dp),
+
+                        if (todayEventsState.events.isEmpty()) {
+                            Text(
+                                text = stringResource(id = R.string.no_event_today),
+                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                                modifier = Modifier.padding(top = 5.dp),
+                            )
+                        } else {
+                            Text(
+                                text = generateTodayEventString(events = todayEventsState.events),
+                                style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
+                                color = WappTheme.colors.white,
+                                modifier = Modifier.padding(top = 5.dp),
+                            )
+                        }
+                    }
+                    if (todayEventsState.events.isNotEmpty()) {
+                        Image(
+                            painter = painterResource(id = drawable.ic_forward),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 12.dp),
                         )
                     }
                 }
@@ -120,7 +152,7 @@ private fun ProfileAttendanceCard(
 
 @Composable
 private fun MyAttendanceStatus(
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -134,17 +166,17 @@ private fun MyAttendanceStatus(
         WappCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(130.dp)
                 .padding(top = 10.dp),
         ) {
             when (recentEventsState) {
-                is ProfileViewModel.EventsState.Loading -> CircleLoader(
+                is ProfileViewModel.EventAttendanceStatusState.Loading -> CircleLoader(
                     modifier = Modifier
                         .padding(vertical = 10.dp)
                         .height(130.dp),
                 )
 
-                is ProfileViewModel.EventsState.Success -> {
+                is ProfileViewModel.EventAttendanceStatusState.Success -> {
                     if (recentEventsState.events.isEmpty()) {
                         NothingToShow(title = R.string.no_events_recently)
                         return@WappCard
@@ -160,7 +192,7 @@ private fun MyAttendanceStatus(
                             items = recentEventsState.events,
                             key = { event -> event.eventId },
                         ) { event ->
-                            WappAttendacneRow(isAttendance = true, event = event)
+                            WappAttendacneRow(eventAttendanceStatus = event)
                         }
                     }
                 }
@@ -185,7 +217,7 @@ private fun MySurveyHistory(
         WappCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(130.dp)
                 .padding(top = 10.dp),
         ) {
             when (userRespondedSurveysState) {
