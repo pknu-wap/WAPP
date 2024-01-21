@@ -46,18 +46,21 @@ internal fun AttendanceItemCard(
                         maxLines = 1,
                         style = WappTheme.typography.titleBold,
                     )
+
                     Text(
                         text = event.displayTime(),
                         color = WappTheme.colors.yellow34,
                         style = WappTheme.typography.captionMedium,
                     )
                 }
+
                 Text(
                     text = event.content,
                     color = WappTheme.colors.grayBD,
                     style = WappTheme.typography.contentMedium,
                 )
             }
+
             Image(
                 painter = painterResource(id = ic_forward_yellow),
                 contentDescription = null,

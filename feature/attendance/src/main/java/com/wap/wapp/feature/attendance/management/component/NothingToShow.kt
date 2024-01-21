@@ -24,6 +24,7 @@ internal fun NothingToShow(@StringRes title: Int) {
             .padding(10.dp),
     ) {
         Spacer(modifier = Modifier.weight(1f))
+
         Text(
             text = stringResource(id = title),
             style = WappTheme.typography.contentRegular.copy(fontSize = 20.sp),
@@ -31,6 +32,7 @@ internal fun NothingToShow(@StringRes title: Int) {
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f),
         )
+
         Spacer(modifier = Modifier.weight(1f))
     }
 }
