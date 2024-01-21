@@ -1,10 +1,12 @@
+@file:OptIn(ExperimentalContracts::class)
+
 package com.wap.wapp.core.model.event
 
 import com.wap.wapp.core.model.util.DateUtil.generateNowDateTime
 import com.wap.wapp.core.model.util.DateUtil.yyyyMMddFormatter
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.ZoneId
+import kotlin.contracts.ExperimentalContracts
 
 data class Event(
     val content: String,
@@ -45,8 +47,7 @@ data class Event(
     }
 
     private fun calculateDeadline(): String {
-        val zoneId = ZoneId.of("Asia/Seoul")
-        val currentDateTime = LocalDateTime.now(zoneId)
+        val currentDateTime = generateNowDateTime()
         val duration = Duration.between(currentDateTime, endDateTime)
 
         if (duration.toMinutes() < 60) {

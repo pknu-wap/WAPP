@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.attendance.GetEventListAttendanceUseCase
-import com.wap.wapp.core.domain.usecase.attendance.VerifyAttendanceCodeUseCase
+import com.wap.wapp.core.domain.usecase.attendance.ValidationAttendanceCodeUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.GetEventListAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.attendancestatus.PostAttendanceStatusUseCase
 import com.wap.wapp.core.domain.usecase.event.GetDateEventListUseCase
@@ -34,7 +34,7 @@ class AttendanceViewModel @Inject constructor(
     private val getUserRoleUseCase: GetUserRoleUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val postAttendanceStatusUseCase: PostAttendanceStatusUseCase,
-    private val verifyAttendanceCodeUseCase: VerifyAttendanceCodeUseCase,
+    private val validationAttendanceCodeUseCase: ValidationAttendanceCodeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
@@ -134,7 +134,7 @@ class AttendanceViewModel @Inject constructor(
     }.onFailure { _errorFlow.emit(it) }
 
     fun verifyAttendanceCode() = viewModelScope.launch {
-        verifyAttendanceCodeUseCase(
+        validationAttendanceCodeUseCase(
             eventId = _selectedEventId.value,
             attendanceCode = _attendanceCode.value,
         ).onSuccess { result ->
