@@ -16,4 +16,9 @@
     <string name="guest_dialog_button_text">비회원으로 둘러보기</string>
     <string name="go_to_survey_check">작성된 설문 보러가기</string>
     <string name="survey_check_description">작성된 설문 보러가기 아이콘</string>
+    <string name="start_survey">설문 시작하기</string>
+    <string name="previous">이전</string>
+    <string name="event">행사</string>
+    <string name="deadline">마감일</string>
+    <string name="questionTotalNumber">질문 수</string>
 </resources>
