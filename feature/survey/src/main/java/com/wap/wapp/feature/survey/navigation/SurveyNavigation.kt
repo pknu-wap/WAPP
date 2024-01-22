@@ -50,8 +50,7 @@ fun NavGraphBuilder.surveyNavGraph(
         val surveyFormId = navBackStackEntry.arguments?.getString("id") ?: ""
         SurveyAnswerScreen(
             viewModel = hiltViewModel(),
-            onSubmitButtonClicked = navigateToSurvey,
-            onBackButtonClicked = navigateToSurvey,
+            navigateToSurvey = navigateToSurvey,
             surveyFormId = surveyFormId,
         )
     }
