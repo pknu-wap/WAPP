@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
-class RegisterEventUseCase @Inject constructor(
+class PostEventUseCase @Inject constructor(
     private val eventRepository: EventRepository,
 ) {
     suspend operator fun invoke(

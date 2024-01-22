@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
 import com.wap.wapp.core.domain.usecase.event.GetEventListUseCase
+import com.wap.wapp.core.domain.usecase.survey.DeleteSurveyFormAndRelatedSurveysUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
 import com.wap.wapp.core.domain.usecase.survey.UpdateSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
@@ -29,6 +30,7 @@ class SurveyFormEditViewModel @Inject constructor(
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
     private val getEventListUseCase: GetEventListUseCase,
     private val updateSurveyFormUseCase: UpdateSurveyFormUseCase,
+    private val deleteSurveyFormAndRelatedSurveysUseCase: DeleteSurveyFormAndRelatedSurveysUseCase,
 ) : ViewModel() {
     private val _surveyFormEditUiEvent: MutableSharedFlow<SurveyFormEditUiEvent> =
         MutableSharedFlow()
@@ -106,7 +108,16 @@ class SurveyFormEditViewModel @Inject constructor(
 
         updateSurveyFormUseCase(surveyForm = surveyForm)
             .onSuccess {
-                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Success)
+                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.EditSuccess)
+            }.onFailure { throwable ->
+                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
+            }
+    }
+
+    fun deleteSurveyForm() = viewModelScope.launch {
+        deleteSurveyFormAndRelatedSurveysUseCase(surveyFormId.value)
+            .onSuccess {
+                _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.EditSuccess)
             }.onFailure { throwable ->
                 _surveyFormEditUiEvent.emit(SurveyFormEditUiEvent.Failure(throwable))
             }
@@ -214,7 +225,8 @@ class SurveyFormEditViewModel @Inject constructor(
     }
 
     sealed class SurveyFormEditUiEvent {
-        data object Success : SurveyFormEditUiEvent()
+        data object EditSuccess : SurveyFormEditUiEvent()
+        data object DeleteSuccess : SurveyFormEditUiEvent()
         data class Failure(val throwable: Throwable) : SurveyFormEditUiEvent()
         data class ValidationError(val message: String) : SurveyFormEditUiEvent()
     }

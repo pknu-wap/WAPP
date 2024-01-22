@@ -41,6 +41,9 @@ class EventRepositoryImpl @Inject constructor(
     override suspend fun getEvent(eventId: String): Result<Event> =
         eventDataSource.getEvent(eventId).mapCatching { eventResponse -> eventResponse.toDomain() }
 
+    override suspend fun deleteEvent(eventId: String): Result<Unit> =
+        eventDataSource.deleteEvent(eventId)
+
     override suspend fun postEvent(
         title: String,
         content: String,

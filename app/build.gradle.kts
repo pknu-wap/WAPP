@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":feature:survey"))
     implementation(project(":feature:survey-check"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:attendance"))
     implementation(project(":feature:management"))
     implementation(project(":feature:management-survey"))
     implementation(project(":feature:management-event"))

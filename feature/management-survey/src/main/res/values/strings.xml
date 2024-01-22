@@ -6,7 +6,9 @@
     <string name="survey_registration_total_page">/ 4</string>
     <string name="add_survey_question">문항 추가</string>
     <string name="register_survey">설문 등록하기</string>
+    <string name="delete_survey">설문 삭제</string>
     <string name="cancel">취소</string>
+    <string name="complete">완료</string>
     <string name="select">선택</string>
     <string name="survey_deadline_title">설문 기간 설정</string>
     <string name="survey_deadline_content">설문의 마감 기한을 설정하세요.</string>

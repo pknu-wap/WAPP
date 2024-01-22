@@ -10,19 +10,15 @@ import javax.inject.Inject
 class AuthDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
 ) : AuthDataSource {
-    override suspend fun signOut(): Result<Unit> {
-        return runCatching {
-            firebaseAuth.signOut()
-        }
+    override suspend fun signOut(): Result<Unit> = runCatching {
+        firebaseAuth.signOut()
     }
 
-    override suspend fun deleteUser(): Result<Unit> {
-        return runCatching {
-            val user = checkNotNull(firebaseAuth.currentUser)
+    override suspend fun deleteUser(): Result<Unit> = runCatching {
+        val user = checkNotNull(firebaseAuth.currentUser)
 
-            user.delete()
-                .await()
-        }
+        user.delete()
+            .await()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

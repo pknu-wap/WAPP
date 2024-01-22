@@ -37,9 +37,10 @@ class EventDataSourceImpl @Inject constructor(
 
             // 선택된 날짜 1일 00시 00분 00초
             val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
-
+            val currentDateTime = generateNowDateTime().toISOLocalDateTimeString()
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
+                .whereLessThanOrEqualTo("startDateTime", currentDateTime)
                 .get()
                 .await()
 
@@ -102,15 +103,22 @@ class EventDataSourceImpl @Inject constructor(
             result
         }
 
-    override suspend fun getEvent(eventId: String): Result<EventResponse> =
-        runCatching {
-            val document = firebaseFirestore.collection(EVENT_COLLECTION)
-                .document(eventId)
-                .get()
-                .await()
+    override suspend fun getEvent(eventId: String): Result<EventResponse> = runCatching {
+        val document = firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(eventId)
+            .get()
+            .await()
 
-            checkNotNull(document.toObject<EventResponse>())
-        }
+        val eventResponse = document.toObject<EventResponse>()
+        checkNotNull(eventResponse)
+    }
+
+    override suspend fun deleteEvent(eventId: String): Result<Unit> = runCatching {
+        firebaseFirestore.collection(EVENT_COLLECTION)
+            .document(eventId)
+            .delete()
+            .await()
+    }
 
     override suspend fun postEvent(
         title: String,

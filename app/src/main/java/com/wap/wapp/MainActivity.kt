@@ -1,20 +1,23 @@
 package com.wap.wapp
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -23,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.component.WappBottomBar
 import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
+import com.wap.wapp.feature.attendance.management.navigation.attendanceManagementNavigationRoute
 import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signup.navigation.signUpNavigationRoute
 import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigationRoute
@@ -64,6 +68,11 @@ class MainActivity : ComponentActivity() {
                             },
                         )
 
+                        val systemBars = WindowInsets.systemBars
+                        val density = LocalDensity.current
+                        val bottomPadding =
+                            remember { with(density) { systemBars.getBottom(this).toDp() } }
+
                         WappBottomBar(
                             currentRoute = currentRoute,
                             bottomBarState = bottomBarState,
@@ -73,7 +82,9 @@ class MainActivity : ComponentActivity() {
                                     destination,
                                 )
                             },
-                            modifier = Modifier.height(70.dp),
+                            modifier = Modifier
+                                .padding(bottom = bottomPadding)
+                                .height(70.dp),
                         )
                     },
                 ) { innerPadding ->
@@ -89,11 +100,8 @@ class MainActivity : ComponentActivity() {
 }
 
 private fun ComponentActivity.setSystemBarStyle() = enableEdgeToEdge(
-    statusBarStyle = SystemBarStyle.light(
-        getColor(R.color.yellow34),
-        getColor(R.color.yellow34),
-    ),
-    navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
+    statusBarStyle = SystemBarStyle.light(getColor(R.color.yellow34), getColor(R.color.yellow34)),
+    navigationBarStyle = SystemBarStyle.light(getColor(R.color.black25), getColor(R.color.black25)),
 )
 
 private fun handleBottomBarState(
@@ -105,6 +113,7 @@ private fun handleBottomBarState(
     signUpNavigationRoute -> setBottomBarState(false)
     splashNavigationRoute -> setBottomBarState(false)
     profileSettingNavigationRoute -> setBottomBarState(false)
+    attendanceManagementNavigationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
     else -> setBottomBarState(true)

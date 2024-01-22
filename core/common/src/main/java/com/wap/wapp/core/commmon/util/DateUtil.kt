@@ -29,6 +29,9 @@ object DateUtil {
     // 현재 날짜를 년-월-일 형식으로 반환해주는 포맷. ex 2023-11-20
     val yyyyMMddFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
+    // 현재 날짜를 월-일 형식으로 반환해주는 포맷. ex 11월 20일
+    val MMddFormatter = DateTimeFormatter.ofPattern("MM월 dd일")
+
     enum class DaysOfWeek(val displayName: String) {
         SUNDAY("일"),
         MONDAY("월"),

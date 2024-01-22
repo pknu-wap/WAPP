@@ -1,13 +1,21 @@
 package com.wap.wapp.feature.management.event.edit
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -23,17 +31,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.event.R
+import com.wap.wapp.feature.management.event.edit.EventEditViewModel.EventEditEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
-import com.wap.wapp.feature.management.event.registration.EventRegistrationEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationState
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
@@ -41,7 +57,6 @@ import java.time.LocalTime
 
 @Composable
 internal fun EventEditRoute(
-    date: String,
     eventId: String,
     navigateToManagement: () -> Unit,
     viewModel: EventEditViewModel = hiltViewModel(),
@@ -68,21 +83,21 @@ internal fun EventEditRoute(
     val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
-        viewModel.getEvent(date = date, eventId = eventId)
+        viewModel.getEvent(eventId = eventId)
 
         viewModel.eventEditEvent.collectLatest {
             when (it) {
-                is EventRegistrationEvent.Failure -> {
+                is EventEditEvent.Failure ->
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
-                }
 
-                is EventRegistrationEvent.ValidationError -> {
+                is EventEditEvent.ValidationError ->
                     snackBarHostState.showSnackbar(it.message)
-                }
 
-                is EventRegistrationEvent.Success -> {
+                is EventEditEvent.EditSuccess ->
                     navigateToManagement()
-                }
+
+                is EventEditEvent.DeleteSuccess ->
+                    navigateToManagement()
             }
         }
     }
@@ -107,6 +122,7 @@ internal fun EventEditRoute(
         onNextButtonClicked = onNextButtonClicked,
         onEditButtonClicked = onRegisterButtonClicked,
         onBackButtonClicked = navigateToManagement,
+        deleteEvent = viewModel::deleteEvent,
     )
 }
 
@@ -132,11 +148,13 @@ internal fun EventEditScreen(
     onNextButtonClicked: () -> Unit,
     onEditButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
+    deleteEvent: () -> Unit,
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
+    var showDeleteEventDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
 
     Scaffold(
@@ -145,6 +163,14 @@ internal fun EventEditScreen(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
+
+        if (showDeleteEventDialog) {
+            DeleteEventDialog(
+                deleteEvent = deleteEvent,
+                onDismissRequest = { showDeleteEventDialog = false },
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -154,7 +180,9 @@ internal fun EventEditScreen(
             WappSubTopBar(
                 titleRes = R.string.event_edit,
                 showLeftButton = true,
+                showRightButton = true,
                 onClickLeftButton = onBackButtonClicked,
+                onClickRightButton = { showDeleteEventDialog = true },
             )
 
             EventEditStateIndicator(
@@ -241,4 +269,105 @@ private fun EventEditStateProgressBar(
         progress = currentRegistrationProgress,
         strokeCap = StrokeCap.Round,
     )
+}
+
+@Composable
+private fun DeleteEventDialog(
+    deleteEvent: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+        ),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(horizontal = 30.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(WappTheme.colors.black25),
+        ) {
+            Text(
+                text = stringResource(id = R.string.delete_event),
+                style = WappTheme.typography.contentBold.copy(fontSize = 20.sp),
+                color = WappTheme.colors.yellow34,
+                modifier = Modifier.padding(top = 16.dp),
+            )
+
+            Divider(
+                color = WappTheme.colors.gray82,
+                modifier = Modifier.padding(horizontal = 12.dp),
+            )
+
+            Text(
+                text = generateDialogContentString(),
+                style = WappTheme.typography.contentRegular,
+                color = WappTheme.colors.white,
+                modifier = Modifier.padding(top = 12.dp, start = 12.dp, end = 12.dp),
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
+            ) {
+                Button(
+                    onClick = {
+                        deleteEvent()
+                        onDismissRequest()
+                    },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = WappTheme.colors.yellow34,
+                    ),
+                    contentPadding = PaddingValues(vertical = 12.dp),
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.complete),
+                        style = WappTheme.typography.titleRegular,
+                        color = WappTheme.colors.black,
+                    )
+                }
+
+                Button(
+                    onClick = onDismissRequest,
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = WappTheme.colors.black25,
+                    ),
+                    contentPadding = PaddingValues(vertical = 12.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .border(
+                            width = 1.dp,
+                            color = WappTheme.colors.yellow34,
+                            shape = RoundedCornerShape(8.dp),
+                        ),
+                ) {
+                    Text(
+                        text = stringResource(R.string.cancel),
+                        style = WappTheme.typography.titleRegular,
+                        color = WappTheme.colors.yellow34,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun generateDialogContentString() = buildAnnotatedString {
+    append("정말로 해당 일정을 삭제하시겠습니까?\n")
+    withStyle(
+        style = SpanStyle(
+            textDecoration = TextDecoration.Underline,
+            color = WappTheme.colors.yellow34,
+        ),
+    ) {
+        append("해당 일정과 관련된 설문과 답변들이 모두 삭제됩니다.")
+    }
 }

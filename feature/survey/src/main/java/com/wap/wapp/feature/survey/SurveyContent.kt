@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R
-import com.wap.wapp.feature.survey.R.string
 import com.wap.wapp.core.model.survey.SurveyForm
+import com.wap.wapp.feature.survey.R.string
 
 @Composable
 internal fun SurveyContent(
@@ -49,12 +49,10 @@ internal fun SurveyContent(
                 .fillMaxWidth(),
         ) {
             items(surveyFormList) { surveyForm ->
-                if (surveyForm.isAfterDeadline()) {
-                    SurveyFormItemCard(
-                        surveyForm = surveyForm,
-                        selectedSurveyForm = selectedSurveyForm,
-                    )
-                }
+                SurveyFormItemCard(
+                    surveyForm = surveyForm,
+                    selectedSurveyForm = selectedSurveyForm,
+                )
             }
         }
 

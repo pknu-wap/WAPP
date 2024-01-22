@@ -15,39 +15,34 @@ class UserDataSourceImpl @Inject constructor(
 ) : UserDataSource {
     override suspend fun postUserProfile(
         userProfileRequest: UserProfileRequest,
-    ): Result<Unit> {
-        return runCatching {
-            val userId = userProfileRequest.userId
-            val setOption = SetOptions.merge()
+    ): Result<Unit> = runCatching {
+        val userId = userProfileRequest.userId
+        val setOption = SetOptions.merge()
 
-            firebaseFirestore.collection(USER_COLLECTION)
-                .document(userId)
-                .set(
-                    userProfileRequest,
-                    setOption,
-                )
-                .await()
-        }
+        firebaseFirestore.collection(USER_COLLECTION)
+            .document(userId)
+            .set(
+                userProfileRequest,
+                setOption,
+            )
+            .await()
     }
 
-    override suspend fun getUserId(): Result<String> {
-        return runCatching {
-            checkNotNull(firebaseAuth.uid)
-        }
+    override suspend fun getUserId(): Result<String> = runCatching {
+        val userId = checkNotNull(firebaseAuth.uid)
+        userId
     }
 
     override suspend fun getUserProfile(
         userId: String,
-    ): Result<UserProfileResponse> {
-        return runCatching {
-            val result = firebaseFirestore.collection(USER_COLLECTION)
-                .document(userId)
-                .get()
-                .await()
+    ): Result<UserProfileResponse> = runCatching {
+        val result = firebaseFirestore.collection(USER_COLLECTION)
+            .document(userId)
+            .get()
+            .await()
 
-            val userProfile = result.toObject(UserProfileResponse::class.java)
-            checkNotNull(userProfile)
-        }
+        val userProfileResponse = result.toObject(UserProfileResponse::class.java)
+        checkNotNull(userProfileResponse)
     }
 
     override suspend fun deleteUserProfile(userId: String): Result<Unit> = runCatching {

@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
-import com.wap.designsystem.component.WappMainTopBar
+import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun ProfileRoute(
     viewModel: ProfileViewModel = hiltViewModel(),
     navigateToProfileSetting: (String) -> Unit,
+    navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
@@ -64,6 +65,7 @@ internal fun ProfileRoute(
         userRespondedSurveysState = userRespondedSurveysState,
         snackBarHostState = snackBarHostState,
         navigateToProfileSetting = navigateToProfileSetting,
+        navigateToAttendance = navigateToAttendance,
         navigateToSignIn = navigateToSignIn,
     )
 }
@@ -73,10 +75,11 @@ internal fun ProfileScreen(
     userRoleState: UserRoleState,
     userProfile: UserProfile,
     todayEventsState: ProfileViewModel.EventsState,
-    recentEventsState: ProfileViewModel.EventsState,
+    recentEventsState: ProfileViewModel.EventAttendanceStatusState,
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     snackBarHostState: SnackbarHostState,
     navigateToProfileSetting: (String) -> Unit,
+    navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -104,7 +107,7 @@ internal fun ProfileScreen(
                 }
 
                 is UserRoleState.Success -> {
-                    WappMainTopBar(
+                    WappLeftMainTopBar(
                         titleRes = string.profile,
                         contentRes = R.string.profile_content,
                         settingButtonDescriptionRes = R.string.profile_setting_description,
@@ -132,6 +135,8 @@ internal fun ProfileScreen(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
+                                attendanceCardBoardColor = WappTheme.colors.blue4FF,
+                                navigateToAttendance = navigateToAttendance,
                             )
                         }
 
@@ -154,6 +159,8 @@ internal fun ProfileScreen(
                                 todayEventsState = todayEventsState,
                                 recentEventsState = recentEventsState,
                                 userRespondedSurveysState = userRespondedSurveysState,
+                                attendanceCardBoardColor = WappTheme.colors.yellow34,
+                                navigateToAttendance = navigateToAttendance,
                             )
                         }
 
