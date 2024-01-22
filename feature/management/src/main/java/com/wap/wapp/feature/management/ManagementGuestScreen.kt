@@ -18,12 +18,12 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 
 @Composable
-internal fun ManagementGuestScreen (
+internal fun ManagementGuestScreen(
     onButtonClicked: () -> Unit,
 ) {
     Surface(
-    color = WappTheme.colors.backgroundBlack,
-    modifier = Modifier.fillMaxSize(),
+        color = WappTheme.colors.backgroundBlack,
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,4 +55,3 @@ internal fun ManagementGuestScreen (
         }
     }
 }
-
