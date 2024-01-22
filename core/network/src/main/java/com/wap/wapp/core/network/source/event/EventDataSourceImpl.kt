@@ -6,6 +6,7 @@ import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
+import com.wap.wapp.core.network.utils.getSeoulDateTimeNow
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -37,7 +38,7 @@ class EventDataSourceImpl @Inject constructor(
 
             // 선택된 날짜 1일 00시 00분 00초
             val startDateTime = date.atStartOfDay().toISOLocalDateTimeString()
-            val currentDateTime = generateNowDateTime().toISOLocalDateTimeString()
+            val currentDateTime = getSeoulDateTimeNow().toISOLocalDateTimeString()
             val task = firebaseFirestore.collection(EVENT_COLLECTION)
                 .whereGreaterThanOrEqualTo("startDateTime", startDateTime)
                 .whereLessThanOrEqualTo("startDateTime", currentDateTime)
