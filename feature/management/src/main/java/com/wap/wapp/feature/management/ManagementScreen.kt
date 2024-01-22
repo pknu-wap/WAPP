@@ -8,7 +8,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,11 +42,16 @@ internal fun ManagementRoute(
     LaunchedEffect(true) {
         viewModel.getUserRole() // 유저 권한 검색
 
-        viewModel.userRole.collectLatest { managerState ->
-            when (managerState) {
-                UserRole.GUEST -> { showGuestScreen = true }
-                UserRole.MEMBER -> { showValidationScreen = true }
-                UserRole.MANAGER -> viewModel.getEventSurveyList()
+        viewModel.userRole.collectLatest { userRoleUiState ->
+            when (userRoleUiState) {
+                is ManagementViewModel.UserRoleUiState.Init -> { }
+                is ManagementViewModel.UserRoleUiState.Success -> {
+                    when (userRoleUiState.userRole) {
+                        UserRole.GUEST -> { showGuestScreen = true }
+                        UserRole.MEMBER -> { showValidationScreen = true }
+                        UserRole.MANAGER -> viewModel.getEventSurveyList()
+                    }
+                }
             }
         }
 
@@ -68,7 +72,7 @@ internal fun ManagementRoute(
             onValidationSuccess = {
                 showValidationScreen = false
                 viewModel.getUserRole() // 매니저 권한 재 검증
-            }
+            },
         )
         return
     }

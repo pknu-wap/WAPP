@@ -28,9 +28,9 @@ class ManagementViewModel @Inject constructor(
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
 
-    private val _userRole: MutableStateFlow<UserRole> =
-        MutableStateFlow(UserRole.GUEST)
-    val userRole: StateFlow<UserRole> = _userRole.asStateFlow()
+    private val _userRole: MutableStateFlow<UserRoleUiState> =
+        MutableStateFlow(UserRoleUiState.Init)
+    val userRole: StateFlow<UserRoleUiState> = _userRole.asStateFlow()
 
     private val _surveyFormList: MutableStateFlow<SurveyFormsState> =
         MutableStateFlow(SurveyFormsState.Init)
@@ -43,7 +43,7 @@ class ManagementViewModel @Inject constructor(
         viewModelScope.launch {
             getUserRoleUseCase()
                 .onSuccess { userRole ->
-                   _userRole.emit(userRole)
+                    _userRole.value = UserRoleUiState.Success(userRole)
                 }
                 .onFailure { exception ->
                     _errorFlow.emit(exception)
@@ -76,6 +76,11 @@ class ManagementViewModel @Inject constructor(
             _errorFlow.emit(exception)
             _eventList.value = EventsState.Failure(exception)
         }
+    }
+
+    sealed class UserRoleUiState {
+        data object Init : UserRoleUiState()
+        data class Success(val userRole: UserRole) : UserRoleUiState()
     }
 
     sealed class EventsState {
