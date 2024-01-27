@@ -58,15 +58,14 @@ internal fun BottomSheetContent(
             color = WappTheme.colors.white,
             modifier = Modifier.padding(start = 15.dp, bottom = 15.dp),
         )
-        HandleEventsState(events = events)
-    }
-}
 
-@Composable
-private fun HandleEventsState(events: NoticeViewModel.EventsState) = when (events) {
-    is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxWidth())
-    is NoticeViewModel.EventsState.Success -> EventsList(events.events)
-    is NoticeViewModel.EventsState.Failure -> Unit
+        when (events) {
+            is NoticeViewModel.EventsState.Loading ->
+                CircleLoader(modifier = Modifier.fillMaxWidth())
+            is NoticeViewModel.EventsState.Success -> EventsList(events.events)
+            is NoticeViewModel.EventsState.Failure -> Unit
+        }
+    }
 }
 
 @Composable
@@ -80,9 +79,7 @@ private fun EventsList(events: List<Event>) {
             items(
                 items = events,
                 key = { event -> event.eventId },
-            ) { event ->
-                EventItem(event = event)
-            }
+            ) { event -> EventItem(event = event) }
         }
     } else {
         Column(
@@ -122,6 +119,7 @@ private fun EventItem(event: Event) {
                 style = WappTheme.typography.contentBold,
                 color = WappTheme.colors.white,
             )
+
             Box(
                 modifier = Modifier
                     .padding(10.dp)
@@ -129,6 +127,7 @@ private fun EventItem(event: Event) {
                     .clip(RoundedCornerShape(10.dp))
                     .background(WappTheme.colors.yellow34),
             )
+
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier.padding(start = 12.dp),
@@ -138,6 +137,7 @@ private fun EventItem(event: Event) {
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )
+
                 Text(
                     text = event.startDateTime.format(HHmmFormatter) + " ~ " +
                         event.endDateTime.format(HHmmFormatter),
@@ -146,6 +146,7 @@ private fun EventItem(event: Event) {
                 )
             }
         }
+
         Divider(
             color = WappTheme.colors.gray82,
             thickness = 1.dp,
