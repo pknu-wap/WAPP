@@ -18,6 +18,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,9 +40,11 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun BottomSheetContent(
     expandableHeight: Dp,
+    bottomSheetState: SheetState,
     events: NoticeViewModel.EventsState,
     selectedDate: LocalDate,
 ) {
@@ -64,14 +69,22 @@ internal fun BottomSheetContent(
             is NoticeViewModel.EventsState.Loading ->
                 CircleLoader(modifier = Modifier.fillMaxWidth())
 
-            is NoticeViewModel.EventsState.Success -> EventsList(events.events)
+            is NoticeViewModel.EventsState.Success -> EventsList(
+                bottomSheetState = bottomSheetState,
+                events = events.events,
+            )
+
             is NoticeViewModel.EventsState.Failure -> Unit
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EventsList(events: List<Event>) {
+private fun EventsList(
+    bottomSheetState: SheetState,
+    events: List<Event>,
+) {
     if (events.isNotEmpty()) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 15.dp),
@@ -81,7 +94,12 @@ private fun EventsList(events: List<Event>) {
             items(
                 items = events,
                 key = { event -> event.eventId },
-            ) { event -> EventItem(event = event) }
+            ) { event ->
+                EventItem(
+                    bottomSheetState = bottomSheetState,
+                    event = event,
+                )
+            }
         }
     } else {
         Column(
@@ -106,8 +124,12 @@ private fun EventsList(events: List<Event>) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EventItem(event: Event) {
+private fun EventItem(
+    bottomSheetState: SheetState,
+    event: Event,
+) {
     Column {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -137,6 +159,20 @@ private fun EventItem(event: Event) {
                     style = WappTheme.typography.contentRegular,
                     color = WappTheme.colors.white,
                 )
+
+                if (bottomSheetState.currentValue == SheetValue.Expanded) {
+                    Text(
+                        text = event.location,
+                        style = WappTheme.typography.captionRegular,
+                        color = WappTheme.colors.yellow34,
+                    )
+
+                    Text(
+                        text = event.content,
+                        style = WappTheme.typography.captionRegular,
+                        color = WappTheme.colors.grayBD,
+                    )
+                }
 
                 Text(
                     text = event.startDateTime.format(HHmmFormatter) + " ~ " +

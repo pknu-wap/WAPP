@@ -68,9 +68,10 @@ internal fun NoticeScreen(
             sheetPeekHeight = defaultHeight,
             sheetContent = {
                 BottomSheetContent(
-                    expandableHeight,
-                    selectedDateEvents,
-                    selectedDate,
+                    expandableHeight = expandableHeight,
+                    bottomSheetState = scaffoldState.bottomSheetState,
+                    events = selectedDateEvents,
+                    selectedDate = selectedDate,
                 )
             },
         ) {
