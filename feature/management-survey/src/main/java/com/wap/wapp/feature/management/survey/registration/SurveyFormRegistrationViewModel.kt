@@ -47,16 +47,21 @@ class SurveyFormRegistrationViewModel @Inject constructor(
     private val _surveyContent: MutableStateFlow<String> = MutableStateFlow("")
     val surveyContent = _surveyContent.asStateFlow()
 
-    private val _surveyQuestion: MutableStateFlow<String> = MutableStateFlow("")
-    val surveyQuestion = _surveyQuestion.asStateFlow()
+    private val _surveyQuestionTitle: MutableStateFlow<String> = MutableStateFlow("")
+    val surveyQuestionTitle = _surveyQuestionTitle.asStateFlow()
 
     private val _surveyQuestionType: MutableStateFlow<QuestionType> =
         MutableStateFlow(QuestionType.SUBJECTIVE)
     val surveyQuestionType = _surveyQuestionType.asStateFlow()
 
-    private val _surveyQuestionList: MutableStateFlow<MutableList<SurveyQuestion>> =
+    private val _surveyQuestionNumber: MutableStateFlow<Int> = MutableStateFlow(0)
+    val surveyQuestionNumber = _surveyQuestionNumber.asStateFlow()
+
+    private val _surveyQuestionTotalNumber: MutableStateFlow<Int> = MutableStateFlow(0)
+    val surveyQuestionTotalNumber = _surveyQuestionTotalNumber.asStateFlow()
+
+    private val surveyQuestionList: MutableStateFlow<MutableList<SurveyQuestion>> =
         MutableStateFlow(mutableListOf())
-    val surveyQuestionList = _surveyQuestionList.asStateFlow()
 
     private val _surveyTimeDeadline: MutableStateFlow<LocalTime> =
         MutableStateFlow(DateUtil.generateNowTime())
@@ -79,7 +84,7 @@ class SurveyFormRegistrationViewModel @Inject constructor(
             event = surveyEventSelection.value,
             title = _surveyTitle.value,
             content = _surveyContent.value,
-            surveyQuestionList = _surveyQuestionList.value,
+            surveyQuestionList = surveyQuestionList.value,
             deadlineDate = _surveyDateDeadline.value,
             deadlineTime = _surveyTimeDeadline.value,
         ).onSuccess {
@@ -130,27 +135,66 @@ class SurveyFormRegistrationViewModel @Inject constructor(
 
     fun setSurveyContent(content: String) { _surveyContent.value = content }
 
-    fun setSurveyQuestion(question: String) { _surveyQuestion.value = question }
+    fun setSurveyQuestionTitle(title: String) { _surveyQuestionTitle.value = title }
 
     fun setSurveyQuestionType(type: QuestionType) { _surveyQuestionType.value = type }
 
-    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+    fun setNextQuestionNumber() { _surveyQuestionNumber.value += 1 }
 
-    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
+    fun setPreviousQuestionNumber() { _surveyQuestionNumber.value -= 1 }
+
+    fun setLastQuestionNumber() {
+        _surveyQuestionTotalNumber.value += 1 // TODO
+        _surveyQuestionNumber.value = surveyQuestionList.value.size
+    }
+
+    fun setQuestion() {
+        val currentNumber = _surveyQuestionNumber.value
+        val totalSize = surveyQuestionList.value.size
+
+        if (currentNumber < totalSize) {
+            val surveyQuestion = surveyQuestionList.value[_surveyQuestionNumber.value]
+            setSurveyQuestionTitle(surveyQuestion.questionTitle)
+            setSurveyQuestionType(surveyQuestion.questionType)
+            return
+        }
+
+        clearSurveyQuestionState()
+    }
 
     fun addSurveyQuestion() {
-        _surveyQuestionList.value.add(
+        surveyQuestionList.value.add(
             SurveyQuestion(
-                questionTitle = _surveyQuestion.value,
+                questionTitle = _surveyQuestionTitle.value,
                 questionType = _surveyQuestionType.value,
             ),
         )
         clearSurveyQuestionState()
     }
 
-    private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }
+    fun editSurveyQuestion() {
+        val questionNumber = _surveyQuestionNumber.value
+        surveyQuestionList.value[questionNumber] = SurveyQuestion(
+            questionTitle = _surveyQuestionTitle.value,
+            questionType = _surveyQuestionType.value,
+        )
+        clearSurveyQuestionState()
+    }
 
-    private fun isNotValidSurveyQuestion() = _surveyQuestion.value.isBlank()
+    fun setSurveyQuestionFromQuestionList() {
+        // 작성된 질문 목록을 불러올 때, 마지막 질문은 UI에 노출
+        val lastSurveyQuestion = surveyQuestionList.value.removeLast()
+        setSurveyQuestionTitle(lastSurveyQuestion.questionTitle)
+        setSurveyQuestionType(lastSurveyQuestion.questionType)
+    }
+
+    fun setSurveyTimeDeadline(time: LocalTime) { _surveyTimeDeadline.value = time }
+
+    fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
+
+    private fun clearSurveyQuestionState() { _surveyQuestionTitle.value = "" }
+
+    private fun isNotValidSurveyQuestion() = _surveyQuestionTitle.value.isBlank()
 
     private fun isNotValidEventSelection() =
         _surveyEventSelection.value.eventId == EVENT_SELECTION_INIT.eventId

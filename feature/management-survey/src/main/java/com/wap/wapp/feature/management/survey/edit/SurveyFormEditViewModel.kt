@@ -90,7 +90,8 @@ class SurveyFormEditViewModel @Inject constructor(
         setSurveyFormId(surveyForm.surveyFormId)
         setSurveyEventSelection(EVENT_SELECTION_INIT.copy(eventId = surveyForm.eventId))
         setSurveyTitle(surveyForm.title)
-        setSurveyQuestionList(surveyForm.surveyQuestionList.toMutableList())
+        setSurveyQuestionList(surveyForm.surveyQuestionList)
+        setSurveyQuestionFromAnsweredList()
         setSurveyContent(surveyForm.content)
         setSurveyTimeDeadline(surveyForm.deadline.toLocalTime())
         setSurveyDateDeadline(surveyForm.deadline.toLocalDate())
@@ -195,13 +196,15 @@ class SurveyFormEditViewModel @Inject constructor(
 
     fun setSurveyDateDeadline(date: LocalDate) { _surveyDateDeadline.value = date }
 
-    private fun setSurveyQuestionList(surveyQuestionList: MutableList<SurveyQuestion>) {
-        // 마지막 질문은 UI에 노출
-        val lastSurveyQuestion = surveyQuestionList.removeLast()
+    // 이전 버튼 클릭시 진입점이 질문 페이지인 경우, 응답 목록에서 마지막 질문 노출
+    private fun setSurveyQuestionList(surveyQuestionList: List<SurveyQuestion>) {
+        _surveyQuestionList.value.addAll(surveyQuestionList)
+    }
+
+    fun setSurveyQuestionFromAnsweredList() {
+        val lastSurveyQuestion = _surveyQuestionList.value.removeLast()
         setSurveyQuestion(lastSurveyQuestion.questionTitle)
         setSurveyQuestionType(lastSurveyQuestion.questionType)
-
-        _surveyQuestionList.value.addAll(surveyQuestionList)
     }
 
     private fun clearSurveyQuestionState() { _surveyQuestion.value = "" }

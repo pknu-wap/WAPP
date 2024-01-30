@@ -43,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.survey.R
 import com.wap.wapp.feature.management.survey.SurveyFormContent
 import com.wap.wapp.feature.management.survey.SurveyFormState
@@ -99,13 +100,24 @@ internal fun SurveyFormEditScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
+        topBar = {
+            WappSubTopBar(
+                titleRes = R.string.survey_edit,
+                showLeftButton = true,
+                showRightButton = true,
+                leftButtonDrawableRes = drawable.ic_close,
+                modifier = Modifier.padding(top = 16.dp),
+                onClickLeftButton = navigateToManagement,
+                onClickRightButton = { showDeleteSurveyDialog = true },
+            )
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+                .padding(vertical = 16.dp, horizontal = 20.dp), // dp value padding
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             if (showDeleteSurveyDialog) {
                 DeleteSurveyDialog(
@@ -114,21 +126,9 @@ internal fun SurveyFormEditScreen(
                 )
             }
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                WappSubTopBar(
-                    titleRes = R.string.survey_edit,
-                    showLeftButton = true,
-                    showRightButton = true,
-                    onClickLeftButton = navigateToManagement,
-                    onClickRightButton = { showDeleteSurveyDialog = true },
-                )
-
-                SurveyFormStateIndicator(
-                    surveyRegistrationState = currentRegistrationState,
-                )
-            }
+            SurveyFormStateIndicator(
+                surveyRegistrationState = currentRegistrationState,
+            )
 
             SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
@@ -143,11 +143,11 @@ internal fun SurveyFormEditScreen(
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
-                currentQuestionIndex = totalQuestionSize,
-                totalQuestionSize = totalQuestionSize,
+                questionNumber = totalQuestionSize,
+                totalQuestionNumber = totalQuestionSize,
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
-                onEventListChanged = { viewModel.getEventList() },
+                onEventContentInitialized = { viewModel.getEventList() },
                 onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
                 onContentChanged = { content -> viewModel.setSurveyContent(content) },
@@ -155,8 +155,16 @@ internal fun SurveyFormEditScreen(
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },
+                onPreviousQuestionButtonClicked = {},
+                onNextQuestionButtonClicked = {},
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
+                onPreviousButtonClicked = { previousState ->
+                    if (previousState == SurveyFormState.QUESTION) {
+                        viewModel.setSurveyQuestionFromAnsweredList()
+                    }
+                    viewModel.setSurveyFormState(previousState)
+                },
                 onNextButtonClicked = { currentState, nextState ->
                     if (viewModel.validateSurveyForm(currentState).not()) { // 유효성 검증
                         return@SurveyFormContent
