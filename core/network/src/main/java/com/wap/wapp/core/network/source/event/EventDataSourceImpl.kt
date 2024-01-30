@@ -6,10 +6,10 @@ import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.event.EventRequest
 import com.wap.wapp.core.network.model.event.EventResponse
 import com.wap.wapp.core.network.utils.await
+import com.wap.wapp.core.network.utils.generateNowDateTime
+import com.wap.wapp.core.network.utils.toISOLocalDateTimeString
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class EventDataSourceImpl @Inject constructor(
@@ -166,6 +166,3 @@ class EventDataSourceImpl @Inject constructor(
             .await()
     }
 }
-
-private fun LocalDateTime.toISOLocalDateTimeString(): String =
-    this.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)

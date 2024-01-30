@@ -167,13 +167,6 @@ internal fun ProfileSettingScreen(
             Divider(color = dividerColor)
 
             WappRowBar(
-                title = stringResource(id = string.faq),
-                onClicked = { navigateToUri(context, FAQ_URL) },
-            )
-
-            Divider(color = dividerColor)
-
-            WappRowBar(
                 title = stringResource(id = string.terms_and_policies),
                 onClicked = { navigateToUri(context, TERMS_AND_POLICIES_URL) },
             )
