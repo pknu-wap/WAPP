@@ -41,6 +41,7 @@ internal fun SurveyDeadlineContent(
     onTimePickerStateChanged: (Boolean) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
+    onPreviousButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     if (showDatePicker) {
@@ -93,11 +94,21 @@ internal fun SurveyDeadlineContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        WappButton(
-            textRes = R.string.register_survey,
-            onClick = onRegisterButtonClicked,
-            modifier = Modifier.padding(bottom = 20.dp),
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            WappButton(
+                textRes = R.string.previous,
+                onClick = onPreviousButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+
+            WappButton(
+                textRes = R.string.next,
+                onClick = onRegisterButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
