@@ -90,7 +90,7 @@ internal fun SurveyAnswerScreen(
                     },
                     onNextQuestionButtonClicked = {
                         if (questionNumber < surveyAnswerList.size) { // 작성한 답변을 수정하는 경우
-                            viewModel.modifySurveyAnswer()
+                            viewModel.editSurveyAnswer()
                         } else {
                             viewModel.addSurveyAnswer()
                         }
@@ -102,9 +102,20 @@ internal fun SurveyAnswerScreen(
                             return@SurveyAnswerContent
                         }
 
-                        viewModel.setNextQuestionNumber() // 다음 질문 불러오기
+                        viewModel.setNextQuestionAndAnswer() // 다음 질문 불러오기
                     },
-                    onPreviousQuestionButtonClicked = { viewModel.setPreviousQuestion() },
+                    onPreviousQuestionButtonClicked = {
+                        val lastQuestionNumber =
+                            surveyFormUiState.surveyForm.surveyQuestionList.lastIndex
+                        // 마지막 질문이면서, 응답의 갯수가 질문의 갯수보다 작은 경우
+                        if (questionNumber == lastQuestionNumber &&
+                            surveyAnswerList.lastIndex < lastQuestionNumber
+                        ) {
+                            viewModel.addSurveyAnswer()
+                        }
+
+                        viewModel.setPreviousQuestionAndAnswer()
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)

@@ -56,20 +56,23 @@ internal fun SurveyAnswerForm(
             }
         }
 
-        val isFirstQuestion = questionNumber > 0
+        val isGreaterThanFirstQuestion = questionNumber > 0
         val isLastQuestion = questionNumber == lastQuestionNumber // 마지막 응답일 경우, 완료로 변경
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             WappButton(
                 textRes = R.string.previous,
                 onClick = onPreviousQuestionButtonClicked,
-                isEnabled = isFirstQuestion,
+                isEnabled = isGreaterThanFirstQuestion,
                 modifier = Modifier.weight(1f),
             )
 
             SurveyAnswerButton(
                 isLastQuestion = isLastQuestion,
                 onButtonClicked = onNextQuestionButtonClicked,
-                isEnabled = isButtonEnabled(surveyQuestion.questionType, subjectiveAnswer),
+                isEnabled = checkQuestionTypeAndSubjectiveAnswer(
+                    questionType = surveyQuestion.questionType,
+                    subjectiveAnswer = subjectiveAnswer,
+                ),
                 modifier = Modifier.weight(1f),
             )
         }
@@ -79,8 +82,8 @@ internal fun SurveyAnswerForm(
 @Composable
 private fun SurveyAnswerButton(
     isLastQuestion: Boolean,
-    onButtonClicked: () -> Unit,
     isEnabled: Boolean,
+    onButtonClicked: () -> Unit,
     modifier: Modifier,
 ) {
     if (isLastQuestion) {
@@ -100,11 +103,12 @@ private fun SurveyAnswerButton(
     }
 }
 
-private fun isButtonEnabled(
+private fun checkQuestionTypeAndSubjectiveAnswer(
     questionType: QuestionType,
     subjectiveAnswer: String,
 ): Boolean {
-    if (questionType == QuestionType.SUBJECTIVE) return subjectiveAnswer.length >= 10
-
-    return true
+    if (questionType == QuestionType.OBJECTIVE) {
+        return true
+    }
+    return subjectiveAnswer.length >= 10
 }
