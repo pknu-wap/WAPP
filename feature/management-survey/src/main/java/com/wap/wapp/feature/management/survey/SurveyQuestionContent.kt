@@ -1,5 +1,7 @@
 package com.wap.wapp.feature.management.survey
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,12 +23,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappRoundedTextField
@@ -36,12 +41,15 @@ import com.wap.wapp.core.model.survey.QuestionType
 internal fun SurveyQuestionContent(
     question: String,
     questionType: QuestionType,
+    questionNumber: Int,
+    totalQuestionNumber: Int,
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
+    onPreviousQuestionButtonClicked: () -> Unit,
+    onNextQuestionButtonClicked: () -> Unit,
+    onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
     onAddSurveyQuestionButtonClicked: () -> Unit,
-    currentQuestionIndex: Int,
-    totalQuestionIndex: Int,
 ) {
     val scrollState = rememberScrollState()
 
@@ -66,19 +74,11 @@ internal fun SurveyQuestionContent(
                 color = WappTheme.colors.white,
             )
 
-            Text(
-                color = WappTheme.colors.white,
-                style = WappTheme.typography.contentRegular,
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            WappTheme.colors.yellow34,
-                        ),
-                    ) { append(currentQuestionIndex.toString()) }
-                    append(" / $totalQuestionIndex")
-                },
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth(),
+            SurveyQuestionNumberText(
+                questionNumber = questionNumber + 1,
+                totalQuestionNumber = totalQuestionNumber + 1,
+                onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
+                onNextQuestionButtonClicked = onNextQuestionButtonClicked,
             )
         }
 
@@ -125,15 +125,65 @@ internal fun SurveyQuestionContent(
                 onAddSurveyQuestionButtonClicked()
             },
             onNextButtonClicked = onNextButtonClicked,
+            onPreviousButtonClicked = onPreviousButtonClicked,
             modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
         )
     }
 }
 
 @Composable
-private fun SurveyQuestionTypeDescription(
-    type: QuestionType,
+private fun SurveyQuestionNumberText(
+    questionNumber: Int,
+    totalQuestionNumber: Int,
+    onPreviousQuestionButtonClicked: () -> Unit,
+    onNextQuestionButtonClicked: () -> Unit,
 ) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        // 이전 질문 버튼
+        if (questionNumber > 1) {
+            Image(
+                painter = painterResource(id = drawable.ic_back),
+                contentDescription = stringResource(R.string.previous_question),
+                modifier = Modifier
+                    .size(14.dp)
+                    .padding(end = 4.dp)
+                    .clickable { onPreviousQuestionButtonClicked() },
+            )
+        }
+
+        Text(
+            color = WappTheme.colors.white,
+            style = WappTheme.typography.contentRegular,
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        WappTheme.colors.yellow34,
+                    ),
+                ) { append(questionNumber.toString()) }
+                append(" / $totalQuestionNumber")
+            },
+        )
+
+        // 다음 질문 버튼
+        if (questionNumber < totalQuestionNumber) {
+            Image(
+                painter = painterResource(id = drawable.ic_forward),
+                contentDescription = stringResource(R.string.next_question),
+                modifier = Modifier
+                    .size(14.dp)
+                    .padding(start = 4.dp)
+                    .clickable { onNextQuestionButtonClicked() },
+            )
+        }
+    }
+}
+
+@Composable
+private fun SurveyQuestionTypeDescription(type: QuestionType) {
     when (type) {
         QuestionType.SUBJECTIVE -> {
             Text(
@@ -240,21 +290,41 @@ private fun SurveyQuestionTypeCard(
 private fun SurveyQuestionButton(
     onAddSurveyQuestionButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
+    onPreviousButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onAddSurveyQuestionButtonClicked() },
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Image(
+            painter = painterResource(id = drawable.ic_add_question),
+            contentDescription = stringResource(id = R.string.add_survey_question),
+            modifier = Modifier.size(40.dp),
+        )
+
+        Text(
+            text = stringResource(id = R.string.add_survey_question),
+            color = WappTheme.colors.yellow34,
+            style = WappTheme.typography.labelRegular,
+        )
+    }
+
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
         WappButton(
-            onClick = onAddSurveyQuestionButtonClicked,
-            textRes = R.string.add_survey_question,
+            textRes = R.string.previous,
+            onClick = onPreviousButtonClicked,
             modifier = Modifier.weight(1f),
         )
 
         WappButton(
-            onClick = onNextButtonClicked,
             textRes = R.string.next,
+            onClick = onNextButtonClicked,
             modifier = Modifier.weight(1f),
         )
     }
