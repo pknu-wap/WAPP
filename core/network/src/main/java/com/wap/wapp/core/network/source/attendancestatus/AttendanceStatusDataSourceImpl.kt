@@ -7,9 +7,8 @@ import com.wap.wapp.core.network.constant.EVENT_COLLECTION
 import com.wap.wapp.core.network.model.attendancestatus.AttendanceStatusRequest
 import com.wap.wapp.core.network.model.attendancestatus.AttendanceStatusResponse
 import com.wap.wapp.core.network.utils.await
-import com.wap.wapp.core.network.utils.getSeoulDateTimeNow
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.wap.wapp.core.network.utils.generateNowDateTime
+import com.wap.wapp.core.network.utils.toISOLocalDateTimeString
 import javax.inject.Inject
 
 class AttendanceStatusDataSourceImpl @Inject constructor(
@@ -34,7 +33,7 @@ class AttendanceStatusDataSourceImpl @Inject constructor(
     override suspend fun postAttendanceStatus(eventId: String, userId: String): Result<Unit> =
         runCatching {
             val attendanceStatusRequest =
-                AttendanceStatusRequest(getSeoulDateTimeNow().toISOLocalDateTimeString())
+                AttendanceStatusRequest(generateNowDateTime().toISOLocalDateTimeString())
 
             firebaseFirestore.collection(ATTENDANCE_STATUS_COLLECTION)
                 .document(userId)
@@ -43,7 +42,4 @@ class AttendanceStatusDataSourceImpl @Inject constructor(
                 .set(attendanceStatusRequest)
                 .await()
         }
-
-    private fun LocalDateTime.toISOLocalDateTimeString(): String =
-        this.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 }
