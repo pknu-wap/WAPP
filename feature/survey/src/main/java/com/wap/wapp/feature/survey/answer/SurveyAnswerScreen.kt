@@ -105,15 +105,10 @@ internal fun SurveyAnswerScreen(
                         viewModel.setNextQuestionAndAnswer() // 다음 질문 불러오기
                     },
                     onPreviousQuestionButtonClicked = {
-                        val lastQuestionNumber =
-                            surveyFormUiState.surveyForm.surveyQuestionList.lastIndex
-                        // 마지막 질문이면서, 응답의 갯수가 질문의 갯수보다 작은 경우
-                        if (questionNumber == lastQuestionNumber &&
-                            surveyAnswerList.lastIndex < lastQuestionNumber
-                        ) {
+                        // 응답의 갯수가 질문의 갯수보다 작은 경우
+                        if (questionNumber >= surveyAnswerList.size) {
                             viewModel.addSurveyAnswer()
                         }
-
                         viewModel.setPreviousQuestionAndAnswer()
                     },
                     modifier = Modifier
