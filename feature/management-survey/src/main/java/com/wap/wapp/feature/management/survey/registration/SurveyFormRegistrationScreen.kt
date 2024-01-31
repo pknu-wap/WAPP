@@ -39,16 +39,17 @@ internal fun SurveyRegistrationScreen(
     val currentRegistrationState =
         viewModel.currentSurveyFormState.collectAsStateWithLifecycle().value
     val eventList = viewModel.eventList.collectAsStateWithLifecycle().value
-    val eventSelection = viewModel.surveyEventSelection.collectAsStateWithLifecycle().value
+    val eventSelection = viewModel.eventSelection.collectAsStateWithLifecycle().value
     val title = viewModel.surveyTitle.collectAsStateWithLifecycle().value
     val content = viewModel.surveyContent.collectAsStateWithLifecycle().value
-    val questionTitle = viewModel.surveyQuestionTitle.collectAsStateWithLifecycle().value
-    val questionType = viewModel.surveyQuestionType.collectAsStateWithLifecycle().value
-    val questionNumber = viewModel.surveyQuestionNumber.collectAsStateWithLifecycle().value
+    val questionTitle = viewModel.questionTitle.collectAsStateWithLifecycle().value
+    val questionType = viewModel.questionType.collectAsStateWithLifecycle().value
+    val currentQuestionNumber = viewModel.currentQuestionNumber.collectAsStateWithLifecycle().value
     val totalQuestionNumber =
-        viewModel.surveyQuestionTotalNumber.collectAsStateWithLifecycle().value
-    val time = viewModel.surveyTimeDeadline.collectAsStateWithLifecycle().value
-    val date = viewModel.surveyDateDeadline.collectAsStateWithLifecycle().value
+        viewModel.totalQuestionNumber.collectAsStateWithLifecycle().value
+    val questionList = viewModel.questionList.collectAsStateWithLifecycle().value
+    val timeDeadline = viewModel.timeDeadline.collectAsStateWithLifecycle().value
+    val dateDeadline = viewModel.dateDeadline.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
@@ -106,12 +107,12 @@ internal fun SurveyRegistrationScreen(
                 content = content,
                 question = questionTitle,
                 questionType = questionType,
-                date = date,
-                time = time,
+                dateDeadline = dateDeadline,
+                timeDeadline = timeDeadline,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
-                questionNumber = questionNumber,
+                currentQuestionNumber = currentQuestionNumber,
                 totalQuestionNumber = totalQuestionNumber,
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
@@ -123,9 +124,9 @@ internal fun SurveyRegistrationScreen(
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },
-                onNextQuestionButtonClicked = {
+                onNextQuestionButtonClicked = { // '>' 버튼
                     if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
-                        return@SurveyFormContent // 답변 검증
+                        return@SurveyFormContent
                     }
 
                     viewModel.editSurveyQuestion() // 답변 수정
@@ -133,13 +134,13 @@ internal fun SurveyRegistrationScreen(
                     viewModel.setNextQuestionNumber() // 다음 질문 불러오기
                     viewModel.setQuestion()
                 },
-                onPreviousQuestionButtonClicked = {
+                onPreviousQuestionButtonClicked = { // '<' 버튼
                     if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
                         return@SurveyFormContent
                     }
 
-                    // 다른 질문으로 넘어가기 전, 상태 저장
-                    if (questionNumber == totalQuestionNumber) {
+                    // 다른 질문으로 넘어가기 전, 질문 추가 혹은 저장
+                    if (currentQuestionNumber == questionList.size) {
                         viewModel.addSurveyQuestion()
                     } else {
                         viewModel.editSurveyQuestion()
@@ -148,28 +149,35 @@ internal fun SurveyRegistrationScreen(
                     viewModel.setPreviousQuestionNumber() // 이전 질문 불러오기
                     viewModel.setQuestion()
                 },
-                onAddQuestionButtonClicked = {
-                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION)) {
-                        viewModel.addSurveyQuestion()
+                onAddQuestionButtonClicked = { // 문항 추가 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
                     }
-                    viewModel.setLastQuestionNumber()
+
+                    if (currentQuestionNumber == questionList.size) {
+                        viewModel.addSurveyQuestion() // 질문 추가
+                    } else {
+                        viewModel.editSurveyQuestion()
+                    }
+
+                    viewModel.setLastQuestion()
                 },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
-                onPreviousButtonClicked = { previousState ->
+                onPreviousButtonClicked = { previousState -> // 이전 버튼
                     if (previousState == SurveyFormState.QUESTION) {
                         viewModel.setSurveyQuestionFromQuestionList()
                     }
 
                     viewModel.setSurveyFormState(previousState)
                 },
-                onNextButtonClicked = { currentState, nextState ->
+                onNextButtonClicked = { currentState, nextState -> // 다음 버튼
                     if (viewModel.validateSurveyForm(currentState).not()) {
                         return@SurveyFormContent
                     }
 
                     if (currentState == SurveyFormState.QUESTION) {
-                        if (questionNumber == totalQuestionNumber) {
+                        if (currentQuestionNumber == questionList.size) { // 마지막 질문인 경우
                             viewModel.addSurveyQuestion()
                         } else {
                             viewModel.editSurveyQuestion()
