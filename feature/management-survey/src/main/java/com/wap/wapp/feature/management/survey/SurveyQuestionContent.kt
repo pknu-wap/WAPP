@@ -41,7 +41,7 @@ import com.wap.wapp.core.model.survey.QuestionType
 internal fun SurveyQuestionContent(
     question: String,
     questionType: QuestionType,
-    questionNumber: Int,
+    currentQuestionNumber: Int,
     totalQuestionNumber: Int,
     onQuestionChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
@@ -75,7 +75,7 @@ internal fun SurveyQuestionContent(
             )
 
             SurveyQuestionNumberText(
-                questionNumber = questionNumber + 1,
+                questionNumber = currentQuestionNumber + 1,
                 totalQuestionNumber = totalQuestionNumber + 1,
                 onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
                 onNextQuestionButtonClicked = onNextQuestionButtonClicked,

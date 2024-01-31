@@ -19,9 +19,9 @@ internal fun SurveyFormContent(
     content: String,
     question: String,
     questionType: QuestionType,
-    time: LocalTime,
-    date: LocalDate,
-    questionNumber: Int,
+    timeDeadline: LocalTime,
+    dateDeadline: LocalDate,
+    currentQuestionNumber: Int,
     totalQuestionNumber: Int,
     timePickerState: TimePickerState,
     showDatePicker: Boolean,
@@ -86,7 +86,7 @@ internal fun SurveyFormContent(
                 },
                 onQuestionChanged = onQuestionChanged,
                 onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
-                questionNumber = questionNumber,
+                currentQuestionNumber = currentQuestionNumber,
                 totalQuestionNumber = totalQuestionNumber,
                 onPreviousButtonClicked = {
                     onPreviousButtonClicked(SurveyFormState.INFORMATION)
@@ -104,8 +104,8 @@ internal fun SurveyFormContent(
 
         SurveyFormState.DEADLINE -> {
             SurveyDeadlineContent(
-                time = time,
-                date = date,
+                timeDeadline = timeDeadline,
+                dateDeadline = dateDeadline,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
