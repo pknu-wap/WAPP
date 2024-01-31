@@ -32,8 +32,8 @@ import java.time.LocalTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SurveyDeadlineContent(
-    date: LocalDate,
-    time: LocalTime,
+    dateDeadline: LocalDate,
+    timeDeadline: LocalTime,
     timePickerState: TimePickerState,
     showDatePicker: Boolean,
     showTimePicker: Boolean,
@@ -46,7 +46,7 @@ internal fun SurveyDeadlineContent(
 ) {
     if (showDatePicker) {
         WappDatePickerDialog(
-            date = date,
+            date = dateDeadline,
             onDismissRequest = { onDatePickerStateChanged(false) },
             onDateChanged = onDateChanged,
         )
@@ -78,7 +78,7 @@ internal fun SurveyDeadlineContent(
 
         DeadlineCard(
             title = stringResource(R.string.date),
-            hint = date.format(DateUtil.yyyyMMddFormatter),
+            hint = dateDeadline.format(DateUtil.yyyyMMddFormatter),
             onCardClicked = {
                 onDatePickerStateChanged(true)
             },
@@ -86,7 +86,7 @@ internal fun SurveyDeadlineContent(
 
         DeadlineCard(
             title = stringResource(R.string.time),
-            hint = time.format(DateUtil.HHmmFormatter),
+            hint = timeDeadline.format(DateUtil.HHmmFormatter),
             onCardClicked = {
                 onTimePickerStateChanged(true)
             },
