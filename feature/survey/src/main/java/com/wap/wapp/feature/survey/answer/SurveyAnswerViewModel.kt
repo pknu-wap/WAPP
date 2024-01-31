@@ -159,8 +159,7 @@ class SurveyAnswerViewModel @Inject constructor(
 
     fun setNextQuestionAndAnswer() {
         _questionNumber.value += 1
-
-        if (_questionNumber.value < _surveyAnswerList.value.size) {
+        if (_questionNumber.value < _surveyAnswerList.value.size) { // 다음 질문이 아미 작성된 질문인 경우
             setSurveyAnswer()
         }
     }
