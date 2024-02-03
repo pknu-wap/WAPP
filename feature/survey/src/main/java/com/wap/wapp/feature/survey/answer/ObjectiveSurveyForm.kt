@@ -25,9 +25,10 @@ internal fun ObjectiveSurveyForm(
     questionTitle: String,
     answer: Rating,
     onAnswerSelected: (Rating) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         Text(

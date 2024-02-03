@@ -21,10 +21,11 @@ internal fun SubjectiveSurveyForm(
     questionTitle: String,
     answer: String,
     onAnswerChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(40.dp),
     ) {
         Text(
             text = questionTitle,

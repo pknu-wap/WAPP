@@ -52,6 +52,7 @@ internal fun SurveyFormItemCard(
             Text(
                 text = surveyForm.content,
                 color = WappTheme.colors.grayBD,
+                maxLines = 1,
                 style = WappTheme.typography.contentMedium,
             )
         }

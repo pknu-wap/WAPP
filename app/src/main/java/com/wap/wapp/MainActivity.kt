@@ -33,6 +33,7 @@ import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigat
 import com.wap.wapp.feature.management.survey.navigation.ManagementSurveyRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
+import com.wap.wapp.feature.survey.navigation.SurveyRoute
 import com.wap.wapp.navigation.TopLevelDestination
 import com.wap.wapp.navigation.WappNavHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,6 +117,7 @@ private fun handleBottomBarState(
     attendanceManagementNavigationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
+    SurveyRoute.answerRoute("{id}") ->setBottomBarState(false)
     else -> setBottomBarState(true)
 }
 

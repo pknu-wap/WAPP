@@ -164,9 +164,7 @@ private fun ManagementSurveyItemCard(
                 painter = painterResource(id = R.drawable.ic_forward),
                 contentDescription = stringResource(string.detail_icon_description),
                 tint = WappTheme.colors.yellow34,
-                modifier = Modifier
-                    .clickable { onCardClicked(item.eventId) }
-                    .size(20.dp),
+                modifier = Modifier.size(20.dp),
             )
         }
     }
