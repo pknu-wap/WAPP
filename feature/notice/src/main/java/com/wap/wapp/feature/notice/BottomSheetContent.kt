@@ -1,5 +1,10 @@
 package com.wap.wapp.feature.notice
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -134,6 +139,7 @@ private fun EventItem(
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
+                .animateContentSize(animationSpec = spring(dampingRatio = 0.8f, stiffness = 500f))
                 .padding(vertical = 10.dp)
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth(),
@@ -160,7 +166,11 @@ private fun EventItem(
                     color = WappTheme.colors.white,
                 )
 
-                if (bottomSheetState.currentValue == SheetValue.Expanded) {
+                AnimatedVisibility(
+                    visible = bottomSheetState.currentValue != SheetValue.PartiallyExpanded,
+                    enter = expandVertically(),
+                    exit = shrinkVertically(),
+                ) {
                     Text(
                         text = event.location,
                         style = WappTheme.typography.captionRegular,
