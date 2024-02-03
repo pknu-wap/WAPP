@@ -2,6 +2,7 @@ package com.wap.wapp.feature.survey.answer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.domain.usecase.event.GetEventUseCase
 import com.wap.wapp.core.domain.usecase.survey.GetSurveyFormUseCase
 import com.wap.wapp.core.domain.usecase.survey.PostSurveyUseCase
 import com.wap.wapp.core.model.survey.QuestionType
@@ -18,14 +19,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SurveyAnswerViewModel @Inject constructor(
+    private val getEventUseCase: GetEventUseCase,
     private val getSurveyFormUseCase: GetSurveyFormUseCase,
     private val postSurveyUseCase: PostSurveyUseCase,
 ) : ViewModel() {
+    private val _surveyAnswerState: MutableStateFlow<SurveyAnswerState> =
+        MutableStateFlow(SurveyAnswerState.SURVEY_OVERVIEW)
+    val surveyAnswerState = _surveyAnswerState.asStateFlow()
+
+    // 출력 SurveyForm State
     private val _surveyFormUiState: MutableStateFlow<SurveyFormUiState> =
         MutableStateFlow(SurveyFormUiState.Init)
     val surveyFormUiState = _surveyFormUiState.asStateFlow()
 
+    // 사용자 입력 SurveyForm State
     private val _surveyForm: MutableStateFlow<SurveyForm> = MutableStateFlow(SurveyForm())
+
+    private val _eventName: MutableStateFlow<String> = MutableStateFlow("")
+    val eventName = _eventName.asStateFlow()
 
     private val _surveyAnswerEvent: MutableSharedFlow<SurveyAnswerUiEvent> = MutableSharedFlow()
     val surveyAnswerEvent = _surveyAnswerEvent.asSharedFlow()
@@ -34,8 +45,9 @@ class SurveyAnswerViewModel @Inject constructor(
     val questionNumber = _questionNumber.asStateFlow()
 
     // 설문 응답 리스트
-    private val surveyAnswerList: MutableStateFlow<MutableList<SurveyAnswer>> =
+    private val _surveyAnswerList: MutableStateFlow<MutableList<SurveyAnswer>> =
         MutableStateFlow(mutableListOf())
+    val surveyAnswerList = _surveyAnswerList.asStateFlow()
 
     private val _subjectiveAnswer: MutableStateFlow<String> = MutableStateFlow("")
     val subjectiveAnswer = _subjectiveAnswer.asStateFlow()
@@ -49,6 +61,7 @@ class SurveyAnswerViewModel @Inject constructor(
                 .onSuccess { surveyForm ->
                     _surveyFormUiState.value = SurveyFormUiState.Success(surveyForm)
                     _surveyForm.value = surveyForm
+                    getEvent()
                 }
                 .onFailure { throwable ->
                     _surveyAnswerEvent.emit(SurveyAnswerUiEvent.Failure(throwable))
@@ -56,13 +69,23 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
+    private fun getEvent() = viewModelScope.launch {
+        getEventUseCase(eventId = _surveyForm.value.eventId)
+            .onSuccess { event ->
+                _eventName.value = event.title
+            }
+            .onFailure { throwable ->
+                _surveyAnswerEvent.emit(SurveyAnswerUiEvent.Failure(throwable))
+            }
+    }
+
     fun addSurveyAnswer() {
         val questionNumber = _questionNumber.value
         val surveyQuestion = _surveyForm.value.surveyQuestionList[questionNumber]
 
-        when (surveyQuestion.questionType) {
+        when (surveyQuestion.questionType) { // 새로운 질문에 답변을 작성하는 경우
             QuestionType.SUBJECTIVE -> {
-                surveyAnswerList.value.add( // 현재 질문 답변 리스트에 저장
+                _surveyAnswerList.value.add( // 현재 질문 답변 리스트에 저장
                     SurveyAnswer(
                         questionType = surveyQuestion.questionType,
                         questionTitle = surveyQuestion.questionTitle,
@@ -73,7 +96,7 @@ class SurveyAnswerViewModel @Inject constructor(
             }
 
             QuestionType.OBJECTIVE -> {
-                surveyAnswerList.value.add(
+                _surveyAnswerList.value.add(
                     SurveyAnswer(
                         questionType = surveyQuestion.questionType,
                         questionTitle = surveyQuestion.questionTitle,
@@ -85,9 +108,35 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
+    fun editSurveyAnswer() {
+        val questionNumber = _questionNumber.value
+        val surveyQuestion = _surveyForm.value.surveyQuestionList[questionNumber]
+        val surveyAnswerList = _surveyAnswerList.value
+
+        when (surveyQuestion.questionType) { // 새로운 질문에 답변을 작성하는 경우
+            QuestionType.SUBJECTIVE -> {
+                surveyAnswerList[questionNumber] = SurveyAnswer(
+                    questionType = surveyQuestion.questionType,
+                    questionTitle = surveyQuestion.questionTitle,
+                    questionAnswer = _subjectiveAnswer.value,
+                )
+                clearSubjectiveAnswer() // 질문 상태 초기화
+            }
+
+            QuestionType.OBJECTIVE -> {
+                surveyAnswerList[questionNumber] = SurveyAnswer(
+                    questionType = surveyQuestion.questionType,
+                    questionTitle = surveyQuestion.questionTitle,
+                    questionAnswer = _objectiveAnswer.value.toString(),
+                )
+                clearObjectiveAnswer()
+            }
+        }
+    }
+
     fun submitSurvey() {
         val surveyForm = _surveyForm.value
-        val surveyAnswerList = surveyAnswerList.value
+        val surveyAnswerList = _surveyAnswerList.value
 
         viewModelScope.launch {
             postSurveyUseCase(
@@ -108,7 +157,36 @@ class SurveyAnswerViewModel @Inject constructor(
 
     fun setObjectiveAnswer(answer: Rating) { _objectiveAnswer.value = answer }
 
-    fun setNextQuestionNumber() { _questionNumber.value += 1 }
+    fun setNextQuestionAndAnswer() {
+        _questionNumber.value += 1
+        if (_questionNumber.value < _surveyAnswerList.value.size) { // 다음 질문이 아미 작성된 질문인 경우
+            setSurveyAnswer()
+        }
+    }
+
+    fun setPreviousQuestionAndAnswer() {
+        _questionNumber.value -= 1
+        setSurveyAnswer()
+    }
+
+    private fun setSurveyAnswer() {
+        val surveyAnswer = _surveyAnswerList.value[_questionNumber.value]
+        when (surveyAnswer.questionType) {
+            QuestionType.SUBJECTIVE -> {
+                setSubjectiveAnswer(surveyAnswer.questionAnswer)
+            }
+
+            QuestionType.OBJECTIVE -> {
+                when (surveyAnswer.questionAnswer) {
+                    "GOOD" -> setObjectiveAnswer(Rating.GOOD)
+                    "MEDIOCRE" -> setObjectiveAnswer(Rating.MEDIOCRE)
+                    "BAD" -> setObjectiveAnswer(Rating.BAD)
+                }
+            }
+        }
+    }
+
+    fun setSurveyAnswerState(state: SurveyAnswerState) { _surveyAnswerState.value = state }
 
     private fun clearSubjectiveAnswer() { _subjectiveAnswer.value = "" }
 

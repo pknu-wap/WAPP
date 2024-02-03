@@ -42,11 +42,16 @@ internal fun ManagementRoute(
     LaunchedEffect(true) {
         viewModel.getUserRole() // 유저 권한 검색
 
-        viewModel.userRole.collectLatest { managerState ->
-            when (managerState) {
-                UserRole.GUEST -> { showGuestScreen = true }
-                UserRole.MEMBER -> { showValidationScreen = true }
-                UserRole.MANAGER -> viewModel.getEventSurveyList()
+        viewModel.userRole.collectLatest { userRoleUiState ->
+            when (userRoleUiState) {
+                is ManagementViewModel.UserRoleUiState.Init -> { }
+                is ManagementViewModel.UserRoleUiState.Success -> {
+                    when (userRoleUiState.userRole) {
+                        UserRole.GUEST -> { showGuestScreen = true }
+                        UserRole.MEMBER -> { showValidationScreen = true }
+                        UserRole.MANAGER -> viewModel.getEventSurveyList()
+                    }
+                }
             }
         }
 
