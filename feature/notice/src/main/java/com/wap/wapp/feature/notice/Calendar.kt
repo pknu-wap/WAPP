@@ -53,6 +53,7 @@ internal fun Calendar(
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
     onDateSelected: (LocalDate) -> Unit,
+    onCalendarMonthChanged: () -> Unit,
 ) {
     Column(
         modifier = measureDefaultModifier,
@@ -62,12 +63,14 @@ internal fun Calendar(
             bottomSheetState = bottomSheetState,
             selectedDate = selectedDate,
             onDateSelected = onDateSelected,
+            onCalendarMonthChanged = onCalendarMonthChanged,
             modifier = measureExpandableModifier,
         )
 
         when (monthEventsState) {
             is NoticeViewModel.EventsState.Loading ->
                 CircleLoader(modifier = Modifier.fillMaxSize())
+
             is NoticeViewModel.EventsState.Success -> {
                 val eventDates = monthEventsState.events.map {
                     it.startDateTime.toLocalDate()
@@ -91,6 +94,7 @@ private fun CalendarHeader(
     bottomSheetState: SheetState,
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
+    onCalendarMonthChanged: () -> Unit,
     modifier: Modifier,
 ) = Box(
     modifier = modifier,
@@ -121,7 +125,10 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
             modifier = Modifier
                 .padding(end = 20.dp)
-                .clickable { onDateSelected(selectedDate.minusMonths(1)) },
+                .clickable {
+                    onDateSelected(selectedDate.minusMonths(1))
+                    onCalendarMonthChanged()
+                },
         )
 
         Text(

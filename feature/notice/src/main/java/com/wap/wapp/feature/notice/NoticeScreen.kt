@@ -34,8 +34,15 @@ internal fun NoticeRoute(
     val selectedDateEvents by viewModel.selectedDateEvents.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
     val onDateSelected = viewModel::updateSelectedDate
+    val onCalendarMonthChanged = viewModel::getMonthEvents
 
-    NoticeScreen(MonthEvents, selectedDateEvents, selectedDate, onDateSelected)
+    NoticeScreen(
+        monthEvents = MonthEvents,
+        selectedDateEvents = selectedDateEvents,
+        selectedDate = selectedDate,
+        onDateSelected = onDateSelected,
+        onCalendarMonthChanged = onCalendarMonthChanged,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,6 +52,7 @@ internal fun NoticeScreen(
     selectedDateEvents: EventsState,
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
+    onCalendarMonthChanged: () -> Unit,
 ) {
     var defaultHeight: Dp by remember { mutableStateOf(0.dp) }
     var expandableHeight: Dp by remember { mutableStateOf(0.dp) }
@@ -81,6 +89,7 @@ internal fun NoticeScreen(
                 selectedDate = selectedDate,
                 monthEventsState = monthEvents,
                 onDateSelected = onDateSelected,
+                onCalendarMonthChanged = onCalendarMonthChanged,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
                     .background(WappTheme.colors.black25)
