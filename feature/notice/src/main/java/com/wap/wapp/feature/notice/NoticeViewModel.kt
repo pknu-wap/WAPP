@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.notice
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.commmon.util.DateUtil
@@ -40,6 +41,7 @@ class NoticeViewModel @Inject constructor(
                 .onSuccess { _monthEvents.value = EventsState.Success(it) }
                 .onFailure { _monthEvents.value = EventsState.Failure(it) }
         }
+        Log.d("Test", _monthEvents.toString())
     }
 
     private fun getSelectedDateEvents() {

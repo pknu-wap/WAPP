@@ -65,11 +65,22 @@ internal fun Calendar(
             modifier = measureExpandableModifier,
         )
 
-        handleMonthEventsState(
-            eventsState = monthEventsState,
-            selectedDate = selectedDate,
-            onDateSelected = onDateSelected,
-        )
+        when (monthEventsState) {
+            is NoticeViewModel.EventsState.Loading ->
+                CircleLoader(modifier = Modifier.fillMaxSize())
+            is NoticeViewModel.EventsState.Success -> {
+                val eventDates = monthEventsState.events.map {
+                    it.startDateTime.toLocalDate()
+                }
+                CalendarBody(
+                    selectedDate = selectedDate,
+                    eventsDate = eventDates,
+                    onDateSelected = onDateSelected,
+                )
+            }
+
+            is NoticeViewModel.EventsState.Failure -> {}
+        }
     }
 }
 
@@ -130,27 +141,6 @@ private fun CalendarHeader(
                 .clickable { onDateSelected(selectedDate.plusMonths(1)) },
         )
     }
-}
-
-@Composable
-private fun handleMonthEventsState(
-    eventsState: NoticeViewModel.EventsState,
-    selectedDate: LocalDate,
-    onDateSelected: (LocalDate) -> Unit,
-) = when (eventsState) {
-    is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-    is NoticeViewModel.EventsState.Success -> {
-        val eventDates = eventsState.events.map {
-            it.startDateTime.toLocalDate()
-        }
-        CalendarBody(
-            selectedDate = selectedDate,
-            eventsDate = eventDates,
-            onDateSelected = onDateSelected,
-        )
-    }
-
-    is NoticeViewModel.EventsState.Failure -> {}
 }
 
 @Composable
