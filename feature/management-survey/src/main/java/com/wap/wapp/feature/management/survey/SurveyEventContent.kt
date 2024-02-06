@@ -21,7 +21,6 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel.EventsState
 
 @Composable
 internal fun SurveyEventContent(
@@ -48,7 +47,7 @@ internal fun SurveyEventContent(
                     )
                 }
 
-                is EventsState.Success ->
+                is EventsState.Success -> {
                     items(eventsState.events) { event ->
                         EventCard(
                             event = event,
@@ -56,6 +55,7 @@ internal fun SurveyEventContent(
                             onEventSelected = onEventSelected,
                         )
                     }
+                }
 
                 is EventsState.Failure -> {}
             }
