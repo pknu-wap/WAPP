@@ -165,7 +165,7 @@ private fun EventDetailsContent(
         WappButton(
             onClick = onNextButtonClicked,
             textRes = R.string.next,
-            modifier = Modifier.padding(vertical = 20.dp),
+            modifier = Modifier.padding(top = 20.dp),
         )
     }
 }
@@ -311,7 +311,6 @@ private fun EventScheduleContent(
         WappButton(
             onClick = onRegisterButtonClicked,
             textRes = R.string.register_event,
-            modifier = Modifier.padding(bottom = 20.dp),
         )
     }
 }
