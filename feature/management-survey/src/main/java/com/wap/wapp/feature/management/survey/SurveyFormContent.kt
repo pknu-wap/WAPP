@@ -5,7 +5,6 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
-import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -13,11 +12,11 @@ import java.time.LocalTime
 @Composable
 internal fun SurveyFormContent(
     surveyRegistrationState: SurveyFormState,
-    eventsState: SurveyFormRegistrationViewModel.EventsState,
+    eventsState: EventsState,
     eventSelection: Event,
     title: String,
     content: String,
-    question: String,
+    questionTitle: String,
     questionType: QuestionType,
     timeDeadline: LocalTime,
     dateDeadline: LocalDate,
@@ -33,7 +32,7 @@ internal fun SurveyFormContent(
     onEventSelected: (Event) -> Unit,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
-    onQuestionChanged: (String) -> Unit,
+    onQuestionTitleChanged: (String) -> Unit,
     onQuestionTypeChanged: (QuestionType) -> Unit,
     onPreviousQuestionButtonClicked: () -> Unit,
     onNextQuestionButtonClicked: () -> Unit,
@@ -79,12 +78,12 @@ internal fun SurveyFormContent(
 
         SurveyFormState.QUESTION -> {
             SurveyQuestionContent(
-                question = question,
+                questionTitle = questionTitle,
                 questionType = questionType,
                 onQuestionTypeChanged = { defaultQuestionType ->
                     onQuestionTypeChanged(defaultQuestionType)
                 },
-                onQuestionChanged = onQuestionChanged,
+                onQuestionChanged = onQuestionTitleChanged,
                 onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
                 currentQuestionNumber = currentQuestionNumber,
                 totalQuestionNumber = totalQuestionNumber,

@@ -8,6 +8,7 @@ import com.wap.wapp.core.domain.usecase.survey.PostSurveyFormUseCase
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import com.wap.wapp.core.model.survey.SurveyQuestion
+import com.wap.wapp.feature.management.survey.EventsState
 import com.wap.wapp.feature.management.survey.SurveyFormState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -216,12 +217,6 @@ class SurveyFormRegistrationViewModel @Inject constructor(
         data class ValidationError(val message: String) : SurveyRegistrationEvent()
         data class Failure(val error: Throwable) : SurveyRegistrationEvent()
         data object Success : SurveyRegistrationEvent()
-    }
-
-    sealed class EventsState {
-        data object Loading : EventsState()
-        data class Success(val events: List<Event>) : EventsState()
-        data class Failure(val throwable: Throwable) : EventsState()
     }
 
     companion object {
