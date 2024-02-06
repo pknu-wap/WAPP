@@ -66,9 +66,9 @@ internal fun SurveyAnswerForm(
                 modifier = Modifier.weight(1f),
             )
 
-            SurveyAnswerButton(
-                isLastQuestion = isLastQuestion,
-                onButtonClicked = onNextQuestionButtonClicked,
+            WappButton(
+                textRes = if (isLastQuestion) R.string.submit else R.string.next,
+                onClick = { onNextQuestionButtonClicked() },
                 isEnabled = checkQuestionTypeAndSubjectiveAnswer(
                     questionType = surveyQuestion.questionType,
                     subjectiveAnswer = subjectiveAnswer,
@@ -76,30 +76,6 @@ internal fun SurveyAnswerForm(
                 modifier = Modifier.weight(1f),
             )
         }
-    }
-}
-
-@Composable
-private fun SurveyAnswerButton(
-    isLastQuestion: Boolean,
-    isEnabled: Boolean,
-    onButtonClicked: () -> Unit,
-    modifier: Modifier,
-) {
-    if (isLastQuestion) {
-        WappButton(
-            textRes = R.string.submit,
-            onClick = { onButtonClicked() },
-            isEnabled = isEnabled,
-            modifier = modifier,
-        )
-    } else {
-        WappButton(
-            textRes = R.string.next,
-            onClick = { onButtonClicked() },
-            isEnabled = isEnabled,
-            modifier = modifier,
-        )
     }
 }
 

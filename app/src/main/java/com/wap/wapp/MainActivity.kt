@@ -118,6 +118,7 @@ private fun handleBottomBarState(
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
     SurveyRoute.answerRoute("{id}") ->setBottomBarState(false)
+    ManagementSurveyRoute.surveyFormEditRoute("{id}") -> setBottomBarState(false)
     else -> setBottomBarState(true)
 }
 
