@@ -2,9 +2,6 @@ package com.wap.wapp.feature.notice
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -135,15 +132,15 @@ private fun EventItem(
     bottomSheetState: SheetState,
     event: Event,
 ) {
-    Column {
+    Column(modifier = Modifier.animateContentSize()) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .animateContentSize(animationSpec = spring(dampingRatio = 0.8f, stiffness = 500f))
+                .animateContentSize()
                 .padding(vertical = 10.dp)
                 .height(IntrinsicSize.Min)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = event.startDateTime.toLocalTime().format(HHmmFormatter),
@@ -154,6 +151,7 @@ private fun EventItem(
             Spacer(
                 modifier = Modifier
                     .width(4.dp)
+                    .animateContentSize()
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(10.dp))
                     .background(WappTheme.colors.yellow34),
@@ -166,22 +164,20 @@ private fun EventItem(
                     color = WappTheme.colors.white,
                 )
 
-                AnimatedVisibility(
-                    visible = bottomSheetState.currentValue != SheetValue.PartiallyExpanded,
-                    enter = expandVertically(),
-                    exit = shrinkVertically(),
-                ) {
-                    Text(
-                        text = event.location,
-                        style = WappTheme.typography.captionRegular,
-                        color = WappTheme.colors.yellow34,
-                    )
+                AnimatedVisibility(bottomSheetState.currentValue == SheetValue.Expanded) {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        Text(
+                            text = event.location,
+                            style = WappTheme.typography.captionRegular,
+                            color = WappTheme.colors.yellow34,
+                        )
 
-                    Text(
-                        text = event.content,
-                        style = WappTheme.typography.captionRegular,
-                        color = WappTheme.colors.grayBD,
-                    )
+                        Text(
+                            text = event.content,
+                            style = WappTheme.typography.captionRegular,
+                            color = WappTheme.colors.grayBD,
+                        )
+                    }
                 }
 
                 Text(
@@ -193,9 +189,6 @@ private fun EventItem(
             }
         }
 
-        Divider(
-            color = WappTheme.colors.gray82,
-            thickness = 1.dp,
-        )
+        Divider(color = WappTheme.colors.gray82)
     }
 }

@@ -145,7 +145,10 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
             modifier = Modifier
                 .padding(start = 20.dp)
-                .clickable { onDateSelected(selectedDate.plusMonths(1)) },
+                .clickable {
+                    onDateSelected(selectedDate.plusMonths(1))
+                    onCalendarMonthChanged()
+                },
         )
     }
 }
