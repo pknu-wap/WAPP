@@ -56,31 +56,59 @@ internal fun SurveyAnswerForm(
             }
         }
 
-        val isFirstQuestion = questionNumber > 0
+        val isGreaterThanFirstQuestion = questionNumber > 0
         val isLastQuestion = questionNumber == lastQuestionNumber // 마지막 응답일 경우, 완료로 변경
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             WappButton(
                 textRes = R.string.previous,
                 onClick = onPreviousQuestionButtonClicked,
-                isEnabled = isFirstQuestion,
+                isEnabled = isGreaterThanFirstQuestion,
                 modifier = Modifier.weight(1f),
             )
 
-            WappButton(
-                textRes = if (isLastQuestion) R.string.submit else R.string.next,
-                onClick = { onNextQuestionButtonClicked() },
-                isEnabled = isButtonEnabled(surveyQuestion.questionType, subjectiveAnswer),
+            SurveyAnswerButton(
+                isLastQuestion = isLastQuestion,
+                onButtonClicked = onNextQuestionButtonClicked,
+                isEnabled = checkQuestionTypeAndSubjectiveAnswer(
+                    questionType = surveyQuestion.questionType,
+                    subjectiveAnswer = subjectiveAnswer,
+                ),
                 modifier = Modifier.weight(1f),
             )
         }
     }
 }
 
-private fun isButtonEnabled(
+@Composable
+private fun SurveyAnswerButton(
+    isLastQuestion: Boolean,
+    isEnabled: Boolean,
+    onButtonClicked: () -> Unit,
+    modifier: Modifier,
+) {
+    if (isLastQuestion) {
+        WappButton(
+            textRes = R.string.submit,
+            onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
+            modifier = modifier,
+        )
+    } else {
+        WappButton(
+            textRes = R.string.next,
+            onClick = { onButtonClicked() },
+            isEnabled = isEnabled,
+            modifier = modifier,
+        )
+    }
+}
+
+private fun checkQuestionTypeAndSubjectiveAnswer(
     questionType: QuestionType,
     subjectiveAnswer: String,
 ): Boolean {
-    if (questionType == QuestionType.SUBJECTIVE) return subjectiveAnswer.length >= 10
-
-    return true
+    if (questionType == QuestionType.OBJECTIVE) {
+        return true
+    }
+    return subjectiveAnswer.length >= 10
 }

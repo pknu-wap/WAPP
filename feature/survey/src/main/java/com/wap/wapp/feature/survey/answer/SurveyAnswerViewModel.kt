@@ -69,16 +69,14 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
-    private fun getEvent() {
-        viewModelScope.launch {
-            getEventUseCase(eventId = _surveyForm.value.eventId)
-                .onSuccess { event ->
-                    _eventName.value = event.title
-                }
-                .onFailure { throwable ->
-                    _surveyAnswerEvent.emit(SurveyAnswerUiEvent.Failure(throwable))
-                }
-        }
+    private fun getEvent() = viewModelScope.launch {
+        getEventUseCase(eventId = _surveyForm.value.eventId)
+            .onSuccess { event ->
+                _eventName.value = event.title
+            }
+            .onFailure { throwable ->
+                _surveyAnswerEvent.emit(SurveyAnswerUiEvent.Failure(throwable))
+            }
     }
 
     fun addSurveyAnswer() {
@@ -110,7 +108,7 @@ class SurveyAnswerViewModel @Inject constructor(
         }
     }
 
-    fun modifySurveyAnswer() {
+    fun editSurveyAnswer() {
         val questionNumber = _questionNumber.value
         val surveyQuestion = _surveyForm.value.surveyQuestionList[questionNumber]
         val surveyAnswerList = _surveyAnswerList.value
@@ -159,20 +157,27 @@ class SurveyAnswerViewModel @Inject constructor(
 
     fun setObjectiveAnswer(answer: Rating) { _objectiveAnswer.value = answer }
 
-    fun setNextQuestionNumber() { _questionNumber.value += 1 }
+    fun setNextQuestionAndAnswer() {
+        _questionNumber.value += 1
+        if (_questionNumber.value < _surveyAnswerList.value.size) { // 다음 질문이 아미 작성된 질문인 경우
+            setSurveyAnswer()
+        }
+    }
 
-    fun setPreviousQuestion() {
-        val questionNumber = --_questionNumber.value
+    fun setPreviousQuestionAndAnswer() {
+        _questionNumber.value -= 1
+        setSurveyAnswer()
+    }
 
-        // 이전 질문 정보 불러오기
-        val previousQuestion = _surveyAnswerList.value[questionNumber]
-        when (previousQuestion.questionType) {
+    private fun setSurveyAnswer() {
+        val surveyAnswer = _surveyAnswerList.value[_questionNumber.value]
+        when (surveyAnswer.questionType) {
             QuestionType.SUBJECTIVE -> {
-                setSubjectiveAnswer(previousQuestion.questionAnswer)
+                setSubjectiveAnswer(surveyAnswer.questionAnswer)
             }
 
             QuestionType.OBJECTIVE -> {
-                when (previousQuestion.questionAnswer) {
+                when (surveyAnswer.questionAnswer) {
                     "GOOD" -> setObjectiveAnswer(Rating.GOOD)
                     "MEDIOCRE" -> setObjectiveAnswer(Rating.MEDIOCRE)
                     "BAD" -> setObjectiveAnswer(Rating.BAD)

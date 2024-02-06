@@ -39,16 +39,14 @@ class ManagementViewModel @Inject constructor(
     private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Init)
     val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
 
-    fun getUserRole() {
-        viewModelScope.launch {
-            getUserRoleUseCase()
-                .onSuccess { userRole ->
-                    _userRole.value = UserRoleUiState.Success(userRole)
-                }
-                .onFailure { exception ->
-                    _errorFlow.emit(exception)
-                }
-        }
+    fun getUserRole() = viewModelScope.launch {
+        getUserRoleUseCase()
+            .onSuccess { userRole ->
+                _userRole.value = UserRoleUiState.Success(userRole)
+            }
+            .onFailure { exception ->
+                _errorFlow.emit(exception)
+            }
     }
 
     fun getEventSurveyList() = viewModelScope.launch {
