@@ -1,45 +1,25 @@
 package com.wap.wapp.feature.management.survey.edit
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
@@ -57,27 +37,30 @@ internal fun SurveyFormEditScreen(
     surveyFormId: String,
     navigateToManagement: () -> Unit,
 ) {
-    val currentRegistrationState = viewModel.currentSurveyFormState.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
-    val eventSelection = viewModel.surveyEventSelection.collectAsState().value
-    val title = viewModel.surveyTitle.collectAsState().value
-    val content = viewModel.surveyContent.collectAsState().value
-    val question = viewModel.surveyQuestion.collectAsState().value
-    val questionType = viewModel.surveyQuestionType.collectAsState().value
-    val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
-    val time = viewModel.surveyTimeDeadline.collectAsState().value
-    val date = viewModel.surveyDateDeadline.collectAsState().value
+    val currentRegistrationState =
+        viewModel.currentSurveyFormState.collectAsStateWithLifecycle().value
+    val eventList = viewModel.eventList.collectAsStateWithLifecycle().value
+    val eventSelection = viewModel.eventSelection.collectAsStateWithLifecycle().value
+    val title = viewModel.surveyTitle.collectAsStateWithLifecycle().value
+    val content = viewModel.surveyContent.collectAsStateWithLifecycle().value
+    val questionTitle = viewModel.questionTitle.collectAsStateWithLifecycle().value
+    val questionType = viewModel.questionType.collectAsStateWithLifecycle().value
+    val currentQuestionNumber = viewModel.currentQuestionNumber.collectAsStateWithLifecycle().value
+    val totalQuestionNumber =
+        viewModel.totalQuestionNumber.collectAsStateWithLifecycle().value
+    val questionList = viewModel.questionList.collectAsStateWithLifecycle().value
+    val timeDeadline = viewModel.timeDeadline.collectAsStateWithLifecycle().value
+    val dateDeadline = viewModel.dateDeadline.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+
     var showDeleteSurveyDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.getSurveyForm(surveyFormId)
-    }
 
-    LaunchedEffect(true) {
         viewModel.surveyFormEditUiEvent.collectLatest { surveyFormEditEvent ->
             when (surveyFormEditEvent) {
                 is SurveyFormEditViewModel.SurveyFormEditUiEvent.EditSuccess ->
@@ -136,50 +119,86 @@ internal fun SurveyFormEditScreen(
                 eventSelection = eventSelection,
                 title = title,
                 content = content,
-                question = question,
+                questionTitle = questionTitle,
                 questionType = questionType,
-                dateDeadline = date,
-                timeDeadline = time,
+                dateDeadline = dateDeadline,
+                timeDeadline = timeDeadline,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
-                currentQuestionNumber = totalQuestionSize,
-                totalQuestionNumber = totalQuestionSize,
+                currentQuestionNumber = currentQuestionNumber,
+                totalQuestionNumber = totalQuestionNumber,
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
                 onEventContentInitialized = { viewModel.getEventList() },
                 onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
                 onContentChanged = { content -> viewModel.setSurveyContent(content) },
-                onQuestionChanged = { question -> viewModel.setSurveyQuestion(question) },
+                onQuestionTitleChanged = { question -> viewModel.setSurveyQuestionTitle(question) },
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },
-                onPreviousQuestionButtonClicked = {},
-                onNextQuestionButtonClicked = {},
+                onNextQuestionButtonClicked = { // '>' 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    viewModel.editSurveyQuestion() // 답변 수정
+
+                    viewModel.setNextQuestionNumber() // 다음 질문 불러오기
+                    viewModel.setQuestion()
+                },
+                onPreviousQuestionButtonClicked = { // '<' 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    // 다른 질문으로 넘어가기 전, 질문 추가 혹은 저장
+                    if (currentQuestionNumber == questionList.size) {
+                        viewModel.addSurveyQuestion()
+                    } else {
+                        viewModel.editSurveyQuestion()
+                    }
+
+                    viewModel.setPreviousQuestionNumber() // 이전 질문 불러오기
+                    viewModel.setQuestion()
+                },
+                onAddQuestionButtonClicked = { // 문항 추가 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    if (currentQuestionNumber == questionList.size) {
+                        viewModel.addSurveyQuestion() // 질문 추가
+                    } else {
+                        viewModel.editSurveyQuestion()
+                    }
+
+                    viewModel.setLastQuestion()
+                },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
-                onPreviousButtonClicked = { previousState ->
+                onPreviousButtonClicked = { previousState -> // 이전 버튼
                     if (previousState == SurveyFormState.QUESTION) {
-                        viewModel.setSurveyQuestionFromAnsweredList()
+                        viewModel.setSurveyQuestionFromQuestionList()
                     }
+
                     viewModel.setSurveyFormState(previousState)
                 },
-                onNextButtonClicked = { currentState, nextState ->
-                    if (viewModel.validateSurveyForm(currentState).not()) { // 유효성 검증
+                onNextButtonClicked = { currentState, nextState -> // 다음 버튼
+                    if (viewModel.validateSurveyForm(currentState).not()) {
                         return@SurveyFormContent
                     }
 
                     if (currentState == SurveyFormState.QUESTION) {
-                        viewModel.addSurveyQuestion() // 마지막으로 작성한 질문, 질문 목록에 추가
+                        if (currentQuestionNumber == questionList.size) { // 마지막 질문인 경우
+                            viewModel.addSurveyQuestion()
+                        } else {
+                            viewModel.editSurveyQuestion()
+                        }
                     }
 
-                    viewModel.setSurveyFormState(nextState) // 다음 단계
-                },
-                onAddQuestionButtonClicked = {
-                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION)) {
-                        viewModel.addSurveyQuestion()
-                    }
+                    viewModel.setSurveyFormState(nextState)
                 },
                 onRegisterButtonClicked = {
                     if (viewModel.validateSurveyForm(SurveyFormState.DEADLINE)) {
@@ -188,106 +207,5 @@ internal fun SurveyFormEditScreen(
                 },
             )
         }
-    }
-}
-
-@Composable
-private fun DeleteSurveyDialog(
-    deleteSurvey: () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-        ),
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = 30.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(WappTheme.colors.black25),
-        ) {
-            Text(
-                text = stringResource(id = R.string.delete_survey),
-                style = WappTheme.typography.contentBold.copy(fontSize = 20.sp),
-                color = WappTheme.colors.yellow34,
-                modifier = Modifier.padding(top = 16.dp),
-            )
-
-            Divider(
-                color = WappTheme.colors.gray82,
-                modifier = Modifier.padding(horizontal = 12.dp),
-            )
-
-            Text(
-                text = generateDialogContentString(),
-                style = WappTheme.typography.contentRegular,
-                color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 12.dp, start = 12.dp, end = 12.dp),
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 16.dp),
-            ) {
-                Button(
-                    onClick = {
-                        deleteSurvey()
-                        onDismissRequest()
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = WappTheme.colors.yellow34,
-                    ),
-                    contentPadding = PaddingValues(vertical = 12.dp),
-                    modifier = Modifier.weight(1f),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.complete),
-                        style = WappTheme.typography.titleRegular,
-                        color = WappTheme.colors.black,
-                    )
-                }
-
-                Button(
-                    onClick = onDismissRequest,
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = WappTheme.colors.black25,
-                    ),
-                    contentPadding = PaddingValues(vertical = 12.dp),
-                    modifier = Modifier
-                        .weight(1f)
-                        .border(
-                            width = 1.dp,
-                            color = WappTheme.colors.yellow34,
-                            shape = RoundedCornerShape(8.dp),
-                        ),
-                ) {
-                    Text(
-                        text = stringResource(R.string.cancel),
-                        style = WappTheme.typography.titleRegular,
-                        color = WappTheme.colors.yellow34,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun generateDialogContentString() = buildAnnotatedString {
-    append("정말로 해당 설문을 삭제하시겠습니까?\n")
-    withStyle(
-        style = SpanStyle(
-            textDecoration = TextDecoration.Underline,
-            color = WappTheme.colors.yellow34,
-        ),
-    ) {
-        append("해당 설문과 관련된 답변들이 모두 삭제됩니다.")
     }
 }
