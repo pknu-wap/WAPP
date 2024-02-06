@@ -1,7 +1,6 @@
 package com.wap.wapp.feature.management
 
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -49,14 +48,8 @@ internal fun ManagementRoute(
                 is ManagementViewModel.UserRoleUiState.Init -> {}
                 is ManagementViewModel.UserRoleUiState.Success -> {
                     when (userRoleUiState.userRole) {
-                        UserRole.GUEST -> {
-                            showGuestScreen = true
-                        }
-
-                        UserRole.MEMBER -> {
-                            showValidationScreen = true
-                        }
-
+                        UserRole.GUEST -> { showGuestScreen = true }
+                        UserRole.MEMBER -> { showValidationScreen = true }
                         UserRole.MANAGER -> viewModel.getEventSurveyList()
                     }
                 }
@@ -64,9 +57,7 @@ internal fun ManagementRoute(
         }
 
         viewModel.errorFlow.collectLatest { throwable ->
-            snackBarHostState.showSnackbar(
-                message = throwable.toSupportingText(),
-            )
+            snackBarHostState.showSnackbar(message = throwable.toSupportingText())
         }
     }
 
@@ -117,11 +108,7 @@ internal fun ManagementScreen(
             )
         },
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
-        ) {
+        LazyColumn(modifier = Modifier.padding(paddingValues)) {
             item {
                 ManagementEventCard(
                     eventsState = eventsState,
