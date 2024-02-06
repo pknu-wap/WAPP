@@ -77,7 +77,7 @@ internal fun SurveyRegistrationScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(top = 16.dp, start = 20.dp, end = 20.dp), // dp value padding
+                .padding(top = 16.dp), // dp value padding
         ) {
             WappSubTopBar(
                 titleRes = R.string.survey_registeration,
@@ -88,6 +88,7 @@ internal fun SurveyRegistrationScreen(
 
             SurveyFormStateIndicator(
                 surveyRegistrationState = currentRegistrationState,
+                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
             SurveyFormContent(
@@ -105,6 +106,7 @@ internal fun SurveyRegistrationScreen(
                 showTimePicker = showTimePicker,
                 currentQuestionIndex = totalQuestionSize,
                 totalQuestionSize = totalQuestionSize,
+                modifier = Modifier.padding(horizontal = 20.dp),
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
                 onEventListChanged = { viewModel.getEventList() },

@@ -104,7 +104,7 @@ internal fun SurveyFormEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues) // paddingValue padding
-                .padding(16.dp), // dp value padding
+                .padding(vertical = 16.dp), // dp value padding
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             if (showDeleteSurveyDialog) {
@@ -127,6 +127,7 @@ internal fun SurveyFormEditScreen(
 
                 SurveyFormStateIndicator(
                     surveyRegistrationState = currentRegistrationState,
+                    modifier = Modifier.padding(horizontal = 20.dp),
                 )
             }
 
@@ -145,6 +146,7 @@ internal fun SurveyFormEditScreen(
                 showTimePicker = showTimePicker,
                 currentQuestionIndex = totalQuestionSize,
                 totalQuestionSize = totalQuestionSize,
+                modifier = Modifier.padding(horizontal = 20.dp),
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
                 onEventListChanged = { viewModel.getEventList() },

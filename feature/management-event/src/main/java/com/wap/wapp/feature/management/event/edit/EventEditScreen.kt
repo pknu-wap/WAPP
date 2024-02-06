@@ -175,7 +175,7 @@ internal fun EventEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
+                .padding(vertical = 16.dp),
         ) {
             WappSubTopBar(
                 titleRes = R.string.event_edit,
@@ -187,12 +187,12 @@ internal fun EventEditScreen(
 
             EventEditStateIndicator(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
             )
 
             EventRegistrationContent(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(top = 50.dp),
+                modifier = Modifier.padding(top = 50.dp, start = 20.dp, end = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,

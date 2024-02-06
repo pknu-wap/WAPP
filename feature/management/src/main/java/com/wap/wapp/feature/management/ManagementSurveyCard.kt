@@ -44,7 +44,7 @@ internal fun ManagementSurveyCard(
             containerColor = WappTheme.colors.black25,
         ),
         modifier = Modifier
-            .padding(top = 20.dp)
+            .padding(vertical = 20.dp)
             .padding(horizontal = 8.dp),
     ) {
         Column(
