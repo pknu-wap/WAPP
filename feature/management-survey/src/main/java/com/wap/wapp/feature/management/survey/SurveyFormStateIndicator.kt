@@ -18,10 +18,12 @@ import com.wap.designsystem.WappTheme
 @Composable
 internal fun SurveyFormStateIndicator(
     surveyRegistrationState: SurveyFormState,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
     ) {
         SurveyRegistrationStateProgressBar(surveyRegistrationState.progress)
         SurveyRegistrationStateText(surveyRegistrationState.page)
