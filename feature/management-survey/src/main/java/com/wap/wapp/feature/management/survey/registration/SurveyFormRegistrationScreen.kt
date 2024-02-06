@@ -105,7 +105,7 @@ internal fun SurveyRegistrationScreen(
                 eventSelection = eventSelection,
                 title = title,
                 content = content,
-                question = questionTitle,
+                questionTitle = questionTitle,
                 questionType = questionType,
                 dateDeadline = dateDeadline,
                 timeDeadline = timeDeadline,
@@ -120,7 +120,7 @@ internal fun SurveyRegistrationScreen(
                 onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
                 onContentChanged = { content -> viewModel.setSurveyContent(content) },
-                onQuestionChanged = { question -> viewModel.setSurveyQuestionTitle(question) },
+                onQuestionTitleChanged = { question -> viewModel.setSurveyQuestionTitle(question) },
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },

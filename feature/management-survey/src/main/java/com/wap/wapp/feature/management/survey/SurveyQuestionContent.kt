@@ -39,7 +39,7 @@ import com.wap.wapp.core.model.survey.QuestionType
 
 @Composable
 internal fun SurveyQuestionContent(
-    question: String,
+    questionTitle: String,
     questionType: QuestionType,
     currentQuestionNumber: Int,
     totalQuestionNumber: Int,
@@ -83,7 +83,7 @@ internal fun SurveyQuestionContent(
         }
 
         WappRoundedTextField(
-            value = question,
+            value = questionTitle,
             onValueChange = onQuestionChanged,
             modifier = Modifier
                 .fillMaxWidth()
