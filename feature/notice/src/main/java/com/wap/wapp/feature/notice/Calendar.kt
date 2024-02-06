@@ -53,6 +53,7 @@ internal fun Calendar(
     measureDefaultModifier: Modifier,
     measureExpandableModifier: Modifier,
     onDateSelected: (LocalDate) -> Unit,
+    onCalendarMonthChanged: () -> Unit,
 ) {
     Column(
         modifier = measureDefaultModifier,
@@ -62,14 +63,27 @@ internal fun Calendar(
             bottomSheetState = bottomSheetState,
             selectedDate = selectedDate,
             onDateSelected = onDateSelected,
+            onCalendarMonthChanged = onCalendarMonthChanged,
             modifier = measureExpandableModifier,
         )
 
-        handleMonthEventsState(
-            eventsState = monthEventsState,
-            selectedDate = selectedDate,
-            onDateSelected = onDateSelected,
-        )
+        when (monthEventsState) {
+            is NoticeViewModel.EventsState.Loading ->
+                CircleLoader(modifier = Modifier.fillMaxSize())
+
+            is NoticeViewModel.EventsState.Success -> {
+                val eventDates = monthEventsState.events.map {
+                    it.startDateTime.toLocalDate()
+                }
+                CalendarBody(
+                    selectedDate = selectedDate,
+                    eventsDate = eventDates,
+                    onDateSelected = onDateSelected,
+                )
+            }
+
+            is NoticeViewModel.EventsState.Failure -> {}
+        }
     }
 }
 
@@ -80,6 +94,7 @@ private fun CalendarHeader(
     bottomSheetState: SheetState,
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
+    onCalendarMonthChanged: () -> Unit,
     modifier: Modifier,
 ) = Box(
     modifier = modifier,
@@ -110,7 +125,10 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
             modifier = Modifier
                 .padding(end = 20.dp)
-                .clickable { onDateSelected(selectedDate.minusMonths(1)) },
+                .clickable {
+                    onDateSelected(selectedDate.minusMonths(1))
+                    onCalendarMonthChanged()
+                },
         )
 
         Text(
@@ -127,30 +145,12 @@ private fun CalendarHeader(
             contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
             modifier = Modifier
                 .padding(start = 20.dp)
-                .clickable { onDateSelected(selectedDate.plusMonths(1)) },
+                .clickable {
+                    onDateSelected(selectedDate.plusMonths(1))
+                    onCalendarMonthChanged()
+                },
         )
     }
-}
-
-@Composable
-private fun handleMonthEventsState(
-    eventsState: NoticeViewModel.EventsState,
-    selectedDate: LocalDate,
-    onDateSelected: (LocalDate) -> Unit,
-) = when (eventsState) {
-    is NoticeViewModel.EventsState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-    is NoticeViewModel.EventsState.Success -> {
-        val eventDates = eventsState.events.map {
-            it.startDateTime.toLocalDate()
-        }
-        CalendarBody(
-            selectedDate = selectedDate,
-            eventsDate = eventDates,
-            onDateSelected = onDateSelected,
-        )
-    }
-
-    is NoticeViewModel.EventsState.Failure -> {}
 }
 
 @Composable
