@@ -35,6 +35,8 @@ class AttendanceDataSourceImpl @Inject constructor(
             .await()
 
         val attendanceResponse = task.toObject<AttendanceResponse>()
-        checkNotNull(attendanceResponse)
+        attendanceResponse ?: AttendanceResponse(eventId = eventId, "", defaultDeadLine)
     }
 }
+
+private val defaultDeadLine = "2000-01-01T00:00:00.000000"
