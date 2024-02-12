@@ -32,6 +32,8 @@ import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigat
 import com.wap.wapp.feature.management.survey.navigation.ManagementSurveyRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute.surveyCheckRoute
 import com.wap.wapp.feature.survey.navigation.SurveyRoute
 import com.wap.wapp.navigation.TopLevelDestination
 import com.wap.wapp.navigation.WappNavHost
@@ -114,6 +116,8 @@ private fun handleBottomBarState(
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
     SurveyRoute.answerRoute("{id}") -> setBottomBarState(false)
+    surveyCheckRoute -> setBottomBarState(false)
+    SurveyCheckRoute.surveyDetailRoute("{id}") -> setBottomBarState(false)
     else -> setBottomBarState(true)
 }
 
