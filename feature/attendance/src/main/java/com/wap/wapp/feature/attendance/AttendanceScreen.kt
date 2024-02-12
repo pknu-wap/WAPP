@@ -76,9 +76,7 @@ internal fun AttendanceRoute(
                             getTodayEventsAttendanceStatus()
                         }
 
-                        is Failure -> snackBarHostState.showSnackbar(
-                            getString(context, R.string.attendance_failure),
-                        )
+                        is Failure -> snackBarHostState.showSnackbar(event.message)
                     }
                 }
             }
