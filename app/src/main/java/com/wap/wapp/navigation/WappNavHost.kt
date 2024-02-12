@@ -36,6 +36,7 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavi
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScreen
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
+import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute.surveyCheckRoute
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyDetail
 import com.wap.wapp.feature.survey.check.navigation.surveyCheckNavGraph
@@ -65,9 +66,7 @@ fun WappNavHost(
             },
             navigateToNotice = {
                 navController.navigateToNotice(
-                    navOptions {
-                        popUpTo(splashNavigationRoute) { inclusive = true }
-                    },
+                    navOptions { popUpTo(splashNavigationRoute) { inclusive = true } },
                 )
             },
         )
@@ -88,7 +87,11 @@ fun WappNavHost(
             navigateToSurveyCheck = navController::navigateToSurveyCheck,
         )
         surveyCheckNavGraph(
-            navigateToSurveyCheck = navController::navigateToSurveyCheck,
+            navigateToSurveyCheck = {
+                navController.navigateToSurveyCheck(
+                    navOptions { popUpTo(surveyCheckRoute) { inclusive = true } },
+                )
+            },
             navigateToSurveyDetail = navController::navigateToSurveyDetail,
         )
         managementSurveyNavGraph(
