@@ -6,7 +6,9 @@ import com.wap.wapp.core.domain.usecase.auth.IsUserSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,9 +19,14 @@ class SplashViewModel @Inject constructor(
     private val _splashUiEvent = MutableSharedFlow<SplashEvent>()
     val splashUiEvent = _splashUiEvent.asSharedFlow()
 
+    private var _isLogoVisible = MutableStateFlow<Boolean>(false)
+    var isLogoVisible = _isLogoVisible.asStateFlow()
+
     init {
         viewModelScope.launch {
-            delay(2000)
+            delay(1000)
+            _isLogoVisible.value = true
+            delay(1000)
             isUserSignIn()
         }
     }
