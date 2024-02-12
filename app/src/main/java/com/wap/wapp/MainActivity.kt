@@ -1,22 +1,22 @@
 package com.wap.wapp
 
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -52,8 +52,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WappTheme {
                 val navController = rememberNavController()
-                val density = LocalDensity.current
-                val navigationBarHeight = getNavigationBarHeight(density)
 
                 Scaffold(
                     containerColor = WappTheme.colors.backgroundBlack,
@@ -84,7 +82,7 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     modifier = Modifier
-                        .padding(bottom = navigationBarHeight)
+                        .windowInsetsPadding(WindowInsets.navigationBars)
                         .fillMaxSize(),
                 ) { innerPadding ->
                     WappNavHost(
@@ -131,17 +129,5 @@ private fun navigateToTopLevelDestination(
         }
         launchSingleTop = true
         restoreState = true
-    }
-}
-
-private fun getNavigationBarHeight(density: Density) = with(density) {
-    Resources.getSystem().run {
-        getDimensionPixelSize(
-            getIdentifier(
-                "navigation_bar_height",
-                "dimen",
-                "android",
-            ),
-        ).toDp()
     }
 }
