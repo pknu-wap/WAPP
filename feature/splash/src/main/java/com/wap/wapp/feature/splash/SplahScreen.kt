@@ -69,6 +69,8 @@ internal fun SplashScreen(
     isIconLogoVisible: Boolean,
     isIconLogoGoUp: Boolean,
 ) {
+    val ANIMATION_MILLS = 400
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,10 +79,15 @@ internal fun SplashScreen(
         AnimatedContent(
             targetState = isIconLogoVisible,
             transitionSpec = {
-                scaleIn(animationSpec = tween(200, delayMillis = 200)) + scaleIn(
+                scaleIn(
+                    animationSpec = tween(
+                        ANIMATION_MILLS,
+                        delayMillis = ANIMATION_MILLS,
+                    ),
+                ) + scaleIn(
                     initialScale = 0.92f,
-                    animationSpec = tween(200, delayMillis = 200),
-                ) togetherWith scaleOut(tween(200))
+                    animationSpec = tween(ANIMATION_MILLS, delayMillis = ANIMATION_MILLS),
+                ) togetherWith scaleOut(tween(ANIMATION_MILLS))
             },
         ) { isIconLogoVisible ->
             if (!isIconLogoVisible) {
@@ -113,7 +120,7 @@ private fun SplashTypoLogo() {
 private fun SplashIconLogo(isIconLogoGoUp: Boolean) {
     val animatedPadding by animateDpAsState(
         targetValue = if (isIconLogoGoUp) 200.dp else 0.dp,
-        animationSpec = tween(600),
+        animationSpec = tween(1000),
     )
 
     Column(modifier = Modifier.fillMaxSize()) {

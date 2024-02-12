@@ -27,11 +27,9 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(800)
+            delay(1500)
             _isIconLogoVisible.value = true
-            delay(500)
-            _isIconLogoGoUp.value = true
-            delay(700)
+            delay(1000)
             isUserSignIn()
         }
     }
@@ -42,6 +40,8 @@ class SplashViewModel @Inject constructor(
                 if (isSignIn) {
                     _splashUiEvent.emit(SplashEvent.SignInUser)
                 } else {
+                    _isIconLogoGoUp.value = true
+                    delay(1000)
                     _splashUiEvent.emit(SplashEvent.NonSignInUser)
                 }
             }.onFailure { throwable ->
