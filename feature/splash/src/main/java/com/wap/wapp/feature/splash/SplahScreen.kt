@@ -2,6 +2,11 @@ package com.wap.wapp.feature.splash
 
 import android.app.Activity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +43,8 @@ internal fun SplashRoute(
     navigateToNotice: () -> Unit,
 ) {
     val context = LocalContext.current as Activity
-    val isLogoVisible by viewModel.isLogoVisible.collectAsStateWithLifecycle()
+    val isIconLogoVisible by viewModel.isIconLogoVisible.collectAsStateWithLifecycle()
+    val isIconLogoGoUp by viewModel.isIconLogoGoUp.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.splashUiEvent.collect { event ->
@@ -51,21 +58,35 @@ internal fun SplashRoute(
             }
         }
     }
-    SplashScreen(isLogoVisible)
+    SplashScreen(
+        isIconLogoVisible = isIconLogoVisible,
+        isIconLogoGoUp = isIconLogoGoUp,
+    )
 }
 
 @Composable
-internal fun SplashScreen(isLogoVisible: Boolean) {
+internal fun SplashScreen(
+    isIconLogoVisible: Boolean,
+    isIconLogoGoUp: Boolean,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(WappTheme.colors.backgroundBlack),
     ) {
-        AnimatedContent(targetState = isLogoVisible) { isLogoVisible ->
-            if (!isLogoVisible) {
+        AnimatedContent(
+            targetState = isIconLogoVisible,
+            transitionSpec = {
+                scaleIn(animationSpec = tween(200, delayMillis = 200)) + scaleIn(
+                    initialScale = 0.92f,
+                    animationSpec = tween(200, delayMillis = 200),
+                ) togetherWith scaleOut(tween(200))
+            },
+        ) { isIconLogoVisible ->
+            if (!isIconLogoVisible) {
                 SplashTypoLogo()
             } else {
-                SplashIconLogo()
+                SplashIconLogo(isIconLogoGoUp)
             }
         }
     }
@@ -89,39 +110,48 @@ private fun SplashTypoLogo() {
 }
 
 @Composable
-private fun SplashIconLogo() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_white_cat),
+private fun SplashIconLogo(isIconLogoGoUp: Boolean) {
+    val animatedPadding by animateDpAsState(
+        targetValue = if (isIconLogoGoUp) 200.dp else 0.dp,
+        animationSpec = tween(600),
+    )
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .size(width = 230.dp, height = 230.dp),
-            contentDescription = stringResource(id = string.wapp_icon_description),
-        )
-
-        Row(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+                .fillMaxSize()
+                .weight(1f)
+                .padding(bottom = animatedPadding),
         ) {
-            Column {
-                Spacer(modifier = Modifier.height(40.dp))
+            Image(
+                painter = painterResource(id = R.drawable.img_white_cat),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .size(width = 230.dp, height = 230.dp),
+                contentDescription = stringResource(id = string.wapp_icon_description),
+            )
 
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            ) {
+                Column {
+                    Spacer(modifier = Modifier.height(40.dp))
+
+                    Text(
+                        text = stringResource(id = string.application_name),
+                        style = WappTheme.typography.titleBold,
+                        fontSize = 48.sp,
+                        color = WappTheme.colors.white,
+                    )
+                }
                 Text(
                     text = stringResource(id = string.application_name),
-                    style = WappTheme.typography.titleBold,
                     fontSize = 48.sp,
-                    color = WappTheme.colors.white,
+                    style = WappTheme.typography.titleBold,
+                    color = WappTheme.colors.yellow34,
                 )
             }
-            Text(
-                text = stringResource(id = string.application_name),
-                fontSize = 48.sp,
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.yellow34,
-            )
         }
     }
 }

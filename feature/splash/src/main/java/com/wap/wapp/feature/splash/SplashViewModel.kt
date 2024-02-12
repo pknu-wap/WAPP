@@ -19,14 +19,19 @@ class SplashViewModel @Inject constructor(
     private val _splashUiEvent = MutableSharedFlow<SplashEvent>()
     val splashUiEvent = _splashUiEvent.asSharedFlow()
 
-    private var _isLogoVisible = MutableStateFlow<Boolean>(false)
-    var isLogoVisible = _isLogoVisible.asStateFlow()
+    private var _isIconLogoVisible = MutableStateFlow<Boolean>(false)
+    var isIconLogoVisible = _isIconLogoVisible.asStateFlow()
+
+    private var _isIconLogoGoUp = MutableStateFlow<Boolean>(false)
+    var isIconLogoGoUp = _isIconLogoGoUp.asStateFlow()
 
     init {
         viewModelScope.launch {
-            delay(1000)
-            _isLogoVisible.value = true
-            delay(1000)
+            delay(800)
+            _isIconLogoVisible.value = true
+            delay(500)
+            _isIconLogoGoUp.value = true
+            delay(700)
             isUserSignIn()
         }
     }
