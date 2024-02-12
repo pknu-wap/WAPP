@@ -165,17 +165,11 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun clearAttendanceCode() {
-        _attendanceCode.value = ""
-    }
+    fun clearAttendanceCode() { _attendanceCode.value = "" }
 
-    fun setSelectedEventId(eventId: String) {
-        _selectedEventId.value = eventId
-    }
+    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
 
-    fun setSelectedEventTitle(eventTitle: String) {
-        _selectedEventTitle.value = eventTitle
-    }
+    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
 
     sealed class EventAttendanceStatusState {
         data object Loading : EventAttendanceStatusState()
