@@ -112,7 +112,7 @@ internal fun ProfileSettingScreen(
                 titleRes = string.more,
                 showLeftButton = true,
                 onClickLeftButton = navigateToProfile,
-                modifier = Modifier.padding(top = 20.dp),
+                modifier = Modifier.padding(top = 16.dp),
             )
 
             Row(

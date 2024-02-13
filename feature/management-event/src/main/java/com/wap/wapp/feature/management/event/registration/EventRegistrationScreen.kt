@@ -149,7 +149,6 @@ internal fun EventRegistrationScreen(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
                 onClickLeftButton = onBackButtonClicked,
-                modifier = Modifier.padding(start = 10.dp),
             )
 
             EventRegistrationStateIndicator(

@@ -97,6 +97,7 @@ internal fun SurveyRegistrationScreen(
         ) {
             SurveyFormStateIndicator(
                 surveyRegistrationState = currentRegistrationState,
+                modifier = Modifier.padding(horizontal = 20.dp),
             )
 
             SurveyFormContent(
