@@ -6,6 +6,8 @@ import com.wap.wapp.core.network.constant.ATTENDANCE_COLLECTION
 import com.wap.wapp.core.network.model.attendance.AttendanceRequest
 import com.wap.wapp.core.network.model.attendance.AttendanceResponse
 import com.wap.wapp.core.network.utils.await
+import com.wap.wapp.core.network.utils.toISOLocalDateTimeString
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class AttendanceDataSourceImpl @Inject constructor(
@@ -35,8 +37,10 @@ class AttendanceDataSourceImpl @Inject constructor(
             .await()
 
         val attendanceResponse = task.toObject<AttendanceResponse>()
-        attendanceResponse ?: AttendanceResponse(eventId = eventId, "", defaultDeadLine)
+        attendanceResponse ?: AttendanceResponse(
+            eventId = eventId,
+            "",
+            LocalDateTime.MIN.toISOLocalDateTimeString(),
+        )
     }
 }
-
-private val defaultDeadLine = "2000-01-01T00:00:00.000000"
