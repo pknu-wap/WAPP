@@ -95,7 +95,11 @@ class AttendanceViewModel @Inject constructor(
     private suspend fun getEventListAttendance(eventList: List<Event>, userId: String) =
         getEventListAttendanceUseCase(eventList.map { it.eventId })
             .onSuccess { attendanceList ->
-                val eventAttendanceList = eventList.zip(attendanceList)
+                val filteredEventList = eventList.filter {
+                    it.eventId in attendanceList.map { it.eventId }
+                }
+
+                val eventAttendanceList = filteredEventList.zip(attendanceList)
                     .map { (event, attendance) ->
                         EventAttendanceStatus(
                             eventId = event.eventId,
@@ -104,6 +108,7 @@ class AttendanceViewModel @Inject constructor(
                             remainAttendanceDateTime = attendance.calculateDeadline(),
                         )
                     }
+
                 getEventListAttendanceStatus(
                     eventAttendanceList = eventAttendanceList,
                     userId = userId,
@@ -129,6 +134,7 @@ class AttendanceViewModel @Inject constructor(
                     isAttendance = attendanceStatus.isAttendance(),
                 )
             }
+
         _todayEventsAttendanceStatus.value =
             EventAttendanceStatusState.Success(eventAttendanceStatusList)
     }.onFailure { _errorFlow.emit(it) }
