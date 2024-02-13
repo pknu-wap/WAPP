@@ -21,7 +21,6 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTitle
 import com.wap.wapp.core.model.event.Event
-import com.wap.wapp.feature.management.survey.registration.SurveyFormRegistrationViewModel.EventsState
 
 @Composable
 internal fun SurveyEventContent(
@@ -29,43 +28,45 @@ internal fun SurveyEventContent(
     selectedEvent: Event,
     onEventSelected: (Event) -> Unit,
     onNextButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    WappTitle(
-        title = stringResource(R.string.event_selection_title),
-        content = stringResource(R.string.event_selection_content),
-        modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
-    )
+    Column(modifier = Modifier.fillMaxSize()) {
+        WappTitle(
+            title = stringResource(R.string.event_selection_title),
+            content = stringResource(R.string.event_selection_content),
+            modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
+        )
 
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier,
-    ) {
-        when (eventsState) {
-            is EventsState.Loading -> item {
-                CircleLoader(
-                    modifier = Modifier.fillMaxSize(),
-                )
-            }
-
-            is EventsState.Success ->
-                items(eventsState.events) { event ->
-                    EventCard(
-                        event = event,
-                        selectedEvent = selectedEvent,
-                        onEventSelected = onEventSelected,
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.weight(1f),
+        ) {
+            when (eventsState) {
+                is EventsState.Loading -> item {
+                    CircleLoader(
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
 
-            is EventsState.Failure -> {}
-        }
-    }
+                is EventsState.Success -> {
+                    items(eventsState.events) { event ->
+                        EventCard(
+                            event = event,
+                            selectedEvent = selectedEvent,
+                            onEventSelected = onEventSelected,
+                        )
+                    }
+                }
 
-    WappButton(
-        textRes = R.string.next,
-        onClick = onNextButtonClicked,
-        modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
-    )
+                is EventsState.Failure -> {}
+            }
+        }
+
+        WappButton(
+            textRes = R.string.next,
+            onClick = onNextButtonClicked,
+            modifier = Modifier.padding(top = 16.dp),
+        )
+    }
 }
 
 @Composable

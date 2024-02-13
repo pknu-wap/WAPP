@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.management.survey.registration
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +12,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,9 +19,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.survey.R
 import com.wap.wapp.feature.management.survey.SurveyFormContent
 import com.wap.wapp.feature.management.survey.SurveyFormState
@@ -34,16 +36,20 @@ internal fun SurveyRegistrationScreen(
     viewModel: SurveyFormRegistrationViewModel = hiltViewModel(),
     navigateToManagement: () -> Unit,
 ) {
-    val currentRegistrationState = viewModel.currentSurveyFormState.collectAsState().value
-    val eventList = viewModel.eventList.collectAsState().value
-    val eventSelection = viewModel.surveyEventSelection.collectAsState().value
-    val title = viewModel.surveyTitle.collectAsState().value
-    val content = viewModel.surveyContent.collectAsState().value
-    val question = viewModel.surveyQuestion.collectAsState().value
-    val questionType = viewModel.surveyQuestionType.collectAsState().value
-    val totalQuestionSize = viewModel.surveyQuestionList.collectAsState().value.size + 1
-    val time = viewModel.surveyTimeDeadline.collectAsState().value
-    val date = viewModel.surveyDateDeadline.collectAsState().value
+    val currentRegistrationState =
+        viewModel.currentSurveyFormState.collectAsStateWithLifecycle().value
+    val eventList = viewModel.eventList.collectAsStateWithLifecycle().value
+    val eventSelection = viewModel.eventSelection.collectAsStateWithLifecycle().value
+    val title = viewModel.surveyTitle.collectAsStateWithLifecycle().value
+    val content = viewModel.surveyContent.collectAsStateWithLifecycle().value
+    val questionTitle = viewModel.questionTitle.collectAsStateWithLifecycle().value
+    val questionType = viewModel.questionType.collectAsStateWithLifecycle().value
+    val currentQuestionNumber = viewModel.currentQuestionNumber.collectAsStateWithLifecycle().value
+    val totalQuestionNumber =
+        viewModel.totalQuestionNumber.collectAsStateWithLifecycle().value
+    val questionList = viewModel.questionList.collectAsStateWithLifecycle().value
+    val timeDeadline = viewModel.timeDeadline.collectAsStateWithLifecycle().value
+    val dateDeadline = viewModel.dateDeadline.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
@@ -72,20 +78,23 @@ internal fun SurveyRegistrationScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues) // paddingValue padding
-                .padding(top = 16.dp), // dp value padding
-        ) {
+        topBar = {
             WappSubTopBar(
                 titleRes = R.string.survey_registeration,
                 showLeftButton = true,
                 onClickLeftButton = navigateToManagement,
-                modifier = Modifier.padding(bottom = 16.dp),
+                leftButtonDrawableRes = drawable.ic_close,
+                modifier = Modifier.padding(top = 16.dp),
             )
-
+        },
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(vertical = 16.dp, horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
             SurveyFormStateIndicator(
                 surveyRegistrationState = currentRegistrationState,
                 modifier = Modifier.padding(horizontal = 20.dp),
@@ -97,43 +106,86 @@ internal fun SurveyRegistrationScreen(
                 eventSelection = eventSelection,
                 title = title,
                 content = content,
-                question = question,
+                questionTitle = questionTitle,
                 questionType = questionType,
-                date = date,
-                time = time,
+                dateDeadline = dateDeadline,
+                timeDeadline = timeDeadline,
                 timePickerState = timePickerState,
                 showDatePicker = showDatePicker,
                 showTimePicker = showTimePicker,
-                currentQuestionIndex = totalQuestionSize,
-                totalQuestionSize = totalQuestionSize,
-                modifier = Modifier.padding(horizontal = 20.dp),
+                currentQuestionNumber = currentQuestionNumber,
+                totalQuestionNumber = totalQuestionNumber,
                 onDatePickerStateChanged = { state -> showDatePicker = state },
                 onTimePickerStateChanged = { state -> showTimePicker = state },
-                onEventListChanged = { viewModel.getEventList() },
+                onEventContentInitialized = { viewModel.getEventList() },
                 onEventSelected = { event -> viewModel.setSurveyEventSelection(event) },
                 onTitleChanged = { title -> viewModel.setSurveyTitle(title) },
                 onContentChanged = { content -> viewModel.setSurveyContent(content) },
-                onQuestionChanged = { question -> viewModel.setSurveyQuestion(question) },
+                onQuestionTitleChanged = { question -> viewModel.setSurveyQuestionTitle(question) },
                 onQuestionTypeChanged = { questionType ->
                     viewModel.setSurveyQuestionType(questionType)
                 },
+                onNextQuestionButtonClicked = { // '>' 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    viewModel.editSurveyQuestion() // 답변 수정
+
+                    viewModel.setNextQuestionNumber() // 다음 질문 불러오기
+                    viewModel.setQuestion()
+                },
+                onPreviousQuestionButtonClicked = { // '<' 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    // 다른 질문으로 넘어가기 전, 질문 추가 혹은 저장
+                    if (currentQuestionNumber == questionList.size) {
+                        viewModel.addSurveyQuestion()
+                    } else {
+                        viewModel.editSurveyQuestion()
+                    }
+
+                    viewModel.setPreviousQuestionNumber() // 이전 질문 불러오기
+                    viewModel.setQuestion()
+                },
+                onAddQuestionButtonClicked = { // 문항 추가 버튼
+                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION).not()) {
+                        return@SurveyFormContent
+                    }
+
+                    if (currentQuestionNumber == questionList.size) {
+                        viewModel.addSurveyQuestion() // 질문 추가
+                    } else {
+                        viewModel.editSurveyQuestion()
+                    }
+
+                    viewModel.setLastQuestion()
+                },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
-                onNextButtonClicked = { currentState, nextState ->
+                onPreviousButtonClicked = { previousState -> // 이전 버튼
+                    if (previousState == SurveyFormState.QUESTION) {
+                        viewModel.setSurveyQuestionFromQuestionList()
+                    }
+
+                    viewModel.setSurveyFormState(previousState)
+                },
+                onNextButtonClicked = { currentState, nextState -> // 다음 버튼
                     if (viewModel.validateSurveyForm(currentState).not()) {
                         return@SurveyFormContent
                     }
 
                     if (currentState == SurveyFormState.QUESTION) {
-                        viewModel.addSurveyQuestion()
+                        if (currentQuestionNumber == questionList.size) { // 마지막 질문인 경우
+                            viewModel.addSurveyQuestion()
+                        } else {
+                            viewModel.editSurveyQuestion()
+                        }
                     }
 
                     viewModel.setSurveyFormState(nextState)
-                },
-                onAddQuestionButtonClicked = {
-                    if (viewModel.validateSurveyForm(SurveyFormState.QUESTION)) {
-                        viewModel.addSurveyQuestion()
-                    }
                 },
                 onRegisterButtonClicked = {
                     if (viewModel.validateSurveyForm(SurveyFormState.DEADLINE)) {

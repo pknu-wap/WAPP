@@ -112,6 +112,7 @@ private fun handleBottomBarState(
     profileSettingNavigationRoute -> setBottomBarState(false)
     attendanceManagementNavigationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
+    ManagementSurveyRoute.surveyFormEditRoute("{id}") -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
     SurveyRoute.answerRoute("{id}") -> setBottomBarState(false)
     surveyCheckRoute -> setBottomBarState(false)
