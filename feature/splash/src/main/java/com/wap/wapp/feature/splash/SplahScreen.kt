@@ -79,15 +79,8 @@ internal fun SplashScreen(
         AnimatedContent(
             targetState = isIconLogoVisible,
             transitionSpec = {
-                scaleIn(
-                    animationSpec = tween(
-                        ANIMATION_MILLS,
-                        delayMillis = ANIMATION_MILLS,
-                    ),
-                ) + scaleIn(
-                    initialScale = 0.92f,
-                    animationSpec = tween(ANIMATION_MILLS, delayMillis = ANIMATION_MILLS),
-                ) togetherWith scaleOut(tween(ANIMATION_MILLS))
+                scaleIn(tween(ANIMATION_MILLS, ANIMATION_MILLS)) togetherWith
+                    scaleOut(tween(ANIMATION_MILLS))
             },
         ) { isIconLogoVisible ->
             if (!isIconLogoVisible) {
