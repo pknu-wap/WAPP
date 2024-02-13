@@ -2,6 +2,7 @@ package com.wap.wapp.feature.management.survey
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ internal fun SurveyInformationContent(
     onTitleChanged: (String) -> Unit,
     content: String,
     onContentChanged: (String) -> Unit,
+    onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -69,12 +71,23 @@ internal fun SurveyInformationContent(
                 .fillMaxWidth()
                 .height(200.dp),
         )
+
         Spacer(modifier = Modifier.weight(1f))
 
-        WappButton(
-            onClick = onNextButtonClicked,
-            textRes = R.string.next,
-            modifier = Modifier.padding(top = 4.dp, bottom = 20.dp),
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            WappButton(
+                textRes = R.string.previous,
+                onClick = onPreviousButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+
+            WappButton(
+                textRes = R.string.next,
+                onClick = onNextButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
