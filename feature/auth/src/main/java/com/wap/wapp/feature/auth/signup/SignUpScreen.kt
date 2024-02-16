@@ -133,9 +133,7 @@ internal fun SignUpScreen(
                 )
 
                 SignUpTextField(
-                    iconDescription = stringResource(
-                        id = string.sign_up_student_id_description,
-                    ),
+                    iconDescription = stringResource(id = string.sign_up_student_id_description),
                     text = viewModel.signUpStudentId.collectAsState().value,
                     title = stringResource(id = string.sign_up_student_id_title),
                     onValueChanged = { name -> viewModel.setStudentId(name) },
@@ -162,9 +160,7 @@ internal fun SignUpScreen(
                         title = stringResource(id = string.sign_up_registered_at_title),
                         onValueChanged = { name -> viewModel.setYear(name) },
                         hint = stringResource(id = string.sign_up_registered_at_hint),
-                        supportingText = stringResource(
-                            id = string.sign_up_registered_at_caption,
-                        ),
+                        supportingText = stringResource(id = string.sign_up_registered_at_caption),
                         icon = ic_door,
                         modifier = Modifier.width(150.dp),
                         keyboardOptions = KeyboardOptions(
