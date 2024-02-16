@@ -1,5 +1,11 @@
 package com.wap.wapp.feature.survey.answer
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -136,28 +142,41 @@ private fun SurveyAnswerContent(
     onPreviousQuestionButtonClicked: () -> Unit,
     modifier: Modifier,
 ) {
-    when (surveyAnswerState) {
-        SurveyAnswerState.SURVEY_OVERVIEW -> {
-            SurveyOverview(
-                surveyForm = surveyForm,
-                modifier = modifier.padding(top = 16.dp),
-                eventName = eventName,
-                onStartSurveyButtonClicked = onStartSurveyButtonClicked,
-            )
-        }
+    AnimatedContent(
+        targetState = surveyAnswerState,
+        transitionSpec = {
+            if (targetState.ordinal > initialState.ordinal) {
+                slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
+                    slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+            } else {
+                slideInHorizontally(initialOffsetX = { -it }) + fadeIn() togetherWith
+                    slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+            }
+        },
+    ) { answerState ->
+        when (answerState) {
+            SurveyAnswerState.SURVEY_OVERVIEW -> {
+                SurveyOverview(
+                    surveyForm = surveyForm,
+                    modifier = modifier.padding(top = 16.dp),
+                    eventName = eventName,
+                    onStartSurveyButtonClicked = onStartSurveyButtonClicked,
+                )
+            }
 
-        SurveyAnswerState.SURVEY_ANSWER -> {
-            SurveyAnswerForm(
-                surveyForm = surveyForm,
-                modifier = modifier,
-                questionNumber = questionNumber,
-                subjectiveAnswer = subjectiveAnswer,
-                objectiveAnswer = objectiveAnswer,
-                onSubjectiveAnswerChanged = onSubjectiveAnswerChanged,
-                onObjectiveAnswerSelected = onObjectiveAnswerSelected,
-                onNextQuestionButtonClicked = onNextQuestionButtonClicked,
-                onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
-            )
+            SurveyAnswerState.SURVEY_ANSWER -> {
+                SurveyAnswerForm(
+                    surveyForm = surveyForm,
+                    modifier = modifier,
+                    questionNumber = questionNumber,
+                    subjectiveAnswer = subjectiveAnswer,
+                    objectiveAnswer = objectiveAnswer,
+                    onSubjectiveAnswerChanged = onSubjectiveAnswerChanged,
+                    onObjectiveAnswerSelected = onObjectiveAnswerSelected,
+                    onNextQuestionButtonClicked = onNextQuestionButtonClicked,
+                    onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
+                )
+            }
         }
     }
 }
