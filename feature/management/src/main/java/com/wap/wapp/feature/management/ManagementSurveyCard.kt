@@ -47,7 +47,9 @@ internal fun ManagementSurveyCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
         ) {
             Text(
                 text = stringResource(string.survey),
@@ -71,7 +73,6 @@ private fun ManagementSurveyContent(
     onAddSurveyButtonClicked: () -> Unit,
 ) {
     when (surveyFormsState) {
-        is ManagementViewModel.SurveyFormsState.Init -> {}
         is ManagementViewModel.SurveyFormsState.Loading -> CircleLoader(
             modifier = Modifier
                 .fillMaxWidth()

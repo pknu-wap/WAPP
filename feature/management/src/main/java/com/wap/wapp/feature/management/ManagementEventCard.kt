@@ -69,7 +69,6 @@ private fun ManagementEventContent(
     onAddEventButtonClicked: () -> Unit,
 ) {
     when (eventsState) {
-        is ManagementViewModel.EventsState.Init -> {}
         is ManagementViewModel.EventsState.Loading -> CircleLoader(
             modifier = Modifier
                 .fillMaxWidth()
