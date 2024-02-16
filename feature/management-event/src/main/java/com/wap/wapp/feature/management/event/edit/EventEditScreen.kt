@@ -1,5 +1,8 @@
 package com.wap.wapp.feature.management.event.edit
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -260,13 +263,21 @@ private fun EventEditStateText(
 private fun EventEditStateProgressBar(
     currentRegistrationProgress: Float,
 ) {
+    val progress by animateFloatAsState(
+        targetValue = currentRegistrationProgress,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessMediumLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+        ),
+    )
+
     LinearProgressIndicator(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
         trackColor = WappTheme.colors.white,
-        progress = currentRegistrationProgress,
+        progress = progress,
         strokeCap = StrokeCap.Round,
     )
 }

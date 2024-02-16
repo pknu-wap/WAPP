@@ -1,5 +1,8 @@
 package com.wap.wapp.feature.management.event.registration
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -227,13 +230,21 @@ private fun EventRegistrationStateText(
 private fun EventRegistrationStateProgressBar(
     currentRegistrationProgress: Float,
 ) {
+    val progress by animateFloatAsState(
+        targetValue = currentRegistrationProgress,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessMediumLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+        ),
+    )
+
     LinearProgressIndicator(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
         trackColor = WappTheme.colors.white,
-        progress = currentRegistrationProgress,
+        progress = progress,
         strokeCap = StrokeCap.Round,
     )
 }
