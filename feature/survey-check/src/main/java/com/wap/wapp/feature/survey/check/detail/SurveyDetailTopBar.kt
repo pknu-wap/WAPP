@@ -32,21 +32,21 @@ internal fun SurveyDetailTopBar(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
                 style = WappTheme.typography.contentBold,
+                color = WappTheme.colors.white,
             )
         },
         navigationIcon = {
             Icon(
                 painter = painterResource(id = drawable.ic_back),
-                contentDescription = stringResource(
-                    id = com.wap.wapp.core.designsystem.R.string.back_button,
-                ),
+                contentDescription =
+                stringResource(com.wap.wapp.core.designsystem.R.string.back_button),
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .clickable { onBackButtonClicked() },
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = WappTheme.colors.yellow34,
+            containerColor = WappTheme.colors.black25,
         ),
     )
 }

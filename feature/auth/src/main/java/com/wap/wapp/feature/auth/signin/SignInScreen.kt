@@ -83,6 +83,7 @@ internal fun SignInScreen(
                     color = WappTheme.colors.white,
                     fontSize = 18.sp,
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
@@ -90,11 +91,13 @@ internal fun SignInScreen(
                     color = WappTheme.colors.white,
                     style = WappTheme.typography.labelRegular,
                 )
+
                 Spacer(modifier = Modifier.height(4.dp))
 
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = email,
+                    maxLines = 1,
                     onValueChange = { email = it },
                     placeholder = {
                         Text(
@@ -150,13 +153,16 @@ internal fun SignInScreen(
                         style = WappTheme.typography.contentMedium,
                     )
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Divider(
                     color = WappTheme.colors.white,
                     thickness = 1.dp,
                 )
+
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
@@ -164,6 +170,7 @@ internal fun SignInScreen(
                     style = WappTheme.typography.captionMedium,
                     color = WappTheme.colors.yellow34,
                 )
+
                 Spacer(modifier = Modifier.height(32.dp))
             }
         },
