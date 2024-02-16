@@ -101,15 +101,14 @@ internal fun ManagementScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         contentWindowInsets = WindowInsets(0.dp),
-        topBar = {
-            WappLeftMainTopBar(
-                titleRes = R.string.management,
-                contentRes = R.string.management_content,
-            )
-        },
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             item {
+                WappLeftMainTopBar(
+                    titleRes = R.string.management,
+                    contentRes = R.string.management_content,
+                )
+
                 ManagementEventCard(
                     eventsState = eventsState,
                     onCardClicked = navigateToEventEdit,

@@ -62,7 +62,7 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun setEventStartDate(eventDate: LocalDate) {
         if (!isValidStartDate(eventDate)) {
-            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
+            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정 하세요.")
             return
         }
         _eventStartDate.value = eventDate
@@ -89,11 +89,11 @@ class EventRegistrationViewModel @Inject constructor(
     fun setEventRegistrationState() {
         if (_currentRegistrationState.value == EVENT_DETAILS) {
             if (!isValidTitle()) {
-                emitValidationErrorMessage("행사 이름을 입력하세요.")
+                emitValidationErrorMessage("행사 이름을 입력 하세요.")
                 return
             }
             if (!isValidContent()) {
-                emitValidationErrorMessage("행사 내용을 입력하세요.")
+                emitValidationErrorMessage("행사 내용을 입력 하세요.")
                 return
             }
             _currentRegistrationState.value = EVENT_SCHEDULE
@@ -102,7 +102,7 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun registerEvent() {
         if (!isValidLocation()) {
-            emitValidationErrorMessage("장소를 입력하세요.")
+            emitValidationErrorMessage("장소를 입력 하세요.")
             return
         }
         viewModelScope.launch {
