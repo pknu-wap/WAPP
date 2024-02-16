@@ -1,5 +1,11 @@
 package com.wap.wapp.feature.management.survey
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
@@ -42,77 +48,92 @@ internal fun SurveyFormContent(
     onAddQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
-    when (surveyRegistrationState) {
-        SurveyFormState.EVENT_SELECTION -> {
-            onEventContentInitialized()
-            SurveyEventContent(
-                eventsState = eventsState,
-                selectedEvent = eventSelection,
-                onEventSelected = onEventSelected,
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.EVENT_SELECTION,
-                        SurveyFormState.INFORMATION,
-                    )
-                },
-            )
-        }
+    AnimatedContent(
+        targetState = surveyRegistrationState,
+        transitionSpec = {
+            if (targetState.ordinal > initialState.ordinal) {
+                slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
+                    slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+            } else {
+                slideInHorizontally(initialOffsetX = { -it }) + fadeIn() togetherWith
+                    slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+            }
+        },
+    ) { registrationState ->
+        when (registrationState) {
+            SurveyFormState.EVENT_SELECTION -> {
+                onEventContentInitialized()
+                SurveyEventContent(
+                    eventsState = eventsState,
+                    selectedEvent = eventSelection,
+                    onEventSelected = onEventSelected,
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.EVENT_SELECTION,
+                            SurveyFormState.INFORMATION,
+                        )
+                    },
+                )
+            }
 
-        SurveyFormState.INFORMATION -> {
-            SurveyInformationContent(
-                title = title,
-                onTitleChanged = onTitleChanged,
-                content = content,
-                onContentChanged = onContentChanged,
-                onPreviousButtonClicked = {
-                    onPreviousButtonClicked(SurveyFormState.EVENT_SELECTION)
-                },
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.INFORMATION,
-                        SurveyFormState.QUESTION,
-                    )
-                },
-            )
-        }
+            SurveyFormState.INFORMATION -> {
+                SurveyInformationContent(
+                    title = title,
+                    onTitleChanged = onTitleChanged,
+                    content = content,
+                    onContentChanged = onContentChanged,
+                    onPreviousButtonClicked = {
+                        onPreviousButtonClicked(SurveyFormState.EVENT_SELECTION)
+                    },
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.INFORMATION,
+                            SurveyFormState.QUESTION,
+                        )
+                    },
+                )
+            }
 
-        SurveyFormState.QUESTION -> {
-            SurveyQuestionContent(
-                questionTitle = questionTitle,
-                questionType = questionType,
-                onQuestionTypeChanged = { defaultQuestionType ->
-                    onQuestionTypeChanged(defaultQuestionType)
-                },
-                onQuestionChanged = onQuestionTitleChanged,
-                onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
-                currentQuestionNumber = currentQuestionNumber,
-                totalQuestionNumber = totalQuestionNumber,
-                onPreviousButtonClicked = { onPreviousButtonClicked(SurveyFormState.INFORMATION) },
-                onNextButtonClicked = {
-                    onNextButtonClicked(
-                        SurveyFormState.QUESTION,
-                        SurveyFormState.DEADLINE,
-                    )
-                },
-                onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
-                onNextQuestionButtonClicked = onNextQuestionButtonClicked,
-            )
-        }
+            SurveyFormState.QUESTION -> {
+                SurveyQuestionContent(
+                    questionTitle = questionTitle,
+                    questionType = questionType,
+                    onQuestionTypeChanged = { defaultQuestionType ->
+                        onQuestionTypeChanged(defaultQuestionType)
+                    },
+                    onQuestionChanged = onQuestionTitleChanged,
+                    onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
+                    currentQuestionNumber = currentQuestionNumber,
+                    totalQuestionNumber = totalQuestionNumber,
+                    onPreviousButtonClicked = {
+                        onPreviousButtonClicked(SurveyFormState.INFORMATION)
+                    },
+                    onNextButtonClicked = {
+                        onNextButtonClicked(
+                            SurveyFormState.QUESTION,
+                            SurveyFormState.DEADLINE,
+                        )
+                    },
+                    onPreviousQuestionButtonClicked = onPreviousQuestionButtonClicked,
+                    onNextQuestionButtonClicked = onNextQuestionButtonClicked,
+                )
+            }
 
-        SurveyFormState.DEADLINE -> {
-            SurveyDeadlineContent(
-                timeDeadline = timeDeadline,
-                dateDeadline = dateDeadline,
-                timePickerState = timePickerState,
-                showDatePicker = showDatePicker,
-                showTimePicker = showTimePicker,
-                onDateChanged = onDateChanged,
-                onTimePickerStateChanged = onTimePickerStateChanged,
-                onTimeChanged = onTimeChanged,
-                onRegisterButtonClicked = onRegisterButtonClicked,
-                onDatePickerStateChanged = onDatePickerStateChanged,
-                onPreviousButtonClicked = { onPreviousButtonClicked(SurveyFormState.QUESTION) },
-            )
+            SurveyFormState.DEADLINE -> {
+                SurveyDeadlineContent(
+                    timeDeadline = timeDeadline,
+                    dateDeadline = dateDeadline,
+                    timePickerState = timePickerState,
+                    showDatePicker = showDatePicker,
+                    showTimePicker = showTimePicker,
+                    onDateChanged = onDateChanged,
+                    onTimePickerStateChanged = onTimePickerStateChanged,
+                    onTimeChanged = onTimeChanged,
+                    onRegisterButtonClicked = onRegisterButtonClicked,
+                    onDatePickerStateChanged = onDatePickerStateChanged,
+                    onPreviousButtonClicked = { onPreviousButtonClicked(SurveyFormState.QUESTION) },
+                )
+            }
         }
     }
 }
