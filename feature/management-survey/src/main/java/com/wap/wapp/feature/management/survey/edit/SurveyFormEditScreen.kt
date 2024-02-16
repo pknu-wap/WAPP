@@ -17,11 +17,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
+import com.wap.designsystem.modifier.addFocusCleaner
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.survey.R
@@ -56,6 +58,7 @@ internal fun SurveyFormEditScreen(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var showDeleteSurveyDialog by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(true) {
         viewModel.getSurveyForm(surveyFormId)
@@ -97,6 +100,7 @@ internal fun SurveyFormEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .addFocusCleaner(focusManager)
                 .padding(paddingValues) // paddingValue padding
                 .padding(vertical = 16.dp, horizontal = 20.dp), // dp value padding
             verticalArrangement = Arrangement.spacedBy(20.dp),
