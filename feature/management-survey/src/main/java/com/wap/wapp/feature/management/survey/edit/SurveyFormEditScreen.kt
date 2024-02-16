@@ -80,6 +80,17 @@ internal fun SurveyFormEditScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
+        topBar = {
+            WappSubTopBar(
+                titleRes = R.string.survey_edit,
+                showLeftButton = true,
+                showRightButton = true,
+                leftButtonDrawableRes = drawable.ic_close,
+                modifier = Modifier.padding(top = 16.dp),
+                onClickLeftButton = navigateToManagement,
+                onClickRightButton = { showDeleteSurveyDialog = true },
+            )
+        },
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
@@ -96,16 +107,6 @@ internal fun SurveyFormEditScreen(
                     onDismissRequest = { showDeleteSurveyDialog = false },
                 )
             }
-
-            WappSubTopBar(
-                titleRes = R.string.survey_edit,
-                showLeftButton = true,
-                showRightButton = true,
-                leftButtonDrawableRes = drawable.ic_close,
-                modifier = Modifier.padding(top = 16.dp),
-                onClickLeftButton = navigateToManagement,
-                onClickRightButton = { showDeleteSurveyDialog = true },
-            )
 
             SurveyFormStateIndicator(surveyRegistrationState = currentRegistrationState)
 
