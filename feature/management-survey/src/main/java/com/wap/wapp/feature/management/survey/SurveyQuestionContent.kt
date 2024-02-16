@@ -51,13 +51,9 @@ internal fun SurveyQuestionContent(
     onNextButtonClicked: () -> Unit,
     onAddSurveyQuestionButtonClicked: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
-
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState),
+        modifier = Modifier.fillMaxSize()
     ) {
         WappTitle(
             title = stringResource(R.string.survey_question_title),

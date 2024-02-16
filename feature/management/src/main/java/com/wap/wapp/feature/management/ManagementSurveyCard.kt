@@ -40,9 +40,7 @@ internal fun ManagementSurveyCard(
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = WappTheme.colors.black25,
-        ),
+        colors = CardDefaults.cardColors(containerColor = WappTheme.colors.black25),
         modifier = Modifier
             .padding(vertical = 20.dp)
             .padding(horizontal = 8.dp),
@@ -73,7 +71,7 @@ private fun ManagementSurveyContent(
     onAddSurveyButtonClicked: () -> Unit,
 ) {
     when (surveyFormsState) {
-        is ManagementViewModel.SurveyFormsState.Init -> { }
+        is ManagementViewModel.SurveyFormsState.Init -> {}
         is ManagementViewModel.SurveyFormsState.Loading -> CircleLoader(
             modifier = Modifier
                 .fillMaxWidth()

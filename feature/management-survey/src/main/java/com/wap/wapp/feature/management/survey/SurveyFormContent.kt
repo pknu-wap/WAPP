@@ -87,9 +87,7 @@ internal fun SurveyFormContent(
                 onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
                 currentQuestionNumber = currentQuestionNumber,
                 totalQuestionNumber = totalQuestionNumber,
-                onPreviousButtonClicked = {
-                    onPreviousButtonClicked(SurveyFormState.INFORMATION)
-                },
+                onPreviousButtonClicked = { onPreviousButtonClicked(SurveyFormState.INFORMATION) },
                 onNextButtonClicked = {
                     onNextButtonClicked(
                         SurveyFormState.QUESTION,
@@ -113,9 +111,7 @@ internal fun SurveyFormContent(
                 onTimeChanged = onTimeChanged,
                 onRegisterButtonClicked = onRegisterButtonClicked,
                 onDatePickerStateChanged = onDatePickerStateChanged,
-                onPreviousButtonClicked = {
-                    onPreviousButtonClicked(SurveyFormState.QUESTION)
-                },
+                onPreviousButtonClicked = { onPreviousButtonClicked(SurveyFormState.QUESTION) },
             )
         }
     }

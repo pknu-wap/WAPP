@@ -10,6 +10,7 @@ import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.core.model.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -50,31 +51,36 @@ class ManagementViewModel @Inject constructor(
     }
 
     fun getEventSurveyList() = viewModelScope.launch {
-        launch { getMonthEventList() }
-        getSurveyFormList()
-    }
-
-    private suspend fun getMonthEventList() {
         _eventList.value = EventsState.Loading
-
-        getMonthEventListUseCase(generateNowDate()).onSuccess { events ->
-            _eventList.value = EventsState.Success(events)
-        }.onFailure { exception ->
-            _errorFlow.emit(exception)
-            _eventList.value = EventsState.Failure(exception)
-        }
-    }
-
-    private suspend fun getSurveyFormList() {
         _surveyFormList.value = SurveyFormsState.Loading
 
-        getSurveyFormListUseCase().onSuccess { surveyForms ->
-            _surveyFormList.value = SurveyFormsState.Success(surveyForms)
-        }.onFailure { exception ->
-            _errorFlow.emit(exception)
-            _eventList.value = EventsState.Failure(exception)
-        }
+        val monthEventList = async { getMonthEventList() }
+        val surveyFormList = async { getSurveyFormList() }
+
+        _eventList.value = monthEventList.await()
+        _surveyFormList.value = surveyFormList.await()
     }
+
+    private suspend fun getMonthEventList(): EventsState =
+        getMonthEventListUseCase(generateNowDate()).fold(
+            onSuccess = { events ->
+                EventsState.Success(events)
+            },
+            onFailure = { exception ->
+                _errorFlow.emit(exception)
+                EventsState.Failure(exception)
+            },
+        )
+
+    private suspend fun getSurveyFormList(): SurveyFormsState = getSurveyFormListUseCase().fold(
+        onSuccess = { surveyForms ->
+            SurveyFormsState.Success(surveyForms)
+        },
+        onFailure = { exception ->
+            _errorFlow.emit(exception)
+            SurveyFormsState.Failure(exception)
+        },
+    )
 
     sealed class UserRoleUiState {
         data object Init : UserRoleUiState()

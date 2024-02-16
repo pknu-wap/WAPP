@@ -5,12 +5,15 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -134,6 +137,7 @@ internal fun EventRegistrationScreen(
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -145,6 +149,8 @@ internal fun EventRegistrationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
+                .height(IntrinsicSize.Max)
                 .padding(paddingValues) // paddingValue padding
                 .padding(top = 20.dp), // dp value padding
         ) {
@@ -170,6 +176,7 @@ internal fun EventRegistrationScreen(
                 startTime = startTime,
                 endDate = endDate,
                 endTime = endTime,
+                scrollState = scrollState,
                 showStartDatePicker = showStartDatePicker,
                 showStartTimePicker = showStartTimePicker,
                 showEndDatePicker = showEndDatePicker,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -15,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -159,6 +162,7 @@ internal fun EventEditScreen(
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showDeleteEventDialog by remember { mutableStateOf(false) }
     val timePickerState = rememberTimePickerState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -177,6 +181,8 @@ internal fun EventEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
+                .height(IntrinsicSize.Max)
                 .padding(paddingValues)
                 .padding(vertical = 16.dp),
         ) {
@@ -203,6 +209,7 @@ internal fun EventEditScreen(
                 startTime = startTime,
                 endDate = endDate,
                 endTime = endTime,
+                scrollState = scrollState,
                 showStartDatePicker = showStartDatePicker,
                 showStartTimePicker = showStartTimePicker,
                 showEndDatePicker = showEndDatePicker,

@@ -1,16 +1,14 @@
 package com.wap.wapp.feature.management.event.registration
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
@@ -50,6 +48,7 @@ internal fun EventRegistrationContent(
     showStartTimePicker: Boolean,
     showEndDatePicker: Boolean,
     showEndTimePicker: Boolean,
+    scrollState: ScrollState,
     timePickerState: TimePickerState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
@@ -65,15 +64,9 @@ internal fun EventRegistrationContent(
     onNextButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .height(IntrinsicSize.Max),
-    ) {
+    Column(modifier = modifier.fillMaxSize()) {
         when (eventRegistrationState) {
             EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
                 eventTitle = eventTitle,
