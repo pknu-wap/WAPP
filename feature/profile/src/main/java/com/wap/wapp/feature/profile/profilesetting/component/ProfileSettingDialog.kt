@@ -49,7 +49,7 @@ internal fun ProfileSettingDialog(
             modifier = Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp)
+                .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),
         ) {
