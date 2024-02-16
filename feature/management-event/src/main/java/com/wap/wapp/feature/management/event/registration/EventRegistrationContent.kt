@@ -1,5 +1,11 @@
 package com.wap.wapp.feature.management.event.registration
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,12 +28,12 @@ import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.commmon.util.DateUtil
+import com.wap.wapp.feature.management.event.R
 import com.wap.wapp.feature.management.event.component.DeadlineCard
 import com.wap.wapp.feature.management.event.component.RegistrationTextField
 import com.wap.wapp.feature.management.event.component.RegistrationTitle
 import com.wap.wapp.feature.management.event.component.WappDatePickerDialog
 import com.wap.wapp.feature.management.event.component.WappTimePickerDialog
-import com.wap.wapp.feature.management.event.R
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -67,42 +73,55 @@ internal fun EventRegistrationContent(
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = modifier.fillMaxSize()) {
-        when (eventRegistrationState) {
-            EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
-                eventTitle = eventTitle,
-                eventContent = eventContent,
-                onTitleChanged = onTitleChanged,
-                onContentChanged = onContentChanged,
-                onNextButtonClicked = {
-                    coroutineScope.launch {
-                        scrollState.scrollTo(0)
-                    }
-                    onNextButtonClicked()
-                },
-            )
+        AnimatedContent(
+            targetState = eventRegistrationState,
+            transitionSpec = {
+                if (targetState.ordinal > initialState.ordinal) {
+                    slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
+                        slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+                } else {
+                    slideInHorizontally(initialOffsetX = { -it }) + fadeIn() togetherWith
+                        slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+                }
+            },
+        ) { eventState ->
+            when (eventState) {
+                EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
+                    eventTitle = eventTitle,
+                    eventContent = eventContent,
+                    onTitleChanged = onTitleChanged,
+                    onContentChanged = onContentChanged,
+                    onNextButtonClicked = {
+                        coroutineScope.launch {
+                            scrollState.scrollTo(0)
+                        }
+                        onNextButtonClicked()
+                    },
+                )
 
-            EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
-                location = location,
-                startDate = startDate,
-                startTime = startTime,
-                endDate = endDate,
-                endTime = endTime,
-                timePickerState = timePickerState,
-                onLocationChanged = onLocationChanged,
-                onEndDateChanged = onEndDateChanged,
-                onEndTimeChanged = onEndTimeChanged,
-                onStartDateChanged = onStartDateChanged,
-                onStartTimeChanged = onStartTimeChanged,
-                showStartDatePicker = showStartDatePicker,
-                showStartTimePicker = showStartTimePicker,
-                showEndDatePicker = showEndDatePicker,
-                showEndTimePicker = showEndTimePicker,
-                onStartDatePickerStateChanged = onStartDatePickerStateChanged,
-                onStartTimePickerStateChanged = onStartTimePickerStateChanged,
-                onEndDatePickerStateChanged = onEndDatePickerStateChanged,
-                onEndTimePickerStateChanged = onEndTimePickerStateChanged,
-                onRegisterButtonClicked = onRegisterButtonClicked,
-            )
+                EventRegistrationState.EVENT_SCHEDULE -> EventScheduleContent(
+                    location = location,
+                    startDate = startDate,
+                    startTime = startTime,
+                    endDate = endDate,
+                    endTime = endTime,
+                    timePickerState = timePickerState,
+                    onLocationChanged = onLocationChanged,
+                    onEndDateChanged = onEndDateChanged,
+                    onEndTimeChanged = onEndTimeChanged,
+                    onStartDateChanged = onStartDateChanged,
+                    onStartTimeChanged = onStartTimeChanged,
+                    showStartDatePicker = showStartDatePicker,
+                    showStartTimePicker = showStartTimePicker,
+                    showEndDatePicker = showEndDatePicker,
+                    showEndTimePicker = showEndTimePicker,
+                    onStartDatePickerStateChanged = onStartDatePickerStateChanged,
+                    onStartTimePickerStateChanged = onStartTimePickerStateChanged,
+                    onEndDatePickerStateChanged = onEndDatePickerStateChanged,
+                    onEndTimePickerStateChanged = onEndTimePickerStateChanged,
+                    onRegisterButtonClicked = onRegisterButtonClicked,
+                )
+            }
         }
     }
 }
