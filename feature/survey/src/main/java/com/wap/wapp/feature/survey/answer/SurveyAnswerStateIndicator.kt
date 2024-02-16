@@ -45,11 +45,12 @@ private fun SurveyAnswerStateText(index: Int, size: Int) {
 @Composable
 private fun SurveyAnswerStateProgressBar(index: Int, size: Int) {
     LinearProgressIndicator(
+        color = WappTheme.colors.yellow34,
+        trackColor = WappTheme.colors.white,
+        progress = index.toFloat() / size.toFloat(),
+        strokeCap = StrokeCap.Round,
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
-        color = WappTheme.colors.yellow34,
-        progress = index.toFloat() / size.toFloat(),
-        strokeCap = StrokeCap.Round,
     )
 }
