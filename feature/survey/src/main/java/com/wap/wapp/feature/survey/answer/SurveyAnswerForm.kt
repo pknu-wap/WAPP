@@ -49,9 +49,9 @@ internal fun SurveyAnswerForm(
         )
 
         AnimatedContent(
-            targetState = surveyQuestion.questionType,
+            targetState = questionNumber,
             transitionSpec = {
-                if (targetState.ordinal > initialState.ordinal) {
+                if (targetState > initialState) {
                     slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
                         slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
                 } else {
@@ -59,9 +59,9 @@ internal fun SurveyAnswerForm(
                         slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
                 }
             },
-        ) { questionType ->
-            Column() {
-                when (questionType) {
+        ) { questionNumber ->
+            Column {
+                when (surveyForm.surveyQuestionList[questionNumber].questionType) {
                     QuestionType.SUBJECTIVE -> {
                         SubjectiveSurveyForm(
                             questionTitle = surveyQuestion.questionTitle,
