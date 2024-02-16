@@ -120,7 +120,7 @@ internal fun SurveyAnswerScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .padding(16.dp),
+                        .padding(top = 16.dp, bottom = 20.dp, start = 20.dp, end = 20.dp),
                 )
             }
         }
