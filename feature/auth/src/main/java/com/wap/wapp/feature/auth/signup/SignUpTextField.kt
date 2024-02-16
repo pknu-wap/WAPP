@@ -42,13 +42,16 @@ internal fun SignUpTextField(
                 tint = WappTheme.colors.white,
                 modifier = Modifier.size(20.dp),
             )
+
             Spacer(modifier = Modifier.width(8.dp))
+
             Text(
                 text = title,
                 color = WappTheme.colors.white,
                 style = WappTheme.typography.contentBold,
             )
         }
+
         TextField(
             value = text,
             onValueChange = onValueChanged,
@@ -66,7 +69,9 @@ internal fun SignUpTextField(
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = supportingText,
             color = WappTheme.colors.yellow34,
