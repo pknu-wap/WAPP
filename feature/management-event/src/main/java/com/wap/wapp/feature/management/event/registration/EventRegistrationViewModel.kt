@@ -54,11 +54,17 @@ class EventRegistrationViewModel @Inject constructor(
         MutableStateFlow(generateNowTime().plusHours(1))
     val eventEndTime = _eventEndTime.asStateFlow()
 
-    fun setEventTitle(eventTitle: String) { _eventTitle.value = eventTitle }
+    fun setEventTitle(eventTitle: String) {
+        _eventTitle.value = eventTitle
+    }
 
-    fun setEventContent(eventContent: String) { _eventContent.value = eventContent }
+    fun setEventContent(eventContent: String) {
+        _eventContent.value = eventContent
+    }
 
-    fun setEventLocation(eventLocation: String) { _eventLocation.value = eventLocation }
+    fun setEventLocation(eventLocation: String) {
+        _eventLocation.value = eventLocation
+    }
 
     fun setEventStartDate(eventDate: LocalDate) {
         if (!isValidStartDate(eventDate)) {
@@ -68,7 +74,9 @@ class EventRegistrationViewModel @Inject constructor(
         _eventStartDate.value = eventDate
     }
 
-    fun setEventStartTime(eventTime: LocalTime) { _eventStartTime.value = eventTime }
+    fun setEventStartTime(eventTime: LocalTime) {
+        _eventStartTime.value = eventTime
+    }
 
     fun setEventEndDate(eventDate: LocalDate) {
         if (!isValidEndDate(eventDate)) {
@@ -122,8 +130,15 @@ class EventRegistrationViewModel @Inject constructor(
         }
     }
 
-    private fun isValidEndTime(eventTime: LocalTime): Boolean =
-        _eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value
+    private fun isValidEndTime(eventTime: LocalTime): Boolean {
+        if (_eventEndDate.value > _eventStartDate.value) {
+            return true
+        }
+        if (_eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value) {
+            return true
+        }
+        return false
+    }
 
     private fun isValidEndDate(eventDate: LocalDate): Boolean = eventDate >= _eventStartDate.value
 
