@@ -7,8 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -46,7 +47,8 @@ internal fun ProfileSettingDialog(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .wrapContentSize()
+                .wrapContentHeight()
+                .fillMaxWidth()
                 .padding(horizontal = 30.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),

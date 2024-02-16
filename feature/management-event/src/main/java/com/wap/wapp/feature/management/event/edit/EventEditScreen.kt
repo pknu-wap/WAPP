@@ -287,7 +287,7 @@ private fun DeleteEventDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 30.dp)
+                .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),
         ) {
@@ -307,7 +307,7 @@ private fun DeleteEventDialog(
                 text = generateDialogContentString(),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                modifier = Modifier.padding(horizontal = 12.dp),
             )
 
             Row(
@@ -361,7 +361,7 @@ private fun DeleteEventDialog(
 
 @Composable
 private fun generateDialogContentString() = buildAnnotatedString {
-    append("정말로 해당 일정을 삭제하시겠습니까?\n")
+    append("정말로 해당 일정을 삭제하시겠습니까?\n\n")
     withStyle(
         style = SpanStyle(
             textDecoration = TextDecoration.Underline,
