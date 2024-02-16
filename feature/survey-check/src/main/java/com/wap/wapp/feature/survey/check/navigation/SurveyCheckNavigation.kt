@@ -21,10 +21,12 @@ fun NavController.navigateToSurveyCheck(navOptions: NavOptions? = navOptions {})
 fun NavGraphBuilder.surveyCheckNavGraph(
     navigateToSurveyDetail: (String) -> Unit,
     navigateToSurveyCheck: () -> Unit,
+    navigateToSurvey: () -> Unit,
 ) {
     composable(route = SurveyCheckRoute.surveyCheckRoute) {
         SurveyCheckScreen(
             navigateToSurveyDetail = navigateToSurveyDetail,
+            navigateToSurvey = navigateToSurvey,
         )
     }
 
