@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,9 @@ internal fun SurveyAnswerStateIndicator(index: Int, size: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(bottom = 40.dp),
     ) {
         SurveyAnswerStateProgressBar(index = index, size = size)
         SurveyAnswerStateText(index = index, size = size)

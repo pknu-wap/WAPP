@@ -24,10 +24,7 @@ internal fun SurveyAnswerForm(
     onNextQuestionButtonClicked: () -> Unit,
     onPreviousQuestionButtonClicked: () -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(40.dp),
-        modifier = modifier,
-    ) {
+    Column(modifier = modifier) {
         val surveyQuestion = surveyForm.surveyQuestionList[questionNumber]
         val lastQuestionNumber = surveyForm.surveyQuestionList.lastIndex
 
