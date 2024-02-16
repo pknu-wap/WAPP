@@ -35,7 +35,7 @@ fun WappLeftMainTopBar(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.Start,
         modifier = modifier
-            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 40.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
@@ -79,7 +79,7 @@ fun WappRightMainTopBar(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.End,
         modifier = modifier
-            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
+            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 40.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
