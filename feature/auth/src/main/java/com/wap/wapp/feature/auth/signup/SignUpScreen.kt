@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
+import com.wap.designsystem.modifier.addFocusCleaner
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.drawable.ic_card
@@ -64,6 +66,7 @@ internal fun SignUpScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(true) {
         viewModel.signUpEventFlow.collectLatest {
@@ -89,6 +92,7 @@ internal fun SignUpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .addFocusCleaner(focusManager)
                 .padding(horizontal = 16.dp),
         ) {
             WappSubTopBar(
