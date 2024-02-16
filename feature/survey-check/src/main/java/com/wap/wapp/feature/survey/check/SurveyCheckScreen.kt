@@ -58,10 +58,10 @@ internal fun SurveyCheckScreen(
 
             is SurveyCheckViewModel.SurveyListUiState.Success -> {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 40.dp)
                         .padding(paddingValues),
                 ) {
                     val surveyList = surveyListUiState.surveyList

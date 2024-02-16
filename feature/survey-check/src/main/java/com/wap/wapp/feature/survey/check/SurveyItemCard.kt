@@ -30,7 +30,7 @@ internal fun SurveyItemCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.End,
