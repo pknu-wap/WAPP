@@ -215,7 +215,6 @@ private fun CalendarMonthItem(
         val thisMonthFirstDayOfWeek = selectedDate.withDayOfMonth(1).dayOfWeek
         val thisMonthDaysToShow: List<Int> = (1..thisMonthLastDate).toList()
         items(thisMonthDaysToShow) { day ->
-            val date = selectedDate.withDayOfMonth(day)
             val currentLocalDate = LocalDate.of(
                 selectedDate.year,
                 selectedDate.month,
@@ -225,7 +224,7 @@ private fun CalendarMonthItem(
             val isEvent = (currentLocalDate in eventDates)
             val isSelected = (day == selectedDate.dayOfMonth)
             CalendarDayText(
-                text = com.wap.wapp.core.commmon.util.DateUtil.ddFormatter.format(date),
+                text = day.toString(),
                 color = getDayColor(day + thisMonthFirstDayOfWeek.value),
                 isEvent = isEvent,
                 isSelected = isSelected,
