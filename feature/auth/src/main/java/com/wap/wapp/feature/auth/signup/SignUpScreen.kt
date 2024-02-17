@@ -86,9 +86,7 @@ internal fun SignUpScreen(
                 .padding(horizontal = 16.dp),
         ) {
             WappSubTopBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 titleRes = string.sign_up,
                 showLeftButton = true,
                 onClickLeftButton = { navigateToSignIn() },

@@ -97,7 +97,7 @@ fun WappSubTopBarWithRightButton() {
             WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(vertical = 16.dp),
                 titleRes = R.string.notice,
                 showRightButton = true,
             )
@@ -115,7 +115,7 @@ fun WappSubTopBarWithLeftButton() {
             WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(vertical = 16.dp),
                 titleRes = R.string.notice,
                 showLeftButton = true,
             )
@@ -133,7 +133,7 @@ fun WappSubTopBarWithBothButton() {
             WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(vertical = 16.dp),
                 titleRes = R.string.notice,
                 showRightButton = true,
                 showLeftButton = true,

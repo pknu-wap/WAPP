@@ -8,16 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -33,6 +32,8 @@ import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigat
 import com.wap.wapp.feature.management.survey.navigation.ManagementSurveyRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute.surveyCheckRoute
 import com.wap.wapp.feature.survey.navigation.SurveyRoute
 import com.wap.wapp.navigation.TopLevelDestination
 import com.wap.wapp.navigation.WappNavHost
@@ -53,7 +54,6 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
                     containerColor = WappTheme.colors.backgroundBlack,
                     bottomBar = {
                         val navBackStackEntry by
@@ -69,11 +69,6 @@ class MainActivity : ComponentActivity() {
                             },
                         )
 
-                        val systemBars = WindowInsets.systemBars
-                        val density = LocalDensity.current
-                        val bottomPadding =
-                            remember { with(density) { systemBars.getBottom(this).toDp() } }
-
                         WappBottomBar(
                             currentRoute = currentRoute,
                             bottomBarState = bottomBarState,
@@ -83,11 +78,12 @@ class MainActivity : ComponentActivity() {
                                     destination,
                                 )
                             },
-                            modifier = Modifier
-                                .padding(bottom = bottomPadding)
-                                .height(70.dp),
+                            modifier = Modifier.height(70.dp),
                         )
                     },
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.navigationBars)
+                        .fillMaxSize(),
                 ) { innerPadding ->
                     WappNavHost(
                         signInUseCase = signInUseCase,
@@ -116,9 +112,11 @@ private fun handleBottomBarState(
     profileSettingNavigationRoute -> setBottomBarState(false)
     attendanceManagementNavigationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
-    eventRegistrationNavigationRoute -> setBottomBarState(false)
-    SurveyRoute.answerRoute("{id}") ->setBottomBarState(false)
     ManagementSurveyRoute.surveyFormEditRoute("{id}") -> setBottomBarState(false)
+    eventRegistrationNavigationRoute -> setBottomBarState(false)
+    SurveyRoute.answerRoute("{id}") -> setBottomBarState(false)
+    surveyCheckRoute -> setBottomBarState(false)
+    SurveyCheckRoute.surveyDetailRoute("{id}") -> setBottomBarState(false)
     else -> setBottomBarState(true)
 }
 

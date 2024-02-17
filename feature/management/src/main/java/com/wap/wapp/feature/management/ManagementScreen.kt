@@ -1,6 +1,6 @@
-
 package com.wap.wapp.feature.management
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
@@ -40,27 +41,23 @@ internal fun ManagementRoute(
     val eventsState by viewModel.eventList.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.apply {
-            getUserRole()
+        viewModel.getUserRole() // 유저 권한 검색
 
-            userRole.collectLatest { userRoleUiState ->
-                when (userRoleUiState) {
-                    is ManagementViewModel.UserRoleUiState.Init -> { }
-                    is ManagementViewModel.UserRoleUiState.Success -> {
-                        when (userRoleUiState.userRole) {
-                            UserRole.GUEST -> { showGuestScreen = true }
-                            UserRole.MEMBER -> { showValidationScreen = true }
-                            UserRole.MANAGER -> viewModel.getEventSurveyList()
-                        }
+        viewModel.userRole.collectLatest { userRoleUiState ->
+            when (userRoleUiState) {
+                is ManagementViewModel.UserRoleUiState.Init -> {}
+                is ManagementViewModel.UserRoleUiState.Success -> {
+                    when (userRoleUiState.userRole) {
+                        UserRole.GUEST -> { showGuestScreen = true }
+                        UserRole.MEMBER -> { showValidationScreen = true }
+                        UserRole.MANAGER -> viewModel.getEventSurveyList()
                     }
                 }
             }
+        }
 
-            errorFlow.collectLatest { throwable ->
-                snackBarHostState.showSnackbar(
-                    message = throwable.toSupportingText(),
-                )
-            }
+        viewModel.errorFlow.collectLatest { throwable ->
+            snackBarHostState.showSnackbar(message = throwable.toSupportingText())
         }
     }
 
@@ -103,6 +100,7 @@ internal fun ManagementScreen(
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
+        contentWindowInsets = WindowInsets(0.dp),
         topBar = {
             WappLeftMainTopBar(
                 titleRes = R.string.management,
@@ -110,9 +108,7 @@ internal fun ManagementScreen(
             )
         },
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues),
-        ) {
+        LazyColumn(modifier = Modifier.padding(paddingValues)) {
             item {
                 ManagementEventCard(
                     eventsState = eventsState,
