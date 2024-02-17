@@ -71,17 +71,13 @@ internal fun EventRegistrationRoute(
     LaunchedEffect(true) {
         viewModel.eventRegistrationEvent.collectLatest {
             when (it) {
-                is EventRegistrationEvent.Failure -> {
+                is EventRegistrationEvent.Failure ->
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
-                }
 
-                is EventRegistrationEvent.ValidationError -> {
+                is EventRegistrationEvent.ValidationError ->
                     snackBarHostState.showSnackbar(it.message)
-                }
 
-                is EventRegistrationEvent.Success -> {
-                    navigateToManagement()
-                }
+                is EventRegistrationEvent.Success -> navigateToManagement()
             }
         }
     }
