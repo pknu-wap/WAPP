@@ -56,7 +56,8 @@ internal fun EventRegistrationContent(
     showEndDatePicker: Boolean,
     showEndTimePicker: Boolean,
     scrollState: ScrollState,
-    timePickerState: TimePickerState,
+    startTimePickerState: TimePickerState,
+    endTimePickerState: TimePickerState,
     onTitleChanged: (String) -> Unit,
     onContentChanged: (String) -> Unit,
     onLocationChanged: (String) -> Unit,
@@ -111,7 +112,8 @@ internal fun EventRegistrationContent(
                     startTime = startTime,
                     endDate = endDate,
                     endTime = endTime,
-                    timePickerState = timePickerState,
+                    startTimePickerState = startTimePickerState,
+                    endTimePickerState = endTimePickerState,
                     onLocationChanged = onLocationChanged,
                     onEndDateChanged = onEndDateChanged,
                     onEndTimeChanged = onEndTimeChanged,
@@ -195,7 +197,8 @@ private fun EventScheduleContent(
     startTime: LocalTime,
     endDate: LocalDate,
     endTime: LocalTime,
-    timePickerState: TimePickerState,
+    startTimePickerState: TimePickerState,
+    endTimePickerState: TimePickerState,
     showStartDatePicker: Boolean,
     showStartTimePicker: Boolean,
     showEndDatePicker: Boolean,
@@ -221,7 +224,7 @@ private fun EventScheduleContent(
 
     if (showEndTimePicker) {
         WappTimePickerDialog(
-            state = timePickerState,
+            state = endTimePickerState,
             onDismissRequest = { onEndTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onEndTimeChanged(localTime)
@@ -243,7 +246,7 @@ private fun EventScheduleContent(
 
     if (showStartTimePicker) {
         WappTimePickerDialog(
-            state = timePickerState,
+            state = startTimePickerState,
             onDismissRequest = { onStartTimePickerStateChanged(false) },
             onConfirmButtonClicked = { localTime ->
                 onStartTimeChanged(localTime)

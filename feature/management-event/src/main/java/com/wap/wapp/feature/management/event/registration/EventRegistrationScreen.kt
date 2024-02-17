@@ -132,7 +132,8 @@ internal fun EventRegistrationScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
+    val startTimePickerState = rememberTimePickerState()
+    val endTimePickerState = rememberTimePickerState()
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -180,7 +181,8 @@ internal fun EventRegistrationScreen(
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
-                timePickerState = timePickerState,
+                startTimePickerState = startTimePickerState,
+                endTimePickerState = endTimePickerState,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
                 onEndDateChanged = onEndDateChanged,

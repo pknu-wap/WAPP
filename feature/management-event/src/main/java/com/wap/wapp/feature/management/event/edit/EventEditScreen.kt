@@ -161,7 +161,8 @@ internal fun EventEditScreen(
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showDeleteEventDialog by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
+    val startTimePickerState = rememberTimePickerState()
+    val endTimePickerState = rememberTimePickerState()
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -170,7 +171,6 @@ internal fun EventEditScreen(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
-
         if (showDeleteEventDialog) {
             DeleteEventDialog(
                 deleteEvent = deleteEvent,
@@ -217,7 +217,8 @@ internal fun EventEditScreen(
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
-                timePickerState = timePickerState,
+                startTimePickerState = startTimePickerState,
+                endTimePickerState = endTimePickerState,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
                 onEndDateChanged = onEndDateChanged,
