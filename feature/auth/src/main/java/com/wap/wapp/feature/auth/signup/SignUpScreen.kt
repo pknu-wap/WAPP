@@ -72,15 +72,10 @@ internal fun SignUpScreen(
     LaunchedEffect(true) {
         viewModel.signUpEventFlow.collectLatest {
             when (it) {
-                is SignUpEvent.Success -> {
-                    navigateToNotice()
-                }
+                is SignUpEvent.Success -> navigateToNotice()
 
-                is SignUpEvent.Failure -> {
-                    snackBarHostState.showSnackbar(
-                        message = it.throwable.toSupportingText(),
-                    )
-                }
+                is SignUpEvent.Failure ->
+                    snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
             }
         }
     }
