@@ -254,81 +254,80 @@ private fun EventScheduleContent(
             },
         )
     }
+    Column {
+        RegistrationTitle(
+            title = stringResource(id = R.string.event_schedule_title),
+            content = stringResource(id = R.string.event_schedule_content),
+        )
 
-    RegistrationTitle(
-        title = stringResource(id = R.string.event_schedule_title),
-        content = stringResource(id = R.string.event_schedule_content),
-    )
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.padding(top = 40.dp),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(top = 40.dp)
-                .fillMaxWidth(),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(top = 40.dp),
         ) {
-            Text(
-                text = stringResource(R.string.event_location),
-                style = WappTheme.typography.titleBold,
-                color = WappTheme.colors.white,
-                textAlign = TextAlign.Start,
-                modifier = Modifier.weight(2f),
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = stringResource(R.string.event_location),
+                    style = WappTheme.typography.titleBold,
+                    color = WappTheme.colors.white,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.weight(2f),
+                )
+
+                RegistrationTextField(
+                    value = location,
+                    onValueChange = onLocationChanged,
+                    placeholder = stringResource(R.string.event_location_hint),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(3f),
+                    align = Alignment.Center,
+                )
+            }
+
+            DeadlineCard(
+                title = stringResource(R.string.start_date),
+                hint = startDate.format(DateUtil.yyyyMMddFormatter),
+                onCardClicked = {
+                    onStartDatePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
             )
 
-            RegistrationTextField(
-                value = location,
-                onValueChange = onLocationChanged,
-                placeholder = stringResource(R.string.event_location_hint),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(3f),
-                align = Alignment.Center,
+            DeadlineCard(
+                title = stringResource(R.string.start_time),
+                hint = startTime.format(DateUtil.HHmmFormatter),
+                onCardClicked = {
+                    onStartTimePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
+            )
+
+            DeadlineCard(
+                title = stringResource(R.string.end_date),
+                hint = endDate.format(DateUtil.yyyyMMddFormatter),
+                onCardClicked = {
+                    onEndDatePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
+            )
+
+            DeadlineCard(
+                title = stringResource(R.string.end_time),
+                hint = endTime.format(DateUtil.HHmmFormatter),
+                onCardClicked = {
+                    onEndTimePickerStateChanged(true)
+                },
+                modifier = Modifier.padding(top = 20.dp),
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            WappButton(
+                onClick = onRegisterButtonClicked,
+                textRes = R.string.register_event,
             )
         }
-
-        DeadlineCard(
-            title = stringResource(R.string.start_date),
-            hint = startDate.format(DateUtil.yyyyMMddFormatter),
-            onCardClicked = {
-                onStartDatePickerStateChanged(true)
-            },
-            modifier = Modifier.padding(top = 20.dp),
-        )
-
-        DeadlineCard(
-            title = stringResource(R.string.start_time),
-            hint = startTime.format(DateUtil.HHmmFormatter),
-            onCardClicked = {
-                onStartTimePickerStateChanged(true)
-            },
-            modifier = Modifier.padding(top = 20.dp),
-        )
-
-        DeadlineCard(
-            title = stringResource(R.string.end_date),
-            hint = endDate.format(DateUtil.yyyyMMddFormatter),
-            onCardClicked = {
-                onEndDatePickerStateChanged(true)
-            },
-            modifier = Modifier.padding(top = 20.dp),
-        )
-
-        DeadlineCard(
-            title = stringResource(R.string.end_time),
-            hint = endTime.format(DateUtil.HHmmFormatter),
-            onCardClicked = {
-                onEndTimePickerStateChanged(true)
-            },
-            modifier = Modifier.padding(top = 20.dp),
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        WappButton(
-            onClick = onRegisterButtonClicked,
-            textRes = R.string.register_event,
-        )
     }
 }

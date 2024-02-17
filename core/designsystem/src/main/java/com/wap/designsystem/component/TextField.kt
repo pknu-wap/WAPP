@@ -29,7 +29,7 @@ fun WappTextField(
 
     TextField(
         value = value,
-        onValueChange = { value -> onValueChanged(value) },
+        onValueChange = { newValue -> onValueChanged(newValue) },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = WappTheme.colors.black25,
             focusedContainerColor = WappTheme.colors.black25,
