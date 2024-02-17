@@ -101,9 +101,7 @@ internal fun SignUpScreen(
                 onClickLeftButton = { navigateToSignIn() },
             )
 
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp),
-            ) {
+            Column(modifier = Modifier.padding(top = 40.dp, start = 20.dp, end = 20.dp)) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
@@ -112,6 +110,7 @@ internal fun SignUpScreen(
                     fontSize = 22.sp,
                     color = WappTheme.colors.white,
                 )
+
                 Text(
                     text = stringResource(id = string.sign_up_content),
                     style = WappTheme.typography.contentMedium,
@@ -122,6 +121,7 @@ internal fun SignUpScreen(
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(32.dp),
+                    modifier = Modifier.padding(bottom = 20.dp),
                 ) {
                     SignUpTextField(
                         iconDescription = stringResource(id = string.sign_up_name_description),
@@ -185,6 +185,8 @@ internal fun SignUpScreen(
                             onSelected = { semester -> viewModel.setSemester(semester) },
                         )
                     }
+
+                    Spacer(modifier = Modifier.weight(1f))
 
                     Button(
                         onClick = { viewModel.postUserProfile() },

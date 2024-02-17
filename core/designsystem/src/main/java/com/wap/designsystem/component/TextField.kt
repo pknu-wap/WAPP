@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun WappTextField(
     value: String,
@@ -24,6 +25,8 @@ fun WappTextField(
     isError: Boolean = false,
     supportingText: String = "",
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = value,
         onValueChange = { value -> onValueChanged(value) },
@@ -44,6 +47,8 @@ fun WappTextField(
         label = {
             Text(text = stringResource(label))
         },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
         isError = isError,
         supportingText = {
             Text(text = supportingText)
