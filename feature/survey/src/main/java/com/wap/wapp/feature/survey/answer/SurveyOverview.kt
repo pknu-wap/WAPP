@@ -65,7 +65,10 @@ internal fun SurveyOverview(
 
 @Composable
 private fun SurveyOverviewText(category: String, content: String) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         Text(
             text = category,
             color = WappTheme.colors.white,

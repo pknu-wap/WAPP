@@ -47,13 +47,11 @@ internal fun SurveyAnswerScreen(
 
         viewModel.surveyAnswerEvent.collectLatest {
             when (it) {
-                is SurveyAnswerViewModel.SurveyAnswerUiEvent.SubmitSuccess -> {
+                is SurveyAnswerViewModel.SurveyAnswerUiEvent.SubmitSuccess ->
                     navigateToSurvey()
-                }
 
-                is SurveyAnswerViewModel.SurveyAnswerUiEvent.Failure -> {
+                is SurveyAnswerViewModel.SurveyAnswerUiEvent.Failure ->
                     snackBarHostState.showSnackbar(it.throwable.toSupportingText())
-                }
             }
         }
     }
