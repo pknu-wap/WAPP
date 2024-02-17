@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -86,87 +87,73 @@ internal fun SignUpScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets(0.dp),
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
-    ) { padding ->
+    ) { paddingValue ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .addFocusCleaner(focusManager)
-                .padding(horizontal = 16.dp),
+                .padding(paddingValue),
         ) {
             WappSubTopBar(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 titleRes = string.sign_up,
                 showLeftButton = true,
                 onClickLeftButton = { navigateToSignIn() },
             )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(id = string.sign_up_title),
-                style = WappTheme.typography.titleBold,
-                fontSize = 22.sp,
-                color = WappTheme.colors.white,
-            )
-            Text(
-                text = stringResource(id = string.sign_up_content),
-                style = WappTheme.typography.contentMedium,
-                color = WappTheme.colors.grayA2,
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(32.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
             ) {
-                SignUpTextField(
-                    iconDescription = stringResource(id = string.sign_up_name_description),
-                    text = viewModel.signUpName.collectAsState().value,
-                    title = stringResource(id = string.sign_up_name_title),
-                    onValueChanged = { name -> viewModel.setName(name) },
-                    hint = stringResource(id = string.sign_up_name_hint),
-                    supportingText = stringResource(id = string.sign_up_name_caption),
-                    icon = R.drawable.ic_profile,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = stringResource(id = string.sign_up_title),
+                    style = WappTheme.typography.titleBold,
+                    fontSize = 22.sp,
+                    color = WappTheme.colors.white,
+                )
+                Text(
+                    text = stringResource(id = string.sign_up_content),
+                    style = WappTheme.typography.contentMedium,
+                    color = WappTheme.colors.grayA2,
                 )
 
-                SignUpTextField(
-                    iconDescription = stringResource(id = string.sign_up_student_id_description),
-                    text = viewModel.signUpStudentId.collectAsState().value,
-                    title = stringResource(id = string.sign_up_student_id_title),
-                    onValueChanged = { name -> viewModel.setStudentId(name) },
-                    hint = stringResource(id = string.sign_up_student_id_hint),
-                    supportingText = stringResource(id = string.sign_up_student_id_caption),
-                    icon = ic_card,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done,
-                    ),
-                    keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
-                )
+                Spacer(modifier = Modifier.height(32.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(32.dp),
                 ) {
                     SignUpTextField(
-                        iconDescription = stringResource(
-                            id = string.sign_up_registered_at_description,
+                        iconDescription = stringResource(id = string.sign_up_name_description),
+                        text = viewModel.signUpName.collectAsState().value,
+                        title = stringResource(id = string.sign_up_name_title),
+                        onValueChanged = { name -> viewModel.setName(name) },
+                        hint = stringResource(id = string.sign_up_name_hint),
+                        supportingText = stringResource(id = string.sign_up_name_caption),
+                        icon = R.drawable.ic_profile,
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done,
                         ),
-                        text = viewModel.signUpYear.collectAsState().value,
-                        title = stringResource(id = string.sign_up_registered_at_title),
-                        onValueChanged = { name -> viewModel.setYear(name) },
-                        hint = stringResource(id = string.sign_up_registered_at_hint),
-                        supportingText = stringResource(id = string.sign_up_registered_at_caption),
-                        icon = ic_door,
-                        modifier = Modifier.width(150.dp),
+                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+                    )
+
+                    SignUpTextField(
+                        iconDescription =
+                        stringResource(id = string.sign_up_student_id_description),
+                        text = viewModel.signUpStudentId.collectAsState().value,
+                        title = stringResource(id = string.sign_up_student_id_title),
+                        onValueChanged = { name -> viewModel.setStudentId(name) },
+                        hint = stringResource(id = string.sign_up_student_id_hint),
+                        supportingText = stringResource(id = string.sign_up_student_id_caption),
+                        icon = ic_card,
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Done,
@@ -174,27 +161,52 @@ internal fun SignUpScreen(
                         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
                     )
 
-                    SignUpChip(
-                        selectedItem = viewModel.signUpSemester.collectAsState().value,
-                        onSelected = { semester -> viewModel.setSemester(semester) },
-                    )
-                }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        SignUpTextField(
+                            iconDescription = stringResource(
+                                id = string.sign_up_registered_at_description,
+                            ),
+                            text = viewModel.signUpYear.collectAsState().value,
+                            title = stringResource(id = string.sign_up_registered_at_title),
+                            onValueChanged = { name -> viewModel.setYear(name) },
+                            hint = stringResource(id = string.sign_up_registered_at_hint),
+                            supportingText =
+                            stringResource(id = string.sign_up_registered_at_caption),
+                            icon = ic_door,
+                            modifier = Modifier.width(150.dp),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done,
+                            ),
+                            keyboardActions =
+                            KeyboardActions(onDone = { keyboardController?.hide() }),
+                        )
 
-                Button(
-                    onClick = { viewModel.postUserProfile() },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = WappTheme.colors.yellow34,
-                    ),
-                    shape = RoundedCornerShape(10.dp),
-                ) {
-                    Text(
-                        text = stringResource(id = string.done),
-                        style = WappTheme.typography.contentMedium,
-                        color = WappTheme.colors.white,
-                    )
+                        SignUpChip(
+                            selectedItem = viewModel.signUpSemester.collectAsState().value,
+                            onSelected = { semester -> viewModel.setSemester(semester) },
+                        )
+                    }
+
+                    Button(
+                        onClick = { viewModel.postUserProfile() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = WappTheme.colors.yellow34,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                    ) {
+                        Text(
+                            text = stringResource(id = string.done),
+                            style = WappTheme.typography.contentMedium,
+                            color = WappTheme.colors.white,
+                        )
+                    }
                 }
             }
         }
