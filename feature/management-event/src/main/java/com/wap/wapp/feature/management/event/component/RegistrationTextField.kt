@@ -56,7 +56,7 @@ internal fun RegistrationTextField(
                     color = WappTheme.colors.gray82,
                     textAlign = TextAlign.Center,
                     style = WappTheme.typography.contentMedium,
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier.align(align),
                 )
             }
 
