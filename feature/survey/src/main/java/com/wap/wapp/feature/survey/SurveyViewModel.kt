@@ -47,6 +47,8 @@ class SurveyViewModel @Inject constructor(
     }
 
     fun getSurveyFormList() = viewModelScope.launch {
+        _surveyFormListUiState.value = SurveyFormListUiState.Loading
+
         getSurveyFormListUseCase()
             .onSuccess { surveyFormList ->
                 val filteredSurveyFormList = surveyFormList.filter { survey ->

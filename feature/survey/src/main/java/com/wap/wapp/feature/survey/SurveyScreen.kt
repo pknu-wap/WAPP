@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappLeftMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
@@ -61,7 +62,9 @@ internal fun SurveyScreen(
                 is SurveyViewModel.UserRoleUiState.Init -> {}
                 is SurveyViewModel.UserRoleUiState.Success -> {
                     when (userRoleUiState.userRole) {
-                        UserRole.GUEST -> { isGuest = true }
+                        UserRole.GUEST -> {
+                            isGuest = true
+                        }
 
                         // 비회원이 아닌 경우, 목록 호출
                         UserRole.MEMBER -> viewModel.getSurveyFormList()
@@ -95,6 +98,10 @@ internal fun SurveyScreen(
     ) { paddingValues ->
         when (surveyFormListUiState) {
             is SurveyViewModel.SurveyFormListUiState.Init -> {}
+
+            is SurveyViewModel.SurveyFormListUiState.Loading ->
+                CircleLoader(modifier = Modifier.fillMaxSize())
+
             is SurveyViewModel.SurveyFormListUiState.Success -> {
                 SurveyContent(
                     surveyFormList = surveyFormListUiState.surveyFormList,
