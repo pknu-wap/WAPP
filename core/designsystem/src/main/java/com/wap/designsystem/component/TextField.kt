@@ -47,6 +47,7 @@ fun WappTextField(
         label = {
             Text(text = stringResource(label))
         },
+        singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
         isError = isError,
