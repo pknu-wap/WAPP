@@ -137,5 +137,7 @@ private fun checkQuestionTypeAndSubjectiveAnswer(
     if (questionType == QuestionType.OBJECTIVE) {
         return true
     }
-    return subjectiveAnswer.length >= 10
+    return subjectiveAnswer.length >= MINIMUN_ANSWER_LENGTH
 }
+
+private val MINIMUN_ANSWER_LENGTH = 10

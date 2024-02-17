@@ -284,6 +284,7 @@ private fun EventScheduleContent(
                 placeholder = stringResource(R.string.event_location_hint),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.weight(3f),
+                align = Alignment.Center,
             )
         }
 
