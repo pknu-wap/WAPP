@@ -176,6 +176,7 @@ private fun EventDetailsContent(
             value = eventContent,
             onValueChange = onContentChanged,
             placeholder = stringResource(R.string.event_content_hint),
+            singleline = false,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),

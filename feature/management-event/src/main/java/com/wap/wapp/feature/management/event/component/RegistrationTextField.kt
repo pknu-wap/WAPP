@@ -29,6 +29,7 @@ internal fun RegistrationTextField(
     textAlign: TextAlign? = null,
     align: Alignment = Alignment.TopStart,
     placeholder: String,
+    singleline: Boolean = true,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -43,7 +44,7 @@ internal fun RegistrationTextField(
         visualTransformation = VisualTransformation.None,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
-        singleLine = true,
+        singleLine = singleline,
         modifier = modifier.background(
             color = WappTheme.colors.black25,
             shape = RoundedCornerShape(10.dp),
