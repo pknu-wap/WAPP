@@ -105,6 +105,12 @@ class EventRegistrationViewModel @Inject constructor(
             emitValidationErrorMessage("장소를 입력 하세요.")
             return
         }
+
+        if (!isValidEndTime(_eventEndTime.value)) {
+            emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
+            return
+        }
+
         viewModelScope.launch {
             postEventUseCase(
                 eventTitle = _eventTitle.value,
