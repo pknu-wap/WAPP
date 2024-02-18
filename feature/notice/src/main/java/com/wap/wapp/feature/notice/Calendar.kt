@@ -35,7 +35,9 @@ import com.wap.wapp.core.commmon.util.DateUtil.DAYS_IN_WEEK
 import com.wap.wapp.core.commmon.util.DateUtil.DaysOfWeek
 import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_END_INDEX
 import com.wap.wapp.core.commmon.util.DateUtil.YEAR_MONTH_START_INDEX
+import com.wap.wapp.core.commmon.util.DateUtil.generateNowDate
 import com.wap.wapp.core.commmon.util.DateUtil.yyyyMMddFormatter
+import com.wap.wapp.core.designresource.R.drawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -104,7 +106,7 @@ private fun CalendarHeader(
     Image(
         painter = painterResource(id = R.drawable.ic_threelines),
         contentDescription =
-        stringResource(R.string.calendarToggleImageContextDescription),
+        stringResource(R.string.calendar_content_description),
         modifier = Modifier
             .align(Alignment.CenterStart)
             .clickable {
@@ -121,8 +123,8 @@ private fun CalendarHeader(
         modifier = Modifier.align(Alignment.Center),
     ) {
         Image(
-            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_back),
-            contentDescription = stringResource(id = R.string.backMonthArrowContentDescription),
+            painter = painterResource(id = drawable.ic_back),
+            contentDescription = stringResource(id = R.string.back_month_arrow_content_description),
             modifier = Modifier
                 .padding(end = 20.dp)
                 .clickable {
@@ -141,14 +143,30 @@ private fun CalendarHeader(
         )
 
         Image(
-            painter = painterResource(id = com.wap.wapp.core.designresource.R.drawable.ic_forward),
-            contentDescription = stringResource(id = R.string.forwardMonthArrowContentDescription),
+            painter = painterResource(id = drawable.ic_forward),
+            contentDescription =
+            stringResource(id = R.string.forward_month_arrow_content_description),
             modifier = Modifier
                 .padding(start = 20.dp)
                 .clickable {
                     onDateSelected(selectedDate.plusMonths(1))
                     onCalendarMonthChanged()
                 },
+        )
+    }
+
+    if (selectedDate != generateNowDate()) {
+        Image(
+            painter = painterResource(id = drawable.ic_return),
+            contentDescription =
+            stringResource(R.string.return_today_content_description),
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clickable {
+                    onDateSelected(generateNowDate())
+                    onCalendarMonthChanged()
+                }
+                .padding(end = 16.dp),
         )
     }
 }
