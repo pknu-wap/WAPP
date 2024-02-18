@@ -97,7 +97,9 @@ private fun EventsList(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 15.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
         ) {
             items(
                 items = events,
@@ -118,11 +120,11 @@ private fun EventsList(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_cat),
-                contentDescription = stringResource(id = R.string.bottomSheetCatContentDescription),
+                contentDescription = stringResource(id = R.string.cat_content_description),
             )
 
             Text(
-                text = stringResource(id = R.string.bottomSheetNoEvent),
+                text = stringResource(id = R.string.bottomSheet_no_event),
                 style = WappTheme.typography.titleMedium,
                 color = WappTheme.colors.white,
                 textAlign = TextAlign.Center,

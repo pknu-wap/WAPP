@@ -1,8 +1,9 @@
 <resources>
-    <string name="calendarToggleImageContextDescription">공지사항 목록만을 보여주거나, 캘린더를 다시 보여줍니다.</string>
-    <string name="calendarContentDescription">공지사항을 보여주는 달력입니다.</string>
-    <string name="bottomSheetCatContentDescription">일정이 없을 때 보여주는 작고 귀여운 고양이 입니다.</string>
-    <string name="bottomSheetNoEvent">일정이 없습니다.</string>
-    <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
-    <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
+    <string name="calendar_toggle_content_description">공지사항 목록만을 보여주거나, 캘린더를 다시 보여줍니다.</string>
+    <string name="calendar_content_description">공지사항을 보여주는 달력입니다.</string>
+    <string name="cat_content_description">일정이 없을 때 보여주는 작고 귀여운 고양이 입니다.</string>
+    <string name="bottomSheet_no_event">일정이 없습니다.</string>
+    <string name="back_month_arrow_content_description">"이전 달을 보여주는 버튼 입니다."</string>
+    <string name="forward_month_arrow_content_description">"다음 달을 보여주는 버튼 입니다."</string>
+    <string name="return_today_content_description">오늘 날짜로 이동하는 버튼 입니다.</string>
 </resources>
