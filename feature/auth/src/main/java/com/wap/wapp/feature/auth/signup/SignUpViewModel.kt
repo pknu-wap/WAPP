@@ -31,35 +31,34 @@ class SignUpViewModel @Inject constructor(
     private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
     val signUpSemester: StateFlow<String> get() = _signUpSemester
 
-    fun postUserProfile() {
-        viewModelScope.launch {
-            postUserProfileUseCase(
-                userName = _signUpName.value,
-                studentId = _signUpStudentId.value,
-                registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
-            ).onSuccess {
-                _signUpEventFlow.emit(SignUpEvent.Success)
-            }.onFailure { throwable ->
-                _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
-            }
+    fun postUserProfile() = viewModelScope.launch {
+        if (!isValidStudentId()) {
+            _signUpEventFlow.emit(
+                SignUpEvent.Failure(IllegalStateException("학번은 9자리로만 입력하실 수 있어요!")),
+            )
+            return@launch
+        }
+
+        postUserProfileUseCase(
+            userName = _signUpName.value,
+            studentId = _signUpStudentId.value,
+            registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
+        ).onSuccess {
+            _signUpEventFlow.emit(SignUpEvent.Success)
+        }.onFailure { throwable ->
+            _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
         }
     }
 
-    fun setName(name: String) {
-        _signUpName.value = name
-    }
+    fun isValidStudentId(): Boolean = (_signUpStudentId.value.length == STUDENT_ID_LENGTH)
 
-    fun setStudentId(studentId: String) {
-        _signUpStudentId.value = studentId
-    }
+    fun setName(name: String) { _signUpName.value = name }
 
-    fun setYear(year: String) {
-        _signUpYear.value = year
-    }
+    fun setStudentId(studentId: String) { _signUpStudentId.value = studentId }
 
-    fun setSemester(semester: String) {
-        _signUpSemester.value = semester
-    }
+    fun setYear(year: String) { _signUpYear.value = year }
+
+    fun setSemester(semester: String) { _signUpSemester.value = semester }
 
     sealed class SignUpEvent {
         data object Success : SignUpEvent()
@@ -68,5 +67,6 @@ class SignUpViewModel @Inject constructor(
 
     companion object {
         const val FIRST_SEMESTER = "1학기"
+        const val STUDENT_ID_LENGTH = 9
     }
 }

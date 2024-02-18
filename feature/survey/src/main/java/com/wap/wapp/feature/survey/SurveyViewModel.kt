@@ -36,48 +36,44 @@ class SurveyViewModel @Inject constructor(
         getUserRole()
     }
 
-    private fun getUserRole() {
-        viewModelScope.launch {
-            getUserRoleUseCase()
-                .onSuccess { userRole ->
-                    _userRoleUiState.value = UserRoleUiState.Success(userRole)
-                }
-                .onFailure { throwable ->
-                    _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
-                }
-        }
+    private fun getUserRole() = viewModelScope.launch {
+        getUserRoleUseCase()
+            .onSuccess { userRole ->
+                _userRoleUiState.value = UserRoleUiState.Success(userRole)
+            }
+            .onFailure { throwable ->
+                _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
+            }
     }
 
-    fun getSurveyFormList() {
-        viewModelScope.launch {
-            getSurveyFormListUseCase()
-                .onSuccess { surveyFormList ->
-                    val filteredSurveyFormList = surveyFormList.filter { survey ->
-                        survey.isBeforeDeadline()
-                    }
-                    _surveyFormListUiState.value =
-                        SurveyFormListUiState.Success(filteredSurveyFormList)
+    fun getSurveyFormList() = viewModelScope.launch {
+        _surveyFormListUiState.value = SurveyFormListUiState.Loading
+
+        getSurveyFormListUseCase()
+            .onSuccess { surveyFormList ->
+                val filteredSurveyFormList = surveyFormList.filter { survey ->
+                    survey.isBeforeDeadline()
                 }
-                .onFailure { throwable ->
-                    _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
-                }
-        }
+                _surveyFormListUiState.value =
+                    SurveyFormListUiState.Success(filteredSurveyFormList)
+            }
+            .onFailure { throwable ->
+                _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
+            }
     }
 
-    fun isSubmittedSurvey(surveyFormId: String) {
-        viewModelScope.launch {
-            isSubmittedSurveyUseCase(surveyFormId)
-                .onSuccess { isSubmittedSurvey ->
-                    if (isSubmittedSurvey) {
-                        _surveyEvent.emit(SurveyUiEvent.AlreadySubmitted)
-                    } else {
-                        _surveyEvent.emit(SurveyUiEvent.NotSubmitted(surveyFormId))
-                    }
+    fun isSubmittedSurvey(surveyFormId: String) = viewModelScope.launch {
+        isSubmittedSurveyUseCase(surveyFormId)
+            .onSuccess { isSubmittedSurvey ->
+                if (isSubmittedSurvey) {
+                    _surveyEvent.emit(SurveyUiEvent.AlreadySubmitted)
+                } else {
+                    _surveyEvent.emit(SurveyUiEvent.NotSubmitted(surveyFormId))
                 }
-                .onFailure { throwable ->
-                    _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
-                }
-        }
+            }
+            .onFailure { throwable ->
+                _surveyEvent.emit(SurveyUiEvent.Failure(throwable))
+            }
     }
 
     sealed class UserRoleUiState {
@@ -87,6 +83,7 @@ class SurveyViewModel @Inject constructor(
 
     sealed class SurveyFormListUiState {
         data object Init : SurveyFormListUiState()
+        data object Loading : SurveyFormListUiState()
         data class Success(val surveyFormList: List<SurveyForm>) : SurveyFormListUiState()
     }
 

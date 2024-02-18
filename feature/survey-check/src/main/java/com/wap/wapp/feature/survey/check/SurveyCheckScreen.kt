@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
-import com.wap.designsystem.component.WappLeftMainTopBar
+import com.wap.designsystem.component.WappRightMainTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import kotlinx.coroutines.flow.collectLatest
 
@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun SurveyCheckScreen(
     viewModel: SurveyCheckViewModel = hiltViewModel(),
     navigateToSurveyDetail: (String) -> Unit,
+    navigateToSurvey: () -> Unit,
 ) {
     val surveyListUiState = viewModel.surveyListUiState.collectAsStateWithLifecycle().value
     val snackBarHostState = remember { SnackbarHostState() }
@@ -41,9 +42,11 @@ internal fun SurveyCheckScreen(
         containerColor = WappTheme.colors.backgroundBlack,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            WappLeftMainTopBar(
+            WappRightMainTopBar(
                 titleRes = R.string.survey_check,
                 contentRes = R.string.survey_check_content,
+                showBackButton = true,
+                onClickBackButton = navigateToSurvey,
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
@@ -55,10 +58,10 @@ internal fun SurveyCheckScreen(
 
             is SurveyCheckViewModel.SurveyListUiState.Success -> {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 20.dp)
                         .padding(paddingValues),
                 ) {
                     val surveyList = surveyListUiState.surveyList

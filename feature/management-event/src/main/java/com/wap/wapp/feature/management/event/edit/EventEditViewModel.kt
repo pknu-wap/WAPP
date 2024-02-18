@@ -104,6 +104,11 @@ class EventEditViewModel @Inject constructor(
             return
         }
 
+        if (!isValidEndTime(_eventEndTime.value)) {
+            emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
+            return
+        }
+
         viewModelScope.launch {
             updateEventUseCase(
                 eventTitle = _eventTitle.value,
@@ -130,8 +135,17 @@ class EventEditViewModel @Inject constructor(
         }
     }
 
-    private fun isValidEndTime(eventTime: LocalTime): Boolean =
-        _eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value
+    private fun isValidEndTime(eventTime: LocalTime): Boolean {
+        if (_eventEndDate.value > _eventStartDate.value) {
+            return true
+        }
+
+        if (_eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value) {
+            return true
+        }
+
+        return false
+    }
 
     private fun isValidEndDate(eventDate: LocalDate): Boolean = eventDate >= _eventStartDate.value
 

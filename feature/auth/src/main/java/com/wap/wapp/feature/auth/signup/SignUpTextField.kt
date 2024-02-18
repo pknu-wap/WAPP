@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -28,6 +29,7 @@ internal fun SignUpTextField(
     supportingText: String,
     icon: Int,
     keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
     modifier: Modifier,
 ) {
     Column {
@@ -40,13 +42,16 @@ internal fun SignUpTextField(
                 tint = WappTheme.colors.white,
                 modifier = Modifier.size(20.dp),
             )
+
             Spacer(modifier = Modifier.width(8.dp))
+
             Text(
                 text = title,
                 color = WappTheme.colors.white,
                 style = WappTheme.typography.contentBold,
             )
         }
+
         TextField(
             value = text,
             onValueChange = onValueChanged,
@@ -57,12 +62,16 @@ internal fun SignUpTextField(
                 focusedIndicatorColor = WappTheme.colors.white,
                 unfocusedIndicatorColor = WappTheme.colors.white,
             ),
+            maxLines = 1,
             placeholder = {
                 Text(text = hint, color = WappTheme.colors.grayA2)
             },
             keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
         )
+
         Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = supportingText,
             color = WappTheme.colors.yellow34,

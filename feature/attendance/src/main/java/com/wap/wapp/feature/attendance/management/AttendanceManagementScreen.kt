@@ -57,6 +57,9 @@ internal fun AttendanceManagementRoute(
             viewModel.attendanceManagementEvent.collect { event ->
                 when (event) {
                     is AttendanceManagementEvent.Success -> navigateToAttendance()
+
+                    is AttendanceManagementEvent.Failure ->
+                        snackBarHostState.showSnackbar(message = event.message)
                 }
             }
         }

@@ -93,6 +93,11 @@ fun WappNavHost(
                 )
             },
             navigateToSurveyDetail = navController::navigateToSurveyDetail,
+            navigateToSurvey = {
+                navController.navigateToSurvey(
+                    navOptions { popUpTo(surveyCheckRoute) { inclusive = true } },
+                )
+            },
         )
         managementSurveyNavGraph(
             navigateToManagement = navController::navigateToManagement,
@@ -109,7 +114,13 @@ fun WappNavHost(
         )
         attendanceScreen(
             navigateToSignIn = {
-                navController.navigateToSignIn(navOptions { popUpTo(attendanceNavigationRoute) })
+                navController.navigateToSignIn(
+                    navOptions {
+                        popUpTo(
+                            attendanceNavigationRoute,
+                        )
+                    },
+                )
             },
             navigateToAttendanceManagement = navController::navigateToAttendanceManagement,
         )

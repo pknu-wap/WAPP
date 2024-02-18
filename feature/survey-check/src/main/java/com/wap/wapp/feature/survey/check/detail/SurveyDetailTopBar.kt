@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.survey.check.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,21 +31,22 @@ internal fun SurveyDetailTopBar(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
                 style = WappTheme.typography.contentBold,
+                color = WappTheme.colors.white,
             )
         },
         navigationIcon = {
             Icon(
-                painter = painterResource(id = drawable.ic_back),
-                contentDescription = stringResource(
-                    id = com.wap.wapp.core.designsystem.R.string.back_button,
-                ),
+                painter = painterResource(id = com.wap.wapp.core.designsystem.R.drawable.ic_back),
+                contentDescription =
+                stringResource(com.wap.wapp.core.designsystem.R.string.back_button),
+                tint = WappTheme.colors.white,
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .clickable { onBackButtonClicked() },
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = WappTheme.colors.yellow34,
+            containerColor = WappTheme.colors.black25,
         ),
     )
 }

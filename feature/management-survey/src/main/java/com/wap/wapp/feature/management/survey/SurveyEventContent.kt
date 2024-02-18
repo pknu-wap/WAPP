@@ -38,7 +38,9 @@ internal fun SurveyEventContent(
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
         ) {
             when (eventsState) {
                 is EventsState.Loading -> item {

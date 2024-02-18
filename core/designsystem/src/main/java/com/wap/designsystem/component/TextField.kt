@@ -2,15 +2,21 @@ package com.wap.designsystem.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun WappTextField(
     value: String,
@@ -19,9 +25,11 @@ fun WappTextField(
     isError: Boolean = false,
     supportingText: String = "",
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = value,
-        onValueChange = { value -> onValueChanged(value) },
+        onValueChange = { newValue -> onValueChanged(newValue) },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = WappTheme.colors.black25,
             focusedContainerColor = WappTheme.colors.black25,
@@ -39,6 +47,9 @@ fun WappTextField(
         label = {
             Text(text = stringResource(label))
         },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
         isError = isError,
         supportingText = {
             Text(text = supportingText)
@@ -46,6 +57,7 @@ fun WappTextField(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun WappRoundedTextField(
     value: String,
@@ -53,6 +65,8 @@ fun WappRoundedTextField(
     modifier: Modifier = Modifier,
     @StringRes placeholder: Int,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = value,
         onValueChange = onValueChange,
@@ -72,6 +86,8 @@ fun WappRoundedTextField(
                 color = WappTheme.colors.gray82,
             )
         },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
         shape = RoundedCornerShape(10.dp),
     )
 }

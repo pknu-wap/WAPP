@@ -1,9 +1,13 @@
 package com.wap.wapp.feature.management.event.edit
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -155,7 +161,9 @@ internal fun EventEditScreen(
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showDeleteEventDialog by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
+    val startTimePickerState = rememberTimePickerState()
+    val endTimePickerState = rememberTimePickerState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -163,7 +171,6 @@ internal fun EventEditScreen(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0.dp),
     ) { paddingValues ->
-
         if (showDeleteEventDialog) {
             DeleteEventDialog(
                 deleteEvent = deleteEvent,
@@ -174,6 +181,8 @@ internal fun EventEditScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
+                .height(IntrinsicSize.Max)
                 .padding(paddingValues)
                 .padding(vertical = 16.dp),
         ) {
@@ -200,6 +209,7 @@ internal fun EventEditScreen(
                 startTime = startTime,
                 endDate = endDate,
                 endTime = endTime,
+                scrollState = scrollState,
                 showStartDatePicker = showStartDatePicker,
                 showStartTimePicker = showStartTimePicker,
                 showEndDatePicker = showEndDatePicker,
@@ -207,7 +217,8 @@ internal fun EventEditScreen(
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
-                timePickerState = timePickerState,
+                startTimePickerState = startTimePickerState,
+                endTimePickerState = endTimePickerState,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
                 onEndDateChanged = onEndDateChanged,
@@ -260,13 +271,21 @@ private fun EventEditStateText(
 private fun EventEditStateProgressBar(
     currentRegistrationProgress: Float,
 ) {
+    val progress by animateFloatAsState(
+        targetValue = currentRegistrationProgress,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessMediumLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+        ),
+    )
+
     LinearProgressIndicator(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
         trackColor = WappTheme.colors.white,
-        progress = currentRegistrationProgress,
+        progress = progress,
         strokeCap = StrokeCap.Round,
     )
 }
@@ -287,7 +306,7 @@ private fun DeleteEventDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 30.dp)
+                .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(WappTheme.colors.black25),
         ) {
@@ -307,7 +326,7 @@ private fun DeleteEventDialog(
                 text = generateDialogContentString(),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
-                modifier = Modifier.padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                modifier = Modifier.padding(horizontal = 12.dp),
             )
 
             Row(
@@ -361,7 +380,7 @@ private fun DeleteEventDialog(
 
 @Composable
 private fun generateDialogContentString() = buildAnnotatedString {
-    append("정말로 해당 일정을 삭제하시겠습니까?\n")
+    append("정말로 해당 일정을 삭제하시겠습니까?\n\n")
     withStyle(
         style = SpanStyle(
             textDecoration = TextDecoration.Underline,
