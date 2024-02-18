@@ -111,16 +111,16 @@ fun WappNavHost(
             navigateToSignIn = {
                 navController.navigateToSignIn(navOptions { popUpTo(profileNavigationRoute) })
             },
+            navigateToSurveyDetail = { surveyId ->
+                navController.navigateToSurveyDetail(
+                    surveyId,
+                    navOptions { popUpTo(profileNavigationRoute) },
+                )
+            },
         )
         attendanceScreen(
             navigateToSignIn = {
-                navController.navigateToSignIn(
-                    navOptions {
-                        popUpTo(
-                            attendanceNavigationRoute,
-                        )
-                    },
-                )
+                navController.navigateToSignIn(navOptions { popUpTo(attendanceNavigationRoute) })
             },
             navigateToAttendanceManagement = navController::navigateToAttendanceManagement,
         )
