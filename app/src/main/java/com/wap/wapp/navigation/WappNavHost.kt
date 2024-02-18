@@ -37,6 +37,7 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScre
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
 import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute.surveyCheckRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyDetailBackStack
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyDetail
 import com.wap.wapp.feature.survey.check.navigation.surveyCheckNavGraph
@@ -98,6 +99,7 @@ fun WappNavHost(
                     navOptions { popUpTo(surveyCheckRoute) { inclusive = true } },
                 )
             },
+            navigateToProfile = navController::navigateToProfile,
         )
         managementSurveyNavGraph(
             navigateToManagement = navController::navigateToManagement,
@@ -113,8 +115,9 @@ fun WappNavHost(
             },
             navigateToSurveyDetail = { surveyId ->
                 navController.navigateToSurveyDetail(
-                    surveyId,
-                    navOptions { popUpTo(profileNavigationRoute) },
+                    surveyId = surveyId,
+                    backStack = SurveyDetailBackStack.PROFILE,
+                    navOptions = navOptions { popUpTo(profileNavigationRoute) },
                 )
             },
         )

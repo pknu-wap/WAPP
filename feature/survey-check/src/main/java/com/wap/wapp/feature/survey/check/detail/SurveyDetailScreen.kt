@@ -21,13 +21,16 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.survey.QuestionType
+import com.wap.wapp.feature.survey.check.navigation.SurveyDetailBackStack
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun SurveyDetailRoute(
     viewModel: SurveyDetailViewModel = hiltViewModel(),
     surveyId: String,
+    backStack: String,
     navigateToSurveyCheck: () -> Unit,
+    navigateToProfile: () -> Unit,
 ) {
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -45,8 +48,20 @@ internal fun SurveyDetailRoute(
     SurveyDetailScreen(
         snackBarHostState = snackBarHostState,
         surveyUiState = surveyUiState,
-        onDoneButtonClicked = { navigateToSurveyCheck() },
-        onBackButtonClicked = { navigateToSurveyCheck() },
+        onDoneButtonClicked = {
+            if (backStack == SurveyDetailBackStack.SURVEY_CHECK.name) {
+                navigateToSurveyCheck()
+            } else {
+                navigateToProfile()
+            }
+        },
+        onBackButtonClicked = {
+            if (backStack == SurveyDetailBackStack.SURVEY_CHECK.name) {
+                navigateToSurveyCheck()
+            } else {
+                navigateToProfile()
+            }
+        },
     )
 }
 
