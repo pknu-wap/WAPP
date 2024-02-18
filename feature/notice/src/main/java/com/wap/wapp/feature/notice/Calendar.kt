@@ -1,5 +1,8 @@
 package com.wap.wapp.feature.notice
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -155,18 +158,22 @@ private fun CalendarHeader(
         )
     }
 
-    if (selectedDate != generateNowDate()) {
+    AnimatedVisibility(
+        visible = selectedDate != generateNowDate(),
+        enter = fadeIn(),
+        exit = fadeOut(),
+        modifier = Modifier
+            .align(Alignment.CenterEnd)
+            .padding(end = 16.dp),
+    ) {
         Image(
             painter = painterResource(id = drawable.ic_return),
             contentDescription =
             stringResource(R.string.return_today_content_description),
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .clickable {
-                    onDateSelected(generateNowDate())
-                    onCalendarMonthChanged()
-                }
-                .padding(end = 16.dp),
+            modifier = Modifier.clickable {
+                onDateSelected(generateNowDate())
+                onCalendarMonthChanged()
+            },
         )
     }
 }
