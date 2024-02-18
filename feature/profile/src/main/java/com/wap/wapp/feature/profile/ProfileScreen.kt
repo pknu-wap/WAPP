@@ -41,6 +41,7 @@ internal fun ProfileRoute(
     navigateToProfileSetting: (String) -> Unit,
     navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSurveyDetail: (String) -> Unit,
 ) {
     val todayEventsState by viewModel.todayEvents.collectAsStateWithLifecycle()
     val recentEventsState by viewModel.recentEvents.collectAsStateWithLifecycle()
@@ -67,6 +68,7 @@ internal fun ProfileRoute(
         navigateToProfileSetting = navigateToProfileSetting,
         navigateToAttendance = navigateToAttendance,
         navigateToSignIn = navigateToSignIn,
+        navigateToSurveyDetail = navigateToSurveyDetail,
     )
 }
 
@@ -81,6 +83,7 @@ internal fun ProfileScreen(
     navigateToProfileSetting: (String) -> Unit,
     navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSurveyDetail: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -137,6 +140,7 @@ internal fun ProfileScreen(
                                 userRespondedSurveysState = userRespondedSurveysState,
                                 attendanceCardBoardColor = WappTheme.colors.blue4FF,
                                 navigateToAttendance = navigateToAttendance,
+                                navigateToSurveyDetail = navigateToSurveyDetail,
                             )
                         }
 
@@ -161,6 +165,7 @@ internal fun ProfileScreen(
                                 userRespondedSurveysState = userRespondedSurveysState,
                                 attendanceCardBoardColor = WappTheme.colors.yellow34,
                                 navigateToAttendance = navigateToAttendance,
+                                navigateToSurveyDetail = navigateToSurveyDetail,
                             )
                         }
 

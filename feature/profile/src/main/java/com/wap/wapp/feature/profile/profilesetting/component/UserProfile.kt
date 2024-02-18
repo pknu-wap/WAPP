@@ -47,6 +47,7 @@ internal fun UserProfile(
     userRespondedSurveysState: ProfileViewModel.SurveysState,
     attendanceCardBoardColor: Color,
     navigateToAttendance: () -> Unit,
+    navigateToSurveyDetail: (String) -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 10.dp)) {
         ProfileAttendanceCard(
@@ -63,6 +64,7 @@ internal fun UserProfile(
 
         MySurveyHistory(
             userRespondedSurveysState = userRespondedSurveysState,
+            navigateToSurveyDetail = navigateToSurveyDetail,
             modifier = Modifier.padding(vertical = 20.dp),
         )
     }
@@ -204,6 +206,7 @@ private fun MyAttendanceStatus(
 @Composable
 private fun MySurveyHistory(
     userRespondedSurveysState: ProfileViewModel.SurveysState,
+    navigateToSurveyDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -243,7 +246,10 @@ private fun MySurveyHistory(
                             items = userRespondedSurveysState.surveys,
                             key = { survey -> survey.surveyId },
                         ) { survey ->
-                            WappSurveyHistoryRow(survey)
+                            WappSurveyHistoryRow(
+                                survey,
+                                onClick = navigateToSurveyDetail,
+                            )
                         }
                     }
                 }
