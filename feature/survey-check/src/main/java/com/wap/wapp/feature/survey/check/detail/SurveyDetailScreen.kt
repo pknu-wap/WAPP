@@ -3,6 +3,7 @@ package com.wap.wapp.feature.survey.check.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -36,6 +37,13 @@ internal fun SurveyDetailRoute(
 ) {
     val surveyUiState by viewModel.surveyUiState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
+    val navigateToPrevPage = {
+        if (backStack == SurveyDetailBackStack.SURVEY_CHECK.name) {
+            navigateToSurveyCheck()
+        } else {
+            navigateToProfile()
+        }
+    }
 
     LaunchedEffect(true) {
         viewModel.getSurvey(surveyId)
@@ -50,20 +58,8 @@ internal fun SurveyDetailRoute(
     SurveyDetailScreen(
         snackBarHostState = snackBarHostState,
         surveyUiState = surveyUiState,
-        onDoneButtonClicked = {
-            if (backStack == SurveyDetailBackStack.SURVEY_CHECK.name) {
-                navigateToSurveyCheck()
-            } else {
-                navigateToProfile()
-            }
-        },
-        onBackButtonClicked = {
-            if (backStack == SurveyDetailBackStack.SURVEY_CHECK.name) {
-                navigateToSurveyCheck()
-            } else {
-                navigateToProfile()
-            }
-        },
+        onDoneButtonClicked = navigateToPrevPage,
+        onBackButtonClicked = navigateToPrevPage,
     )
 }
 
@@ -82,50 +78,60 @@ internal fun SurveyDetailScreen(
                 onBackButtonClicked = onBackButtonClicked,
             )
         },
+        contentWindowInsets = WindowInsets(0.dp),
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = WappTheme.colors.backgroundBlack,
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(vertical = 16.dp, horizontal = 8.dp)
                 .fillMaxSize()
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+                .padding(paddingValues)
+                .padding(top = 16.dp, start = 8.dp, end = 8.dp),
         ) {
-            when (surveyUiState) {
-                is SurveyDetailViewModel.SurveyUiState.Loading -> {
-                    Spacer(modifier = Modifier.weight(1f))
-                    CircleLoader(modifier = Modifier.fillMaxSize())
-                    Spacer(modifier = Modifier.weight(1f))
-                }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+            ) {
+                when (surveyUiState) {
+                    is SurveyDetailViewModel.SurveyUiState.Loading -> {
+                        Spacer(modifier = Modifier.weight(1f))
 
-                is SurveyDetailViewModel.SurveyUiState.Success -> {
-                    SurveyInformationCard(
-                        title = surveyUiState.survey.title,
-                        content = surveyUiState.survey.content,
-                        userName = surveyUiState.survey.userName,
-                        eventName = surveyUiState.survey.eventName,
-                    )
+                        CircleLoader(modifier = Modifier.fillMaxSize())
 
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(32.dp),
-                    ) {
-                        surveyUiState.survey.surveyAnswerList.forEach { surveyAnswer ->
-                            when (surveyAnswer.questionType) {
-                                QuestionType.OBJECTIVE -> ObjectiveQuestionCard(surveyAnswer)
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
 
-                                QuestionType.SUBJECTIVE -> SubjectiveQuestionCard(surveyAnswer)
+                    is SurveyDetailViewModel.SurveyUiState.Success -> {
+                        SurveyInformationCard(
+                            title = surveyUiState.survey.title,
+                            content = surveyUiState.survey.content,
+                            userName = surveyUiState.survey.userName,
+                            eventName = surveyUiState.survey.eventName,
+                        )
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(32.dp),
+                        ) {
+                            surveyUiState.survey.surveyAnswerList.forEach { surveyAnswer ->
+                                when (surveyAnswer.questionType) {
+                                    QuestionType.OBJECTIVE -> ObjectiveQuestionCard(surveyAnswer)
+
+                                    QuestionType.SUBJECTIVE -> SubjectiveQuestionCard(surveyAnswer)
+                                }
                             }
                         }
                     }
-
-                    WappButton(
-                        onClick = onDoneButtonClicked,
-                        textRes = com.wap.wapp.core.designsystem.R.string.done,
-                    )
                 }
             }
+
+            WappButton(
+                onClick = onDoneButtonClicked,
+                textRes = com.wap.wapp.core.designsystem.R.string.done,
+                modifier = Modifier.padding(vertical = 20.dp),
+            )
         }
     }
 }
