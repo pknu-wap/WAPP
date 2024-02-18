@@ -2,6 +2,7 @@ package com.wap.wapp.feature.survey.check.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
+import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappButton
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.survey.QuestionType
@@ -92,7 +94,11 @@ internal fun SurveyDetailScreen(
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             when (surveyUiState) {
-                is SurveyDetailViewModel.SurveyUiState.Init -> {}
+                is SurveyDetailViewModel.SurveyUiState.Loading -> {
+                    Spacer(modifier = Modifier.weight(1f))
+                    CircleLoader(modifier = Modifier.fillMaxSize())
+                    Spacer(modifier = Modifier.weight(1f))
+                }
 
                 is SurveyDetailViewModel.SurveyUiState.Success -> {
                     SurveyInformationCard(
@@ -107,13 +113,9 @@ internal fun SurveyDetailScreen(
                     ) {
                         surveyUiState.survey.surveyAnswerList.forEach { surveyAnswer ->
                             when (surveyAnswer.questionType) {
-                                QuestionType.OBJECTIVE -> {
-                                    ObjectiveQuestionCard(surveyAnswer)
-                                }
+                                QuestionType.OBJECTIVE -> ObjectiveQuestionCard(surveyAnswer)
 
-                                QuestionType.SUBJECTIVE -> {
-                                    SubjectiveQuestionCard(surveyAnswer)
-                                }
+                                QuestionType.SUBJECTIVE -> SubjectiveQuestionCard(surveyAnswer)
                             }
                         }
                     }
