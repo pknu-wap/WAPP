@@ -97,7 +97,9 @@ private fun EventsList(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 15.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
         ) {
             items(
                 items = events,
