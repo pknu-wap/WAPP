@@ -123,6 +123,7 @@ internal fun ProfileSettingScreen(
                     painter = painterResource(id = R.drawable.ic_account_setting),
                     contentDescription = "",
                 )
+
                 Text(
                     text = stringResource(id = string.account_setting),
                     style = WappTheme.typography.titleBold,
@@ -152,6 +153,7 @@ internal fun ProfileSettingScreen(
                     painter = painterResource(id = R.drawable.ic_profile_more),
                     contentDescription = "",
                 )
+
                 Text(
                     text = stringResource(id = string.more),
                     style = WappTheme.typography.titleBold,
