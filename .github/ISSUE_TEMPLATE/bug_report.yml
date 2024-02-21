@@ -1,0 +1,32 @@
+name: Bug report
+description: File a bug report
+title: '[QA]: '
+labels: ['🔎QA🔎']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! 🙏
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 어떤 일이 발생했나요? 🤔
+      description: 또한, 어떤 결과를 기대했었는지 알려주세요.
+      placeholder: 예상치 못한 버그가 발생했습니다...
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 관련된 스크린 샷이나, 버그 발생 조건을 설명해주세요 
+      description: 빠르게 이해할수록 빠른 대응이 가능해요 ! 
+      placeholder: 뒤로가기 버튼 10번 클릭시 크래쉬가 발생 
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 동의 👍
+      description:
+      options:
+        - label: 다른 이슈가 있는지 확인했습니다. ✅
+          required: true
