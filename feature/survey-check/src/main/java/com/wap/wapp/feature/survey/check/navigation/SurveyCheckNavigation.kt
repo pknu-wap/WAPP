@@ -12,8 +12,9 @@ import com.wap.wapp.feature.survey.check.detail.SurveyDetailRoute
 
 fun NavController.navigateToSurveyDetail(
     surveyId: String,
+    backStack: SurveyDetailBackStack = SurveyDetailBackStack.SURVEY_CHECK,
     navOptions: NavOptions? = navOptions {},
-) = this.navigate(SurveyCheckRoute.surveyDetailRoute(surveyId), navOptions)
+) = this.navigate(SurveyCheckRoute.surveyDetailRoute(surveyId, backStack.name), navOptions)
 
 fun NavController.navigateToSurveyCheck(navOptions: NavOptions? = navOptions {}) =
     this.navigate(SurveyCheckRoute.surveyCheckRoute, navOptions)
@@ -22,6 +23,7 @@ fun NavGraphBuilder.surveyCheckNavGraph(
     navigateToSurveyDetail: (String) -> Unit,
     navigateToSurveyCheck: () -> Unit,
     navigateToSurvey: () -> Unit,
+    navigateToProfile: () -> Unit,
 ) {
     composable(route = SurveyCheckRoute.surveyCheckRoute) {
         SurveyCheckScreen(
@@ -31,22 +33,33 @@ fun NavGraphBuilder.surveyCheckNavGraph(
     }
 
     composable(
-        route = SurveyCheckRoute.surveyDetailRoute("{id}"),
+        route = SurveyCheckRoute.surveyDetailRoute("{id}", "{backStack}"),
         arguments = listOf(
             navArgument("id") {
+                type = NavType.StringType
+            },
+            navArgument("backStack") {
                 type = NavType.StringType
             },
         ),
     ) { navBackStackEntry ->
         val surveyId = navBackStackEntry.arguments?.getString("id") ?: ""
+        val backStack = navBackStackEntry.arguments?.getString("backStack") ?: "SURVEY_CHECK"
         SurveyDetailRoute(
-            navigateToSurveyCheck = navigateToSurveyCheck,
             surveyId = surveyId,
+            backStack = backStack,
+            navigateToSurveyCheck = navigateToSurveyCheck,
+            navigateToProfile = navigateToProfile,
         )
     }
 }
 
 object SurveyCheckRoute {
     const val surveyCheckRoute = "survey/check"
-    fun surveyDetailRoute(surveyId: String) = "survey/detail/$surveyId"
+    fun surveyDetailRoute(surveyId: String, backStack: String) =
+        "survey/detail/$surveyId/$backStack"
+}
+
+enum class SurveyDetailBackStack {
+    SURVEY_CHECK, PROFILE
 }

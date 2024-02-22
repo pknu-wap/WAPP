@@ -22,7 +22,7 @@ class SurveyDetailViewModel @Inject constructor(
     val errorFlow: SharedFlow<Throwable> = _errorFlow.asSharedFlow()
 
     private val _surveyUiState: MutableStateFlow<SurveyUiState> =
-        MutableStateFlow(SurveyUiState.Init)
+        MutableStateFlow(SurveyUiState.Loading)
     val surveyUiState: StateFlow<SurveyUiState> = _surveyUiState.asStateFlow()
 
     fun getSurvey(surveyId: String) {
@@ -38,8 +38,7 @@ class SurveyDetailViewModel @Inject constructor(
     }
 
     sealed class SurveyUiState {
-        data object Init : SurveyUiState()
-
+        data object Loading : SurveyUiState()
         data class Success(val survey: Survey) : SurveyUiState()
     }
 }

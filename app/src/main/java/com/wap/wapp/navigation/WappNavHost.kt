@@ -37,6 +37,7 @@ import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingScre
 import com.wap.wapp.feature.splash.navigation.splashNavigationRoute
 import com.wap.wapp.feature.splash.navigation.splashScreen
 import com.wap.wapp.feature.survey.check.navigation.SurveyCheckRoute.surveyCheckRoute
+import com.wap.wapp.feature.survey.check.navigation.SurveyDetailBackStack
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyCheck
 import com.wap.wapp.feature.survey.check.navigation.navigateToSurveyDetail
 import com.wap.wapp.feature.survey.check.navigation.surveyCheckNavGraph
@@ -98,6 +99,7 @@ fun WappNavHost(
                     navOptions { popUpTo(surveyCheckRoute) { inclusive = true } },
                 )
             },
+            navigateToProfile = navController::navigateToProfile,
         )
         managementSurveyNavGraph(
             navigateToManagement = navController::navigateToManagement,
@@ -111,16 +113,17 @@ fun WappNavHost(
             navigateToSignIn = {
                 navController.navigateToSignIn(navOptions { popUpTo(profileNavigationRoute) })
             },
+            navigateToSurveyDetail = { surveyId ->
+                navController.navigateToSurveyDetail(
+                    surveyId = surveyId,
+                    backStack = SurveyDetailBackStack.PROFILE,
+                    navOptions = navOptions { popUpTo(profileNavigationRoute) },
+                )
+            },
         )
         attendanceScreen(
             navigateToSignIn = {
-                navController.navigateToSignIn(
-                    navOptions {
-                        popUpTo(
-                            attendanceNavigationRoute,
-                        )
-                    },
-                )
+                navController.navigateToSignIn(navOptions { popUpTo(attendanceNavigationRoute) })
             },
             navigateToAttendanceManagement = navController::navigateToAttendanceManagement,
         )

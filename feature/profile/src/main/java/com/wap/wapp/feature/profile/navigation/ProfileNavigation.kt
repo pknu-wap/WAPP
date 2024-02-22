@@ -17,12 +17,14 @@ fun NavGraphBuilder.profileScreen(
     navigateToProfileSetting: (String) -> Unit,
     navigateToAttendance: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToSurveyDetail: (String) -> Unit,
 ) {
     composable(route = profileNavigationRoute) {
         ProfileRoute(
             navigateToProfileSetting = navigateToProfileSetting,
             navigateToAttendance = navigateToAttendance,
             navigateToSignIn = navigateToSignIn,
+            navigateToSurveyDetail = navigateToSurveyDetail,
         )
     }
 }
