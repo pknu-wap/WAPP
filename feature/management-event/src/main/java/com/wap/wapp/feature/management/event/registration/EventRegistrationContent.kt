@@ -72,7 +72,8 @@ internal fun EventRegistrationContent(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .height(IntrinsicSize.Max),
+            .height(IntrinsicSize.Max)
+            .padding(top = 34.dp), // Indicator bottom padding 16 + Content top padding 34 = 50
     ) {
         when (eventRegistrationState) {
             EventRegistrationState.EVENT_DETAILS -> EventDetailsContent(
@@ -303,7 +304,7 @@ private fun EventScheduleContent(
             onCardClicked = {
                 onEndTimePickerStateChanged(true)
             },
-            modifier = Modifier.padding(top = 20.dp),
+            modifier = Modifier.padding(top = 20.dp, bottom = 40.dp),
         )
 
         Spacer(modifier = Modifier.weight(1f))
