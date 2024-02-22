@@ -28,6 +28,7 @@ import com.wap.wapp.core.domain.usecase.auth.SignInUseCase
 import com.wap.wapp.feature.attendance.management.navigation.attendanceManagementNavigationRoute
 import com.wap.wapp.feature.auth.signin.navigation.signInNavigationRoute
 import com.wap.wapp.feature.auth.signup.navigation.signUpNavigationRoute
+import com.wap.wapp.feature.management.event.navigation.eventEditNavigationRoute
 import com.wap.wapp.feature.management.event.navigation.eventRegistrationNavigationRoute
 import com.wap.wapp.feature.management.survey.navigation.ManagementSurveyRoute
 import com.wap.wapp.feature.profile.profilesetting.navigation.profileSettingNavigationRoute
@@ -114,6 +115,7 @@ private fun handleBottomBarState(
     ManagementSurveyRoute.surveyFormRegistrationRoute -> setBottomBarState(false)
     ManagementSurveyRoute.surveyFormEditRoute("{id}") -> setBottomBarState(false)
     eventRegistrationNavigationRoute -> setBottomBarState(false)
+    eventEditNavigationRoute -> setBottomBarState(false)
     SurveyRoute.answerRoute("{id}") -> setBottomBarState(false)
     surveyCheckRoute -> setBottomBarState(false)
     SurveyCheckRoute.surveyDetailRoute("{id}") -> setBottomBarState(false)
