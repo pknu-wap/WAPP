@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.event.R
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
@@ -142,29 +143,25 @@ internal fun EventRegistrationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // paddingValue padding
-                .padding(top = 20.dp), // dp value padding
+                .padding(paddingValues)
+                .padding(top = 20.dp),
         ) {
             WappSubTopBar(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
+                leftButtonDrawableRes = drawable.ic_close,
                 onClickLeftButton = onBackButtonClicked,
             )
 
             EventRegistrationStateIndicator(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
             )
 
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
                 modifier = Modifier
-                    .padding(
-                        top = 50.dp,
-                        start = 20.dp,
-                        end = 20.dp,
-                        bottom = 20.dp,
-                    ),
+                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,

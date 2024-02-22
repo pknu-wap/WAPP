@@ -47,6 +47,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.event.R
 import com.wap.wapp.feature.management.event.edit.EventEditViewModel.EventEditEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
@@ -181,18 +182,19 @@ internal fun EventEditScreen(
                 titleRes = R.string.event_edit,
                 showLeftButton = true,
                 showRightButton = true,
+                leftButtonDrawableRes = drawable.ic_close,
                 onClickLeftButton = onBackButtonClicked,
                 onClickRightButton = { showDeleteEventDialog = true },
             )
 
             EventEditStateIndicator(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp),
             )
 
             EventRegistrationContent(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(top = 50.dp, start = 20.dp, end = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
