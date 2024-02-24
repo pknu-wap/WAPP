@@ -83,12 +83,10 @@ class AttendanceViewModel @Inject constructor(
         }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
-    fun getTodayEventsAttendanceStatus() {
-        viewModelScope.launch {
-            getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
-                getEventListAttendance(eventList = eventList, userId = _userProfile.value.userId)
-            }.onFailure { exception -> _errorFlow.emit(exception) }
-        }
+    fun getTodayEventsAttendanceStatus() = viewModelScope.launch {
+        getDateEventListUseCase(DateUtil.generateNowDate()).onSuccess { eventList ->
+            getEventListAttendance(eventList = eventList, userId = _userProfile.value.userId)
+        }.onFailure { exception -> _errorFlow.emit(exception) }
     }
 
     // 오늘 있는 일정을 기준으로, 출석이 시작된 일정들을 가져옵니다.
@@ -150,7 +148,10 @@ class AttendanceViewModel @Inject constructor(
                     eventId = _selectedEventId.value,
                     userId = _userProfile.value.userId,
                 )
-                    .onSuccess { _attendanceEvent.emit(AttendanceEvent.Success) }
+                    .onSuccess {
+                        _todayEventsAttendanceStatus.value = EventAttendanceStatusState.Loading
+                        _attendanceEvent.emit(AttendanceEvent.Success)
+                    }
                     .onFailure { exception -> _errorFlow.emit(exception) }
                 return@launch
             }
@@ -165,11 +166,17 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun clearAttendanceCode() { _attendanceCode.value = "" }
+    fun clearAttendanceCode() {
+        _attendanceCode.value = ""
+    }
 
-    fun setSelectedEventId(eventId: String) { _selectedEventId.value = eventId }
+    fun setSelectedEventId(eventId: String) {
+        _selectedEventId.value = eventId
+    }
 
-    fun setSelectedEventTitle(eventTitle: String) { _selectedEventTitle.value = eventTitle }
+    fun setSelectedEventTitle(eventTitle: String) {
+        _selectedEventTitle.value = eventTitle
+    }
 
     sealed class EventAttendanceStatusState {
         data object Loading : EventAttendanceStatusState()
