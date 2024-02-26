@@ -86,39 +86,47 @@ class EventRegistrationViewModel @Inject constructor(
         _eventEndTime.value = eventTime
     }
 
-    fun setEventRegistrationState() {
-        if (_currentRegistrationState.value == EVENT_DETAILS) {
-            if (!isValidTitle()) {
-                emitValidationErrorMessage("행사 이름을 입력하세요.")
-                return
+    fun validateEvent(eventRegistrationState: EventRegistrationState): Boolean {
+        when (eventRegistrationState) {
+            EVENT_DETAILS -> {
+                if (!isValidTitle()) {
+                    emitValidationErrorMessage("행사 이름을 입력하세요.")
+                    return false
+                }
+
+                if (!isValidContent()) {
+                    emitValidationErrorMessage("행사 내용을 입력하세요.")
+                    return false
+                }
             }
-            if (!isValidContent()) {
-                emitValidationErrorMessage("행사 내용을 입력하세요.")
-                return
+
+            EVENT_SCHEDULE -> {
+                if (!isValidLocation()) {
+                    emitValidationErrorMessage("장소를 입력하세요.")
+                    return false
+                }
             }
-            _currentRegistrationState.value = EVENT_SCHEDULE
         }
+        return true
     }
 
-    fun registerEvent() {
-        if (!isValidLocation()) {
-            emitValidationErrorMessage("장소를 입력하세요.")
-            return
-        }
-        viewModelScope.launch {
-            postEventUseCase(
-                eventTitle = _eventTitle.value,
-                eventContent = _eventContent.value,
-                eventLocation = _eventLocation.value,
-                eventStartDate = _eventStartDate.value,
-                eventStartTime = _eventStartTime.value,
-                eventEndDate = _eventEndDate.value,
-                eventEndTime = _eventEndTime.value,
-            ).onSuccess {
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
-            }.onFailure { throwable ->
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
-            }
+    fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
+        _currentRegistrationState.value = eventRegistrationState
+    }
+
+    fun registerEvent() = viewModelScope.launch {
+        postEventUseCase(
+            eventTitle = _eventTitle.value,
+            eventContent = _eventContent.value,
+            eventLocation = _eventLocation.value,
+            eventStartDate = _eventStartDate.value,
+            eventStartTime = _eventStartTime.value,
+            eventEndDate = _eventEndDate.value,
+            eventEndTime = _eventEndTime.value,
+        ).onSuccess {
+            _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
+        }.onFailure { throwable ->
+            _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
         }
     }
 

@@ -84,41 +84,48 @@ class EventEditViewModel @Inject constructor(
         _eventEndTime.value = eventTime
     }
 
-    fun setEventRegistrationState() {
-        if (_currentEditState.value == EventRegistrationState.EVENT_DETAILS) {
-            if (!isValidTitle()) {
-                emitValidationErrorMessage("행사 이름을 입력하세요.")
-                return
+    fun validateEvent(eventRegistrationState: EventRegistrationState): Boolean {
+        when (eventRegistrationState) {
+            EventRegistrationState.EVENT_DETAILS -> {
+                if (!isValidTitle()) {
+                    emitValidationErrorMessage("행사 이름을 입력하세요.")
+                    return false
+                }
+
+                if (!isValidContent()) {
+                    emitValidationErrorMessage("행사 내용을 입력하세요.")
+                    return false
+                }
             }
-            if (!isValidContent()) {
-                emitValidationErrorMessage("행사 내용을 입력하세요.")
-                return
+
+            EventRegistrationState.EVENT_SCHEDULE -> {
+                if (!isValidLocation()) {
+                    emitValidationErrorMessage("장소를 입력하세요.")
+                    return false
+                }
             }
-            _currentEditState.value = EventRegistrationState.EVENT_SCHEDULE
         }
+        return true
     }
 
-    fun updateEvent() {
-        if (!isValidLocation()) {
-            emitValidationErrorMessage("장소를 입력하세요.")
-            return
-        }
+    fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
+        _currentEditState.value = eventRegistrationState
+    }
 
-        viewModelScope.launch {
-            updateEventUseCase(
-                eventTitle = _eventTitle.value,
-                eventContent = _eventContent.value,
-                eventLocation = _eventLocation.value,
-                eventStartDate = _eventStartDate.value,
-                eventStartTime = _eventStartTime.value,
-                eventEndDate = _eventEndDate.value,
-                eventEndTime = _eventEndTime.value,
-                eventId = _eventId.value,
-            ).onSuccess {
-                _eventEditEvent.emit(EventEditEvent.EditSuccess)
-            }.onFailure { throwable ->
-                _eventEditEvent.emit(EventEditEvent.Failure(throwable))
-            }
+    fun updateEvent() = viewModelScope.launch {
+        updateEventUseCase(
+            eventTitle = _eventTitle.value,
+            eventContent = _eventContent.value,
+            eventLocation = _eventLocation.value,
+            eventStartDate = _eventStartDate.value,
+            eventStartTime = _eventStartTime.value,
+            eventEndDate = _eventEndDate.value,
+            eventEndTime = _eventEndTime.value,
+            eventId = _eventId.value,
+        ).onSuccess {
+            _eventEditEvent.emit(EventEditEvent.EditSuccess)
+        }.onFailure { throwable ->
+            _eventEditEvent.emit(EventEditEvent.Failure(throwable))
         }
     }
 
