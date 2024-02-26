@@ -29,4 +29,5 @@
     <string name="select">선택</string>
     <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
     <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
+    <string name="previous">이전</string>
 </resources>
