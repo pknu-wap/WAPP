@@ -89,7 +89,7 @@ private fun SurveyOverviewText(category: String, content: String) {
                 style = WappTheme.typography.contentMedium,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(vertical = 10.dp),
+                    .padding(vertical = 10.dp, horizontal = 10.dp),
             )
         }
     }

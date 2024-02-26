@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.designresource.R.drawable.ic_forward_yellow
@@ -44,6 +45,7 @@ internal fun AttendanceItemCard(
                         color = WappTheme.colors.white,
                         modifier = Modifier.weight(1f),
                         maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         style = WappTheme.typography.titleBold,
                     )
 

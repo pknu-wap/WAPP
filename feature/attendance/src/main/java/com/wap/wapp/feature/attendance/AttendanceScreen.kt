@@ -70,10 +70,10 @@ internal fun AttendanceRoute(
                 attendanceEvent.collect { event ->
                     when (event) {
                         is Success -> {
+                            getTodayEventsAttendanceStatus()
                             snackBarHostState.showSnackbar(
                                 getString(context, R.string.attendance_success),
                             )
-                            getTodayEventsAttendanceStatus()
                         }
 
                         is Failure -> snackBarHostState.showSnackbar(event.message)

@@ -80,6 +80,7 @@ internal fun AttendanceDialog(
                 text = generateDialogContentString(eventTitle),
                 style = WappTheme.typography.contentRegular,
                 color = WappTheme.colors.white,
+                modifier = Modifier.padding(horizontal = 12.dp),
             )
 
             OutlinedTextField(

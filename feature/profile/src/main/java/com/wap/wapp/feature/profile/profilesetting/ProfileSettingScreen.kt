@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -116,6 +117,7 @@ internal fun ProfileSettingScreen(
             )
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
                 modifier = Modifier.padding(start = 15.dp, top = 20.dp, bottom = 25.dp),
             ) {
@@ -123,6 +125,7 @@ internal fun ProfileSettingScreen(
                     painter = painterResource(id = R.drawable.ic_account_setting),
                     contentDescription = "",
                 )
+
                 Text(
                     text = stringResource(id = string.account_setting),
                     style = WappTheme.typography.titleBold,
@@ -145,6 +148,7 @@ internal fun ProfileSettingScreen(
             Divider(color = dividerColor)
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
                 modifier = Modifier.padding(start = 15.dp, top = 25.dp, bottom = 25.dp),
             ) {
@@ -152,6 +156,7 @@ internal fun ProfileSettingScreen(
                     painter = painterResource(id = R.drawable.ic_profile_more),
                     contentDescription = "",
                 )
+
                 Text(
                     text = stringResource(id = string.more),
                     style = WappTheme.typography.titleBold,
