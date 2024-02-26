@@ -29,7 +29,7 @@ internal fun ObjectiveSurveyForm(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+        verticalArrangement = Arrangement.spacedBy(40.dp),
     ) {
         Text(
             text = questionTitle,

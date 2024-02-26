@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTextField
+import com.wap.designsystem.modifier.addFocusCleaner
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
@@ -36,6 +38,7 @@ fun ManagementValidationScreen(
     val isError by viewModel.isError.collectAsStateWithLifecycle()
     val errorSupportingText by viewModel.errorSupportingText.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(true) {
         viewModel.managementCodeUiState.collectLatest {
@@ -56,11 +59,12 @@ fun ManagementValidationScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .addFocusCleaner(focusManager),
         ) {
             Text(
                 text = stringResource(R.string.management_dialog_title),

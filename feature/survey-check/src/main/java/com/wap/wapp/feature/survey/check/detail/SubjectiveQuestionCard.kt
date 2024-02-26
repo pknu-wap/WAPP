@@ -34,15 +34,20 @@ internal fun SubjectiveQuestionCard(surveyAnswer: SurveyAnswer) {
                 color = WappTheme.colors.white,
                 textAlign = TextAlign.Start,
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = surveyAnswer.questionAnswer,
                 style = WappTheme.typography.contentRegular,
-                color = WappTheme.colors.white,
+                color = WappTheme.colors.yellow34,
                 textAlign = TextAlign.Start,
             )
-            Divider()
+
+            Divider(
+                color = WappTheme.colors.gray82,
+                modifier = Modifier.padding(top = 5.dp),
+            )
         }
     }
 }

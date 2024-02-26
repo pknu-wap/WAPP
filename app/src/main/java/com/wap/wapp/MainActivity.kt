@@ -118,7 +118,7 @@ private fun handleBottomBarState(
     eventEditNavigationRoute -> setBottomBarState(false)
     SurveyRoute.answerRoute("{id}") -> setBottomBarState(false)
     surveyCheckRoute -> setBottomBarState(false)
-    SurveyCheckRoute.surveyDetailRoute("{id}") -> setBottomBarState(false)
+    SurveyCheckRoute.surveyDetailRoute("{id}", "{backStack}") -> setBottomBarState(false)
     else -> setBottomBarState(true)
 }
 

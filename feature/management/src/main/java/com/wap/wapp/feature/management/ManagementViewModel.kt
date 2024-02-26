@@ -33,10 +33,10 @@ class ManagementViewModel @Inject constructor(
     val userRole: StateFlow<UserRoleUiState> = _userRole.asStateFlow()
 
     private val _surveyFormList: MutableStateFlow<SurveyFormsState> =
-        MutableStateFlow(SurveyFormsState.Init)
+        MutableStateFlow(SurveyFormsState.Loading)
     val surveyFormList: StateFlow<SurveyFormsState> = _surveyFormList.asStateFlow()
 
-    private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Init)
+    private val _eventList: MutableStateFlow<EventsState> = MutableStateFlow(EventsState.Loading)
     val eventList: StateFlow<EventsState> = _eventList.asStateFlow()
 
     fun getUserRole() = viewModelScope.launch {
@@ -50,13 +50,12 @@ class ManagementViewModel @Inject constructor(
     }
 
     fun getEventSurveyList() = viewModelScope.launch {
-        launch { getMonthEventList() }
+        getMonthEventList()
         getSurveyFormList()
     }
 
     private suspend fun getMonthEventList() {
         _eventList.value = EventsState.Loading
-
         getMonthEventListUseCase(generateNowDate()).onSuccess { events ->
             _eventList.value = EventsState.Success(events)
         }.onFailure { exception ->
@@ -67,7 +66,6 @@ class ManagementViewModel @Inject constructor(
 
     private suspend fun getSurveyFormList() {
         _surveyFormList.value = SurveyFormsState.Loading
-
         getSurveyFormListUseCase().onSuccess { surveyForms ->
             _surveyFormList.value = SurveyFormsState.Success(surveyForms)
         }.onFailure { exception ->
@@ -82,14 +80,12 @@ class ManagementViewModel @Inject constructor(
     }
 
     sealed class EventsState {
-        data object Init : EventsState()
         data object Loading : EventsState()
         data class Success(val events: List<Event>) : EventsState()
         data class Failure(val throwable: Throwable) : EventsState()
     }
 
     sealed class SurveyFormsState {
-        data object Init : SurveyFormsState()
         data object Loading : SurveyFormsState()
         data class Success(val surveyForms: List<SurveyForm>) : SurveyFormsState()
         data class Failure(val throwable: Throwable) : SurveyFormsState()

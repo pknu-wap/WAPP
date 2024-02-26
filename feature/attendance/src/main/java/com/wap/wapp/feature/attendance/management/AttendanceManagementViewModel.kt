@@ -53,6 +53,13 @@ class AttendanceManagementViewModel @Inject constructor(
     }
 
     fun postAttendance() = viewModelScope.launch {
+        if (_attendanceCode.value.isEmpty()) {
+            _attendanceManagementEvent.emit(
+                AttendanceManagementEvent.Failure("출석 코드는 공란일 수 없습니다."),
+            )
+            return@launch
+        }
+
         postAttendanceUseCase(
             eventId = selectedEventId.value,
             code = _attendanceCode.value,
@@ -81,5 +88,6 @@ class AttendanceManagementViewModel @Inject constructor(
 
     sealed class AttendanceManagementEvent {
         data object Success : AttendanceManagementEvent()
+        data class Failure(val message: String) : AttendanceManagementEvent()
     }
 }

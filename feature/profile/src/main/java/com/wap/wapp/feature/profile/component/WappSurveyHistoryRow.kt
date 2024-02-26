@@ -19,13 +19,13 @@ import com.wap.wapp.core.model.survey.Survey
 internal fun WappSurveyHistoryRow(
     survey: Survey,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: (String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .padding(horizontal = 10.dp)
-            .clickable { onClick() },
+            .clickable { onClick(survey.surveyId) },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -45,6 +45,7 @@ internal fun SurveyInformationCard(
                     color = WappTheme.colors.white,
                     textAlign = TextAlign.Start,
                 )
+
                 Divider()
             }
 

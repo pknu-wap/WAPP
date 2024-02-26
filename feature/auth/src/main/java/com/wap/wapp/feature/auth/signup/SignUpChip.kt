@@ -1,5 +1,6 @@
 package com.wap.wapp.feature.auth.signup
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,7 +27,10 @@ internal fun SignUpChip(
         stringResource(id = R.string.first_semester),
         stringResource(id = R.string.second_semester),
     )
-    LazyRow(modifier = Modifier.fillMaxWidth()) {
+    LazyRow(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         items(itemsList) { item ->
             FilterChip(
                 modifier = Modifier.padding(horizontal = 6.dp),

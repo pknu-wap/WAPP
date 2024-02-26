@@ -70,10 +70,10 @@ internal fun AttendanceRoute(
                 attendanceEvent.collect { event ->
                     when (event) {
                         is Success -> {
+                            getTodayEventsAttendanceStatus()
                             snackBarHostState.showSnackbar(
                                 getString(context, R.string.attendance_success),
                             )
-                            getTodayEventsAttendanceStatus()
                         }
 
                         is Failure -> snackBarHostState.showSnackbar(event.message)
@@ -83,24 +83,27 @@ internal fun AttendanceRoute(
         }
     }
 
-    when (userRoleState) {
-        is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
-        is UserRoleState.Success -> {
-            when ((userRoleState as UserRoleState.Success).userRole) {
-                UserRole.GUEST -> AttendanceGuestScreen(onButtonClicked = navigateToSignIn)
-                UserRole.MANAGER, UserRole.MEMBER -> AttendanceScreen(
-                    userRole = (userRoleState as UserRoleState.Success).userRole,
-                    snackBarHostState = snackBarHostState,
-                    eventsAttendanceStatusState = eventsAttendanceStatusState,
-                    attendanceCode = attendanceCode,
-                    selectedEventTitle = selectedEventTitle,
-                    clearAttendanceCode = viewModel::clearAttendanceCode,
-                    onAttendanceCodeChanged = viewModel::setAttendanceCode,
-                    onSelectEventId = viewModel::setSelectedEventId,
-                    onSelectEventTitle = viewModel::setSelectedEventTitle,
-                    verifyAttendanceCode = viewModel::verifyAttendanceCode,
-                    navigateToAttendanceManagement = navigateToAttendanceManagement,
-                )
+    Column(modifier = Modifier.fillMaxSize()) {
+        when (userRoleState) {
+            is UserRoleState.Loading -> CircleLoader(modifier = Modifier.fillMaxSize())
+            is UserRoleState.Success -> {
+                when ((userRoleState as UserRoleState.Success).userRole) {
+                    UserRole.GUEST -> AttendanceGuestScreen(onButtonClicked = navigateToSignIn)
+                    UserRole.MANAGER, UserRole.MEMBER ->
+                        AttendanceScreen(
+                            userRole = (userRoleState as UserRoleState.Success).userRole,
+                            snackBarHostState = snackBarHostState,
+                            eventsAttendanceStatusState = eventsAttendanceStatusState,
+                            attendanceCode = attendanceCode,
+                            selectedEventTitle = selectedEventTitle,
+                            clearAttendanceCode = viewModel::clearAttendanceCode,
+                            onAttendanceCodeChanged = viewModel::setAttendanceCode,
+                            onSelectEventId = viewModel::setSelectedEventId,
+                            onSelectEventTitle = viewModel::setSelectedEventTitle,
+                            verifyAttendanceCode = viewModel::verifyAttendanceCode,
+                            navigateToAttendanceManagement = navigateToAttendanceManagement,
+                        )
+                }
             }
         }
     }

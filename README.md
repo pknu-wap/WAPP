@@ -10,26 +10,66 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 ## 🌱 Feature Introduce
 
+#### 인트로 화면
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/6f6a9994-03bc-4020-a56c-d717efb09856" width="300"/>
+
+<br><br><br>
+
 #### 공지사항
 
 - WAP 정규 활동 및 행사를 달력과 목록을 통해 확인할 수 있어요.
-- 지정된 행사 날짜에 푸시 알림을 통해 리마인드 해드려요.
+
+<br>
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/87371099-673e-49ec-b9a6-baac63f02441" width="300"/>
+
+<br><br><br>
 
 #### 출석
 
 - 행사마다 출석을 체크할 수 있어요.
 - 히스토리를 통해 출결상황을 체크할 수 있어요.
 
+<br>
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/ae253a1c-024c-4d76-af46-8015910dbb79" width="300"/>
+
+<br><br><br>
+
 #### 설문
 
 - 행사마다 설문 및 피드백을 작성할 수 있어요
 - 설문과 피드백을 통해, 더 좋은 행사로 발전할 수 있어요.
 
+<br>
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/250bab3b-3fb5-402f-9d1d-02008f98c620" width="300"/>
+
+<br><br><br>
+
 #### 운영진
+
 - 회원들의 설문을 확인할 수 있어요.
-- 새로 공지사항을 등록할 수 있어요.
+- 공지사항 및 설문을 등록할 수 있어요.
+- 출석을 시작할 수 있어요
 
 <br>
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/61bb400a-7d6e-4d94-96ed-f46f9f5b8354" width="300"/>
+
+<br><br><br>
+
+#### 그 외
+
+- 프로필
+- 프로필 더 보기
+
+<br>
+
+<img src="https://github.com/pknu-wap/WAPP/assets/116813010/40a77bba-d906-4797-9152-236d5637070a" width="300"/>
+
+<br><br><br>
 
 ## 🏗️ Module Dependency Graph 
 <p align="center">
@@ -61,8 +101,8 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
     <td align="center">안드로이드</td>
   </tr>
   <tr>
-    <td align="center"><code>로그인</code>, <code>운영진페이지</code>, <code>마이페이지</code></td>
-    <td align="center"><code>공지사항</code>, <code>달력</code>, <code>설문조사</code></td>
+    <td align="center"><code>로그인</code>, <code>운영진페이지</code>, <code>설문</code>, <code>일정</code></td>
+    <td align="center"><code>공지사항</code>, <code>달력</code>, <code>프로필</code>, <code>출석</code>, <code>애니메이션</code></td>
   </tr>
 </table>
 <h4>
@@ -89,9 +129,9 @@ WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
 
 ## 🎨 UI/UX
 
-![피그마](https://github.com/pknu-wap/WAPP/assets/116813010/e37ebd0e-4016-42f5-947b-dd373e68a431)
+![image](https://github.com/pknu-wap/WAPP/assets/116813010/ccb60d3b-ec63-41dc-8eca-d0a8b735c1fb)
 
-[UI/UX 보러가기](https://www.figma.com/file/ldfJcNruLXpb7e41P7LK3O/WAPP?type=design&node-id=0%3A1&mode=design&t=Q2vI9pGnu1OcsFWP-1)
+[피그마 보러가기](https://www.figma.com/file/ldfJcNruLXpb7e41P7LK3O/WAPP?type=design&node-id=0%3A1&mode=design&t=Q2vI9pGnu1OcsFWP-1)
 
 <br>
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,20 +24,18 @@ internal fun SubjectiveSurveyForm(
     onAnswerChanged: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(40.dp),
-    ) {
+    Column(modifier = modifier) {
         Text(
             text = questionTitle,
-            style = WappTheme.typography.titleRegular,
+            style = WappTheme.typography.titleMedium,
             color = WappTheme.colors.white,
             fontSize = 22.sp,
+            modifier = Modifier.padding(bottom = 40.dp),
         )
 
         Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             WappRoundedTextField(
                 value = answer,

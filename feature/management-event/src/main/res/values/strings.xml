@@ -14,7 +14,7 @@
     <string name="event_location">장소</string>
     <string name="event_date">날짜</string>
     <string name="event_time">시간</string>
-    <string name="event_location_hint">어디에서 진행되는 일정인가요?</string>
+    <string name="event_location_hint">장소를 입력하세요.</string>
     <string name="start_date">시작 날짜</string>
     <string name="start_time">시작 시간</string>
     <string name="end_date">종료 날짜</string>
@@ -30,4 +30,6 @@
     <string name="backMonthArrowContentDescription">"이전 달을 보여주는 화살표 입니다."</string>
     <string name="forwardMonthArrowContentDescription">"다음 달을 보여주는 화살표 입니다."</string>
     <string name="previous">이전</string>
+    <string name="event_registration_content_navigation_animated_label">Event Registration Content Navigation Animated Label</string>
+    <string name="event_registration_state_progress_animation">Event Registration State Progress Animation</string>
 </resources>

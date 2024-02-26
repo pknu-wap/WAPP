@@ -30,11 +30,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.wap.wapp.core.designresource.R.drawable
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappRoundedTextField
 import com.wap.designsystem.component.WappTitle
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.model.survey.QuestionType
 
 @Composable

@@ -21,4 +21,5 @@
     <string name="event">행사</string>
     <string name="deadline">마감일</string>
     <string name="questionTotalNumber">질문 수</string>
+    <string name="survey_answer_form_animated_content_label">SurveyAnswerForm Navigation</string>
 </resources>

@@ -1,13 +1,19 @@
 package com.wap.wapp.feature.management.event.registration
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -63,17 +69,13 @@ internal fun EventRegistrationRoute(
     LaunchedEffect(true) {
         viewModel.eventRegistrationEvent.collectLatest {
             when (it) {
-                is EventRegistrationEvent.Failure -> {
+                is EventRegistrationEvent.Failure ->
                     snackBarHostState.showSnackbar(it.error.toSupportingText())
-                }
 
-                is EventRegistrationEvent.ValidationError -> {
+                is EventRegistrationEvent.ValidationError ->
                     snackBarHostState.showSnackbar(it.message)
-                }
 
-                is EventRegistrationEvent.Success -> {
-                    navigateToManagement()
-                }
+                is EventRegistrationEvent.Success -> navigateToManagement()
             }
         }
     }
@@ -138,7 +140,9 @@ internal fun EventRegistrationScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
+    val startTimePickerState = rememberTimePickerState()
+    val endTimePickerState = rememberTimePickerState()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -150,25 +154,27 @@ internal fun EventRegistrationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(top = 20.dp),
+                .verticalScroll(scrollState)
+                .height(IntrinsicSize.Max)
+                .padding(paddingValues) // paddingValue padding
+                .padding(top = 20.dp), // dp value padding
         ) {
             WappSubTopBar(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
-                leftButtonDrawableRes = drawable.ic_close,
                 onClickLeftButton = onCloseButtonClicked,
+                leftButtonDrawableRes = drawable.ic_close,
             )
 
             EventRegistrationStateIndicator(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
             )
 
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                    .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
@@ -176,6 +182,7 @@ internal fun EventRegistrationScreen(
                 startTime = startTime,
                 endDate = endDate,
                 endTime = endTime,
+                scrollState = scrollState,
                 showStartDatePicker = showStartDatePicker,
                 showStartTimePicker = showStartTimePicker,
                 showEndDatePicker = showEndDatePicker,
@@ -183,7 +190,8 @@ internal fun EventRegistrationScreen(
                 onTitleChanged = onTitleChanged,
                 onContentChanged = onContentChanged,
                 onLocationChanged = onLocationChanged,
-                timePickerState = timePickerState,
+                startTimePickerState = startTimePickerState,
+                endTimePickerState = endTimePickerState,
                 onStartDateChanged = onStartDateChanged,
                 onStartTimeChanged = onStartTimeChanged,
                 onEndDateChanged = onEndDateChanged,
@@ -237,13 +245,22 @@ private fun EventRegistrationStateText(
 private fun EventRegistrationStateProgressBar(
     currentRegistrationProgress: Float,
 ) {
+    val progress by animateFloatAsState(
+        targetValue = currentRegistrationProgress,
+        animationSpec = spring(
+            stiffness = Spring.StiffnessMediumLow,
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+        ),
+        label = stringResource(R.string.event_registration_state_progress_animation),
+    )
+
     LinearProgressIndicator(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp),
         color = WappTheme.colors.yellow34,
         trackColor = WappTheme.colors.white,
-        progress = currentRegistrationProgress,
+        progress = progress,
         strokeCap = StrokeCap.Round,
     )
 }
