@@ -79,9 +79,6 @@ internal fun EventEditRoute(
     val onStartTimeChanged = viewModel::setEventStartTime
     val onEndDateChanged = viewModel::setEventEndDate
     val onEndTimeChanged = viewModel::setEventEndTime
-    val onNextButtonClicked =
-        viewModel::setEventRegistrationState
-    val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
         viewModel.getEvent(eventId = eventId)
@@ -120,10 +117,19 @@ internal fun EventEditRoute(
         onStartTimeChanged = onStartTimeChanged,
         onEndDateChanged = onEndDateChanged,
         onEndTimeChanged = onEndTimeChanged,
-        onNextButtonClicked = onNextButtonClicked,
-        onEditButtonClicked = onRegisterButtonClicked,
-        onBackButtonClicked = navigateToManagement,
+        onNextButtonClicked = { currentState, nextState ->
+            if (viewModel.validateEvent(currentState)) {
+                viewModel.setEventRegistrationState(nextState)
+            }
+        },
+        onCloseButtonClicked = navigateToManagement,
+        onPreviousButtonClicked = viewModel::setEventRegistrationState,
         deleteEvent = viewModel::deleteEvent,
+        onEditButtonClicked = { lastState ->
+            if (viewModel.validateEvent(lastState)) {
+                viewModel.updateEvent()
+            }
+        },
     )
 }
 
@@ -146,9 +152,10 @@ internal fun EventEditScreen(
     onStartTimeChanged: (LocalTime) -> Unit,
     onEndDateChanged: (LocalDate) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onEditButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
+    onNextButtonClicked: (EventRegistrationState, EventRegistrationState) -> Unit,
+    onEditButtonClicked: (EventRegistrationState) -> Unit,
+    onCloseButtonClicked: () -> Unit,
+    onPreviousButtonClicked: (EventRegistrationState) -> Unit,
     deleteEvent: () -> Unit,
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
@@ -183,7 +190,7 @@ internal fun EventEditScreen(
                 showLeftButton = true,
                 showRightButton = true,
                 leftButtonDrawableRes = drawable.ic_close,
-                onClickLeftButton = onBackButtonClicked,
+                onClickLeftButton = onCloseButtonClicked,
                 onClickRightButton = { showDeleteEventDialog = true },
             )
 
@@ -220,6 +227,7 @@ internal fun EventEditScreen(
                 onEndTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
                 onRegisterButtonClicked = onEditButtonClicked,
+                onPreviousButtonClicked = onPreviousButtonClicked,
             )
         }
     }
