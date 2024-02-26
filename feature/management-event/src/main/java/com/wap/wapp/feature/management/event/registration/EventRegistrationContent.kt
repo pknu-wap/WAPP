@@ -62,8 +62,9 @@ internal fun EventRegistrationContent(
     onStartTimePickerStateChanged: (Boolean) -> Unit,
     onEndDatePickerStateChanged: (Boolean) -> Unit,
     onEndTimePickerStateChanged: (Boolean) -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onRegisterButtonClicked: () -> Unit,
+    onNextButtonClicked: (EventRegistrationState, EventRegistrationState) -> Unit,
+    onPreviousButtonClicked: (EventRegistrationState) -> Unit,
+    onRegisterButtonClicked: (EventRegistrationState) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -85,7 +86,10 @@ internal fun EventRegistrationContent(
                     coroutineScope.launch {
                         scrollState.scrollTo(0)
                     }
-                    onNextButtonClicked()
+                    onNextButtonClicked(
+                        EventRegistrationState.EVENT_DETAILS, // current State
+                        EventRegistrationState.EVENT_SCHEDULE, // next Stae
+                    )
                 },
             )
 
@@ -109,7 +113,12 @@ internal fun EventRegistrationContent(
                 onStartTimePickerStateChanged = onStartTimePickerStateChanged,
                 onEndDatePickerStateChanged = onEndDatePickerStateChanged,
                 onEndTimePickerStateChanged = onEndTimePickerStateChanged,
-                onRegisterButtonClicked = onRegisterButtonClicked,
+                onRegisterButtonClicked = {
+                    onRegisterButtonClicked(EventRegistrationState.EVENT_SCHEDULE)
+                },
+                onPreviousButtonClicked = {
+                    onPreviousButtonClicked(EventRegistrationState.EVENT_DETAILS) // previous State
+                },
             )
         }
     }
@@ -194,6 +203,7 @@ private fun EventScheduleContent(
     onEndDateChanged: (LocalDate) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
     onRegisterButtonClicked: () -> Unit,
+    onPreviousButtonClicked: () -> Unit,
 ) {
     if (showEndDatePicker) {
         WappDatePickerDialog(
@@ -309,9 +319,20 @@ private fun EventScheduleContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        WappButton(
-            onClick = onRegisterButtonClicked,
-            textRes = R.string.register_event,
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            WappButton(
+                textRes = R.string.previous,
+                onClick = onPreviousButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+
+            WappButton(
+                textRes = R.string.register_event,
+                onClick = onRegisterButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
