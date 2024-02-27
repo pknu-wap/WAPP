@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,19 +19,19 @@ class SignUpViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _signUpEventFlow = MutableSharedFlow<SignUpEvent>()
-    val signUpEventFlow: SharedFlow<SignUpEvent> get() = _signUpEventFlow
+    val signUpEventFlow: SharedFlow<SignUpEvent> = _signUpEventFlow.asSharedFlow()
 
     private val _signUpName: MutableStateFlow<String> = MutableStateFlow("")
-    val signUpName: StateFlow<String> get() = _signUpName
+    val signUpName: StateFlow<String> = _signUpName.asStateFlow()
 
     private val _signUpStudentId: MutableStateFlow<String> = MutableStateFlow("")
-    val signUpStudentId: StateFlow<String> get() = _signUpStudentId
+    val signUpStudentId: StateFlow<String> = _signUpStudentId.asStateFlow()
 
     private val _signUpYear: MutableStateFlow<String> = MutableStateFlow("")
-    val signUpYear: StateFlow<String> get() = _signUpYear
+    val signUpYear: StateFlow<String> = _signUpYear.asStateFlow()
 
     private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
-    val signUpSemester: StateFlow<String> get() = _signUpSemester
+    val signUpSemester: StateFlow<String> = _signUpSemester.asStateFlow()
 
     fun postUserProfile() = viewModelScope.launch {
         if (!isValidStudentId()) {
