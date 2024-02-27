@@ -8,7 +8,7 @@
     <string name="survey_title">설문 작성</string>
     <string name="survey_content">참가한 행사에 대해 설문에 응답하세요!</string>
     <string name="survey_answer">설문 응답</string>
-    <string name="text_counter_content">/10자 이상</string>
+    <string name="text_counter_content">/8자 이상</string>
     <string name="alreay_submitted_description">이미 작성한 설문입니다.</string>
     <string name="go_to_signin">로그인 하러가기</string>
     <string name="survey_guset_title">앗 회원이 아니시네요 !</string>
