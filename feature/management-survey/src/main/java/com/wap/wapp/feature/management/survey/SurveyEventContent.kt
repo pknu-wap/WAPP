@@ -33,14 +33,14 @@ internal fun SurveyEventContent(
         WappTitle(
             title = stringResource(R.string.event_selection_title),
             content = stringResource(R.string.event_selection_content),
-            modifier = Modifier.padding(top = 10.dp, bottom = 40.dp),
+            modifier = Modifier.padding(bottom = 40.dp),
         )
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(1f)
         ) {
             when (eventsState) {
                 is EventsState.Loading -> item {

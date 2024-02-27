@@ -84,46 +84,53 @@ class EventEditViewModel @Inject constructor(
         _eventEndTime.value = eventTime
     }
 
-    fun setEventRegistrationState() {
-        if (_currentEditState.value == EventRegistrationState.EVENT_DETAILS) {
-            if (!isValidTitle()) {
-                emitValidationErrorMessage("행사 이름을 입력하세요.")
-                return
+    fun validateEvent(eventRegistrationState: EventRegistrationState): Boolean {
+        when (eventRegistrationState) {
+            EventRegistrationState.EVENT_DETAILS -> {
+                if (!isValidTitle()) {
+                    emitValidationErrorMessage("행사 이름을 입력하세요.")
+                    return false
+                }
+
+                if (!isValidContent()) {
+                    emitValidationErrorMessage("행사 내용을 입력하세요.")
+                    return false
+                }
             }
-            if (!isValidContent()) {
-                emitValidationErrorMessage("행사 내용을 입력하세요.")
-                return
+
+            EventRegistrationState.EVENT_SCHEDULE -> {
+                if (!isValidLocation()) {
+                    emitValidationErrorMessage("장소를 입력하세요.")
+                    return false
+                }
+
+                if (!isValidEndTime(_eventEndTime.value)) {
+                    emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
+                    return false
+                }
             }
-            _currentEditState.value = EventRegistrationState.EVENT_SCHEDULE
         }
+        return true
     }
 
-    fun updateEvent() {
-        if (!isValidLocation()) {
-            emitValidationErrorMessage("장소를 입력하세요.")
-            return
-        }
+    fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
+        _currentEditState.value = eventRegistrationState
+    }
 
-        if (!isValidEndTime(_eventEndTime.value)) {
-            emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
-            return
-        }
-
-        viewModelScope.launch {
-            updateEventUseCase(
-                eventTitle = _eventTitle.value,
-                eventContent = _eventContent.value,
-                eventLocation = _eventLocation.value,
-                eventStartDate = _eventStartDate.value,
-                eventStartTime = _eventStartTime.value,
-                eventEndDate = _eventEndDate.value,
-                eventEndTime = _eventEndTime.value,
-                eventId = _eventId.value,
-            ).onSuccess {
-                _eventEditEvent.emit(EventEditEvent.EditSuccess)
-            }.onFailure { throwable ->
-                _eventEditEvent.emit(EventEditEvent.Failure(throwable))
-            }
+    fun updateEvent() = viewModelScope.launch {
+        updateEventUseCase(
+            eventTitle = _eventTitle.value,
+            eventContent = _eventContent.value,
+            eventLocation = _eventLocation.value,
+            eventStartDate = _eventStartDate.value,
+            eventStartTime = _eventStartTime.value,
+            eventEndDate = _eventEndDate.value,
+            eventEndTime = _eventEndTime.value,
+            eventId = _eventId.value,
+        ).onSuccess {
+            _eventEditEvent.emit(EventEditEvent.EditSuccess)
+        }.onFailure { throwable ->
+            _eventEditEvent.emit(EventEditEvent.Failure(throwable))
         }
     }
 
@@ -136,15 +143,13 @@ class EventEditViewModel @Inject constructor(
     }
 
     private fun isValidEndTime(eventTime: LocalTime): Boolean {
-        if (_eventEndDate.value > _eventStartDate.value) {
-            return true
-        }
+        val startDate = _eventStartDate.value
+        val endDate = _eventEndDate.value
 
-        if (_eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value) {
-            return true
+        if (startDate == endDate) {
+            return eventTime > _eventStartTime.value
         }
-
-        return false
+        return startDate < endDate
     }
 
     private fun isValidEndDate(eventDate: LocalDate): Boolean = eventDate >= _eventStartDate.value

@@ -62,7 +62,7 @@ class EventRegistrationViewModel @Inject constructor(
 
     fun setEventStartDate(eventDate: LocalDate) {
         if (!isValidStartDate(eventDate)) {
-            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정 하세요.")
+            emitValidationErrorMessage("최소 하루 이상 일정 날짜를 지정하세요.")
             return
         }
         _eventStartDate.value = eventDate
@@ -86,56 +86,62 @@ class EventRegistrationViewModel @Inject constructor(
         _eventEndTime.value = eventTime
     }
 
-    fun setEventRegistrationState() {
-        if (_currentRegistrationState.value == EVENT_DETAILS) {
-            if (!isValidTitle()) {
-                emitValidationErrorMessage("행사 이름을 입력 하세요.")
-                return
+    fun validateEvent(eventRegistrationState: EventRegistrationState): Boolean {
+        when (eventRegistrationState) {
+            EVENT_DETAILS -> {
+                if (!isValidTitle()) {
+                    emitValidationErrorMessage("행사 이름을 입력하세요.")
+                    return false
+                }
+
+                if (!isValidContent()) {
+                    emitValidationErrorMessage("행사 내용을 입력하세요.")
+                    return false
+                }
             }
-            if (!isValidContent()) {
-                emitValidationErrorMessage("행사 내용을 입력 하세요.")
-                return
+
+            EVENT_SCHEDULE -> {
+                if (!isValidLocation()) {
+                    emitValidationErrorMessage("장소를 입력하세요.")
+                    return false
+                }
+                if (!isValidEndTime(_eventEndTime.value)) {
+                    emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
+                    return false
+                }
             }
-            _currentRegistrationState.value = EVENT_SCHEDULE
         }
+        return true
     }
 
-    fun registerEvent() {
-        if (!isValidLocation()) {
-            emitValidationErrorMessage("장소를 입력 하세요.")
-            return
-        }
+    fun setEventRegistrationState(eventRegistrationState: EventRegistrationState) {
+        _currentRegistrationState.value = eventRegistrationState
+    }
 
-        if (!isValidEndTime(_eventEndTime.value)) {
-            emitValidationErrorMessage("일정 종료는 시작보다 늦어야 합니다.")
-            return
-        }
-
-        viewModelScope.launch {
-            postEventUseCase(
-                eventTitle = _eventTitle.value,
-                eventContent = _eventContent.value,
-                eventLocation = _eventLocation.value,
-                eventStartDate = _eventStartDate.value,
-                eventStartTime = _eventStartTime.value,
-                eventEndDate = _eventEndDate.value,
-                eventEndTime = _eventEndTime.value,
-            ).onSuccess {
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
-            }.onFailure { throwable ->
-                _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
-            }
+    fun registerEvent() = viewModelScope.launch {
+        postEventUseCase(
+            eventTitle = _eventTitle.value,
+            eventContent = _eventContent.value,
+            eventLocation = _eventLocation.value,
+            eventStartDate = _eventStartDate.value,
+            eventStartTime = _eventStartTime.value,
+            eventEndDate = _eventEndDate.value,
+            eventEndTime = _eventEndTime.value,
+        ).onSuccess {
+            _eventRegistrationEvent.emit(EventRegistrationEvent.Success)
+        }.onFailure { throwable ->
+            _eventRegistrationEvent.emit(EventRegistrationEvent.Failure(throwable))
         }
     }
 
     private fun isValidEndTime(eventTime: LocalTime): Boolean {
-        if (_eventEndDate.value > _eventStartDate.value) {
-            return true
+        val startDate = _eventStartDate.value
+        val endDate = _eventEndDate.value
+
+        if (startDate == endDate) {
+            return eventTime > _eventStartTime.value
         }
-        if (_eventEndDate.value == _eventStartDate.value && eventTime > _eventStartTime.value) {
-            return true
-        }
-        return false
+        return startDate < endDate
     }
 
     private fun isValidEndDate(eventDate: LocalDate): Boolean = eventDate >= _eventStartDate.value

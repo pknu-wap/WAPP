@@ -53,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.event.R
 import com.wap.wapp.feature.management.event.edit.EventEditViewModel.EventEditEvent
 import com.wap.wapp.feature.management.event.registration.EventRegistrationContent
@@ -84,9 +85,6 @@ internal fun EventEditRoute(
     val onStartTimeChanged = viewModel::setEventStartTime
     val onEndDateChanged = viewModel::setEventEndDate
     val onEndTimeChanged = viewModel::setEventEndTime
-    val onNextButtonClicked =
-        viewModel::setEventRegistrationState
-    val onRegisterButtonClicked = viewModel::updateEvent
 
     LaunchedEffect(true) {
         viewModel.getEvent(eventId = eventId)
@@ -125,10 +123,19 @@ internal fun EventEditRoute(
         onStartTimeChanged = onStartTimeChanged,
         onEndDateChanged = onEndDateChanged,
         onEndTimeChanged = onEndTimeChanged,
-        onNextButtonClicked = onNextButtonClicked,
-        onEditButtonClicked = onRegisterButtonClicked,
-        onBackButtonClicked = navigateToManagement,
+        onNextButtonClicked = { currentState, nextState ->
+            if (viewModel.validateEvent(currentState)) {
+                viewModel.setEventRegistrationState(nextState)
+            }
+        },
+        onCloseButtonClicked = navigateToManagement,
+        onPreviousButtonClicked = viewModel::setEventRegistrationState,
         deleteEvent = viewModel::deleteEvent,
+        onEditButtonClicked = { lastState ->
+            if (viewModel.validateEvent(lastState)) {
+                viewModel.updateEvent()
+            }
+        },
     )
 }
 
@@ -151,9 +158,10 @@ internal fun EventEditScreen(
     onStartTimeChanged: (LocalTime) -> Unit,
     onEndDateChanged: (LocalDate) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onEditButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
+    onNextButtonClicked: (EventRegistrationState, EventRegistrationState) -> Unit,
+    onEditButtonClicked: (EventRegistrationState) -> Unit,
+    onCloseButtonClicked: () -> Unit,
+    onPreviousButtonClicked: (EventRegistrationState) -> Unit,
     deleteEvent: () -> Unit,
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
@@ -190,7 +198,8 @@ internal fun EventEditScreen(
                 titleRes = R.string.event_edit,
                 showLeftButton = true,
                 showRightButton = true,
-                onClickLeftButton = onBackButtonClicked,
+                leftButtonDrawableRes = drawable.ic_close,
+                onClickLeftButton = onCloseButtonClicked,
                 onClickRightButton = { showDeleteEventDialog = true },
             )
 
@@ -201,7 +210,7 @@ internal fun EventEditScreen(
 
             EventRegistrationContent(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(top = 50.dp, start = 20.dp, end = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
@@ -229,6 +238,7 @@ internal fun EventEditScreen(
                 onEndTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
                 onRegisterButtonClicked = onEditButtonClicked,
+                onPreviousButtonClicked = onPreviousButtonClicked,
             )
         }
     }

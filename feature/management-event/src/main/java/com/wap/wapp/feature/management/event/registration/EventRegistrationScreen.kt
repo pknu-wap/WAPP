@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.event.R
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
@@ -64,9 +65,6 @@ internal fun EventRegistrationRoute(
     val onStartTimeChanged = viewModel::setEventStartTime
     val onEndDateChanged = viewModel::setEventEndDate
     val onEndTimeChanged = viewModel::setEventEndTime
-    val onNextButtonClicked =
-        viewModel::setEventRegistrationState
-    val onRegisterButtonClicked = viewModel::registerEvent
 
     LaunchedEffect(true) {
         viewModel.eventRegistrationEvent.collectLatest {
@@ -99,9 +97,18 @@ internal fun EventRegistrationRoute(
         onStartTimeChanged = onStartTimeChanged,
         onEndDateChanged = onEndDateChanged,
         onEndTimeChanged = onEndTimeChanged,
-        onNextButtonClicked = onNextButtonClicked,
-        onRegisterButtonClicked = onRegisterButtonClicked,
-        onBackButtonClicked = navigateToManagement,
+        onNextButtonClicked = { currentState, nextState ->
+            if (viewModel.validateEvent(currentState)) {
+                viewModel.setEventRegistrationState(nextState)
+            }
+        },
+        onCloseButtonClicked = navigateToManagement,
+        onPreviousButtonClicked = viewModel::setEventRegistrationState,
+        onRegisterButtonClicked = { lastState ->
+            if (viewModel.validateEvent(lastState)) { // 마지막 상태 대입
+                viewModel.registerEvent()
+            }
+        },
     )
 }
 
@@ -124,9 +131,10 @@ internal fun EventRegistrationScreen(
     onStartTimeChanged: (LocalTime) -> Unit,
     onEndDateChanged: (LocalDate) -> Unit,
     onEndTimeChanged: (LocalTime) -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onRegisterButtonClicked: () -> Unit,
-    onBackButtonClicked: () -> Unit,
+    onNextButtonClicked: (EventRegistrationState, EventRegistrationState) -> Unit,
+    onPreviousButtonClicked: (EventRegistrationState) -> Unit,
+    onRegisterButtonClicked: (EventRegistrationState) -> Unit,
+    onCloseButtonClicked: () -> Unit,
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showStartTimePicker by remember { mutableStateOf(false) }
@@ -154,7 +162,8 @@ internal fun EventRegistrationScreen(
             WappSubTopBar(
                 titleRes = R.string.event_registration,
                 showLeftButton = true,
-                onClickLeftButton = onBackButtonClicked,
+                onClickLeftButton = onCloseButtonClicked,
+                leftButtonDrawableRes = drawable.ic_close,
             )
 
             EventRegistrationStateIndicator(
@@ -164,8 +173,7 @@ internal fun EventRegistrationScreen(
 
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier
-                    .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
@@ -192,6 +200,7 @@ internal fun EventRegistrationScreen(
                 onEndDatePickerStateChanged = { state -> showEndDatePicker = state },
                 onEndTimePickerStateChanged = { state -> showEndTimePicker = state },
                 onNextButtonClicked = onNextButtonClicked,
+                onPreviousButtonClicked = onPreviousButtonClicked,
                 onRegisterButtonClicked = onRegisterButtonClicked,
             )
         }
@@ -241,6 +250,7 @@ private fun EventRegistrationStateProgressBar(
             stiffness = Spring.StiffnessMediumLow,
             dampingRatio = Spring.DampingRatioMediumBouncy,
         ),
+        label = stringResource(R.string.event_registration_state_progress_animation),
     )
 
     LinearProgressIndicator(

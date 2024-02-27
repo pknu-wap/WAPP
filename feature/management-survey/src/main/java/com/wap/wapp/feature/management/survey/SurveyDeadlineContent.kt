@@ -79,7 +79,7 @@ internal fun SurveyDeadlineContent(
         WappTitle(
             title = stringResource(R.string.survey_deadline_title),
             content = stringResource(R.string.survey_deadline_content),
-            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+            modifier = Modifier.padding(bottom = 20.dp),
         )
 
         DeadlineCard(

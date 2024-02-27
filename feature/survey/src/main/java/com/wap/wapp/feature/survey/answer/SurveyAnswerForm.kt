@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.modifier.addFocusCleaner
@@ -59,6 +60,7 @@ internal fun SurveyAnswerForm(
                         slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
                 }
             },
+            label = stringResource(R.string.survey_answer_form_animated_content_label),
         ) { questionNumber ->
             Column {
                 when (surveyForm.surveyQuestionList[questionNumber].questionType) {
@@ -91,9 +93,9 @@ internal fun SurveyAnswerForm(
                         modifier = Modifier.weight(1f),
                     )
 
-                    SurveyAnswerButton(
-                        isLastQuestion = isLastQuestion,
-                        onButtonClicked = onNextQuestionButtonClicked,
+                    WappButton(
+                        textRes = if (isLastQuestion) R.string.submit else R.string.next,
+                        onClick = { onNextQuestionButtonClicked() },
                         isEnabled = checkQuestionTypeAndSubjectiveAnswer(
                             questionType = surveyQuestion.questionType,
                             subjectiveAnswer = subjectiveAnswer,
@@ -103,30 +105,6 @@ internal fun SurveyAnswerForm(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun SurveyAnswerButton(
-    isLastQuestion: Boolean,
-    isEnabled: Boolean,
-    onButtonClicked: () -> Unit,
-    modifier: Modifier,
-) {
-    if (isLastQuestion) {
-        WappButton(
-            textRes = R.string.submit,
-            onClick = { onButtonClicked() },
-            isEnabled = isEnabled,
-            modifier = modifier,
-        )
-    } else {
-        WappButton(
-            textRes = R.string.next,
-            onClick = { onButtonClicked() },
-            isEnabled = isEnabled,
-            modifier = modifier,
-        )
     }
 }
 
