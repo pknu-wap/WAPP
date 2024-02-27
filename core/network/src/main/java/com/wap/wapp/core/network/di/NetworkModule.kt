@@ -6,6 +6,8 @@ import com.wap.wapp.core.network.source.attendancestatus.AttendanceStatusDataSou
 import com.wap.wapp.core.network.source.attendancestatus.AttendanceStatusDataSourceImpl
 import com.wap.wapp.core.network.source.auth.AuthDataSource
 import com.wap.wapp.core.network.source.auth.AuthDataSourceImpl
+import com.wap.wapp.core.network.source.auth.SignUpDataSource
+import com.wap.wapp.core.network.source.auth.SignUpDataSourceImpl
 import com.wap.wapp.core.network.source.event.EventDataSource
 import com.wap.wapp.core.network.source.event.EventDataSourceImpl
 import com.wap.wapp.core.network.source.management.ManagementDataSource
@@ -73,4 +75,10 @@ abstract class NetworkModule {
     abstract fun bindsAttendanceStatusDataSource(
         attendanceStatueDataSourceImpl: AttendanceStatusDataSourceImpl,
     ): AttendanceStatusDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsSignUpDataSource(
+        signUpDataSourceImpl: SignUpDataSourceImpl,
+    ): SignUpDataSource
 }
