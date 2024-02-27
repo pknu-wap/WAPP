@@ -110,7 +110,7 @@ internal fun SurveyDeadlineContent(
             )
 
             WappButton(
-                textRes = R.string.next,
+                textRes = R.string.submit_survey,
                 onClick = onRegisterButtonClicked,
                 modifier = Modifier.weight(1f),
             )
