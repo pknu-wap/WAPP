@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,15 +21,20 @@ import androidx.compose.ui.window.DialogProperties
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTextField
+import com.wap.designsystem.modifier.addFocusCleaner
 import com.wap.wapp.feature.auth.R
 
 @Composable
 internal fun CodeValidationDialog(
     code: String,
+    isError: Boolean,
+    supportingText: String,
     setValidationCode: (String) -> Unit,
     onConfirmRequest: () -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
@@ -41,6 +47,7 @@ internal fun CodeValidationDialog(
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp, vertical = 20.dp)
+                .addFocusCleaner(focusManager)
                 .clip(RoundedCornerShape(10.dp))
                 .background(WappTheme.colors.black25),
         ) {
@@ -66,8 +73,8 @@ internal fun CodeValidationDialog(
                 value = code,
                 onValueChanged = setValidationCode,
                 label = R.string.code,
-                isError = false,
-                supportingText = "",
+                isError = isError,
+                supportingText = supportingText,
             )
 
             Spacer(modifier = Modifier.padding(vertical = 10.dp))

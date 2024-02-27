@@ -106,8 +106,13 @@ internal fun SignUpScreen(
                 CodeValidationDialog(
                     code = viewModel.wapMemberCode.collectAsStateWithLifecycle().value,
                     setValidationCode = viewModel::setWapMemberCode,
-                    onConfirmRequest = { },
+                    onConfirmRequest = viewModel::postUserProfile,
                     onDismissRequest = { showCodeValidationDialog = false },
+                    isError = viewModel.isError.collectAsStateWithLifecycle().value,
+                    supportingText =
+                    stringResource(
+                        viewModel.errorSupportingText.collectAsStateWithLifecycle().value,
+                    ),
                 )
             }
 
