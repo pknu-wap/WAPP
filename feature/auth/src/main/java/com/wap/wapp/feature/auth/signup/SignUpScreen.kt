@@ -37,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.designsystem.modifier.addFocusCleaner
@@ -46,6 +47,7 @@ import com.wap.wapp.feature.auth.R.drawable.ic_card
 import com.wap.wapp.feature.auth.R.drawable.ic_door
 import com.wap.wapp.feature.auth.R.string
 import com.wap.wapp.feature.auth.signup.SignUpViewModel.SignUpEvent
+import com.wap.wapp.feature.auth.signup.validation.CodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -78,7 +80,9 @@ internal fun SignUpScreen(
             when (it) {
                 is SignUpEvent.SignUpSuccess -> navigateToNotice()
 
-                is SignUpEvent.ValidationSuccess -> { showCodeValidationDialog = true }
+                is SignUpEvent.ValidationSuccess -> {
+                    showCodeValidationDialog = true
+                }
 
                 is SignUpEvent.Failure ->
                     snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
@@ -98,6 +102,15 @@ internal fun SignUpScreen(
                 .addFocusCleaner(focusManager)
                 .padding(paddingValue),
         ) {
+            if (showCodeValidationDialog) {
+                CodeValidationDialog(
+                    code = viewModel.wapMemberCode.collectAsStateWithLifecycle().value,
+                    setValidationCode = viewModel::setWapMemberCode,
+                    onConfirmRequest = { },
+                    onDismissRequest = { showCodeValidationDialog = false },
+                )
+            }
+
             WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
