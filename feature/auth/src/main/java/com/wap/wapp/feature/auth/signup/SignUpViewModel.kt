@@ -46,7 +46,7 @@ class SignUpViewModel @Inject constructor(
             studentId = _signUpStudentId.value,
             registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
         ).onSuccess {
-            _signUpEventFlow.emit(SignUpEvent.Success)
+            _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
         }.onFailure { throwable ->
             _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
         }
@@ -63,7 +63,8 @@ class SignUpViewModel @Inject constructor(
     fun setSemester(semester: String) { _signUpSemester.value = semester }
 
     sealed class SignUpEvent {
-        data object Success : SignUpEvent()
+        data object ValidationSuccess : SignUpEvent()
+        data object SignUpSuccess : SignUpEvent()
         data class Failure(val throwable: Throwable) : SignUpEvent()
     }
 

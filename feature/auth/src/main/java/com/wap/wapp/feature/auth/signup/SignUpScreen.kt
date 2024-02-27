@@ -22,7 +22,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -68,12 +71,13 @@ internal fun SignUpScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    var showCodeValidationDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.signUpEventFlow.collectLatest {
             when (it) {
-                is SignUpEvent.Success -> navigateToNotice()
-
+                is SignUpEvent.SignUpSuccess -> navigateToNotice()
+                is SignUpEvent.ValidationSuccess -> {}
                 is SignUpEvent.Failure ->
                     snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
             }
