@@ -93,12 +93,9 @@ internal fun SurveyRegistrationScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(vertical = 16.dp, horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(40.dp),
         ) {
-            SurveyFormStateIndicator(
-                surveyRegistrationState = currentRegistrationState,
-                modifier = Modifier.padding(horizontal = 20.dp),
-            )
+            SurveyFormStateIndicator(surveyRegistrationState = currentRegistrationState)
 
             SurveyFormContent(
                 surveyRegistrationState = currentRegistrationState,
