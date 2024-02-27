@@ -57,12 +57,16 @@ class SignUpViewModel @Inject constructor(
             return@launch
         }
 
-        postUserProfileUseCase(
-            userName = _signUpName.value,
-            studentId = _signUpStudentId.value,
-            registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
-        ).onSuccess {
-            _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
+        validateWapMemberCodeUseCase(_wapMemberCode.value).onSuccess {
+            postUserProfileUseCase(
+                userName = _signUpName.value,
+                studentId = _signUpStudentId.value,
+                registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
+            ).onSuccess {
+                _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
+            }.onFailure { throwable ->
+                _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
+            }
         }.onFailure { throwable ->
             _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
         }
@@ -70,13 +74,21 @@ class SignUpViewModel @Inject constructor(
 
     fun isValidStudentId(): Boolean = (_signUpStudentId.value.length == STUDENT_ID_LENGTH)
 
-    fun setName(name: String) { _signUpName.value = name }
+    fun setName(name: String) {
+        _signUpName.value = name
+    }
 
-    fun setStudentId(studentId: String) { _signUpStudentId.value = studentId }
+    fun setStudentId(studentId: String) {
+        _signUpStudentId.value = studentId
+    }
 
-    fun setYear(year: String) { _signUpYear.value = year }
+    fun setYear(year: String) {
+        _signUpYear.value = year
+    }
 
-    fun setSemester(semester: String) { _signUpSemester.value = semester }
+    fun setSemester(semester: String) {
+        _signUpSemester.value = semester
+    }
 
     sealed class SignUpEvent {
         data object ValidationSuccess : SignUpEvent()
