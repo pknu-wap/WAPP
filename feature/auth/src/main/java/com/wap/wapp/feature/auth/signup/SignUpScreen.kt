@@ -77,7 +77,9 @@ internal fun SignUpScreen(
         viewModel.signUpEventFlow.collectLatest {
             when (it) {
                 is SignUpEvent.SignUpSuccess -> navigateToNotice()
-                is SignUpEvent.ValidationSuccess -> {}
+
+                is SignUpEvent.ValidationSuccess -> { showCodeValidationDialog = true }
+
                 is SignUpEvent.Failure ->
                     snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
             }
@@ -193,7 +195,7 @@ internal fun SignUpScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Button(
-                        onClick = { viewModel.postUserProfile() },
+                        onClick = { viewModel.validationUserInformation() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),

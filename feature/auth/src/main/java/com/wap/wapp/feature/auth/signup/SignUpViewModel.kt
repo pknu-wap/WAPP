@@ -33,6 +33,17 @@ class SignUpViewModel @Inject constructor(
     private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
     val signUpSemester: StateFlow<String> = _signUpSemester.asStateFlow()
 
+    fun validationUserInformation() = viewModelScope.launch {
+        if (!isValidStudentId()) {
+            _signUpEventFlow.emit(
+                SignUpEvent.Failure(IllegalStateException("학번은 9자리로만 입력하실 수 있어요!")),
+            )
+            return@launch
+        }
+
+        _signUpEventFlow.emit(SignUpEvent.ValidationSuccess)
+    }
+
     fun postUserProfile() = viewModelScope.launch {
         if (!isValidStudentId()) {
             _signUpEventFlow.emit(
