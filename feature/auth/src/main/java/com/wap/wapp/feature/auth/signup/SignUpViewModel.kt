@@ -2,6 +2,7 @@ package com.wap.wapp.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.domain.usecase.auth.ValidateWapMemberCodeUseCase
 import com.wap.wapp.core.domain.usecase.user.PostUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val postUserProfileUseCase: PostUserProfileUseCase,
+    private val validateWapMemberCodeUseCase: ValidateWapMemberCodeUseCase,
 ) : ViewModel() {
 
     private val _signUpEventFlow = MutableSharedFlow<SignUpEvent>()
@@ -32,6 +34,9 @@ class SignUpViewModel @Inject constructor(
 
     private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
     val signUpSemester: StateFlow<String> = _signUpSemester.asStateFlow()
+
+    private val _wapMemberCode: MutableStateFlow<String> = MutableStateFlow("")
+    val wapMemberCode: StateFlow<String> = _wapMemberCode.asStateFlow()
 
     fun validationUserInformation() = viewModelScope.launch {
         if (!isValidStudentId()) {
