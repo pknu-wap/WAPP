@@ -6,6 +6,8 @@ import com.wap.wapp.core.data.repository.attendancestatus.AttendanceStatusReposi
 import com.wap.wapp.core.data.repository.attendancestatus.AttendanceStatusRepositoryImpl
 import com.wap.wapp.core.data.repository.auth.AuthRepository
 import com.wap.wapp.core.data.repository.auth.AuthRepositoryImpl
+import com.wap.wapp.core.data.repository.auth.SignUpRepository
+import com.wap.wapp.core.data.repository.auth.SignUpRepositoryImpl
 import com.wap.wapp.core.data.repository.event.EventRepository
 import com.wap.wapp.core.data.repository.event.EventRepositoryImpl
 import com.wap.wapp.core.data.repository.management.ManagementRepository
@@ -72,4 +74,10 @@ abstract class DataModule {
     abstract fun bindsAttendanceStatusRepository(
         attendanceStatusRepositoryImpl: AttendanceStatusRepositoryImpl,
     ): AttendanceStatusRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsSignUpRepository(
+        signUpRepositoryImpl: SignUpRepositoryImpl,
+    ): SignUpRepository
 }
