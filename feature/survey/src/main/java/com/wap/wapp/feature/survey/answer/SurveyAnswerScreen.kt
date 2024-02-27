@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.wapp.core.commmon.extensions.toSupportingText
+import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.model.survey.Rating
 import com.wap.wapp.core.model.survey.SurveyForm
 import com.wap.wapp.feature.survey.R
@@ -65,6 +66,7 @@ internal fun SurveyAnswerScreen(
                 titleRes = R.string.survey_answer,
                 showLeftButton = true,
                 modifier = Modifier.padding(top = 16.dp), // 하단은 Content Padding에 의존
+                leftButtonDrawableRes = drawable.ic_close,
                 onClickLeftButton = {
                     when (surveyAnswerState) {
                         SurveyAnswerState.SURVEY_OVERVIEW -> navigateToSurvey()
@@ -112,6 +114,8 @@ internal fun SurveyAnswerScreen(
                         // 응답의 갯수가 질문의 갯수보다 작은 경우
                         if (questionNumber >= surveyAnswerList.size) {
                             viewModel.addSurveyAnswer()
+                        } else {
+                            viewModel.editSurveyAnswer()
                         }
                         viewModel.setPreviousQuestionAndAnswer()
                     },
