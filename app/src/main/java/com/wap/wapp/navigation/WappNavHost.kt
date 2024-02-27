@@ -77,7 +77,13 @@ fun WappNavHost(
             navigateToSignUp = navController::navigateToSignUp,
         )
         signUpScreen(
-            navigateToNotice = navController::navigateToNotice,
+            navigateToNotice = {
+                navController.navigateToNotice(
+                    navOptions {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    },
+                )
+            },
             navigateToSignIn = navController::navigateToSignIn,
         )
         noticeScreen()
