@@ -40,7 +40,7 @@ internal fun SurveyEventContent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
         ) {
             when (eventsState) {
                 is EventsState.Loading -> item {
