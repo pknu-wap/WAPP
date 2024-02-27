@@ -9,6 +9,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.wap.wapp.core.model.event.Event
 import com.wap.wapp.core.model.survey.QuestionType
 import java.time.LocalDate
@@ -59,6 +60,7 @@ internal fun SurveyFormContent(
                     slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
             }
         },
+        label = stringResource(R.string.survey_form_registration_content_animated_content),
     ) { registrationState ->
         when (registrationState) {
             SurveyFormState.EVENT_SELECTION -> {

@@ -103,7 +103,7 @@ internal fun SurveyFormEditScreen(
                 .addFocusCleaner(focusManager)
                 .padding(paddingValues) // paddingValue padding
                 .padding(vertical = 16.dp, horizontal = 20.dp), // dp value padding
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(40.dp),
         ) {
             if (showDeleteSurveyDialog) {
                 DeleteSurveyDialog(

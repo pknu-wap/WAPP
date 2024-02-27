@@ -79,7 +79,8 @@ internal fun EventRegistrationContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .addFocusCleaner(focusManager),
+            .addFocusCleaner(focusManager)
+            .padding(top = 40.dp),
     ) {
         AnimatedContent(
             targetState = eventRegistrationState,

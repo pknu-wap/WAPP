@@ -205,7 +205,7 @@ internal fun EventEditScreen(
 
             EventEditStateIndicator(
                 eventRegistrationState = currentEditState,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 20.dp),
+                modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 20.dp),
             )
 
             EventRegistrationContent(

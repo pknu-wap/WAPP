@@ -173,8 +173,7 @@ internal fun EventRegistrationScreen(
 
             EventRegistrationContent(
                 eventRegistrationState = currentRegistrationState,
-                modifier = Modifier
-                    .padding(top = 50.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
+                modifier = Modifier.padding(horizontal = 20.dp),
                 eventTitle = title,
                 eventContent = content,
                 location = location,
