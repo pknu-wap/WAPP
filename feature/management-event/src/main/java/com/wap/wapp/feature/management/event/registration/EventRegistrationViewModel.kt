@@ -139,7 +139,8 @@ class EventRegistrationViewModel @Inject constructor(
         val endDate = _eventEndDate.value
 
         if (startDate == endDate) {
-            return eventTime > _eventStartTime.value
+            val startTime = _eventStartTime.value
+            return eventTime > startTime
         }
         return startDate < endDate
     }
