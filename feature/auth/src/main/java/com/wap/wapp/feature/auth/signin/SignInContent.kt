@@ -32,12 +32,13 @@ import com.wap.wapp.feature.auth.R.string
 internal fun SignInContent(
     openSignInSheet: () -> Unit,
     navigateToNotice: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
 
     Column(
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
             .verticalScroll(scrollState),
