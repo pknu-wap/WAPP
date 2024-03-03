@@ -2,6 +2,8 @@ package com.wap.wapp.core.network.source.auth
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.wap.wapp.core.network.constant.CODES_COLLECTION
 import com.wap.wapp.core.network.utils.await
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -9,6 +11,7 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
+    private val firebaseFirestore: FirebaseFirestore,
 ) : AuthDataSource {
     override suspend fun signOut(): Result<Unit> = runCatching {
         firebaseAuth.signOut()
@@ -44,5 +47,14 @@ class AuthDataSourceImpl @Inject constructor(
                 firebaseAuth.removeAuthStateListener(authStateListener)
             }
         }
+    }
+
+    override suspend fun validationWapCode(code: String): Result<Boolean> = runCatching {
+        val result = firebaseFirestore.collection(CODES_COLLECTION)
+            .whereEqualTo("user", code)
+            .get()
+            .await()
+
+        result.isEmpty.not()
     }
 }

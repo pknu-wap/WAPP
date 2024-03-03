@@ -1,6 +1,5 @@
 package com.wap.wapp.core.domain.usecase.auth
 
-import com.wap.wapp.core.data.repository.auth.SignUpRepository
 import com.wap.wapp.core.domain.model.CodeValidation
 import javax.inject.Inject
 

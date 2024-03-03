@@ -11,4 +11,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun deleteUser(): Result<Unit> = authDataSource.deleteUser()
 
     override suspend fun isUserSignIn(): Result<Boolean> = authDataSource.isUserSignIn()
+
+    override suspend fun validationWapCode(code: String): Result<Boolean> =
+        authDataSource.validationWapCode(code)
 }
