@@ -49,7 +49,7 @@ class AuthDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun validationWapCode(code: String): Result<Boolean> = runCatching {
+    override suspend fun validateMemberCode(code: String): Result<Boolean> = runCatching {
         val result = firebaseFirestore.collection(CODES_COLLECTION)
             .whereEqualTo("user", code)
             .get()

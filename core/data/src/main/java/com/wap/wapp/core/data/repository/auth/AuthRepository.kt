@@ -7,5 +7,5 @@ interface AuthRepository {
 
     suspend fun isUserSignIn(): Result<Boolean>
 
-    suspend fun validationWapCode(code: String): Result<Boolean>
+    suspend fun validateMemberCode(code: String): Result<Boolean>
 }
