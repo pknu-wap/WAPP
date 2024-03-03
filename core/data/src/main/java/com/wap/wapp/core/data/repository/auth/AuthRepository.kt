@@ -6,4 +6,6 @@ interface AuthRepository {
     suspend fun deleteUser(): Result<Unit>
 
     suspend fun isUserSignIn(): Result<Boolean>
+
+    suspend fun checkMemberCode(code: String): Result<Boolean>
 }

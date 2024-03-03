@@ -196,6 +196,7 @@ internal fun SignInScreen(
                 }
             },
             navigateToNotice = { navigateToNotice() },
+            modifier = Modifier.addFocusCleaner(focusManager),
         )
     }
 }
