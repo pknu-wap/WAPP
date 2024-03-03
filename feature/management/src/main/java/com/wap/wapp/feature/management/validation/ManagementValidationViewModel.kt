@@ -30,25 +30,23 @@ class ManagementValidationViewModel @Inject constructor(
         MutableStateFlow(R.string.management_dialog_hint)
     val errorSupportingText: StateFlow<Int> get() = _errorSupportingText
 
-    fun checkManagementCode() {
-        viewModelScope.launch {
-            checkManagementCodeUseCase(_managementCode.value)
-                .onSuccess {
-                    when (it) {
-                        CodeValidation.VALID -> {
-                            _managementCodeUiState.value = ManagementCodeUiState.Success
-                        }
+    fun checkManagementCode() = viewModelScope.launch {
+        checkManagementCodeUseCase(_managementCode.value)
+            .onSuccess {
+                when (it) {
+                    CodeValidation.VALID -> {
+                        _managementCodeUiState.value = ManagementCodeUiState.Success
+                    }
 
-                        CodeValidation.INVALID -> {
-                            _isError.value = true
-                            _errorSupportingText.value = R.string.management_incorrect_code
-                        }
+                    CodeValidation.INVALID -> {
+                        _isError.value = true
+                        _errorSupportingText.value = R.string.management_incorrect_code
                     }
                 }
-                .onFailure { throwable ->
-                    _managementCodeUiState.value = ManagementCodeUiState.Failure(throwable)
-                }
-        }
+            }
+            .onFailure { throwable ->
+                _managementCodeUiState.value = ManagementCodeUiState.Failure(throwable)
+            }
     }
 
     fun setManagementCode(code: String) { _managementCode.value = code }
