@@ -1,13 +1,14 @@
 package com.wap.wapp.core.domain.usecase.auth
 
+import com.wap.wapp.core.data.repository.auth.AuthRepository
 import com.wap.wapp.core.domain.model.CodeValidation
 import javax.inject.Inject
 
-class ValidateWapMemberCodeUseCase @Inject constructor(
-    private val signUpRepository: SignUpRepository,
+class CheckMemberCodeUseCase @Inject constructor(
+    private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(code: String): Result<CodeValidation> = runCatching {
-        signUpRepository.validationWapCode(code).fold(
+        authRepository.checkMemberCode(code).fold(
             onSuccess = { isValid ->
                 if (isValid) {
                     return@fold CodeValidation.VALID

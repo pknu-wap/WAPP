@@ -84,7 +84,7 @@ internal fun SignUpScreen(
                     showCodeValidationDialog = true
                 }
 
-                is SignUpEvent.ValidateMemberCodeSuccess -> viewModel.postUserProfile()
+                is SignUpEvent.CheckMemberCodeSuccess -> viewModel.postUserProfile()
 
                 is SignUpEvent.Failure ->
                     snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
@@ -108,7 +108,7 @@ internal fun SignUpScreen(
                 CodeValidationDialog(
                     code = viewModel.memberCode.collectAsStateWithLifecycle().value,
                     setValidationCode = viewModel::setWapMemberCode,
-                    onConfirmRequest = viewModel::validateMemberCode,
+                    onConfirmRequest = viewModel::checkMemberCode,
                     onDismissRequest = { showCodeValidationDialog = false },
                     isError = viewModel.isError.collectAsStateWithLifecycle().value,
                     supportingText =

@@ -7,5 +7,5 @@ interface AuthDataSource {
 
     suspend fun isUserSignIn(): Result<Boolean>
 
-    suspend fun validateMemberCode(code: String): Result<Boolean>
+    suspend fun checkMemberCode(code: String): Result<Boolean>
 }

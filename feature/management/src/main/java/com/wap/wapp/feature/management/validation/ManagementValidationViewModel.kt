@@ -3,7 +3,7 @@ package com.wap.wapp.feature.management.validation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.model.CodeValidation
-import com.wap.wapp.core.domain.usecase.management.ValidateManagementCodeUseCase
+import com.wap.wapp.core.domain.usecase.management.CheckManagementCodeUseCase
 import com.wap.wapp.feature.management.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManagementValidationViewModel @Inject constructor(
-    private val validateManagementCodeUseCase: ValidateManagementCodeUseCase,
+    private val checkManagementCodeUseCase: CheckManagementCodeUseCase,
 ) : ViewModel() {
     private val _managementCodeUiState: MutableStateFlow<ManagementCodeUiState> =
         MutableStateFlow(ManagementCodeUiState.Init)
@@ -30,9 +30,9 @@ class ManagementValidationViewModel @Inject constructor(
         MutableStateFlow(R.string.management_dialog_hint)
     val errorSupportingText: StateFlow<Int> get() = _errorSupportingText
 
-    fun validateManagementCode() {
+    fun checkManagementCode() {
         viewModelScope.launch {
-            validateManagementCodeUseCase(_managementCode.value)
+            checkManagementCodeUseCase(_managementCode.value)
                 .onSuccess {
                     when (it) {
                         CodeValidation.VALID -> {
@@ -51,9 +51,7 @@ class ManagementValidationViewModel @Inject constructor(
         }
     }
 
-    fun setManagementCode(code: String) {
-        _managementCode.value = code
-    }
+    fun setManagementCode(code: String) { _managementCode.value = code }
 
     sealed class ManagementCodeUiState {
         data object Init : ManagementCodeUiState()

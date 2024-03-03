@@ -3,7 +3,7 @@ package com.wap.wapp.feature.auth.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.model.CodeValidation
-import com.wap.wapp.core.domain.usecase.auth.ValidateWapMemberCodeUseCase
+import com.wap.wapp.core.domain.usecase.auth.CheckMemberCodeUseCase
 import com.wap.wapp.core.domain.usecase.user.PostUserProfileUseCase
 import com.wap.wapp.feature.auth.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val postUserProfileUseCase: PostUserProfileUseCase,
-    private val validateWapMemberCodeUseCase: ValidateWapMemberCodeUseCase,
+    private val checkMemberCodeUseCase: CheckMemberCodeUseCase,
 ) : ViewModel() {
     private val _signUpEventFlow = MutableSharedFlow<SignUpEvent>()
     val signUpEventFlow: SharedFlow<SignUpEvent> = _signUpEventFlow.asSharedFlow()
@@ -57,11 +57,11 @@ class SignUpViewModel @Inject constructor(
         _signUpEventFlow.emit(SignUpEvent.ValidateUserInformationSuccess)
     }
 
-    fun validateMemberCode() = viewModelScope.launch {
-        validateWapMemberCodeUseCase(_memberCode.value).onSuccess {
+    fun checkMemberCode() = viewModelScope.launch {
+        checkMemberCodeUseCase(_memberCode.value).onSuccess {
             when (it) {
                 CodeValidation.VALID ->
-                    _signUpEventFlow.emit(SignUpEvent.ValidateMemberCodeSuccess)
+                    _signUpEventFlow.emit(SignUpEvent.CheckMemberCodeSuccess)
 
                 CodeValidation.INVALID -> {
                     _isError.value = true
@@ -99,7 +99,7 @@ class SignUpViewModel @Inject constructor(
 
     sealed class SignUpEvent {
         data object ValidateUserInformationSuccess : SignUpEvent()
-        data object ValidateMemberCodeSuccess : SignUpEvent()
+        data object CheckMemberCodeSuccess : SignUpEvent()
         data object SignUpSuccess : SignUpEvent()
         data class Failure(val throwable: Throwable) : SignUpEvent()
     }
