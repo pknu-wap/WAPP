@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.wap.wapp.core.domain.model.CodeValidation
 import com.wap.wapp.core.domain.usecase.auth.ValidateWapMemberCodeUseCase
 import com.wap.wapp.core.domain.usecase.user.PostUserProfileUseCase
+import com.wap.wapp.feature.auth.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.wap.wapp.feature.auth.R
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
@@ -54,24 +54,14 @@ class SignUpViewModel @Inject constructor(
             return@launch
         }
 
-        _signUpEventFlow.emit(SignUpEvent.ValidationSuccess)
+        _signUpEventFlow.emit(SignUpEvent.ValidateUserInformationSuccess)
     }
 
-    fun postUserProfile() = viewModelScope.launch {
+    fun validateMemberCode() = viewModelScope.launch {
         validateWapMemberCodeUseCase(_wapMemberCode.value).onSuccess {
             when (it) {
-                CodeValidation.VALID -> {
-                    postUserProfileUseCase(
-                        userName = _signUpName.value,
-                        studentId = _signUpStudentId.value,
-                        registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
-                    ).onSuccess {
-                        _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
-                    }.onFailure { throwable ->
-                        _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
-                        _isError.value = true
-                    }
-                }
+                CodeValidation.VALID ->
+                    _signUpEventFlow.emit(SignUpEvent.ValidateMemberCodeSuccess)
 
                 CodeValidation.INVALID -> {
                     _isError.value = true
@@ -79,9 +69,20 @@ class SignUpViewModel @Inject constructor(
                 }
             }
         }.onFailure { throwable ->
-            _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
             _isError.value = true
+            _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
         }
+    }
+
+    suspend fun postUserProfile() = postUserProfileUseCase(
+        userName = _signUpName.value,
+        studentId = _signUpStudentId.value,
+        registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
+    ).onSuccess {
+        _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
+    }.onFailure { throwable ->
+        _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
+        _isError.value = true
     }
 
     fun isValidStudentId(): Boolean = (_signUpStudentId.value.length == STUDENT_ID_LENGTH)
@@ -97,7 +98,8 @@ class SignUpViewModel @Inject constructor(
     fun setWapMemberCode(code: String) { _wapMemberCode.value = code }
 
     sealed class SignUpEvent {
-        data object ValidationSuccess : SignUpEvent()
+        data object ValidateUserInformationSuccess : SignUpEvent()
+        data object ValidateMemberCodeSuccess : SignUpEvent()
         data object SignUpSuccess : SignUpEvent()
         data class Failure(val throwable: Throwable) : SignUpEvent()
     }
