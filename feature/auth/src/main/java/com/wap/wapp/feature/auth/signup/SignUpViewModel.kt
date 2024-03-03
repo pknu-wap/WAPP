@@ -46,7 +46,7 @@ class SignUpViewModel @Inject constructor(
         MutableStateFlow(R.string.sign_up_dialog_hint)
     val errorSupportingText: StateFlow<Int> = _errorSupportingText.asStateFlow()
 
-    fun validationUserInformation() = viewModelScope.launch {
+    fun validateUserInformation() = viewModelScope.launch {
         if (!isValidStudentId()) {
             _signUpEventFlow.emit(
                 SignUpEvent.Failure(IllegalStateException("학번은 9자리로만 입력하실 수 있어요!")),

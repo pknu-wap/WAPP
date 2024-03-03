@@ -213,7 +213,7 @@ internal fun SignUpScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Button(
-                        onClick = { viewModel.validationUserInformation() },
+                        onClick = { viewModel.validateUserInformation() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
