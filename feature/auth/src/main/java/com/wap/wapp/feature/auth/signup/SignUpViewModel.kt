@@ -36,8 +36,8 @@ class SignUpViewModel @Inject constructor(
     private val _signUpSemester: MutableStateFlow<String> = MutableStateFlow(FIRST_SEMESTER)
     val signUpSemester: StateFlow<String> = _signUpSemester.asStateFlow()
 
-    private val _wapMemberCode: MutableStateFlow<String> = MutableStateFlow("")
-    val wapMemberCode: StateFlow<String> = _wapMemberCode.asStateFlow()
+    private val _memberCode: MutableStateFlow<String> = MutableStateFlow("")
+    val memberCode: StateFlow<String> = _memberCode.asStateFlow()
 
     private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isError: StateFlow<Boolean> get() = _isError
@@ -58,7 +58,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun validateMemberCode() = viewModelScope.launch {
-        validateWapMemberCodeUseCase(_wapMemberCode.value).onSuccess {
+        validateWapMemberCodeUseCase(_memberCode.value).onSuccess {
             when (it) {
                 CodeValidation.VALID ->
                     _signUpEventFlow.emit(SignUpEvent.ValidateMemberCodeSuccess)
@@ -95,7 +95,7 @@ class SignUpViewModel @Inject constructor(
 
     fun setSemester(semester: String) { _signUpSemester.value = semester }
 
-    fun setWapMemberCode(code: String) { _wapMemberCode.value = code }
+    fun setWapMemberCode(code: String) { _memberCode.value = code }
 
     sealed class SignUpEvent {
         data object ValidateUserInformationSuccess : SignUpEvent()
