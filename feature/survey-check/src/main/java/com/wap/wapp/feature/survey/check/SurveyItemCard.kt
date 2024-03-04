@@ -10,7 +10,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wap.designsystem.WappTheme
 import com.wap.wapp.core.model.survey.Survey
@@ -30,31 +32,35 @@ internal fun SurveyItemCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
                     text = survey.title,
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
                     color = WappTheme.colors.white,
                     style = WappTheme.typography.titleBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f),
                 )
 
                 Text(
-                    text = survey.eventName,
-                    color = WappTheme.colors.grayA2,
+                    text = survey.calculateSurveyedAt(),
+                    color = WappTheme.colors.yellow34,
                     style = WappTheme.typography.captionMedium,
+                    modifier = Modifier.padding(start = 8.dp),
                 )
             }
 
             Text(
-                text = survey.userName,
+                text = "${survey.userName} • ${survey.eventName}",
                 color = WappTheme.colors.grayBD,
-                style = WappTheme.typography.contentMedium,
+                style = WappTheme.typography.labelMedium,
+                maxLines = 1,
             )
         }
     }
