@@ -74,6 +74,7 @@ internal fun NoticeScreen(
             scaffoldState = scaffoldState,
             sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
+            sheetShadowElevation = 20.dp,
             sheetContent = {
                 BottomSheetContent(
                     expandableHeight = expandableHeight,
