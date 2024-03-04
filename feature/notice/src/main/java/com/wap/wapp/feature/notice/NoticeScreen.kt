@@ -93,7 +93,7 @@ internal fun NoticeScreen(
                 onCalendarMonthChanged = onCalendarMonthChanged,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
-                    .background(WappTheme.colors.black25)
+                    .background(WappTheme.colors.black20)
                     .layout { measurable, constraints ->
                         val placeable = measurable.measure(constraints)
 
