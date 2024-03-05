@@ -68,7 +68,7 @@ internal fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WappTheme.colors.black25),
+            .background(WappTheme.colors.black20),
     ) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
