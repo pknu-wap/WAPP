@@ -278,7 +278,7 @@ private fun EventScheduleContent(
 
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.padding(top = 40.dp, bottom = 16.dp),
+            modifier = Modifier.padding(top = 40.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
