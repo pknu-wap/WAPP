@@ -192,7 +192,7 @@ internal fun EventEditScreen(
                 .verticalScroll(scrollState)
                 .height(IntrinsicSize.Max)
                 .padding(paddingValues)
-                .padding(vertical = 16.dp),
+                .padding(top = 16.dp),
         ) {
             WappSubTopBar(
                 titleRes = R.string.event_edit,
