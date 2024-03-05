@@ -27,20 +27,20 @@ data class Survey(
             return "방금"
         } else if (duration.toMinutes() < 60) {
             val leftMinutes = duration.toMinutes().toString()
-            return leftMinutes + "분 전 작성"
+            return leftMinutes + "분 전"
         }
 
         if (duration.toHours() < 24) {
             val leftHours = duration.toHours().toString()
-            return leftHours + "시간 전 작성"
+            return leftHours + "시간 전"
         }
 
         if (duration.toDays() < 31) {
             val leftDays = duration.toDays().toString()
-            return leftDays + "일 전 작성"
+            return leftDays + "일 전"
         }
 
-        return surveyedAt.format(yyyyMMddFormatter) + " 작성"
+        return surveyedAt.format(yyyyMMddFormatter)
     }
 
     companion object {
