@@ -58,7 +58,7 @@ internal fun SurveyCheckScreen(
 
             is SurveyCheckViewModel.SurveyListUiState.Success -> {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 20.dp)
