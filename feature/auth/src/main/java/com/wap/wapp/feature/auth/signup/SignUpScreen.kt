@@ -22,7 +22,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.designsystem.modifier.addFocusCleaner
@@ -43,6 +47,7 @@ import com.wap.wapp.feature.auth.R.drawable.ic_card
 import com.wap.wapp.feature.auth.R.drawable.ic_door
 import com.wap.wapp.feature.auth.R.string
 import com.wap.wapp.feature.auth.signup.SignUpViewModel.SignUpEvent
+import com.wap.wapp.feature.auth.signup.validation.CodeValidationDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -68,11 +73,18 @@ internal fun SignUpScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    var showCodeValidationDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.signUpEventFlow.collectLatest {
             when (it) {
-                is SignUpEvent.Success -> navigateToNotice()
+                is SignUpEvent.SignUpSuccess -> navigateToNotice()
+
+                is SignUpEvent.ValidateUserInformationSuccess -> {
+                    showCodeValidationDialog = true
+                }
+
+                is SignUpEvent.CheckMemberCodeSuccess -> viewModel.postUserProfile()
 
                 is SignUpEvent.Failure ->
                     snackBarHostState.showSnackbar(message = it.throwable.toSupportingText())
@@ -92,6 +104,20 @@ internal fun SignUpScreen(
                 .addFocusCleaner(focusManager)
                 .padding(paddingValue),
         ) {
+            if (showCodeValidationDialog) {
+                CodeValidationDialog(
+                    code = viewModel.memberCode.collectAsStateWithLifecycle().value,
+                    setValidationCode = viewModel::setWapMemberCode,
+                    onConfirmRequest = viewModel::checkMemberCode,
+                    onDismissRequest = { showCodeValidationDialog = false },
+                    isError = viewModel.isError.collectAsStateWithLifecycle().value,
+                    supportingText =
+                    stringResource(
+                        viewModel.errorSupportingText.collectAsStateWithLifecycle().value,
+                    ),
+                )
+            }
+
             WappSubTopBar(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -189,7 +215,7 @@ internal fun SignUpScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     Button(
-                        onClick = { viewModel.postUserProfile() },
+                        onClick = { viewModel.validateUserInformation() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),

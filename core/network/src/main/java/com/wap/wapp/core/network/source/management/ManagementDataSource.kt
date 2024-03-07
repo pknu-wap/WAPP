@@ -5,7 +5,7 @@ interface ManagementDataSource {
 
     suspend fun postManager(userId: String): Result<Unit>
 
-    suspend fun getManagementCode(code: String): Result<Boolean>
+    suspend fun checkManagementCode(code: String): Result<Boolean>
 
     suspend fun deleteManager(userId: String): Result<Unit>
 }
