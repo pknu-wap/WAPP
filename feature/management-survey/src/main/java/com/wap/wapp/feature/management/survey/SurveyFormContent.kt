@@ -47,6 +47,7 @@ internal fun SurveyFormContent(
     onPreviousButtonClicked: (SurveyFormState) -> Unit, // previousState
     onNextButtonClicked: (SurveyFormState, SurveyFormState) -> Unit, // (currentState, nextState)
     onAddQuestionButtonClicked: () -> Unit,
+    onDeleteQuestionButtonClicked: () -> Unit,
     onRegisterButtonClicked: () -> Unit,
 ) {
     AnimatedContent(
@@ -104,7 +105,8 @@ internal fun SurveyFormContent(
                         onQuestionTypeChanged(defaultQuestionType)
                     },
                     onQuestionChanged = onQuestionTitleChanged,
-                    onAddSurveyQuestionButtonClicked = onAddQuestionButtonClicked,
+                    onAddQuestionButtonClicked = onAddQuestionButtonClicked,
+                    onDeleteQuestionButtonClicked = onDeleteQuestionButtonClicked,
                     currentQuestionNumber = currentQuestionNumber,
                     totalQuestionNumber = totalQuestionNumber,
                     onPreviousButtonClicked = {
