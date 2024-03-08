@@ -194,11 +194,14 @@ class SurveyFormEditViewModel @Inject constructor(
     fun setPreviousQuestionNumber() { _currentQuestionNumber.value -= 1 }
 
     fun setLastQuestion() {
-        _currentQuestionNumber.value = _questionList.value.size // 마지막 질문 번호로 변경
-        _totalQuestionNumber.value += 1 // 전체 질문 갯수 추가
+        val lastIndex = _questionList.value.size
+        _currentQuestionNumber.value = lastIndex
+        _totalQuestionNumber.value = lastIndex
         clearSurveyQuestionTitle()
+        setDefaultSurveyQuestionType()
     }
 
+    // 현재 질문 번호에 맞는 질문
     fun setQuestion() {
         val currentNumber = _currentQuestionNumber.value
         val totalSize = _questionList.value.size
@@ -226,6 +229,26 @@ class SurveyFormEditViewModel @Inject constructor(
         clearSurveyQuestionTitle()
     }
 
+    fun deleteSurveyQuestion() {
+        val totalQuestionNumber = _totalQuestionNumber.value
+        if (totalQuestionNumber < 1) {
+            emitValidationErrorMessage("삭제할 문항이 없습니다.")
+            return
+        }
+
+        val currentQuestionNumber = _currentQuestionNumber.value
+        val lastQuestionNumber = _questionList.value.lastIndex // 마지막 질문 번호
+        if (currentQuestionNumber <= lastQuestionNumber) {
+            val questionList = _questionList.value
+            questionList.removeAt(currentQuestionNumber)
+        } // 등록되지 않은 질문을 삭제하는 경우는 skip
+
+        if (currentQuestionNumber > 0) { // 5/5 -> 4/4, 1/4 -> 1/3, 2/3 -> 1/2
+            setPreviousQuestionNumber()
+        }
+        _totalQuestionNumber.value -= 1
+    }
+
     fun editSurveyQuestion() {
         val questionNumber = _currentQuestionNumber.value
         _questionList.value[questionNumber] = SurveyQuestion(
@@ -245,6 +268,8 @@ class SurveyFormEditViewModel @Inject constructor(
     fun setSurveyTimeDeadline(time: LocalTime) { _timeDeadline.value = time }
 
     fun setSurveyDateDeadline(date: LocalDate) { _dateDeadline.value = date }
+
+    private fun setDefaultSurveyQuestionType() { _questionType.value = QuestionType.SUBJECTIVE }
 
     private fun clearSurveyQuestionTitle() { _questionTitle.value = "" }
 

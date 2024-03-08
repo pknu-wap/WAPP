@@ -124,6 +124,7 @@ internal fun SignInScreen(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = WappTheme.colors.white,
                         focusedBorderColor = WappTheme.colors.yellow34,
+                        unfocusedTextColor = WappTheme.colors.white,
                     ),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -196,6 +197,7 @@ internal fun SignInScreen(
                 }
             },
             navigateToNotice = { navigateToNotice() },
+            modifier = Modifier.addFocusCleaner(focusManager),
         )
     }
 }

@@ -49,7 +49,8 @@ internal fun SurveyQuestionContent(
     onNextQuestionButtonClicked: () -> Unit,
     onPreviousButtonClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
-    onAddSurveyQuestionButtonClicked: () -> Unit,
+    onAddQuestionButtonClicked: () -> Unit,
+    onDeleteQuestionButtonClicked: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -91,11 +92,32 @@ internal fun SurveyQuestionContent(
             placeholder = R.string.suvey_question_hint,
         )
 
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = stringResource(id = R.string.delete_survey_question),
+                color = WappTheme.colors.white,
+                style = WappTheme.typography.labelRegular,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .clickable { onDeleteQuestionButtonClicked() },
+            )
+
+            Text(
+                text = stringResource(id = R.string.add_survey_question),
+                color = WappTheme.colors.yellow34,
+                style = WappTheme.typography.labelRegular,
+                modifier = Modifier.clickable { onAddQuestionButtonClicked() },
+            )
+        }
+
         Text(
             text = stringResource(R.string.survey_question_type),
             style = WappTheme.typography.titleBold,
             color = WappTheme.colors.white,
-            modifier = Modifier.padding(top = 10.dp),
+            modifier = Modifier.padding(top = 22.dp),
         )
 
         Row(
@@ -114,20 +136,23 @@ internal fun SurveyQuestionContent(
             )
         }
 
-        SurveyQuestionTypeDescription(
-            type = questionType,
-        )
+        SurveyQuestionTypeDescription(type = questionType)
 
         Spacer(modifier = Modifier.weight(1f))
 
-        SurveyQuestionButton(
-            onAddSurveyQuestionButtonClicked = {
-                onAddSurveyQuestionButtonClicked()
-            },
-            onNextButtonClicked = onNextButtonClicked,
-            onPreviousButtonClicked = onPreviousButtonClicked,
-            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            WappButton(
+                textRes = R.string.previous,
+                onClick = onPreviousButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+
+            WappButton(
+                textRes = R.string.next,
+                onClick = onNextButtonClicked,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
@@ -283,49 +308,5 @@ private fun SurveyQuestionTypeCard(
                 textAlign = TextAlign.End,
             )
         }
-    }
-}
-
-@Composable
-private fun SurveyQuestionButton(
-    onAddSurveyQuestionButtonClicked: () -> Unit,
-    onNextButtonClicked: () -> Unit,
-    onPreviousButtonClicked: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onAddSurveyQuestionButtonClicked() },
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Image(
-            painter = painterResource(id = drawable.ic_add_question),
-            contentDescription = stringResource(id = R.string.add_survey_question),
-            modifier = Modifier.size(40.dp),
-        )
-
-        Text(
-            text = stringResource(id = R.string.add_survey_question),
-            color = WappTheme.colors.yellow34,
-            style = WappTheme.typography.labelRegular,
-        )
-    }
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier,
-    ) {
-        WappButton(
-            textRes = R.string.previous,
-            onClick = onPreviousButtonClicked,
-            modifier = Modifier.weight(1f),
-        )
-
-        WappButton(
-            textRes = R.string.next,
-            onClick = onNextButtonClicked,
-            modifier = Modifier.weight(1f),
-        )
     }
 }

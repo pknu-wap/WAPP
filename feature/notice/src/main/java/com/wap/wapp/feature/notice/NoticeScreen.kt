@@ -68,12 +68,13 @@ internal fun NoticeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WappTheme.colors.black25),
+            .background(WappTheme.colors.black20),
     ) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetContainerColor = WappTheme.colors.black25,
             sheetPeekHeight = defaultHeight,
+            sheetShadowElevation = 20.dp,
             sheetContent = {
                 BottomSheetContent(
                     expandableHeight = expandableHeight,
@@ -92,7 +93,7 @@ internal fun NoticeScreen(
                 onCalendarMonthChanged = onCalendarMonthChanged,
                 measureDefaultModifier = Modifier
                     .fillMaxWidth()
-                    .background(WappTheme.colors.black25)
+                    .background(WappTheme.colors.black20)
                     .layout { measurable, constraints ->
                         val placeable = measurable.measure(constraints)
 

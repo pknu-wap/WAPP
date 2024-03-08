@@ -3,6 +3,7 @@ package com.wap.wapp.core.data.repository.survey
 import com.wap.wapp.core.data.utils.toISOLocalDateTimeString
 import com.wap.wapp.core.model.survey.Survey
 import com.wap.wapp.core.model.survey.SurveyAnswer
+import com.wap.wapp.core.network.source.event.EventDataSource
 import com.wap.wapp.core.network.source.survey.SurveyDataSource
 import com.wap.wapp.core.network.source.user.UserDataSource
 import java.time.LocalDateTime
@@ -11,6 +12,7 @@ import javax.inject.Inject
 class SurveyRepositoryImpl @Inject constructor(
     private val surveyDataSource: SurveyDataSource,
     private val userDataSource: UserDataSource,
+    private val eventDataSource: EventDataSource,
 ) : SurveyRepository {
     override suspend fun getSurveyList(): Result<List<Survey>> =
         surveyDataSource.getSurveyList().mapCatching { surveyList ->
@@ -19,11 +21,12 @@ class SurveyRepositoryImpl @Inject constructor(
                     .mapCatching { userProfileResponse ->
                         val userName = userProfileResponse.toDomain().userName
 
-                        noticeNameResponse.mapCatching { noticeNameResponse ->
-                            val eventName = noticeNameResponse.toDomain()
+                        eventDataSource.getEvent(eventId = surveyResponse.eventId)
+                            .mapCatching { eventResponse ->
+                                val eventName = eventResponse.toDomain().title
 
-                            surveyResponse.toDomain(userName = userName, eventName = eventName)
-                        }.getOrThrow()
+                                surveyResponse.toDomain(userName = userName, eventName = eventName)
+                            }.getOrThrow()
                     }.getOrThrow()
             }
         }
@@ -35,11 +38,12 @@ class SurveyRepositoryImpl @Inject constructor(
                     .mapCatching { userProfileResponse ->
                         val userName = userProfileResponse.toDomain().userName
 
-                        noticeNameResponse.mapCatching { noticeNameResponse ->
-                            val eventName = noticeNameResponse.toDomain()
+                        eventDataSource.getEvent(eventId = eventId)
+                            .mapCatching { eventResponse ->
+                                val eventName = eventResponse.toDomain().title
 
-                            surveyResponse.toDomain(userName = userName, eventName = eventName)
-                        }.getOrThrow()
+                                surveyResponse.toDomain(userName = userName, eventName = eventName)
+                            }.getOrThrow()
                     }.getOrThrow()
             }
         }
@@ -51,11 +55,12 @@ class SurveyRepositoryImpl @Inject constructor(
                     .mapCatching { userProfileResponse ->
                         val userName = userProfileResponse.toDomain().userName
 
-                        noticeNameResponse.mapCatching { noticeNameResponse ->
-                            val eventName = noticeNameResponse.toDomain()
+                        eventDataSource.getEvent(eventId = surveyResponse.eventId)
+                            .mapCatching { eventResponse ->
+                                val eventName = eventResponse.toDomain().title
 
-                            surveyResponse.toDomain(userName = userName, eventName = eventName)
-                        }.getOrThrow()
+                                surveyResponse.toDomain(userName = userName, eventName = eventName)
+                            }.getOrThrow()
                     }.getOrThrow()
             }
         }
@@ -67,11 +72,12 @@ class SurveyRepositoryImpl @Inject constructor(
                     .mapCatching { userProfileResponse ->
                         val userName = userProfileResponse.toDomain().userName
 
-                        noticeNameResponse.mapCatching { noticeNameResponse ->
-                            val eventName = noticeNameResponse.toDomain()
+                        eventDataSource.getEvent(eventId = surveyResponse.eventId)
+                            .mapCatching { eventResponse ->
+                                val eventName = eventResponse.toDomain().title
 
-                            surveyResponse.toDomain(userName = userName, eventName = eventName)
-                        }.getOrThrow()
+                                surveyResponse.toDomain(userName = userName, eventName = eventName)
+                            }.getOrThrow()
                     }.getOrThrow()
             }
         }
@@ -82,11 +88,12 @@ class SurveyRepositoryImpl @Inject constructor(
                 .mapCatching { userProfileResponse ->
                     val userName = userProfileResponse.toDomain().userName
 
-                    noticeNameResponse.mapCatching { noticeNameResponse ->
-                        val eventName = noticeNameResponse.toDomain()
+                    eventDataSource.getEvent(eventId = surveyResponse.eventId)
+                        .mapCatching { eventResponse ->
+                            val eventName = eventResponse.toDomain().title
 
-                        surveyResponse.toDomain(userName = userName, eventName = eventName)
-                    }.getOrThrow()
+                            surveyResponse.toDomain(userName = userName, eventName = eventName)
+                        }.getOrThrow()
                 }.getOrThrow()
         }
 
@@ -113,9 +120,4 @@ class SurveyRepositoryImpl @Inject constructor(
 
     override suspend fun isSubmittedSurvey(surveyFormId: String, userId: String): Result<Boolean> =
         surveyDataSource.isSubmittedSurvey(surveyFormId, userId)
-
-    private val noticeNameResponse: Result<String> = Result.success("notice datasource dummy data")
-
-    // TODO 도메인 모델 구현을 위한 익스텐션, notice DataSource 구현 후 소거
-    private fun String.toDomain(): String = this
 }

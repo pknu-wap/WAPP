@@ -93,7 +93,7 @@ fun ManagementValidationScreen(
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
             WappButton(
-                onClick = { viewModel.validateManagementCode() },
+                onClick = { viewModel.checkManagementCode() },
                 isEnabled = code.isNotBlank(),
                 modifier = Modifier.padding(horizontal = 32.dp),
             )

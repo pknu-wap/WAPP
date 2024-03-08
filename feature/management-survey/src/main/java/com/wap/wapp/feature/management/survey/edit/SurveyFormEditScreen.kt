@@ -177,6 +177,10 @@ internal fun SurveyFormEditScreen(
 
                     viewModel.setLastQuestion()
                 },
+                onDeleteQuestionButtonClicked = {
+                    viewModel.deleteSurveyQuestion()
+                    viewModel.setQuestion()
+                },
                 onDateChanged = viewModel::setSurveyDateDeadline,
                 onTimeChanged = { localTime -> viewModel.setSurveyTimeDeadline(localTime) },
                 onPreviousButtonClicked = { previousState -> // 이전 버튼

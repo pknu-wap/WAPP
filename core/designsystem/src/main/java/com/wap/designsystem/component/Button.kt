@@ -28,7 +28,7 @@ fun WappButton(
         onClick = { onClick() },
         enabled = isEnabled,
         colors = ButtonDefaults.buttonColors(
-            contentColor = WappTheme.colors.black,
+            contentColor = WappTheme.colors.white,
             containerColor = WappTheme.colors.yellow34,
             disabledContentColor = WappTheme.colors.white,
             disabledContainerColor = WappTheme.colors.grayA2,

@@ -4,7 +4,8 @@
     <string name="edit_complete">수정 완료</string>
     <string name="survey_registeration">설문 등록</string>
     <string name="survey_registration_total_page">/ 4</string>
-    <string name="add_survey_question">질문 추가</string>
+    <string name="add_survey_question">문항 추가</string>
+    <string name="delete_survey_question">문항 삭제</string>
     <string name="register_survey">설문 등록하기</string>
     <string name="delete_survey">설문 삭제</string>
     <string name="cancel">취소</string>
