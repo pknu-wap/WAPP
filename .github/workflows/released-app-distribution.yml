@@ -2,7 +2,7 @@ name: Released-App-Distribution
 on:
   pull_request:
     branches:
-      - 'release/**'
+      - 'release'
 
 jobs:
   build:
