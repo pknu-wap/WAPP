@@ -1,6 +1,6 @@
 name: Released-App-Distribution
 on:
-  push:
+  push:
     branches:
       - 'release'
 
