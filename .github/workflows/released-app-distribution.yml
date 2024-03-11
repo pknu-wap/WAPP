@@ -30,14 +30,14 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Build release AAB
-        run: ./gradlew bundleRelease
+      - name: Build release APK
+        run: ./gradlew assembleRelease
 
-      - name: Sign AAB
+      - name: Sign APK
         id: sign_app
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: app/build/outputs/apk/release 
           signingKeyBase64: ${{ secrets.KEY_BASE_64_RELEASE }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -57,7 +57,7 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: WAPP_QA
-          file: app/build/outputs/bundle/release/app-release.aab
+          file: ${{steps.sign_app.outputs.signedReleaseFile}}
         
       - name: Send Success Message
         if: ${{ success() }}
@@ -95,7 +95,7 @@ jobs:
                   "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
                   "icon_url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true"
                 },
-                "title": "릴리즈 실패, 누가 이렇게 하래. 🤬🤬",
+                "title": "릴리즈 실패, 누가 이렇게 하래. 😭😭",
                 "color": 13458524,
                 "description": "다시 릴리즈 해오세요. 삐빅"
               }
