@@ -72,6 +72,7 @@ jobs:
                 "author": {
                   "name": "WAPP Release",
                   "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true"
                 },
                 "title": "릴리즈 성공, 자 두 과 자 ~ 🔥🔥",
                 "color": 10478271,
@@ -92,6 +93,7 @@ jobs:
                 "author": {
                   "name": "WAPP Release",
                   "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true"
                 },
                 "title": "릴리즈 실패, 누가 이렇게 하래. 🤬🤬",
                 "color": 13458524,
