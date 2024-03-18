@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WappTextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="WappTextAppearance.Title">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="WappTextAppearance.Base">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="WappTextAppearance.Content">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="WappTextAppearance.Caption">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="WappTextAppearance.Title.Bold">
+        <item name="android:fontFamily">@font/notosanskr_bold</item>
+    </style>
+
+    <style name="WappTextAppearance.Title.Medium">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
+    <style name="WappTextAppearance.Title.Regular">
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="WappTextAppearance.Content.Bold">
+        <item name="android:fontFamily">@font/notosanskr_bold</item>
+    </style>
+
+    <style name="WappTextAppearance.Content.Medium">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
+    <style name="WappTextAppearance.Content.Regular">
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="WappTextAppearance.Base.Bold">
+        <item name="android:fontFamily">@font/notosanskr_bold</item>
+    </style>
+
+    <style name="WappTextAppearance.Base.Medium">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
+    <style name="WappTextAppearance.Base.Regular">
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+
+    <style name="WappTextAppearance.Caption.Bold">
+        <item name="android:fontFamily">@font/notosanskr_bold</item>
+    </style>
+
+    <style name="WappTextAppearance.Caption.Medium">
+        <item name="android:fontFamily">@font/notosanskr_medium</item>
+    </style>
+
+    <style name="WappTextAppearance.Caption.Regular">
+        <item name="android:fontFamily">@font/notosanskr_regular</item>
+    </style>
+</resources>

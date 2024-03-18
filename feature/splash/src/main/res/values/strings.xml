@@ -1,0 +1,5 @@
+<resources>
+    <string name="application_name">WAPP</string>
+    <string name="application_icon_description">WAPP Icon</string>
+    <string name="wapp_icon_description">WAPP ICON</string>
+</resources>
