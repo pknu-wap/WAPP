@@ -17,21 +17,21 @@ class SplashViewModel @Inject constructor(
     val splashUiEvent = _splashUiEvent.asSharedFlow()
 
     init {
-        viewModelScope.launch {
-            isUserSignIn()
-        }
+        isUserSignIn()
     }
 
-    private suspend fun isUserSignIn() = isUserSignInUseCase()
-        .onSuccess { isSignIn ->
-            if (isSignIn) {
-                _splashUiEvent.emit(SplashEvent.SignInUser)
-            } else {
-                _splashUiEvent.emit(SplashEvent.NonSignInUser)
+    private fun isUserSignIn() = viewModelScope.launch {
+        isUserSignInUseCase()
+            .onSuccess { isSignIn ->
+                if (isSignIn) {
+                    _splashUiEvent.emit(SplashEvent.SignInUser)
+                } else {
+                    _splashUiEvent.emit(SplashEvent.NonSignInUser)
+                }
+            }.onFailure { throwable ->
+                _splashUiEvent.emit(SplashEvent.Failure(throwable))
             }
-        }.onFailure { throwable ->
-            _splashUiEvent.emit(SplashEvent.Failure(throwable))
-        }
+    }
 
     sealed class SplashEvent {
         data object SignInUser : SplashEvent()
