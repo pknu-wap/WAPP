@@ -25,6 +25,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.NothingToShow
 import com.wap.designsystem.component.WappRightMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.attendance.R
 import com.wap.wapp.feature.attendance.management.AttendanceManagementViewModel.AttendanceManagementEvent
@@ -64,6 +65,7 @@ internal fun AttendanceManagementRoute(
             }
         }
     }
+    TrackScreenViewEvent(screenName = "AttendanceManagementScreen")
 
     AttendanceManagementScreen(
         snackBarHostState = snackBarHostState,

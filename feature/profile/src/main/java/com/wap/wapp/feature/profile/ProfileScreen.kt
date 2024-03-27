@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappLeftMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.core.designresource.R.string
@@ -86,6 +87,8 @@ internal fun ProfileScreen(
     navigateToSurveyDetail: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+
+    TrackScreenViewEvent(screenName = "ProfileScreen")
 
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
