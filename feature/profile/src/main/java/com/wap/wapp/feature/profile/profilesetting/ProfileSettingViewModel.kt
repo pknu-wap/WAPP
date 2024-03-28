@@ -36,7 +36,6 @@ class ProfileSettingViewModel @Inject constructor(
     fun withdrawal(userId: String) = viewModelScope.launch {
         deleteUserUseCase(userId)
             .onSuccess {
-                logUserWithDrew()
                 _eventFlow.emit(EventResult.Success)
             }
             .onFailure { _eventFlow.emit(EventResult.Failure(it)) }
@@ -48,27 +47,6 @@ class ProfileSettingViewModel @Inject constructor(
                 analyticsHelper.logEvent(
                     AnalyticsEvent(
                         type = "signed_out",
-                        extras = listOf(
-                            AnalyticsEvent.Param(
-                                key = "user_id",
-                                value = userProfile.userId,
-                            ),
-                            AnalyticsEvent.Param(
-                                key = "user_name",
-                                value = userProfile.userName,
-                            ),
-                        ),
-                    ),
-                )
-            }
-    }
-
-    private fun logUserWithDrew() = viewModelScope.launch {
-        getUserProfileUseCase()
-            .onSuccess { userProfile ->
-                analyticsHelper.logEvent(
-                    AnalyticsEvent(
-                        type = "withdrew",
                         extras = listOf(
                             AnalyticsEvent.Param(
                                 key = "user_id",
