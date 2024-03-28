@@ -5,10 +5,8 @@ import com.wap.wapp.core.data.repository.user.UserRepository
 import com.wap.wapp.core.domain.model.AuthState
 import com.wap.wapp.core.domain.model.AuthState.SIGN_IN
 import com.wap.wapp.core.domain.model.AuthState.SIGN_UP
-import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
-@ActivityScoped
 class SignInUseCase @Inject constructor(
     private val signInRepository: SignInRepository,
     private val userRepository: UserRepository,

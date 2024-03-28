@@ -25,6 +25,7 @@ import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappTextField
 import com.wap.designsystem.modifier.addFocusCleaner
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.management.R
 import kotlinx.coroutines.flow.collectLatest
@@ -53,6 +54,8 @@ fun ManagementValidationScreen(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "ManagementValidationScreen")
 
     Scaffold(
         containerColor = WappTheme.colors.backgroundBlack,

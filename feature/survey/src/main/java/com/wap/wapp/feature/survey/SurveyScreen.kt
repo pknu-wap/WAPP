@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappLeftMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
 import kotlinx.coroutines.flow.collectLatest
@@ -78,6 +79,8 @@ internal fun SurveyScreen(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "SurveyScreen")
 
     if (isGuest) {
         SurveyGuestScreen(onButtonClicked = navigateToSignIn)

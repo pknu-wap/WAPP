@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappRowBar
 import com.wap.designsystem.component.WappSubTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.profile.R.string
@@ -60,6 +61,8 @@ internal fun ProfileSettingRoute(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "ProfileSettingScreen")
 
     ProfileSettingScreen(
         withdrawal = { viewModel.withdrawal(userId) },

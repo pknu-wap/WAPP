@@ -1,6 +1,6 @@
 package com.wap.wapp.feature.splash
 
-import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wap.designsystem.WappTheme
-import com.wap.wapp.core.commmon.extensions.showToast
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.feature.splash.R.string
 
@@ -26,7 +26,7 @@ internal fun SplashRoute(
     navigateToAuth: () -> Unit,
     navigateToNotice: () -> Unit,
 ) {
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current
 
     LaunchedEffect(true) {
         viewModel.splashUiEvent.collect { event ->
@@ -35,7 +35,8 @@ internal fun SplashRoute(
                 is SplashViewModel.SplashEvent.NonSignInUser -> navigateToAuth()
                 is SplashViewModel.SplashEvent.Failure -> {
                     navigateToAuth()
-                    context.showToast(event.throwable.toSupportingText())
+                    Toast.makeText(context, event.throwable.toSupportingText(), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -46,6 +47,8 @@ internal fun SplashRoute(
 
 @Composable
 internal fun SplashScreen() {
+    TrackScreenViewEvent(screenName = "SplashScreen")
+
     Box(
         modifier = Modifier
             .fillMaxSize()

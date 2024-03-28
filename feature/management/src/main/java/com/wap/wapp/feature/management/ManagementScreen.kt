@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappLeftMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.management.validation.ManagementValidationScreen
@@ -60,6 +61,8 @@ internal fun ManagementRoute(
             snackBarHostState.showSnackbar(message = throwable.toSupportingText())
         }
     }
+
+    TrackScreenViewEvent(screenName = "ManagementScreen")
 
     if (showGuestScreen) { // 비회원인 경우
         ManagementGuestScreen(onButtonClicked = navigateToSignIn)

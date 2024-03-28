@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
 import com.wap.designsystem.modifier.addFocusCleaner
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R
 import com.wap.wapp.feature.auth.R.drawable.ic_card
@@ -91,6 +92,8 @@ internal fun SignUpScreen(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "SignUpScreen")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

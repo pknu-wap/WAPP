@@ -2,8 +2,11 @@ package com.wap.wapp.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wap.wapp.core.analytics.AnalyticsHelper
+import com.wap.wapp.core.commmon.extensions.logUserSignedIn
 import com.wap.wapp.core.domain.model.CodeValidation
 import com.wap.wapp.core.domain.usecase.auth.CheckMemberCodeUseCase
+import com.wap.wapp.core.domain.usecase.user.GetUserProfileUseCase
 import com.wap.wapp.core.domain.usecase.user.PostUserProfileUseCase
 import com.wap.wapp.feature.auth.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +23,8 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val postUserProfileUseCase: PostUserProfileUseCase,
     private val checkMemberCodeUseCase: CheckMemberCodeUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
     private val _signUpEventFlow = MutableSharedFlow<SignUpEvent>()
     val signUpEventFlow: SharedFlow<SignUpEvent> = _signUpEventFlow.asSharedFlow()
@@ -79,10 +84,21 @@ class SignUpViewModel @Inject constructor(
         studentId = _signUpStudentId.value,
         registeredAt = "${_signUpYear.value} ${_signUpSemester.value}",
     ).onSuccess {
+        logUserSignedIn()
         _signUpEventFlow.emit(SignUpEvent.SignUpSuccess)
     }.onFailure { throwable ->
         _signUpEventFlow.emit(SignUpEvent.Failure(throwable))
         _isError.value = true
+    }
+
+    private fun logUserSignedIn() = viewModelScope.launch {
+        getUserProfileUseCase()
+            .onSuccess { userProfile ->
+                analyticsHelper.logUserSignedIn(
+                    userId = userProfile.userId,
+                    userName = userProfile.userName,
+                )
+            }
     }
 
     fun isValidStudentId(): Boolean = (_signUpStudentId.value.length == STUDENT_ID_LENGTH)
