@@ -18,6 +18,18 @@ fun AnalyticsHelper.logScreenView(screenName: String) {
     )
 }
 
+fun AnalyticsHelper.logUserSignedIn(userId: String, userName: String) {
+    logEvent(
+        AnalyticsEvent(
+            type = "signed_in",
+            extras = listOf(
+                Param("user_id", userId),
+                Param("user_name", userName),
+            ),
+        ),
+    )
+}
+
 @Composable
 fun TrackScreenViewEvent(
     screenName: String,
