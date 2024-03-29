@@ -28,6 +28,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:designresource"))
     implementation(project(":core:common"))
+    implementation(project(":core:analytics"))
 
     implementation(libs.bundles.androidx)
     implementation(libs.material)

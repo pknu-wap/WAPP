@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.WappSubTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.designresource.R.drawable
 import com.wap.wapp.feature.management.survey.R
@@ -72,6 +73,8 @@ internal fun SurveyRegistrationScreen(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "SurveyFormRegistrationScreen")
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) },
