@@ -58,8 +58,8 @@ internal fun SignInRoute(
     navigateToNotice: () -> Unit,
 ) {
     SignInScreen(
-        viewModel = viewModel,
         signInUseCase = signInUseCase,
+        logUserSignedIn = viewModel::logUserSignedIn,
         navigateToSignUp = navigateToSignUp,
         navigateToNotice = navigateToNotice,
     )
@@ -68,8 +68,8 @@ internal fun SignInRoute(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 internal fun SignInScreen(
-    viewModel: SignInViewModel,
     signInUseCase: SignInUseCase,
+    logUserSignedIn: () -> Unit,
     navigateToNotice: () -> Unit,
     navigateToSignUp: () -> Unit,
 ) {
@@ -126,7 +126,7 @@ internal fun SignInScreen(
                     email = email,
                     coroutineScope = coroutineScope,
                     signInUseCase = signInUseCase,
-                    logUserSignedIn = viewModel::logUserSignedIn,
+                    logUserSignedIn = logUserSignedIn,
                     navigateToSignUp = navigateToSignUp,
                     navigateToNotice = navigateToNotice,
                     snackBarHostState = snackBarHostState,
