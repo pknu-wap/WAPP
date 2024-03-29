@@ -64,6 +64,7 @@ internal fun SignInRoute(
             viewModel.logUserSignedIn()
             navigateToNotice()
         },
+        onGuestModeButtonClicked = navigateToNotice
     )
 }
 
@@ -73,6 +74,7 @@ internal fun SignInScreen(
     signInUseCase: SignInUseCase,
     onSignInSucceed: () -> Unit,
     navigateToSignUp: () -> Unit,
+    onGuestModeButtonClicked: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -157,7 +159,7 @@ internal fun SignInScreen(
                     scaffoldState.bottomSheetState.expand()
                 }
             },
-            navigateToNotice = { navigateToNotice() },
+            onGuestModeButtonClicked = { onGuestModeButtonClicked() },
             modifier = Modifier.addFocusCleaner(focusManager),
         )
     }
