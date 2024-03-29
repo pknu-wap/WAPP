@@ -64,7 +64,7 @@ internal fun SignInRoute(
             viewModel.logUserSignedIn()
             navigateToNotice()
         },
-        onGuestModeButtonClicked = navigateToNotice
+        onGuestModeButtonClicked = navigateToNotice,
     )
 }
 
