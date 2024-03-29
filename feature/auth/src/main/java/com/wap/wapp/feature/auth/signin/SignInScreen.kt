@@ -59,9 +59,11 @@ internal fun SignInRoute(
 ) {
     SignInScreen(
         signInUseCase = signInUseCase,
-        logUserSignedIn = viewModel::logUserSignedIn,
         navigateToSignUp = navigateToSignUp,
-        navigateToNotice = navigateToNotice,
+        onSignInSucceed = {
+            viewModel.logUserSignedIn()
+            navigateToNotice()
+        },
     )
 }
 
@@ -69,8 +71,7 @@ internal fun SignInRoute(
 @Composable
 internal fun SignInScreen(
     signInUseCase: SignInUseCase,
-    logUserSignedIn: () -> Unit,
-    navigateToNotice: () -> Unit,
+    onSignInSucceed: () -> Unit,
     navigateToSignUp: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -126,9 +127,8 @@ internal fun SignInScreen(
                     email = email,
                     coroutineScope = coroutineScope,
                     signInUseCase = signInUseCase,
-                    logUserSignedIn = logUserSignedIn,
                     navigateToSignUp = navigateToSignUp,
-                    navigateToNotice = navigateToNotice,
+                    onSignInSucceed = onSignInSucceed,
                     snackBarHostState = snackBarHostState,
                 )
 
@@ -200,8 +200,7 @@ private fun SignInButton(
     email: String,
     coroutineScope: CoroutineScope,
     signInUseCase: SignInUseCase,
-    logUserSignedIn: () -> Unit,
-    navigateToNotice: () -> Unit,
+    onSignInSucceed: () -> Unit,
     navigateToSignUp: () -> Unit,
     snackBarHostState: SnackbarHostState,
 ) {
@@ -212,8 +211,7 @@ private fun SignInButton(
                     .onSuccess {
                         when (it) {
                             AuthState.SIGN_IN -> {
-                                logUserSignedIn()
-                                navigateToNotice()
+                                onSignInSucceed()
                             }
 
                             AuthState.SIGN_UP -> {
