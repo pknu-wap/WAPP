@@ -37,6 +37,8 @@ dependencies {
     implementation(project(":feature:management-survey"))
     implementation(project(":feature:management-event"))
     implementation(project(":feature:splash"))
+    implementation(project(":core:common"))
+    implementation(project(":core:analytics"))
     implementation(project(":core:designresource"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:domain"))

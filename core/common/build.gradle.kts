@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wap.wapp.core.base"
+    namespace = "com.wap.wapp.core.common"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:analytics"))
     implementation(libs.bundles.androidx)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

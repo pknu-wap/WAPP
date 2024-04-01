@@ -1,8 +1,9 @@
 name: Released-App-Distribution
+
 on:
   push:
     branches:
-      - 'release'
+      - release
 
 jobs:
   build:

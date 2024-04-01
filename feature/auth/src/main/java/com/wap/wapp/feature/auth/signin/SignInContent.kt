@@ -31,7 +31,7 @@ import com.wap.wapp.feature.auth.R.string
 @Composable
 internal fun SignInContent(
     openSignInSheet: () -> Unit,
-    navigateToNotice: () -> Unit,
+    onGuestModeButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
@@ -110,7 +110,7 @@ internal fun SignInContent(
                 .fillMaxWidth()
                 .padding(top = 20.dp, bottom = 60.dp),
             onClick = {
-                navigateToNotice()
+                onGuestModeButtonClicked()
             },
             colors = ButtonDefaults.elevatedButtonColors(
                 containerColor = WappTheme.colors.yellow34,

@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
 import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.WappRightMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,6 +37,8 @@ internal fun SurveyCheckScreen(
             snackBarHostState.showSnackbar(it.toSupportingText())
         }
     }
+
+    TrackScreenViewEvent(screenName = "SurveyCheckScreen")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
