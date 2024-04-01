@@ -6,9 +6,7 @@ import com.wap.wapp.core.data.repository.user.UserRepository
 import com.wap.wapp.core.domain.usecase.user.GetUserRoleUseCase
 import com.wap.wapp.core.model.user.UserRole
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class DeleteUserUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,

@@ -2,8 +2,9 @@ name: Closed PR Notification
 on:
   pull_request:
     branches:
-      - dev
-      - main
+      - develop
+      - release
+      - main 
     types:
       - closed
 

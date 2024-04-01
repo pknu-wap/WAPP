@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wap.designsystem.WappTheme
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.feature.notice.NoticeViewModel.EventsState
 import java.time.LocalDate
 
@@ -64,6 +65,8 @@ internal fun NoticeScreen(
             skipHiddenState = true,
         ),
     )
+
+    TrackScreenViewEvent(screenName = "NoticeScreen")
 
     Column(
         modifier = Modifier
