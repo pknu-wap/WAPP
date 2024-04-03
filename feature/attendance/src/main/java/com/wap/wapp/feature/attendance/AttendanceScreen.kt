@@ -33,6 +33,7 @@ import com.wap.designsystem.component.CircleLoader
 import com.wap.designsystem.component.NothingToShow
 import com.wap.designsystem.component.WappButton
 import com.wap.designsystem.component.WappLeftMainTopBar
+import com.wap.wapp.core.commmon.extensions.TrackScreenViewEvent
 import com.wap.wapp.core.commmon.extensions.toSupportingText
 import com.wap.wapp.core.model.user.UserRole
 import com.wap.wapp.feature.attendance.AttendanceViewModel.AttendanceEvent.Failure
@@ -82,6 +83,8 @@ internal fun AttendanceRoute(
             }
         }
     }
+
+    TrackScreenViewEvent(screenName = "AttendanceScreen")
 
     Column(modifier = Modifier.fillMaxSize()) {
         when (userRoleState) {
