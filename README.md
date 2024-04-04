@@ -1,15 +1,5 @@
 # 와피 - WAP 일정확인 및 설문조사 플랫폼
 
-```
-WAP 행사일정을 쉽게 알려드릴게요! 함께해요 와피
-```
-
-<p align="center">
-	    <img src="./image/icon.png"/ width="40%">
-</p>
-
-<br><br><br>
-
 <img src="https://github.com/pknu-wap/WAPP/assets/116813010/aa89aa41-9406-42d8-b245-40bca847b63d" width="250"/>
 <img src="https://github.com/pknu-wap/WAPP/assets/116813010/9e7ec50f-404e-436c-ab7a-7037da2873a7" width="250"/>
 <img src="https://github.com/pknu-wap/WAPP/assets/116813010/4e973d3d-7f35-432e-b6e1-3ce36d070c1a" width="250"/>
