@@ -56,7 +56,7 @@ jobs:
       - name: Publish App 
         uses: r0adkll/upload-google-play@v1.1.3
         with:
-          serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.wap.wapp
           releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
           track: production
