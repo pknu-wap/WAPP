@@ -8,6 +8,12 @@
 
 <br><br><br>
 
+## 🌟 Download
+
+<a href='https://play.google.com/store/apps/details?id=com.wap.wapp&pcampaignid=web_share&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='다운로드하기 Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/ko_badge_web_generic.png' width='300'/></a>
+
+<br><br><br>
+
 ## 🌱 Feature Introduce
 
 #### 인트로 화면

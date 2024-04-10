@@ -1,0 +1,104 @@
+name: Released-App-Publishing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: zulu
+          cache: gradle
+
+      - name: add google-services.json
+        run: echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ./app/google-services.json
+
+      - name: add local.properties
+        run: |
+          echo api_key=\"${{ secrets.API_KEY }}\" >> ./local.properties
+        
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Build release AAB
+        run: ./gradlew bundleRelease
+
+      - name: Setup build tool version variable
+        shell: bash
+        run: |
+          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
+          echo Last build tool version is: $BUILD_TOOL_VERSION
+
+      - name: Sign AAB
+        id: sign_app
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.KEY_BASE_64_RELEASE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
+
+      - name: Publish App 
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.wap.wapp
+          releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
+          track: production
+        
+      - name: Send Success Message
+        if: ${{ success() }}
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: WAPP_BOT
+          DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
+          DISCORD_EMBEDS: |
+            [
+              { 
+                "author": {
+                  "name": "WAPP Release",
+                  "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true"
+                },
+                "title": "앱 등록 성공, 자 두 과 자 ~ 🔥🔥",
+                "color": 10478271,
+                "description": "마켓에 새로운 앱을 등록했어요 !"
+              }
+            ]
+            
+      - name: Send Failure Message
+        if: ${{ failure() }}
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: WAPP_BOT
+          DISCORD_AVATAR: https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true
+          DISCORD_EMBEDS: |
+            [
+              { 
+                "author": {
+                  "name": "WAPP Release",
+                  "url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true",
+                  "icon_url": "https://github.com/pknu-wap/WAPP/blob/main/image/icon.png?raw=true"
+                },
+                "title": "등록 실패, 누가 이렇게 하래. 😭😭",
+                "color": 13458524,
+                "description": "앱 등록 실패했어요 ㅠ.ㅠ"
+              }
+            ]
