@@ -63,7 +63,7 @@ jobs:
           fields: |
             {
               "parent": {
-                "key": "WAPP-68"
+                "key": "WAPP-9"
               },
               "assignee" : { 
                 "id" : "${{ steps.jira-assignee.outputs.accountId }}"
