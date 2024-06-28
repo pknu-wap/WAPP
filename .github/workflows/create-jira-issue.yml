@@ -9,6 +9,16 @@ jobs:
     name: Create Jira issue
     runs-on: ubuntu-latest
     steps:
+      - name: Get Jira Assignee From PR Author
+        id: jira-assignee
+        run: |
+          AUTHOR=${{ github.event.issue.user.login }}
+          if [ "$AUTHOR" == "jeongjaino" ]; then
+            echo "::set-output name=accountId::712020:bde5b7f1-3f3d-4358-8239-6e3fda1f79d9"
+          else
+            echo "::set-output name=accountId::712020:bde5b7f1-3f3d-4358-8239-6e3fda1f79d9"
+          fi
+    
       - name: Login
         uses: atlassian/gajira-login@v3
         env:
@@ -50,6 +60,15 @@ jobs:
           issuetype: Task
           summary: "${{ github.event.issue.title }}"
           description: "${{ steps.md2jira.outputs.output-text }}"
+          fields: |
+            {
+              "parent": {
+                "key": "WAPP-68"
+              },
+              "assignee" : { 
+                "id" : "${{ steps.jira-assignee.outputs.accountId }}"
+              }
+            }
 
       - name: Log created issue
         run: echo "Jira Issue ${{ steps.create.outputs.issue }} was created"
